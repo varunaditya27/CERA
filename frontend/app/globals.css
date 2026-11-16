@@ -391,3 +391,9 @@ img,svg,canvas{max-width:100%}
  .method-context{grid-template-columns:1fr;gap:20px;padding-bottom:68px}
  .method-context h2{font-size:46px}
 }
+
+/* Static hero diagram remains visible before hydration and without scripts. */
+.landscape-static{position:absolute;inset:0;width:100%;height:100%;opacity:.88;transition:opacity .35s ease;pointer-events:none}
+.landscape-canvas{opacity:0;transition:opacity .45s ease}
+.landscape-stage.rendered .landscape-canvas{opacity:1}
+.landscape-stage.rendered .landscape-static{opacity:0}
