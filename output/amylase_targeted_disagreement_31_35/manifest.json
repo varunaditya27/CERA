@@ -1,0 +1,58 @@
+{
+  "methods": {
+    "31:fixed": {
+      "status": "completed",
+      "uncompressed_sha256": "ffe9ca69bf3905f30dc8c9159c5250459d39c93ca2cc8841ea173ce45ed1ab17",
+      "gzip_sha256": "62e85efb646d89f53a6f0833cd8b66d3a5bcf25e41402423bbbdb78f9edf1575"
+    },
+    "31:targeted": {
+      "status": "completed",
+      "uncompressed_sha256": "4d3b17e9fa67df3591d35facb8388aa3513a75cf8e33d72fed14c9496323e525",
+      "gzip_sha256": "cfd11ccbf71b7a992f0791e96130e77168c15bd1b07c0797e30581f3ecc59d55"
+    },
+    "32:fixed": {
+      "status": "completed",
+      "uncompressed_sha256": "ba07ad9e3c3bba7e0caf4811bde99323285618b4072c1fe387c97b5fb2cf8856",
+      "gzip_sha256": "4e67de66d383a6d3c4592323935041b375a4e022c872fc244d0c092107306009"
+    },
+    "32:targeted": {
+      "status": "completed",
+      "uncompressed_sha256": "672c0a31c559ea493c2be6bb0c5a598ab40e2572c67603b6e0f219697716630e",
+      "gzip_sha256": "a07e3aac8a4ba4cedffa81ae342b675d85b0fa5eedf2d87c03d467a8543773cd"
+    },
+    "33:fixed": {
+      "status": "completed",
+      "uncompressed_sha256": "575418b150b296ee1a4596076e4e20d4afcfecb8dd3144b9b589ff6e5b667300",
+      "gzip_sha256": "b6ed07fcc2be03e5d8e260f613d2565feec9be130d826009d7dfe2024231d447"
+    },
+    "33:targeted": {
+      "status": "completed",
+      "uncompressed_sha256": "937b919f8acdd1f927916a6edf05dd2ba02132e5b02fe0f108f337ee70dd5c2a",
+      "gzip_sha256": "b099f08d7558a3388cda4afcaddf77283b320a282b7be46476361d447d2734ea"
+    },
+    "34:fixed": {
+      "status": "completed",
+      "uncompressed_sha256": "b96773eb10fd66207dc84555c5384ce389383988ce9616da9b4903465a615ca1",
+      "gzip_sha256": "482711875e6247761c986f5f7c8095a4e8f4c4418ba498be7f6c9f001cf3337a"
+    },
+    "34:targeted": {
+      "status": "completed",
+      "uncompressed_sha256": "da4975121199652dc6e098d9032a605b4fde40d8281a85f12c314000e7cda35b",
+      "gzip_sha256": "6b18ee15c6ec678283eb7aeb05a0fb2b1f5ee4e472b44b6428dcf70274a0b7db"
+    },
+    "35:fixed": {
+      "status": "completed",
+      "uncompressed_sha256": "8cb162bdaf81cef7c6a43a5ca86b59a6f772af64e3995fbbb1308068270b71cf",
+      "gzip_sha256": "545dae213ff4f7e9de7a9c441989c2452055efd9f5e1d1e1fa30f1ece2d2d29d"
+    },
+    "35:targeted": {
+      "status": "completed",
+      "uncompressed_sha256": "f518793c0b57df033af1726a302946a5244607ec66ae8ea3217ab6da7ae9af3d",
+      "gzip_sha256": "a183ed0f7a0c59dfa68b134fc9870f045d114b8a1b855438041b5bdb66623e21"
+    }
+  },
+  "data_sha256": "d04c2fcb7421ffb6ac8b776ed938f7a97c81f8de57f71257d34d9d3722435297",
+  "reference_sha256": "d809b63aea6e67cc9385e19cde5324430fed57e0643a0090cf4990922879d868",
+  "specification_sha256": "0c94c3eb15d681b2244b388c281e5d30e1954164c2eda970f640a60d378b03a1",
+  "script_sha256": "a0e6f396c3bd7533351a7c781113a09b465a3b02d10c4670489078998bd341e0"
+}
