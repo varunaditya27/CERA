@@ -10,6 +10,7 @@ from app.features.amylase_representations import CACHE, CACHE_SHA256, load_verif
 from app.datasets import ired
 from app.features import ired_representations
 from app.experiments.experiment import Experiment
+from app.experiments.acquisition import acquisition_scores, choose_acquisition
 from app.experiments.prediction_intervals import interval_radius
 from app.experiments.predictor_group import fit_group, predict_group, predict_members
 from app.experiments.range_report import summarize_ranges
@@ -24,7 +25,9 @@ from app.rewards.warning_checks import (constraint_warning, coverage_warning, di
 
 
 def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, reward_origin=None,
-              repair=False, repair_advisor=None, repair_model=None, dataset='amylase'):
+              repair=False, repair_advisor=None, repair_model=None, dataset='amylase', acquisition=None):
+    if acquisition not in (None, 'ucb', 'ei') or (acquisition is not None and (reward_spec is not None or repair)):
+        raise ValueError('Invalid acquisition configuration')
     if repair and reward_spec is None:
         raise ValueError('Repair requires a reward specification')
     if repair_advisor is not None and not repair:
@@ -57,7 +60,9 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
         history = []
         round_number = 0
         failures = 0
-        run.record_settings({'method': 'esm_bootstrap_ridge_reward' if reward_spec else 'esm_bootstrap_ridge_greedy',
+        run.record_settings({'method': ('esm_bootstrap_ridge_' + acquisition if acquisition else
+                                       'esm_bootstrap_ridge_reward' if reward_spec else 'esm_bootstrap_ridge_greedy'),
+                             'acquisition': acquisition,
                              'dataset': dataset,
                              'reward_spec': reward_spec, 'reward_origin': reward_origin, 'repair': repair,
                              'repair_advisor': 'gemini' if repair_advisor else 'rule_based',
@@ -78,7 +83,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                                                             'repair_coordinator.py', 'repair_engine.py',
                                                             'repair_menu.py', 'repair_verification.py',
                                                             'repair_advisor.py', 'gemini_client.py', 'ired.py',
-                                                            'ired_representations.py', 'sources.py')),
+                                                            'ired_representations.py', 'sources.py', 'acquisition.py')),
                              'scikit_learn': importlib.metadata.version('scikit-learn'),
                              'numpy': importlib.metadata.version('numpy'),
                              'scipy': importlib.metadata.version('scipy')})
@@ -98,7 +103,12 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                       for identifier, mean, spread in zip(candidates, means, spreads)}
             count = min(budget['batch_size'], run.remaining, len(candidates))
             batch_budget = run.remaining
-            if reward_spec is None:
+            if acquisition is not None:
+                scores = acquisition_scores(ranges, max(known.values()), acquisition)
+                chosen = choose_acquisition(scores, count)
+                run.record_settings({'round': round_number, 'acquisition_best': max(known.values()),
+                                     'acquisition_scores': scores})
+            elif reward_spec is None:
                 chosen = sorted(candidates, key=lambda identifier: (-ranges[identifier]['mean'], identifier))[:count]
             else:
                 distance = normalized_distances(sorted(known), candidates, vectors)

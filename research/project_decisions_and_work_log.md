@@ -220,6 +220,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Source fingerprints now locate each uniquely named application module within the package tree and reject missing or ambiguous names. Historical replay still reads the original flat file paths from the pinned Git commit; existing records and caches were not rewritten.
 - The 62-test suite passed. A historical seed-2 replay matched all 50 prior warning results. Started the compatibility API and verified both endpoints over HTTP, including five available datasets. The real IRED model padding check passed on GPU with maximum observed difference approximately 3.65e-07. These are targeted checks, not a rerun of every experiment.
 
+### 2026-11-16: uncertainty-guided baseline development
+
+- Predeclared and implemented finite-pool mean-plus-spread and Gaussian expected-improvement selection using the same predictor group as the greedy baseline. The Gaussian use of ensemble spread is explicitly an approximation, not a calibrated posterior. Candidate acquisition values are recorded before selection and reveal.
+- Both seed-13 amylase runs used the same starting and reserved sets, model seeds and budget as the earlier greedy run. After 100 measurements, the mean-plus-spread run's best observed score was 0.19428 and expected improvement's was 0.18432; the earlier greedy run remained at its initial best of 0.18225. These are one-seed development observations, not a general ranking.
+- Independently reconstructed all acquisition scores and selected batches, checked source measurements and budgets, and preserved lossless records. The full backend suite passed 65 tests. [Findings](acquisition_baseline_findings.md) record assumptions, outputs and remaining baselines.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

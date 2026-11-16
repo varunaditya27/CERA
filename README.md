@@ -95,6 +95,8 @@ The pilot verifies the exact recorded amylase cache fingerprint, then uses five 
 
 The pilot also records five development warning checks. Member predictions and distance evidence are saved before scores are revealed; range-miss and coverage checks are recorded afterward. `unavailable` means the evidence is insufficient or a calculation is undefined, not that a check passed. The rules, starting thresholds and replay limitations are explained in the [warning findings](research/warning_checks_findings.md).
 
+The same pilot can use the experimental `ucb` and `ei` acquisition rules. Their formulas, assumptions, matched development results and commands are in [acquisition baseline findings](research/acquisition_baseline_findings.md).
+
 To retrospectively replay the checks on the ten earlier range runs, use a new output directory:
 
 ```sh

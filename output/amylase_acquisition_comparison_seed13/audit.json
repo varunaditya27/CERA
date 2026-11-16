@@ -1,0 +1,8 @@
+{
+  "methods": [
+    "ucb",
+    "ei"
+  ],
+  "rounds_each": 10,
+  "checks": "all acquisition scores and rankings, matching initial and reserved sets, revealed source scores, budgets, record fingerprints"
+}

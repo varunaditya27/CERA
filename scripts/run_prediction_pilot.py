@@ -10,8 +10,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output_dir', help='New directory for run record and coverage table')
     parser.add_argument('--seed', type=int, default=1)
+    parser.add_argument('--role-seed', type=int, default=3)
+    parser.add_argument('--member-seed', type=int, default=4)
+    parser.add_argument('--dataset', choices=('amylase', 'ired'), default='amylase')
+    parser.add_argument('--acquisition', choices=('ucb', 'ei'))
     args = parser.parse_args()
-    print(json.dumps(run_pilot(args.output_dir, seed=args.seed)))
+    print(json.dumps(run_pilot(args.output_dir, seed=args.seed, role_seed=args.role_seed,
+                               member_seed=args.member_seed, dataset=args.dataset, acquisition=args.acquisition)))
 
 
 if __name__ == '__main__':

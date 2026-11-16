@@ -64,7 +64,14 @@ class IredTests(unittest.TestCase):
             with patch('app.datasets.ired.DATA', data), patch('app.datasets.ired.REFERENCE', reference), \
                  patch('app.features.ired_representations.load_verified_representations', return_value=vectors):
                 result = run_pilot(root / 'run', seed=7, reward_spec=spec, dataset='ired')
+                acquisition_result = run_pilot(root / 'acquisition', seed=7, dataset='ired', acquisition='ei')
             events = [json.loads(line) for line in (root / 'run/run.jsonl').read_text().splitlines()]
             self.assertEqual(result['batches'], 1)
             self.assertEqual(next(e['settings']['dataset'] for e in events if e['event'] == 'method'), 'ired')
             self.assertEqual(next(e['remaining'] for e in events if e['event'] == 'reveal'), 0)
+            acquisition_events = [json.loads(line) for line in (root / 'acquisition/run.jsonl').read_text().splitlines()]
+            first_scores = next(i for i, event in enumerate(acquisition_events)
+                                if event['event'] == 'method' and 'acquisition_scores' in event['settings'])
+            first_selection = next(i for i, event in enumerate(acquisition_events) if event['event'] == 'selection')
+            self.assertLess(first_scores, first_selection)
+            self.assertEqual(acquisition_result['batches'], 2)
