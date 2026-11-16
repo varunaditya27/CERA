@@ -346,6 +346,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Rechecked the four local representation cache fingerprints and proposed output paths; all cache pins matched and no proposed output path existed at that time. Prepared explicit nine-method commands, failure/resume handling and post-run audit/evaluation steps in the [draft runbook](multiprotein_runbook_draft.md). This is not a frozen protocol or authorization to execute; the full workload and provider account quota remain unverified.
 
+### 2026-11-17: Gemini response-accounting preflight
+
+- Compared the current request/response handling with Google's thinking-token documentation. The output limit covers reasoning as well as visible output, and the current client discards returned usage metadata for non-`STOP` responses. Documented that the existing token total may omit rejected requests and is not a billing total in the [comparison draft](multiprotein_comparison_draft.md). No live request or code change was made.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
