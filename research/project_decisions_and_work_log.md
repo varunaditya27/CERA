@@ -111,6 +111,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Eleven unit tests passed. A real pinned-model GPU check passed for unequal-length inputs with a maximum padded/unpadded difference of approximately 6.56e-07. Generated and validated a score-free cache of 3,706 x 320 vectors; independently reproduced three earlier-cache vectors and checked a second full generation against the first. Exact commands, hashes, timing, GPU workaround and limitations are in [ESM feasibility and plan](esm_feasibility_and_plan.md).
 - No predictor has been fitted with these vectors; their scientific usefulness, CPU behavior, intervals, detectors and repair are unverified. The user model cache was used but not cleared or modified beyond the model download.
 
+### 2026-11-16: prediction-range planning
+
+- Compared first-round nearest-fitting-sequence distances in the saved ESM-2 representation for the ten previous amylase runs. Median distance was higher for the original-test candidates in every run. The split labels were used only for this retrospective description; distance does not establish error or causation. Details and ranges are in the [findings](repeated_comparison_findings.md).
+- Researched ensemble fitting, data leakage and adaptive conformal limitations. Prepared a [predictor-group and prediction-range plan](prediction_ranges_development_plan.md), including a bootstrap/cross-validation ordering that avoids placing duplicate copies of one observation across validation folds. This is a proposed initial development design, not a final ensemble or claimed coverage guarantee.
+- No new application code or prediction-range experiment was run. The user instruction to ask before writing code applies to the proposed implementation.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
