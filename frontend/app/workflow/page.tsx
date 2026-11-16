@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { MethodExplorer } from '../../components/method-explorer';
 
@@ -25,6 +26,7 @@ export default function Workflow(){
         <a href="https://github.com/varunaditya27/CERA/blob/research/experiment-foundations/research/repeated_matched_protocol.md" className="inline-link" target="_blank" rel="noreferrer">
           Experiment protocol <ArrowUpRight size={16}/>
         </a>
+        <Link className="inline-link" href="/system" style={{marginLeft:20}}>Inside the system <ArrowUpRight size={16}/></Link>
       </div>
     </div>
     <footer className="site-footer"><span>CERA</span><span>Development methodology</span></footer>
