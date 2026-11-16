@@ -255,6 +255,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Ran five matched amylase pairs (seeds 31–35). Fixed reward spent 100 new measurements in each; targeted repair stopped after 40, 40, 40, 70 and 30, respectively. Every run's best score was already present in its starting measurements. Two disagreement warnings produced four targeted variants; ten total warning actions retained the current reward and none accepted a change. Results are descriptive and do not establish effectiveness.
 - Independently checked source fingerprints, initial measurements, seeds, recorded choices and budget accounting across ten runs and 72 selections; reconstructed 30 repair replays, warning groups, target ranks and pre-reveal recording, and verified all ten summary rows. These checks were one-off read-only commands, not a saved audit program. All 81 backend tests passed before the run. Run records and summary are in `output/amylase_targeted_disagreement_31_35/`. The findings remain exploratory on one protein, and no IRED or hydrophobic-core outcome was used.
 
+### 2026-11-16: diagnosis of targeted repair stops
+
+- Examined all ten failed actions and their 30 proposed changes in the five targeted runs. Every change failed the requirement to remove all flagged candidates; the two diversity actions flagged whole batches. The failure counter carries attempts across rounds and warning types. Documented evidence, limits, relevant research and alternative designs in [the diagnosis](targeted_repair_diagnosis.md). No repair behavior was changed.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
