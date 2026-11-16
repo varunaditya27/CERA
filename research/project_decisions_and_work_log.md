@@ -202,6 +202,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - In one matched seed-13 pilot, two Gemini calls each selected the middle-cost option; all three options failed verification in each batch. The run retained the old reward and stopped after 20 new measurements with 80 remaining, as in the rule-based pilot. An audit matched both selections and per-weight verification against the independently audited rule-based record, checked sanitized advice and confirmed the key was absent from the run record.
 - The 55-test suite passed. Details, usage, assumptions and reproduction are in [Gemini repair pilot](gemini_repair_pilot.md). No repair was accepted, and this single paired development run does not establish model benefit or detector accuracy.
 
+### 2026-11-16: IRED preparation
+
+- Re-fetched the original laboratory active-data table at its recorded commit and verified its fingerprint and single 290-residue reference. Independently matched all 8,586 local sequence/target pairs within 1e-8 and checked split membership against substitution counts. Saved the source-derived reference and confirmed 4,408 train plus 3,225 test variants meet the four-change cap. The 17,143-versus-8,586 source discrepancy remains unresolved.
+- Generated and pinned 8,586 score-free, 320-number ESM representations. Regenerated three vectors independently in the same GPU environment with zero observed difference. Added cache validation, IRED dataset dispatch, a measurement-boundary check and a synthetic one-round dispatch test. The full backend suite passed 58 tests. [IRED preparation](ired_preparation.md) records fingerprints, hardware observations and limitations.
+- No IRED reward or repair evaluation was run. Treat it as an evaluation dataset and freeze the development rules and matched procedure before interpreting a result.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

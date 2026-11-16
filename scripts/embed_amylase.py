@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify ESM pooling or build a score-free amylase representation cache."""
+"""Verify ESM pooling or build a score-free FLIP2 representation cache."""
 import argparse
 import csv
 import hashlib
@@ -16,7 +16,7 @@ import transformers
 from huggingface_hub import hf_hub_download
 from transformers import AutoModel, AutoTokenizer
 
-from app.amylase import DATA, REFERENCE
+from app import amylase, ired
 from app.representation_cache import load_cache, save_cache
 from app.representations import MODEL, REVISION, represent, sequence_id
 
@@ -24,10 +24,12 @@ from app.representations import MODEL, REVISION, represent, sequence_id
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, help='New cache path; required unless verifying')
+    parser.add_argument('--dataset', choices=('amylase', 'ired'), default='amylase')
     parser.add_argument('--verify-only', action='store_true', help='Check the real model without writing a cache')
     parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
     parser.add_argument('--batch-size', type=int, default=16)
     args = parser.parse_args()
+    dataset = {'amylase': amylase, 'ired': ired}[args.dataset]
     if args.verify_only == (args.output is not None):
         parser.error('Choose --verify-only or --output')
     if args.output is not None and args.output.exists():
@@ -37,7 +39,7 @@ def main():
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL, revision=REVISION)
     model = AutoModel.from_pretrained(MODEL, revision=REVISION, add_pooling_layer=False)
-    ref_data = REFERENCE.read_bytes()
+    ref_data = dataset.REFERENCE.read_bytes()
     reference = ''.join(ref_data.decode('utf-8').splitlines()[1:])
     if args.verify_only:
         short = reference[:57]
@@ -51,7 +53,7 @@ def main():
                           'padding_max_difference': difference, 'device': args.device}))
         return
 
-    data = DATA.read_bytes()
+    data = dataset.DATA.read_bytes()
     rows = csv.DictReader(io.StringIO(data.decode('utf-8'), newline=''))
     if 'sequence' not in (rows.fieldnames or []):
         raise ValueError('Missing sequence column')

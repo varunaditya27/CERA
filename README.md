@@ -79,6 +79,8 @@ TORCH_DISABLE_NATIVE_JIT=1 OPENBLAS_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/p
 
 The first run can download model files to the normal Hugging Face cache. The output cache contains sequence identifiers, vectors and metadata, including dataset, reference, model-file, code and settings fingerprints; it contains no scores. Writing is atomic and refuses to replace an existing file. A temporary file can remain after a process is forcibly interrupted; the final cache is only linked into place after the write finishes. Use `app.representation_cache.load_cache` with the expected ordered identifiers and exact settings to validate a cache before using it. The tested local cache is `output/representations/amylase_esm2_c731040_v2.npz`.
 
+The same embedding command accepts `--dataset ired`. The IRED reference, cache, source checks and outstanding provenance questions are documented in [IRED preparation](research/ired_preparation.md). Its pilot dispatch is available but is not a completed evaluation.
+
 ## Exploratory prediction ranges
 
 After installing both sets of research requirements, run the amylase range pilot into a new directory:

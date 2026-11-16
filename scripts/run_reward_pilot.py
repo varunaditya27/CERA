@@ -14,6 +14,7 @@ def main():
     parser.add_argument('output_dir', help='New directory for run record and coverage table')
     parser.add_argument('specification', type=Path, help='JSON reward specification')
     parser.add_argument('--seed', type=int, default=1)
+    parser.add_argument('--dataset', choices=('amylase', 'ired'), default='amylase')
     parser.add_argument('--repair', action='store_true', help='Enable the experimental rule-based repair loop')
     parser.add_argument('--gemini-repair', action='store_true', help='Use Gemini to prioritize repair options')
     args = parser.parse_args()
@@ -36,7 +37,8 @@ def main():
         advisor = lambda kind, menu: advise_repair(lambda warning, options: request_repair(key, model, warning, options),
                                                    kind, menu)
     print(json.dumps(run_pilot(args.output_dir, seed=args.seed, reward_spec=spec, reward_origin=origin,
-                               repair=args.repair or args.gemini_repair, repair_advisor=advisor, repair_model=model)))
+                               repair=args.repair or args.gemini_repair, repair_advisor=advisor, repair_model=model,
+                               dataset=args.dataset)))
 
 
 if __name__ == '__main__':

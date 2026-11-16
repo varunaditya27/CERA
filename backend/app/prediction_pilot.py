@@ -8,6 +8,7 @@ from pathlib import Path
 
 from app.amylase import DATA, REFERENCE
 from app.amylase_representations import CACHE, CACHE_SHA256, load_verified_representations
+from app import ired, ired_representations
 from app.experiment import Experiment
 from app.prediction_intervals import interval_radius
 from app.predictor_group import fit_group, predict_group, predict_members
@@ -22,7 +23,7 @@ from app.warning_checks import (constraint_warning, coverage_warning, disagreeme
 
 
 def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, reward_origin=None,
-              repair=False, repair_advisor=None, repair_model=None):
+              repair=False, repair_advisor=None, repair_model=None, dataset='amylase'):
     if repair and reward_spec is None:
         raise ValueError('Repair requires a reward specification')
     if repair_advisor is not None and not repair:
@@ -30,24 +31,33 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
     if reward_spec is not None:
         reward_spec = copy.deepcopy(reward_spec)
         validate_spec(reward_spec)
-    vectors = load_verified_representations()
+    if dataset == 'amylase':
+        data_path, reference_path, cache, cache_hash = DATA, REFERENCE, CACHE, CACHE_SHA256
+        vectors = load_verified_representations()
+    elif dataset == 'ired':
+        data_path, reference_path = ired.DATA, ired.REFERENCE
+        cache, cache_hash = ired_representations.CACHE, ired_representations.CACHE_SHA256
+        vectors = ired_representations.load_verified_representations()
+    else:
+        raise ValueError('Unknown dataset')
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=False)
     start = time.perf_counter()
     budget = reward_spec['budget'] if reward_spec else {'rounds': 10, 'batch_size': 10}
     mutation_limit = reward_spec['hard_constraints']['max_mutations'] if reward_spec else 4
-    run = Experiment(DATA, REFERENCE, output / 'run.jsonl', seed=seed,
+    run = Experiment(data_path, reference_path, output / 'run.jsonl', seed=seed,
                      budget=budget['rounds'] * budget['batch_size'], batch_size=budget['batch_size'],
                      max_mutations=mutation_limit)
     try:
         initial = sorted(run.revealed)
         reserved = sorted(random.Random(role_seed).sample(initial, 20))
         generator = random.Random(member_seed)
-        reference = ''.join(REFERENCE.read_text(encoding='utf-8').splitlines()[1:])
+        reference = ''.join(reference_path.read_text(encoding='utf-8').splitlines()[1:])
         history = []
         round_number = 0
         failures = 0
         run.record_settings({'method': 'esm_bootstrap_ridge_reward' if reward_spec else 'esm_bootstrap_ridge_greedy',
+                             'dataset': dataset,
                              'reward_spec': reward_spec, 'reward_origin': reward_origin, 'repair': repair,
                              'repair_advisor': 'gemini' if repair_advisor else 'rule_based',
                              'repair_model': repair_model,
@@ -57,7 +67,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                              'cv_scoring': 'neg_mean_squared_error', 'member_count': 5,
                              'spread_ddof': 0, 'nominal_coverage': 0.9,
                              'interval': 'absolute_residual_order_statistic',
-                             'cache_sha256': CACHE_SHA256,
+                             'cache_sha256': cache_hash,
                              'source_sha256': {name: hashlib.sha256((Path(__file__).parent / name).read_bytes()).hexdigest()
                                                for name in ('amylase.py', 'amylase_representations.py', 'experiment.py',
                                                             'predictor_group.py', 'prediction_intervals.py',
@@ -67,7 +77,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                                                             'reward_selection.py', 'reward_spec.py',
                                                             'repair_coordinator.py', 'repair_engine.py',
                                                             'repair_menu.py', 'repair_verification.py',
-                                                            'repair_advisor.py', 'gemini_client.py')},
+                                                            'repair_advisor.py', 'gemini_client.py', 'ired.py',
+                                                            'ired_representations.py')},
                              'scikit_learn': importlib.metadata.version('scikit-learn'),
                              'numpy': importlib.metadata.version('numpy'),
                              'scipy': importlib.metadata.version('scipy')})
@@ -153,4 +164,4 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
     finally:
         run.close()
     rows = summarize_ranges(output / 'run.jsonl', output / 'coverage.csv')
-    return {'batches': len(rows), 'seconds': time.perf_counter() - start, 'cache': str(CACHE)}
+    return {'batches': len(rows), 'seconds': time.perf_counter() - start, 'cache': str(cache)}
