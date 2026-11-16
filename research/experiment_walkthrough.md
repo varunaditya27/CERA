@@ -31,9 +31,9 @@ The proposal also needs explicit rules for a request that repeats C, an unknown 
 
 ### How is the reference treated?
 
-The reference is the starting protein sequence against which substitutions are counted. In amylase it appears in the local test side. Options include initially revealing its score, allowing it to be selected under the normal budget, or excluding it. Revealing it initially gives useful context but adds a starting measurement outside the proposed train-only selection; selecting it later preserves the ordinary query rule; excluding it changes the candidate pool. Specify whether any initial reference measurement counts toward the stated 100 starting measurements. No option is approved.
+The reference is the starting protein sequence against which substitutions are counted. In amylase it appears in the local test side. Options include initially revealing its score, allowing it to be selected under the normal budget, or excluding it. Revealing it initially gives useful context but adds a starting measurement outside the proposed train-only selection; selecting it later preserves the ordinary query rule; excluding it changes the candidate pool.
 
-Recommendation for discussion: allow it to be selected like any other eligible unqueried variant; keep its score hidden until selected. The sequence can still serve as a reference for counting substitutions. This preserves the proposed train-side starting measurements without assuming that knowledge of a sequence includes knowledge of its measured score. The reference may never be selected, so comparisons requiring an initially measured reference would need a separate explicit rule.
+**Decision, 16 November 2026:** Varun chose to keep the amylase reference score hidden until the search selects it under the normal measurement budget. The reference sequence can still be used to count substitutions. The reference may never be selected. This decision does not determine reference treatment in other datasets or approve the starting-set rules.
 
 ### What does the budget count?
 

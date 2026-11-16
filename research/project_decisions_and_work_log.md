@@ -10,6 +10,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 | 2026-11-16 | User instruction | Maintain a running record of work and decisions for review after project completion. |
 | 2026-11-16 | User authorization | Independently review the primary dataset evidence, beginning with amylase, and document findings. This does not approve code changes or experiment design decisions. |
 | 2026-11-16 | Approved by Varun | Use all eligible unqueried variants as the candidate pool for the primary experiment. Eligibility constraints and other experiment rules remain open; report selections by original division after the run. |
+| 2026-11-16 | Approved by Varun | Keep the amylase reference's measured score hidden until selected under the normal budget. Its sequence can be used to count substitutions. Other datasets' reference treatment remains open. |
 | 2026-11-16 | User instruction | Work on a new branch and commit progress as work proceeds. Do not push or open a pull request unless separately requested. |
 | 2026-11-16 | Open | Reference treatment, measurement budget details, split information visible to the search, per-protein Hydro handling, repair selection and recovery definitions require agreement. |
 
@@ -33,7 +34,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-16: first amylase feasibility check
 
 - Counted local candidates against the pinned original reference under an illustrative four-substitution limit, separately by original split and validation flag. The training side retains at least 1,258 non-validation candidates before any additional exclusions. The limit and validation handling are not approved experiment rules.
-- Recorded a recommendation to keep the reference score hidden until it is selected; Varun has not yet approved this recommendation.
+- Recorded a recommendation to keep the reference score hidden until it is selected; Varun subsequently approved this for amylase.
 
 ## Next review gates
 
