@@ -61,6 +61,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Added the pinned original reference sequence and five focused tests. The tests cover hidden scores through the supported interface, atomic invalid requests, reproducible initial choices, budget and stopping behavior, log reconstruction, and the real local candidate count. The local structural dataset audit also passed; direct catalog health and dataset function checks returned healthy and five entries.
 - No predictor, prediction ranges, search method, calibration, repairs, or scientific experiment results are implemented. Python does not provide a security boundary against direct raw-file or object access. An interrupted log write may leave an incomplete record and needs inspection.
 
+### 2026-11-16: first comparison planning
+
+- Reviewed the runner and the next roadmap phase. Found that the supported interface exposes known scores but not their sequences, so a predictor needs a controlled way to obtain both. The current selection record also does not record model predictions.
+- Prepared [the first comparison plan](first_comparison_plan.md): matched random selection versus a simple one-hot ridge predictor, with saved pre-reveal predictions and matched starting data. This is a proposed development comparison, not a CERA result.
+- Confirmed the current system has scikit-learn, NumPy and SciPy, but the project does not declare them. Version and dependency choices require verification before implementation. No comparison code has been written or run.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
