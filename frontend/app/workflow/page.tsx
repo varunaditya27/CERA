@@ -12,7 +12,7 @@ const parameters=[
 ];
 
 export default function Workflow(){
-  return <div className="route-content method-page">
+  return <div className="route-content">
     <header className="route-hero"><h1>The method</h1>
       <p>A retrospective search where unselected fitness scores remain hidden until a variant is queried.</p>
     </header>
