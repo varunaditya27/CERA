@@ -87,7 +87,7 @@ export function WalkthroughLab(){
     <div className="lab-metrics">
      <div><span>New measurements</span><strong>{used}<small> / 2</small></strong></div>
      <div><span>Best measured score</span><strong>{step===3?'8':'6'}</strong></div>
-     <div><span>Recorded mismatch</span><strong>{step<2?'—':step===2?'6':'1'}</strong></div>
+     <div><span>Latest absolute gap</span><strong>{step<2?'—':step===2?'6':'1'}</strong></div>
     </div>
     <p className="lab-warning">This example illustrates the information flow. It does not run the trained models or demonstrate a successful repair.</p>
    </aside>
