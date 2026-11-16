@@ -1,16 +1,29 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { jumpToPageTop } from '../lib/scroll';
 
 /** Lenis uses GSAP's ticker. Native touch and reduced-motion requests are respected. */
 export function MotionRuntime(){
   const pathname=usePathname();
+  const previousPath=useRef(pathname);
+  const resetPending=useRef(false);
+
+  // Reset before the new route is painted; don't interfere with same-page anchors.
+  useLayoutEffect(()=>{
+    if(previousPath.current===pathname)return;
+    previousPath.current=pathname;
+    resetPending.current=!window.location.hash;
+    if(resetPending.current)jumpToPageTop();
+  },[pathname]);
 
   useEffect(()=>{
     let disposed=false;
     let request=0;
     let teardown=()=>{};
+    const needsReset=resetPending.current;
+    resetPending.current=false;
     const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
     const coarse=window.matchMedia('(pointer: coarse)');
 
@@ -34,6 +47,8 @@ export function MotionRuntime(){
         anchors:true,
         wheelMultiplier:.92
       });
+      // Lenis tracks scroll internally, so synchronize its state after route resets.
+      if(needsReset)lenis.scrollTo(0,{immediate:true,force:true});
       const update=()=>ScrollTrigger.update();
       const tick=(time:number)=>lenis.raf(time*1000);
       lenis.on('scroll',update);
