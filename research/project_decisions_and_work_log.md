@@ -328,6 +328,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Added `scripts/run_matched_proteins.py` for explicitly configured, matched methods and seeds. Its manifest pins data, reference, representations, Python, dependencies and code; it records completed, failed and interrupted runs and verifies completed records on resume without silently retrying failures. It does not evaluate full-pool outcomes. The [Python random documentation](https://docs.python.org/3/library/random.html#notes-on-reproducibility) cautions that algorithms can change between versions.
 - Synthetic tests confirm score-blind initial identifiers are unaffected by row order, split/validation flags or target changes; random and predictor methods share starts for synthetic IRED and Hydro data. The synthetic matched runner completed and resumed, rejected changed inputs and tampered records, and retained a simulated failure. The full backend suite passed 91 tests. No real IRED or Hydro search was run; the final evaluation protocol and independent multi-protein evaluation are still outstanding.
 
+### 2026-11-17: draft multi-protein comparison
+
+- Drafted a matched four-protein comparison with score-blind starts, separate protein reporting, actual-stop outcomes, recovery follow-up and explicit Gemini/failure accounting. Identified that the current evaluator requires train-side starts and an amylase cache, so a separately tested evaluator and independent audit are needed before real runs. This is a [review draft](multiprotein_comparison_draft.md), not a frozen protocol or completed evaluation.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
