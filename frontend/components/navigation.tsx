@@ -1,29 +1,60 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ArrowUpRight, ChartNoAxesCombined, Database, FlaskConical, LayoutGrid } from 'lucide-react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { BrandMark } from './brand-mark';
 
-const routes = [
-  {href:'/',label:'Overview',icon:LayoutGrid},
-  {href:'/datasets',label:'Datasets',icon:Database},
-  {href:'/experiments',label:'Results',icon:ChartNoAxesCombined},
-  {href:'/workflow',label:'Method',icon:FlaskConical}
+const links=[
+  {href:'/datasets',label:'Datasets'},
+  {href:'/experiments',label:'Results'},
+  {href:'/workflow',label:'Method'}
 ];
 
-export function Navigation() {
+export function Navigation(){
   const pathname=usePathname();
-  return <aside className="sidebar" aria-label="Main navigation">
-    <Link className="brand" href="/" aria-label="CERA home"><span className="brand-emblem"><BrandMark size={34} light/></span><span>CERA</span></Link>
-    <nav className="side-links" aria-label="Pages">{routes.map(({href,label,icon:Icon})=>{
-      const current=href==='/'?pathname==='/' : pathname.startsWith(href);
-      return <Link key={href} className={current?'side-link is-current':'side-link'} href={href} aria-current={current?'page':undefined}>
-        <Icon size={18} strokeWidth={1.7} aria-hidden="true"/>{label}
-      </Link>;
-    })}</nav>
-    <a className="sidebar-external" href="https://github.com/varunaditya27/CERA" target="_blank" rel="noreferrer">
-      GitHub <ArrowUpRight size={15} aria-hidden="true"/>
-    </a>
-  </aside>;
+  const home=pathname==='/';
+  const [open,setOpen]=useState(false);
+  const [scrolled,setScrolled]=useState(false);
+
+  useEffect(()=>{setOpen(false);},[pathname]);
+  useEffect(()=>{
+    const onScroll=()=>setScrolled(window.scrollY>26);
+    onScroll();
+    window.addEventListener('scroll',onScroll,{passive:true});
+    return ()=>window.removeEventListener('scroll',onScroll);
+  },[]);
+  useEffect(()=>{
+    if(!open)return;
+    const onKey=(event:KeyboardEvent)=>{if(event.key==='Escape')setOpen(false);};
+    window.addEventListener('keydown',onKey);
+    return()=>window.removeEventListener('keydown',onKey);
+  },[open]);
+
+  return <header className={['site-nav',home?'nav-home':'nav-interior',scrolled?'nav-scrolled':'',open?'nav-open':''].join(' ')}>
+    <div className="nav-inner">
+      <Link href="/" className="site-brand" aria-label="CERA home">
+        <span className="brand-symbol"><BrandMark size={32} light={home&&!scrolled}/></span>
+        <span className="brand-name">CERA</span>
+      </Link>
+
+      <nav className="nav-desktop" aria-label="Primary navigation">
+        {links.map(link=><Link key={link.href} href={link.href} aria-current={pathname.startsWith(link.href)?'page':undefined}>{link.label}</Link>)}
+      </nav>
+
+      <a className="nav-repository" href="https://github.com/varunaditya27/CERA" target="_blank" rel="noreferrer">
+        GitHub <ArrowUpRight size={15} strokeWidth={1.8} aria-hidden="true"/>
+      </a>
+
+      <button type="button" className="nav-menu-button" aria-expanded={open} aria-controls="mobile-navigation" aria-label={open?'Close navigation':'Open navigation'} onClick={()=>setOpen(value=>!value)}>
+        {open?<X size={23}/>:<Menu size={23}/>}
+      </button>
+    </div>
+
+    <nav id="mobile-navigation" className="nav-mobile" aria-label="Mobile navigation" inert={!open}>
+      {[{href:'/',label:'Overview'},...links].map(link=><Link key={link.href} href={link.href} aria-current={pathname===link.href?'page':undefined} onClick={()=>setOpen(false)}>{link.label}<ArrowUpRight size={17} aria-hidden="true"/></Link>)}
+      <a href="https://github.com/varunaditya27/CERA" target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={17}/></a>
+    </nav>
+  </header>;
 }
