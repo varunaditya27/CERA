@@ -32,3 +32,24 @@ python3 -m venv .venv
 In a second terminal, run `cd frontend && npm install && npm run dev`, then visit `http://localhost:3000`. The frontend reads the API server-side at `http://127.0.0.1:8000`; set `CERA_API_URL` for a different API address. API documentation is at `http://127.0.0.1:8000/docs`. Dataset counts are read from the local CSV files, and the interface displays an unavailable state if the API or files are missing.
 
 The frontend has dedicated routes for the overview (`/`), dataset catalog (`/datasets`), individual dataset profiles (`/datasets/[id]`), and the planned research method (`/workflow`). Dataset counts come from the API; experiment execution and results are not implemented yet. Repository-local design and engineering skills are listed in `skills-lock.json`.
+
+## Amylase measurement runner
+
+The first research component is a local Python runner, separate from the web catalog. It selects initial amylase measurements and reveals requested eligible variants within a budget. It does not implement a prediction model, search strategy, prediction ranges, repairs, or research results. The design and limits are documented in the [development protocol](research/amylase_development_protocol.md).
+
+For an interactive run from the repository root, start `PYTHONPATH=backend python3`, then:
+
+```python
+from app.amylase import DATA, REFERENCE
+from app.experiment import Experiment
+
+run = Experiment(DATA, REFERENCE, 'amylase-run.jsonl', seed=1)
+print(len(run.revealed), len(run.candidates), run.remaining)
+candidate_id = next(iter(run.candidates))
+print(run.reveal([candidate_id]))
+run.close()
+```
+
+The log file must not already exist; choose a new path for each run. It records the dataset and reference fingerprints, settings, initially revealed scores, and each selection before its revealed measurements. The reference sequence was retrieved from the [original source at a fixed commit](https://github.com/florisvdf/mutation-predictability/blob/aea601d50493892fc6a73601beb90b8d0c93cd52/data/AMY_BACSU/reference.fasta). A failed or interrupted log write can leave an incomplete record; inspect it before interpreting the run. The interface prevents accidental score disclosure through its supported methods, but Python code with direct file or object access can still read raw scores.
+
+Run the focused checks with `PYTHONPATH=backend python3 -m unittest discover -s backend/tests -v`.

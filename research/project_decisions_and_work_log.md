@@ -55,6 +55,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - The pilot uses 80 initial examples for fitting and model selection and 20 for setting ranges, when interval methods are added. Model selection stays inside the 80; no extra permanent validation group is assumed. Reuse of the 20 and the adaptive search mean formal coverage guarantees must not be claimed without additional justification.
 - Prepared a limited implementation plan for a score-controlled runner and meaningful checks. No implementation code has been written; approval is required before starting it.
 
+### 2026-11-16: measurement runner
+
+- Varun approved the runner implementation and requested backend modules remain focused and properly divided. Added `backend/app/amylase.py` for source loading and eligibility and `backend/app/experiment.py` for measurement accounting and run records; the existing catalog remains separate.
+- Added the pinned original reference sequence and five focused tests. The tests cover hidden scores through the supported interface, atomic invalid requests, reproducible initial choices, budget and stopping behavior, log reconstruction, and the real local candidate count. The local structural dataset audit also passed; direct catalog health and dataset function checks returned healthy and five entries.
+- No predictor, prediction ranges, search method, calibration, repairs, or scientific experiment results are implemented. Python does not provide a security boundary against direct raw-file or object access. An interrupted log write may leave an incomplete record and needs inspection.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
