@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowDown, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { HeroLandscape } from '../components/hero-landscape';
+import { LandingMotion } from '../components/landing-motion';
 import { SectionReveal } from '../components/section-reveal';
 import { DATASET_REFERENCE, RESEARCH_SOURCE } from '../lib/research';
 import { getDatasets } from '../lib/datasets';
@@ -18,11 +19,12 @@ export default async function Home(){
   const datasets=api??DATASET_REFERENCE;
 
   return <div className="landing">
+    <LandingMotion/>
     <section className="landing-hero" aria-labelledby="landing-title">
       <div className="hero-grain" aria-hidden="true"/>
       <div className="landing-hero-inner">
         <div className="landing-hero-copy">
-          <h1 id="landing-title">When the reward<br/>is <span>wrong.</span></h1>
+          <h1 id="landing-title" aria-label="When the reward is wrong."><span className="hero-line"><span className="hero-line-inner">When the</span></span><span className="hero-line"><span className="hero-line-inner">reward is</span></span><span className="hero-line"><span className="hero-line-inner"><em className="hero-accent">wrong.</em></span></span></h1>
           <p>CERA investigates how to detect and correct unreliable learned rewards in protein optimization.</p>
           <div className="hero-links">
             <Link className="action-solid" href="/workflow">Explore the method <ArrowUpRight size={18} aria-hidden="true"/></Link>
