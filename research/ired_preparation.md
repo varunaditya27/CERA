@@ -10,6 +10,8 @@ Fetched the laboratory's [active-data table at commit 6a9e87c6](https://github.c
 
 All 8,586 local sequence/target pairs matched a sequence and fitness in the pinned laboratory table within 1e-8. Every local train variant has at most two changes relative to this reference; every local test variant has more than two. The development cap of four changes leaves 4,408 train and 3,225 test variants eligible; 953 test variants exceed it. The local split's SHA-256 is `55425e46a5be5b50fb79dbf8be677422355969da065241e11325a61348e19fae`.
 
+The FLIP2 authors' [manuscript, Table 1](https://flip.protein.properties/assets/FLIP_manuscipt.pdf) lists 3,746 training, 662 validation and 4,178 test examples for the IRED two-to-many split. A fresh count of the local file matches these three counts exactly: the 662 validation examples are marked `set=train, validation=True`. The three published split counts total 8,586, despite the same table listing 17,143 as the overall dataset count. This is evidence that the local row count agrees with the published split table, not an explanation of the filtering or proof that every row is identical to the authors' source snapshot. The linked manuscript was accessed on 16 November 2026 and may be revised later.
+
 The benchmark describes a larger screened set of 17,143 variants, whereas this downloaded split has 8,586. The matching exercise does not reconstruct the exact benchmark filtering or treatment of inactive variants. Those remain open source questions, and results must describe the local split rather than the full screened collection. The lab and benchmark sources have their own attribution and license terms; see [dataset sources](../data/SOURCES.md).
 
 ## Representation and runner checks

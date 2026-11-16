@@ -267,6 +267,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Compared saved coverage-warning replays with their pre-reveal ranges and the source dataset's subsequently available scores. Among 18 proposed batches, one had one fewer range miss than the original, 14 had the same number, and three had one more. These post-hoc source scores were not available to the selector and do not establish later-round behavior. See [the diagnosis](targeted_repair_diagnosis.md).
 
+### 2026-11-16: IRED split count source check
+
+- Compared the local IRED file's training, validation and test flags against the authors' published FLIP2 split table. The counts match exactly (3,746, 662 and 4,178; total 8,586), although the same table lists 17,143 overall variants. This supports the local split count but does not establish the filtering chain; see [IRED preparation](ired_preparation.md).
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
