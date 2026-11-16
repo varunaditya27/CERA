@@ -7,7 +7,7 @@
   --deep-2:#173333;
   --paper:#F3F1EB;
   --white:#FCFCF8;
-  --muted:#627169;
+  --muted:#596A62;
   --line:#D4DBD3;
   --light-line:#38504C;
   --soft:#E5EAE4;
@@ -410,7 +410,7 @@ img,svg,canvas{max-width:100%}
 /* CERA / APERTURE IDENTITY REVISION
    Geologica's adjustable sharpness, a bespoke C-mark, and purposeful data.
    The earlier editorial primitives remain for interior routes. */
-:root{--display:var(--font-geologica),sans-serif;--line-dark:#405D55;--light-muted:#ACC6BD;--accent-on-light:#B9512B}
+:root{--display:var(--font-geologica),sans-serif;--line-dark:#405D55;--light-muted:#ACC6BD;--accent-on-light:#A94828}
 body{background:var(--paper)}
 .site-brand{line-height:0;letter-spacing:0}
 .site-brand svg{width:178px;height:auto;max-height:48px;display:block}
