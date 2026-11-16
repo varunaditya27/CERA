@@ -1,6 +1,6 @@
 /* Hallmark · CERA / research-first identity, November 2026 */
 /* Review: real data, original layout, accessible navigation, restrained copy, motion with purpose */
-@import url('https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Onest:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Newsreader:ital,wght@0,300;0,400;0,500;1,400&family=Onest:wght@400;500;600;700&display=swap');
 
 :root{
   --ink:#182722;
@@ -93,9 +93,7 @@ img,svg,canvas{max-width:100%}
 /* Landing content rhythm */
 .chapter-index{font:500 12px/1.4 var(--mono);white-space:nowrap;display:inline-flex;align-items:center;gap:18px}
 .chapter-index span{font:400 12px var(--sans);color:var(--muted)}
-.section-reveal.can-reveal:not(.is-revealed){opacity:0;transform:translateY(26px)}
-.section-reveal{transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
-.section-reveal.is-revealed{opacity:1;transform:none}
+.section-reveal{position:relative}
 .question-section{padding:142px 0 154px}
 .question-grid{display:grid;grid-template-columns:190px minmax(0,1.6fr) minmax(260px,.75fr);gap:54px;align-items:start}
 .question-grid h2{font:400 clamp(50px,5.5vw,80px)/1.07 var(--serif);letter-spacing:-.022em;overflow-wrap:break-word;max-width:760px}
@@ -134,7 +132,7 @@ img,svg,canvas{max-width:100%}
 .plot-track{height:6px;background:var(--light-line);overflow:hidden}
 .plot-fill{height:100%;background:var(--sea);transform-origin:left center;transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
 .plot-row:first-of-type .plot-fill{background:var(--copper)}
-.can-reveal:not(.is-revealed) .plot-fill{transform:scaleX(0)}
+
 .plot-foot{display:flex;justify-content:space-between;font:400 11px var(--mono);color:var(--light-muted);padding-top:5px}
 .evidence-plot>p{font-size:12px;color:var(--light-muted);margin-top:25px}
 
@@ -327,7 +325,7 @@ img,svg,canvas{max-width:100%}
 @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
- .section-reveal.can-reveal:not(.is-revealed){opacity:1;transform:none}
+
 }
 
 /* Interactive method explorer */
