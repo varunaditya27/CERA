@@ -3,21 +3,30 @@
 import { useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
 
-/** Progressive enhancement: contents stay visible without JavaScript. */
+/** Content is immediately readable without JavaScript or when motion is reduced. */
 export function SectionReveal({children,className=''}:{children:ReactNode;className?:string}){
   const ref=useRef<HTMLDivElement>(null);
   useEffect(()=>{
-    const node=ref.current;
-    if(!node||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-    if(!('IntersectionObserver' in window))return;
-    node.classList.add('can-reveal');
-    const observer=new IntersectionObserver(entries=>{
-      if(entries.some(entry=>entry.isIntersecting)){
-        node.classList.add('is-revealed');observer.disconnect();
-      }
-    },{threshold:.1,rootMargin:'0px 0px 30px 0px'});
-    observer.observe(node);
-    return()=>observer.disconnect();
+    const element=ref.current;
+    if(!element||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    let disposed=false;
+    let cleanup=()=>{};
+    async function initialize(){
+      const [{default:gsap},{ScrollTrigger}]=await Promise.all([
+        import('gsap'),import('gsap/ScrollTrigger')
+      ]);
+      if(disposed)return;
+      gsap.registerPlugin(ScrollTrigger);
+      const context=gsap.context(()=>{
+        gsap.from(element,{
+          autoAlpha:0,y:28,duration:.86,ease:'power3.out',
+          scrollTrigger:{trigger:element,start:'top 89%',once:true}
+        });
+      });
+      cleanup=()=>context.revert();
+    }
+    void initialize();
+    return()=>{disposed=true;cleanup();};
   },[]);
   return <div ref={ref} className={`section-reveal ${className}`}>{children}</div>;
 }
