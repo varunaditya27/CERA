@@ -1,6 +1,6 @@
 /* Hallmark · CERA / research-first identity, November 2026 */
 /* Review: real data, original layout, accessible navigation, restrained copy, motion with purpose */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Onest:wght@400;500;600;700&display=swap');
 
 :root{
   --ink:#182722;
@@ -17,9 +17,9 @@
   --sea:#A8C8BF;
   --light-text:#F2F3ED;
   --light-muted:#ADC2BA;
-  --serif:'Instrument Serif',Georgia,serif;
-  --sans:'DM Sans',Arial,sans-serif;
-  --mono:'IBM Plex Mono',monospace;
+  --serif:'Newsreader',Georgia,serif;
+  --sans:'Onest',Arial,sans-serif;
+  --mono:'Fragment Mono',monospace;
   color-scheme:light;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -66,7 +66,10 @@ img,svg,canvas{max-width:100%}
 .landing-hero-inner{width:min(100% - 96px,1320px);margin:auto;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:min(3vw,40px);padding:148px 0 80px;flex:1}
 .landing-hero-copy{z-index:2;min-width:0;animation:hero-enter .95s both cubic-bezier(.22,1,.36,1)}
 .landing-hero h1{font:400 clamp(80px,8.1vw,138px)/.92 var(--serif);letter-spacing:-.028em;max-width:740px;overflow-wrap:break-word}
-.landing-hero h1 span{color:var(--copper)}
+.hero-line{display:block;overflow:hidden}
+.hero-line-inner{display:block;will-change:transform}
+.hero-accent{font-weight:400;font-style:italic;color:var(--copper)}
+.hero-line:last-child{padding-bottom:.14em;margin-bottom:-.14em}
 .landing-hero-copy>p{color:var(--light-muted);font-size:16px;line-height:1.7;max-width:395px;margin:34px 0}
 .hero-links{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
 .action-solid,.action-outline-light{display:inline-flex;align-items:center;justify-content:space-between;gap:22px;padding:13px 17px;min-height:51px;font-size:13px;font-weight:600;transition:transform .22s ease,background-color .22s ease,color .22s ease}
@@ -397,3 +400,12 @@ img,svg,canvas{max-width:100%}
 .landscape-canvas{opacity:0;transition:opacity .45s ease}
 .landscape-stage.rendered .landscape-canvas{opacity:1}
 .landscape-stage.rendered .landscape-static{opacity:0}
+
+/* Serif display composition: three masked lines, keeping the phrase intact on small screens. */
+.landing-hero h1{font-size:clamp(76px,8.15vw,132px);line-height:.87;font-weight:300;letter-spacing:-.055em}
+.question-grid h2,.evidence-copy h2,.section-heading h2,.route-hero h1,.method-context h2,.process-heading h2{font-weight:300;letter-spacing:-.035em}
+.nav-desktop a,.site-brand,.route-content{font-synthesis:none}
+@media(max-width:650px){
+ .landing-hero h1{font-size:clamp(53px,13.3vw,84px);line-height:.92}
+ .hero-line{overflow:visible}
+}
