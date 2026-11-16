@@ -32,7 +32,7 @@ Do not reuse the old diamond. Do not place DNA helices, molecular stock photogra
 | Text | `--ink` | `#182722` |
 | Warm paper | `--paper` | `#F3F1EB` |
 | Light surface | `--white` | `#FCFCF8` |
-| Secondary text | `--muted` | `#627169` |
+| Secondary text | `--muted` | `#596A62` |
 | Separator | `--line` | `#D4DBD3` |
 | Soft green | `--soft` | `#E5EAE4` |
 | Measurement / intervention | `--copper` | `#E9875C` |
@@ -40,7 +40,7 @@ Do not reuse the old diamond. Do not place DNA helices, molecular stock photogra
 | Dark-surface text | `--light-text` | `#F3F1EB` |
 | Dark-surface secondary | `--light-muted` | `#ACC6BD` |
 
-Copper on a light background uses the darker `--accent-on-light: #B9512B` for readable small text. Do not use color alone to encode a difference: always use names, values, position or status text.
+Copper on a light background uses the darker `--accent-on-light: #A94828` for readable small text. Do not use color alone to encode a difference: always use names, values, position or status text.
 
 ## Typography
 
