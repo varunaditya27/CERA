@@ -123,6 +123,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Fifteen unit tests passed. Completed one amylase pilot with 80 initial fitting examples, 20 reserved range-setting examples and 100 later measurements. Independently reconstructed and audited the ten recorded batches and first-round model and range calculation.
 - All 100 selected scores were inside their recorded ranges, with mean width approximately 0.20337. The selector chose 34 original-test and 66 original-train variants; those labels were joined only afterward. These one-run observations are not a coverage guarantee, causal attribution, repair result or final evaluation. Details and remaining limitations are in [pilot findings](prediction_range_pilot_findings.md).
 
+### 2026-11-16: research for subsequent work
+
+- Reviewed primary sources on adaptive prediction ranges, uncertainty under shift, warning evaluation with rare events, and the limitations of replay-based comparisons. Mapped the findings and source limits to the current pilot in [next-stage research](next_stage_research.md).
+- Reconstructed descriptive pilot errors from saved pre-reveal predictions: mean absolute error 0.051264 for the 100 selected variants and mean range width 0.203374. The pilot contains no interval misses, so it cannot establish a missed-range detector's empirical performance. These are post-hoc descriptions of one adaptive run.
+- No application code changed and no new pilot was run in this research step.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
