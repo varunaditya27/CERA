@@ -1,5 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
 import { ResultsTable } from '../../components/results-table';
+import { ResultsLens } from '../../components/results-lens';
 import { RESEARCH_SOURCE, SNAPSHOT_DATE } from '../../lib/research';
 
 export const metadata={title:'Results'};
@@ -15,6 +16,7 @@ export default function Experiments(){
       <div><span>Repair replays</span><strong>120</strong></div>
       <div><span>Accepted repairs</span><strong>0</strong></div>
     </div>
+    <ResultsLens/>
     <ResultsTable/>
     <section className="result-notes">
       <h2>What happened</h2>
