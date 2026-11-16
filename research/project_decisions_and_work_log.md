@@ -129,6 +129,11 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Reconstructed descriptive pilot errors from saved pre-reveal predictions: mean absolute error 0.051264 for the 100 selected variants and mean range width 0.203374. The pilot contains no interval misses, so it cannot establish a missed-range detector's empirical performance. These are post-hoc descriptions of one adaptive run.
 - No application code changed and no new pilot was run in this research step.
 
+### 2026-11-16: repeated range-pilot preparation
+
+- Predeclared ten exploratory amylase range runs, their seed assignments, independent audit checks, score and width denominators, failure handling and lossless record retention in the [repeated-range protocol](repeated_range_protocol.md). The earlier seed-1 pilot remains separate.
+- The analysis does not claim independent biological replication or guaranteed 90% coverage. No model or detector settings were changed.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
