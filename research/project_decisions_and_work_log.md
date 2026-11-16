@@ -271,6 +271,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Compared the local IRED file's training, validation and test flags against the authors' published FLIP2 split table. The counts match exactly (3,746, 662 and 4,178; total 8,586), although the same table lists 17,143 overall variants. This supports the local split count but does not establish the filtering chain; see [IRED preparation](ired_preparation.md).
 
+### 2026-11-16: IRED measured-fitness source scope
+
+- The original laboratory's pinned data README describes approximately 11,000 variants with determinable fitness and about 6,000 without measured activity, in separate tables. Previously verified local pairs all match the former table. Documented the resulting selection limitation and the unresolved filtering chain in [IRED preparation](ired_preparation.md).
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
