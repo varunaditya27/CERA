@@ -33,7 +33,7 @@ No additional colors without purpose and documentation. The visualizations can u
 - **Onest**, humanist neo-grotesk: body, navigation, buttons and labels. Weight 400–700. Readability and distinct characters are more important than density.
 - **Fragment Mono**, regular: measurements, identifiers, and provenance references. Use sparingly.
 
-Browser font loading: Google Fonts CSS with `font-display:swap`. Fallbacks are Georgia, sans-serif and monospace respectively. Do not replace with Inter/Roboto/Space Grotesk/DM Sans or add more font families casually.
+Fonts are loaded with Next.js `next/font/google` and self-hosted at build time (`frontend/app/fonts.ts`), using `font-display:swap`. Fallbacks are Georgia, sans-serif and monospace respectively. Do not replace with Inter/Roboto/Space Grotesk/DM Sans or add more font families casually.
 
 ## Scale and grid
 
