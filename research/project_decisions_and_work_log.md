@@ -140,6 +140,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Audited all 100 batches against the source records and independently reconstructed every predictor group, selected penalty, reserved-error radius and selected predictions in the same software environment. Preserved complete records losslessly with compressed and uncompressed fingerprints. See [repeated-range findings](repeated_range_findings.md).
 - As a separate post-hoc check, the synopsis's below-0.75 coverage rule would have fired in 7 of 80 overlapping three-batch windows. No detector has been implemented or validated, and no causal interpretation is claimed.
 
+### 2026-11-16: warning-check design
+
+- Reviewed the synopsis, current run records and online sources, then specified the five proposed warning conditions, information available before and after reveal, strict boundaries, insufficient-data behavior and controlled test cases in [warning-check design](warning_checks_design.md).
+- Identified that current records preserve mean predictions and model spread, but not the five member predictions needed for the proposed Spearman-ranking disagreement rule. Existing models can be reconstructed from recorded inputs and seeds; future real-time checks require explicit pre-reveal evidence.
+- The design uses raw Euclidean distance and a specified nearest-other percentile as a provisional development clarification; it does not silently claim the synopsis's normalized-distance implementation is already defined. No warning code, repair or new experiment was implemented in this step.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
