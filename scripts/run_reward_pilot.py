@@ -18,6 +18,7 @@ def main():
                         default='amylase')
     parser.add_argument('--repair', action='store_true', help='Enable the experimental rule-based repair loop')
     parser.add_argument('--gemini-repair', action='store_true', help='Use Gemini to prioritize repair options')
+    parser.add_argument('--targeted-disagreement', action='store_true', help='Use the experimental disagreement target rule')
     args = parser.parse_args()
     content = args.specification.read_bytes()
     spec = json.loads(content)
@@ -39,7 +40,7 @@ def main():
                                                    kind, menu)
     print(json.dumps(run_pilot(args.output_dir, seed=args.seed, reward_spec=spec, reward_origin=origin,
                                repair=args.repair or args.gemini_repair, repair_advisor=advisor, repair_model=model,
-                               dataset=args.dataset)))
+                               dataset=args.dataset, targeted_disagreement=args.targeted_disagreement)))
 
 
 if __name__ == '__main__':

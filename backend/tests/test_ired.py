@@ -65,6 +65,8 @@ class IredTests(unittest.TestCase):
                  patch('app.features.ired_representations.load_verified_representations', return_value=vectors):
                 result = run_pilot(root / 'run', seed=7, reward_spec=spec, dataset='ired')
                 acquisition_result = run_pilot(root / 'acquisition', seed=7, dataset='ired', acquisition='ei')
+                targeted_result = run_pilot(root / 'targeted', seed=7, reward_spec=spec, dataset='ired',
+                                            repair=True, targeted_disagreement=True)
             events = [json.loads(line) for line in (root / 'run/run.jsonl').read_text().splitlines()]
             self.assertEqual(result['batches'], 1)
             self.assertEqual(next(e['settings']['dataset'] for e in events if e['event'] == 'method'), 'ired')
@@ -75,3 +77,9 @@ class IredTests(unittest.TestCase):
             first_selection = next(i for i, event in enumerate(acquisition_events) if event['event'] == 'selection')
             self.assertLess(first_scores, first_selection)
             self.assertEqual(acquisition_result['batches'], 2)
+            targeted_events = [json.loads(line) for line in (root / 'targeted/run.jsonl').read_text().splitlines()]
+            target_index = next(i for i, event in enumerate(targeted_events)
+                                if event['event'] == 'method' and 'disagreement_target_evidence' in event['settings'])
+            reveal_index = next(i for i, event in enumerate(targeted_events) if event['event'] == 'reveal')
+            self.assertLess(target_index, reveal_index)
+            self.assertEqual(targeted_result['batches'], 1)

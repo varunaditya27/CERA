@@ -18,6 +18,7 @@ from app.experiments.predictor_group import fit_group, predict_group, predict_me
 from app.experiments.range_report import summarize_ranges
 from app.provenance.sources import source_hashes
 from app.rewards.repair_coordinator import handle_warnings
+from app.rewards.disagreement_targets import disagreement_targets
 from app.rewards.reward_distance import known_distances, normalized_distances
 from app.rewards.reward_selection import select_batch
 from app.rewards.reward_spec import validate_spec
@@ -28,7 +29,7 @@ from app.rewards.warning_checks import (constraint_warning, coverage_warning, di
 
 def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, reward_origin=None,
               repair=False, repair_advisor=None, repair_model=None, dataset='amylase', acquisition=None,
-              local_search=None):
+              local_search=None, targeted_disagreement=False):
     if acquisition not in (None, 'ucb', 'ei') or (acquisition is not None and (reward_spec is not None or repair)):
         raise ValueError('Invalid acquisition configuration')
     if (local_search not in (None, 'genetic', 'adalead') or
@@ -36,6 +37,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
         raise ValueError('Invalid local search configuration')
     if repair and reward_spec is None:
         raise ValueError('Repair requires a reward specification')
+    if targeted_disagreement and not repair:
+        raise ValueError('Targeted disagreement requires repair mode')
     if repair_advisor is not None and not repair:
         raise ValueError('A repair advisor requires repair mode')
     if reward_spec is not None:
@@ -79,6 +82,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                              'acquisition': acquisition, 'local_search': local_search,
                              'dataset': dataset,
                              'reward_spec': reward_spec, 'reward_origin': reward_origin, 'repair': repair,
+                             'targeted_disagreement': targeted_disagreement,
                              'repair_advisor': 'gemini' if repair_advisor else 'rule_based',
                              'repair_model': repair_model,
                              'role_seed': role_seed,
@@ -99,7 +103,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                                                             'repair_advisor.py', 'gemini_client.py', 'ired.py',
                                                             'ired_representations.py', 'sources.py', 'acquisition.py',
                                                             'local_search.py', 'flip2.py', 'hydro.py',
-                                                            'hydro_representations.py')),
+                                                            'hydro_representations.py', 'disagreement_targets.py')),
                              'scikit_learn': importlib.metadata.version('scikit-learn'),
                              'numpy': importlib.metadata.version('numpy'),
                              'scipy': importlib.metadata.version('scipy')})
@@ -171,12 +175,22 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
             diversity = diversity_warning({i: candidate_sequences[i] for i in chosen})
             run.record_warning(round_number, diversity)
             mean_map = {identifier: ranges[identifier]['mean'] for identifier in candidates}
-            top = sorted(candidates, key=lambda identifier: (-mean_map[identifier], identifier))[:100]
+            if targeted_disagreement:
+                terms = reward_spec['terms']
+                group_scores = {i: (ranges[i]['mean'] - terms['uncertainty_penalty']['weight'] * ranges[i]['spread']
+                                    - terms['distance_penalty']['weight'] * distance['distances'][i])
+                                for i in candidates}
+            else:
+                group_scores = mean_map
+            top = sorted(candidates, key=lambda identifier: (-group_scores[identifier], identifier))[:100]
             member_values = predict_members(models, vectors, top)
             members = {identifier: [float(value) for value in member_values[:, index]]
                        for index, identifier in enumerate(top)}
-            disagreement = disagreement_warning(mean_map, members)
+            disagreement = disagreement_warning(group_scores, members)
             run.record_warning(round_number, disagreement)
+            if targeted_disagreement:
+                target_evidence = disagreement_targets(disagreement, chosen)
+                run.record_settings({'round': round_number, 'disagreement_target_evidence': target_evidence})
             snapshot = distance_snapshot(sorted(known), chosen, vectors)
             run.record_settings({'round': round_number, 'distance_snapshot': snapshot})
             measurements = run.reveal(chosen, prediction_ranges=ranges)
@@ -192,7 +206,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                 targets = {'support_shift': (support['evidence'] or {}).get('qualifying_ids', []),
                            'coverage': [i for i, value in measurements.items()
                                         if not ranges[i]['lower'] <= value <= ranges[i]['upper']],
-                           'disagreement': chosen, 'diversity': chosen}
+                           'disagreement': target_evidence['targets'] if targeted_disagreement else chosen,
+                           'diversity': chosen}
                 reward_spec, failures, actions, abstain = handle_warnings(
                     reward_spec, warnings, targets, features, reference, batch_budget, calibration, earlier, failures,
                     advisor=repair_advisor)
