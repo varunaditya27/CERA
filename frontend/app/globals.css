@@ -660,3 +660,8 @@ body{background:var(--paper)}
 @media(prefers-reduced-motion:reduce){
  .hero-readout,.case-bar-track i,.result-lens-track span{transition:none}
 }
+
+/* Final headline line-fit: never let masked GSAP lines wrap. */
+.landing-hero h1{font-size:clamp(60px,6.3vw,106px)}
+.hero-line-inner{white-space:nowrap}
+@media(max-width:650px){.landing-hero h1{font-size:clamp(43px,11vw,70px)}}
