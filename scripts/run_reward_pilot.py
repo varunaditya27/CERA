@@ -14,7 +14,8 @@ def main():
     parser.add_argument('output_dir', help='New directory for run record and coverage table')
     parser.add_argument('specification', type=Path, help='JSON reward specification')
     parser.add_argument('--seed', type=int, default=1)
-    parser.add_argument('--dataset', choices=('amylase', 'ired'), default='amylase')
+    parser.add_argument('--dataset', choices=('amylase', 'ired', 'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'),
+                        default='amylase')
     parser.add_argument('--repair', action='store_true', help='Enable the experimental rule-based repair loop')
     parser.add_argument('--gemini-repair', action='store_true', help='Use Gemini to prioritize repair options')
     args = parser.parse_args()

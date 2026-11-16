@@ -10,7 +10,7 @@ from app.datasets.amylase import load_amylase
 
 class Experiment:
     def __init__(self, data_path, reference_path, log_path, seed, initial_count=100,
-                 budget=100, batch_size=10, max_mutations=4):
+                 budget=100, batch_size=10, max_mutations=4, loader=load_amylase):
         if not isinstance(seed, int) or isinstance(seed, bool):
             raise ValueError('Seed must be an integer')
         if any(not isinstance(n, int) or isinstance(n, bool) for n in
@@ -18,7 +18,7 @@ class Experiment:
             raise ValueError('Counts must be integers')
         if initial_count < 1 or budget < 0 or batch_size < 1 or max_mutations < 0:
             raise ValueError('Invalid experiment counts')
-        self.__sequences, self.__scores, train, data_hash, reference_hash = load_amylase(
+        self.__sequences, self.__scores, train, data_hash, reference_hash = loader(
             data_path, reference_path, max_mutations)
         if len(train) < initial_count:
             raise ValueError('Not enough eligible starting candidates')

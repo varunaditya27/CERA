@@ -7,8 +7,9 @@ from pathlib import Path
 
 from app.datasets.amylase import DATA, REFERENCE
 from app.features.amylase_representations import CACHE, CACHE_SHA256, load_verified_representations
-from app.datasets import ired
-from app.features import ired_representations
+from app.datasets import hydro, ired
+from app.features import hydro_representations, ired_representations
+from app.datasets.amylase import load_amylase
 from app.experiments.experiment import Experiment
 from app.experiments.acquisition import acquisition_scores, choose_acquisition
 from app.experiments.local_search import propose_local
@@ -40,6 +41,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
     if reward_spec is not None:
         reward_spec = copy.deepcopy(reward_spec)
         validate_spec(reward_spec)
+    loader = load_amylase
     if dataset == 'amylase':
         data_path, reference_path, cache, cache_hash = DATA, REFERENCE, CACHE, CACHE_SHA256
         vectors = load_verified_representations()
@@ -47,6 +49,12 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
         data_path, reference_path = ired.DATA, ired.REFERENCE
         cache, cache_hash = ired_representations.CACHE, ired_representations.CACHE_SHA256
         vectors = ired_representations.load_verified_representations()
+    elif isinstance(dataset, str) and dataset.startswith('hydro-') and dataset.removeprefix('hydro-') in hydro.PROTEINS:
+        protein = dataset.removeprefix('hydro-')
+        data_path, reference_path, loader = hydro.DATA, hydro.REFERENCES[protein], hydro.load_hydro
+        cache = hydro.ROOT / 'output/representations' / f'hydro_{protein}_esm2_c731040.npz'
+        cache_hash = hydro_representations.CACHE_HASHES[protein]
+        vectors = hydro_representations.load_verified_representations(protein)
     else:
         raise ValueError('Unknown dataset')
     output = Path(output_dir)
@@ -56,7 +64,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
     mutation_limit = reward_spec['hard_constraints']['max_mutations'] if reward_spec else 4
     run = Experiment(data_path, reference_path, output / 'run.jsonl', seed=seed,
                      budget=budget['rounds'] * budget['batch_size'], batch_size=budget['batch_size'],
-                     max_mutations=mutation_limit)
+                     max_mutations=mutation_limit, loader=loader)
     try:
         initial = sorted(run.revealed)
         reserved = sorted(random.Random(role_seed).sample(initial, 20))
@@ -90,7 +98,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                                                             'repair_menu.py', 'repair_verification.py',
                                                             'repair_advisor.py', 'gemini_client.py', 'ired.py',
                                                             'ired_representations.py', 'sources.py', 'acquisition.py',
-                                                            'local_search.py')),
+                                                            'local_search.py', 'flip2.py', 'hydro.py',
+                                                            'hydro_representations.py')),
                              'scikit_learn': importlib.metadata.version('scikit-learn'),
                              'numpy': importlib.metadata.version('numpy'),
                              'scipy': importlib.metadata.version('scipy')})

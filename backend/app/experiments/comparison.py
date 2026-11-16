@@ -41,7 +41,7 @@ def run_comparison(output_dir, seed=1, selection_seed=2, role_seed=3):
                                  'penalties': PENALTIES, 'folds': 5, 'cv_scoring': 'neg_mean_squared_error',
                                  'encoding': 'fixed 20-amino-acid indicators by position',
                                  'source_sha256': source_hashes(('amylase.py', 'experiment.py', 'selection.py',
-                                                                 'comparison.py', 'sources.py')),
+                                                                 'comparison.py', 'sources.py', 'flip2.py')),
                                  'scikit_learn': importlib.metadata.version('scikit-learn'),
                                  'numpy': importlib.metadata.version('numpy'),
                                  'scipy': importlib.metadata.version('scipy')})

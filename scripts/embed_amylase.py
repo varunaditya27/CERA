@@ -16,7 +16,7 @@ import transformers
 from huggingface_hub import hf_hub_download
 from transformers import AutoModel, AutoTokenizer
 
-from app.datasets import amylase, ired
+from app.datasets import amylase, hydro, ired
 from app.features.representation_cache import load_cache, save_cache
 from app.features.representations import MODEL, REVISION, represent, sequence_id
 
@@ -24,12 +24,17 @@ from app.features.representations import MODEL, REVISION, represent, sequence_id
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, help='New cache path; required unless verifying')
-    parser.add_argument('--dataset', choices=('amylase', 'ired'), default='amylase')
+    parser.add_argument('--dataset', choices=('amylase', 'ired', 'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'),
+                        default='amylase')
     parser.add_argument('--verify-only', action='store_true', help='Check the real model without writing a cache')
     parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
     parser.add_argument('--batch-size', type=int, default=16)
     args = parser.parse_args()
-    dataset = {'amylase': amylase, 'ired': ired}[args.dataset]
+    if args.dataset.startswith('hydro-'):
+        data_path, reference_path = hydro.DATA, hydro.REFERENCES[args.dataset.removeprefix('hydro-')]
+    else:
+        dataset = {'amylase': amylase, 'ired': ired}[args.dataset]
+        data_path, reference_path = dataset.DATA, dataset.REFERENCE
     if args.verify_only == (args.output is not None):
         parser.error('Choose --verify-only or --output')
     if args.output is not None and args.output.exists():
@@ -39,7 +44,7 @@ def main():
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL, revision=REVISION)
     model = AutoModel.from_pretrained(MODEL, revision=REVISION, add_pooling_layer=False)
-    ref_data = dataset.REFERENCE.read_bytes()
+    ref_data = reference_path.read_bytes()
     reference = ''.join(ref_data.decode('utf-8').splitlines()[1:])
     if args.verify_only:
         short = reference[:57]
@@ -53,13 +58,18 @@ def main():
                           'padding_max_difference': difference, 'device': args.device}))
         return
 
-    data = dataset.DATA.read_bytes()
+    data = data_path.read_bytes()
     rows = csv.DictReader(io.StringIO(data.decode('utf-8'), newline=''))
     if 'sequence' not in (rows.fieldnames or []):
         raise ValueError('Missing sequence column')
     sequences = {}
     for row in rows:
         sequence = row['sequence']
+        if args.dataset.startswith('hydro-'):
+            if len(sequence) not in hydro.PROTEINS.values():
+                raise ValueError('Unexpected hydrophobic-core sequence length')
+            if len(sequence) != len(reference):
+                continue
         identifier = sequence_id(sequence)
         if identifier in sequences:
             raise ValueError('Duplicate sequence identifier')

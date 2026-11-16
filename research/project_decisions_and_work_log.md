@@ -232,6 +232,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - In one matched amylase seed-13 development run, recombination used 100 new measurements and found the eligible pool's maximum score (0.21163). AdaLead-style search used 14 and stopped with no eligible neighbors, reaching 0.18690. The shared initial best was 0.18225. These observations are not a general method ranking or repair evaluation.
 - Independently reconstructed every parent and proposal set using mutation-position dictionaries, checked selections, source scores, matching initial settings, budget and stop, and preserved the complete records. The full backend suite passed 71 tests. See [local-search findings](local_search_baselines_findings.md) for methods, outputs and limits.
 
+### 2026-11-16: hydrophobic-core preparation
+
+- Located the original authors' smaller processed GEO table. All 24,935 local sequences uniquely matched it and every local target exactly matched its `fitness_raw` value. All source mutation counts matched the three UniProt reference segments. The source marks a WT row only for P01053, so the other references remain supported by sequence and mutation-count evidence rather than a WT marker.
+- Added separate references and verified score-free ESM caches for all three proteins, a common FLIP2 row loader, per-protein measurement access and pilot dispatch. A separate GPU check reproduced one vector per protein within 1.67e-6 absolute difference. The backend suite passed 74 tests, including synthetic dispatch and real cache and budget checks.
+- No hydrophobic-core search evaluation was run. The original train/test split is score-derived, so drawing train-side initial measurements is privileged retrospective information. [Hydrophobic-core preparation](hydro_preparation.md) records source links, counts, fingerprints and remaining limitations.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

@@ -12,7 +12,8 @@ def main():
     parser.add_argument('--seed', type=int, default=1)
     parser.add_argument('--role-seed', type=int, default=3)
     parser.add_argument('--member-seed', type=int, default=4)
-    parser.add_argument('--dataset', choices=('amylase', 'ired'), default='amylase')
+    parser.add_argument('--dataset', choices=('amylase', 'ired', 'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'),
+                        default='amylase')
     parser.add_argument('--acquisition', choices=('ucb', 'ei'))
     parser.add_argument('--local-search', choices=('genetic', 'adalead'))
     args = parser.parse_args()

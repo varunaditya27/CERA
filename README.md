@@ -83,6 +83,8 @@ The first run can download model files to the normal Hugging Face cache. The out
 
 The same embedding command accepts `--dataset ired`. The IRED reference, cache, source checks and outstanding provenance questions are documented in [IRED preparation](research/ired_preparation.md). Its pilot dispatch is available but is not a completed evaluation.
 
+The three hydrophobic-core proteins are handled separately. Their source checks, references, score-free caches and the score-derived starting-set limitation are documented in [hydrophobic-core preparation](research/hydro_preparation.md).
+
 ## Exploratory prediction ranges
 
 After installing both sets of research requirements, run the amylase range pilot into a new directory:
