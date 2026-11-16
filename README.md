@@ -31,15 +31,15 @@ python3 -m venv .venv
 
 In a second terminal, run `cd frontend && npm ci && npm run dev`, then visit `http://localhost:3000`. The frontend reads the API server-side at `http://127.0.0.1:8000`; set `CERA_API_URL` for a different API address. API documentation is at `http://127.0.0.1:8000/docs`. If the catalog is unavailable, dataset pages show explicitly labeled committed reference counts.
 
-The frontend provides the overview (`/`), dataset catalog (`/datasets`), dataset profiles (`/datasets/[id]`), committed amylase development results (`/experiments`), and method (`/workflow`). Results are a read-only, source-linked snapshot from [the repeated matched findings](research/repeated_matched_findings.md), not live experimentation or final cross-protein validation. The visual system and copy rules are documented in [brand/DESIGN.md](brand/DESIGN.md) and [brand/VOICE.md](brand/VOICE.md). Repository-local engineering skills are listed in `skills-lock.json`.
+The frontend provides an overview (`/`), illustrative guided walkthrough (`/walkthrough`), method (`/workflow`), implementation map (`/system`), source-linked amylase development results (`/experiments`), dataset catalog (`/datasets`) and dataset profiles (`/datasets/[id]`). Results are a read-only, source-linked snapshot from [the repeated matched findings](research/repeated_matched_findings.md), not live experimentation or final cross-protein validation. The visual system and copy rules are documented in [brand/DESIGN.md](brand/DESIGN.md) and [brand/VOICE.md](brand/VOICE.md). Repository-local engineering skills are listed in `skills-lock.json`.
 
 Backend code is grouped under `backend/app/`: `api` serves the catalog, `datasets` identifies source files, `features` handles sequence representations, `experiments` runs and evaluates searches, `rewards` contains warning and repair rules, `llm` contains Gemini integrations, `analysis` replays earlier studies, and `provenance` fingerprints source files. `app.main` is a compatibility package for the existing API command.
 
 ## Frontend design
 
-The `design/research-atlas` branch contains the CERA landing page, a procedural illustrative fitness surface, and separate dataset, results and method routes. The homepage visual is **conceptual**, not reconstructed protein assay data. Results link to the committed amylase development report.
+The `design/research-atlas` branch contains the CERA landing page, an illustrative decision walkthrough, a procedural conceptual fitness surface, and dedicated method, system, results and dataset routes. The homepage visual is **conceptual**, not reconstructed protein assay data. Results link to the committed amylase development report.
 
-Typography uses Newsreader, Onest and Fragment Mono; motion is powered by GSAP and Lenis. Lenis is enabled for fine-pointer, non-reduced-motion devices and is synchronized to GSAP's ticker. Native touch scrolling and reduced-motion preferences take priority. A static hero diagram remains visible without JavaScript.
+Typography uses Geologica (variable Sharpness axis), Onest and Fragment Mono; motion is powered by GSAP and Lenis. Lenis is enabled for fine-pointer, non-reduced-motion devices and is synchronized to GSAP's ticker. Native touch scrolling and reduced-motion preferences take priority. A static hero diagram remains visible without JavaScript.
 
 From the repository root:
 
@@ -49,7 +49,7 @@ npm ci
 npm run build
 ```
 
-A frontend-only GitHub Actions workflow is configured on the design branch. See [frontend guide](frontend/README.md) for interaction conventions and checks. Source data and experimental code remain unchanged by the redesign.
+A frontend-only GitHub Actions workflow is configured on the design branch. See [frontend guide](frontend/README.md) for the suggested demo flow, interaction conventions and verification gates. Source data and experimental code remain unchanged by the redesign.
 
 ## Amylase measurement runner
 
