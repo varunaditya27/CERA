@@ -146,6 +146,13 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Identified that current records preserve mean predictions and model spread, but not the five member predictions needed for the proposed Spearman-ranking disagreement rule. Existing models can be reconstructed from recorded inputs and seeds; future real-time checks require explicit pre-reveal evidence.
 - The design uses raw Euclidean distance and a specified nearest-other percentile as a provisional development clarification; it does not silently claim the synopsis's normalized-distance implementation is already defined. No warning code, repair or new experiment was implemented in this step.
 
+### 2026-11-16: warning checks and replay
+
+- After Varun approved the plan, implemented five focused development warning rules, pre-reveal member-ranking and distance evidence, post-reveal coverage and support evidence, and a retrospective replay. The measurement runner retains its atomic invalid-request rejection.
+- Replayed all ten historical range runs and verified the final warning evidence against an independently audited preliminary replay. Checked all 100 rounds independently, including ranking correlations, distances, Hamming diversity, coverage windows, constraints and source measurements. The below-0.75 coverage rule fired 7 times among 80 eligible overlapping windows; member-ranking disagreement fired in 98 of 100 rounds. Neither count is a validated detection rate or diagnosis.
+- Ran and independently audited one fresh warning-enabled seed-12 pilot. Post-hoc first-round inspection found a large difference between ranking agreement over the full pool and the top 100; this motivates further investigation, not a causal conclusion. Results, evidence paths and limits are in [warning-check findings](warning_checks_findings.md).
+- Repairs, warning prioritization and the language model remain unimplemented. The retrospective replay requires historical Git commit `78fce61` and the pinned representation cache.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

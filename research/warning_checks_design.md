@@ -1,6 +1,6 @@
 # Warning checks: development design
 
-Status: working research design for amylase; no warning detector or repair has been implemented by this document. Values below are development starting points from the submitted synopsis, not validated universal thresholds. The existing [range findings](repeated_range_findings.md) are exploratory. A warning indicates a condition worth investigating; it does not establish why an error occurred or whether a repair will help.
+Status: development warning checks implemented after Varun's approval; see [warning-check findings](warning_checks_findings.md). Values below are development starting points from the submitted synopsis, not validated universal thresholds. The existing [range findings](repeated_range_findings.md) are exploratory. A warning indicates a condition worth investigating; it does not establish why an error occurred or whether a repair will help. Repairs remain unimplemented.
 
 ## A small example
 

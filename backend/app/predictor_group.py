@@ -24,7 +24,7 @@ def fit_group(vectors, scores, fitting_ids, reserved_ids, cv_seed, member_seeds)
     return models, penalty
 
 
-def predict_group(models, vectors, identifiers):
+def predict_members(models, vectors, identifiers):
     ids = list(identifiers)
     if len(models) != 5 or not ids or len(ids) != len(set(ids)):
         raise ValueError('Invalid predictor group or candidate identifiers')
@@ -34,4 +34,9 @@ def predict_group(models, vectors, identifiers):
     predictions = np.asarray([model.predict(x) for model in models])
     if predictions.shape != (5, len(ids)) or not np.isfinite(predictions).all():
         raise ValueError('Invalid model predictions')
+    return predictions
+
+
+def predict_group(models, vectors, identifiers):
+    predictions = predict_members(models, vectors, identifiers)
     return predictions.mean(axis=0), predictions.std(axis=0, ddof=0)

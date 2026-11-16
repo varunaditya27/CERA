@@ -74,6 +74,13 @@ class Experiment:
     def record_settings(self, settings):
         self.__write({'event': 'method', 'settings': settings})
 
+    def record_warning(self, round_number, warning):
+        if not isinstance(round_number, int) or isinstance(round_number, bool) or round_number < 1:
+            raise ValueError('Invalid warning round')
+        if warning.get('status') not in ('triggered', 'not_triggered', 'unavailable'):
+            raise ValueError('Invalid warning status')
+        self.__write({'event': 'warning', 'run': str(self.__log_path), 'round': round_number, **warning})
+
     def reveal(self, identifiers, predictions=None, prediction_ranges=None):
         ids = list(identifiers)
         if (not ids or any(not isinstance(i, str) for i in ids) or len(ids) > self.__batch_size
