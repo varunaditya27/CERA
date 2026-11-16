@@ -78,3 +78,13 @@ TORCH_DISABLE_NATIVE_JIT=1 OPENBLAS_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/p
 ```
 
 The first run can download model files to the normal Hugging Face cache. The output cache contains sequence identifiers, vectors and metadata, including dataset, reference, model-file, code and settings fingerprints; it contains no scores. Writing is atomic and refuses to replace an existing file. A temporary file can remain after a process is forcibly interrupted; the final cache is only linked into place after the write finishes. Use `app.representation_cache.load_cache` with the expected ordered identifiers and exact settings to validate a cache before using it. The tested local cache is `output/representations/amylase_esm2_c731040_v2.npz`.
+
+## Exploratory prediction ranges
+
+After installing both sets of research requirements, run the amylase range pilot into a new directory:
+
+```sh
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/python scripts/run_prediction_pilot.py output/my-range-pilot --seed 1
+```
+
+The pilot verifies the exact recorded amylase cache fingerprint, then uses five ridge predictors on the ESM-2 representations. The first 20 reserved measurements set a symmetric prediction range; the predictor group is fitted using the remaining initial measurements and subsequently revealed measurements. Each candidate's prediction, model spread and range are recorded before a score is revealed. The output includes the full run record and a table of observed coverage and range width. See [pilot findings](research/prediction_range_pilot_findings.md) for the initial result and its limits. The nominal 90% target is not guaranteed for this adaptive search. The pilot is pinned to the checked cache; replacing or regenerating that file requires explicitly reviewing and updating the expected fingerprint.

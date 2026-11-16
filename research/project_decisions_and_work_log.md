@@ -117,6 +117,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Researched ensemble fitting, data leakage and adaptive conformal limitations. Prepared a [predictor-group and prediction-range plan](prediction_ranges_development_plan.md), including a bootstrap/cross-validation ordering that avoids placing duplicate copies of one observation across validation folds. This is a proposed initial development design, not a final ensemble or claimed coverage guarantee.
 - No new application code or prediction-range experiment was run. The user instruction to ask before writing code applies to the proposed implementation.
 
+### 2026-11-16: prediction-range pilot
+
+- Varun approved the planned implementation. Added focused predictor, interval, cache verification and reporting modules; extended the measurement runner to validate and save pre-reveal candidate ranges. Existing random and one-hot behavior remains available.
+- Fifteen unit tests passed. Completed one amylase pilot with 80 initial fitting examples, 20 reserved range-setting examples and 100 later measurements. Independently reconstructed and audited the ten recorded batches and first-round model and range calculation.
+- All 100 selected scores were inside their recorded ranges, with mean width approximately 0.20337. The selector chose 34 original-test and 66 original-train variants; those labels were joined only afterward. These one-run observations are not a coverage guarantee, causal attribution, repair result or final evaluation. Details and remaining limitations are in [pilot findings](prediction_range_pilot_findings.md).
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

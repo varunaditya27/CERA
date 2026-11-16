@@ -74,7 +74,7 @@ class Experiment:
     def record_settings(self, settings):
         self.__write({'event': 'method', 'settings': settings})
 
-    def reveal(self, identifiers, predictions=None):
+    def reveal(self, identifiers, predictions=None, prediction_ranges=None):
         ids = list(identifiers)
         if (not ids or any(not isinstance(i, str) for i in ids) or len(ids) > self.__batch_size
                 or len(ids) > self.__budget or len(set(ids)) != len(ids)
@@ -85,7 +85,21 @@ class Experiment:
                     isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
                     for value in predictions.values())):
                 raise ValueError('Invalid candidate predictions')
-        self.__write({'event': 'selection', 'ids': ids, 'predictions': predictions})
+        if prediction_ranges is not None:
+            if predictions is not None or set(prediction_ranges) != set(self.candidates):
+                raise ValueError('Invalid candidate prediction ranges')
+            for value in prediction_ranges.values():
+                if not isinstance(value, dict) or set(value) != {'mean', 'spread', 'lower', 'upper'}:
+                    raise ValueError('Invalid candidate prediction ranges')
+                if any(isinstance(x, bool) or not isinstance(x, (int, float)) or not math.isfinite(x)
+                       for x in value.values()):
+                    raise ValueError('Invalid candidate prediction ranges')
+                if value['spread'] < 0 or not value['lower'] <= value['mean'] <= value['upper']:
+                    raise ValueError('Invalid candidate prediction ranges')
+        selection = {'event': 'selection', 'ids': ids, 'predictions': predictions}
+        if prediction_ranges is not None:
+            selection['prediction_ranges'] = prediction_ranges
+        self.__write(selection)
         measured = {identifier: self.__scores[identifier] for identifier in ids}
         remaining = self.__budget - len(ids)
         stop_reason = ('budget_exhausted' if remaining == 0 else

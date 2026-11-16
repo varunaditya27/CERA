@@ -1,6 +1,6 @@
 # Predictor group and prediction-range development plan
 
-Status: proposed implementation, pending code approval. This stage tests the machinery on amylase; it is not a completed CERA repair or final evaluation. It builds on the [amylase protocol](amylase_development_protocol.md), [ESM feasibility record](esm_feasibility_and_plan.md), and [implementation research notes](implementation_research_notes.md).
+Status: implemented for one exploratory amylase pilot after Varun's approval. This stage tests the machinery; it is not a completed CERA repair or final evaluation. See the [pilot findings](prediction_range_pilot_findings.md). It builds on the [amylase protocol](amylase_development_protocol.md), [ESM feasibility record](esm_feasibility_and_plan.md), and [implementation research notes](implementation_research_notes.md).
 
 ## What this stage is for
 
