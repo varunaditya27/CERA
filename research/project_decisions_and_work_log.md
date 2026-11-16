@@ -342,6 +342,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Added a separate audit that reconstructs all recorded random, greedy, acquisition, local-proposal ranking and reward selections and repair replays from saved evidence. It independently reconstructs one available local-proposal round per local method and one reward-distance round per protein, and checks disagreement target chronology. It does not independently refit predictors or validate every warning and verifier assumption. Its normal mode also requires all four groups to reach terminal statuses.
 - Synthetic end-to-end tests exercised all nine methods on IRED-format data with a mocked Gemini request, and random and greedy on Hydro-format data. They checked the terminal-status barrier, incomplete and interrupted records, paired missing values, and rejection of altered starts and selections even after fingerprints were recomputed. The full backend suite passed 92 tests. No real IRED or Hydro search or live Gemini request was made. The [comparison protocol](multiprotein_comparison_draft.md) remains a draft until reviewed before real runs.
 
+### 2026-11-17: multi-protein runbook preflight
+
+- Rechecked the four local representation cache fingerprints and proposed output paths; all cache pins matched and no proposed output path existed at that time. Prepared explicit nine-method commands, failure/resume handling and post-run audit/evaluation steps in the [draft runbook](multiprotein_runbook_draft.md). This is not a frozen protocol or authorization to execute; the full workload and provider account quota remain unverified.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
