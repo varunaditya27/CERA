@@ -1,73 +1,61 @@
-# CERA — Visual identity and interface direction
+# CERA brand system
 
-**Working direction:** The Evidence Atlas. Version 1, 16 November 2026. Design work only: scientific method and experimental data remain unchanged.
+Working identity, 16 November 2026. Scope: frontend and visual assets only.
 
-## Position
+## Direction
 
-CERA studies what happens when a learned reward misleads protein fitness search, and whether carefully checked changes help. Its interface should feel like an instrument used to examine evidence, not a sales website promising a breakthrough.
+An editorial research interface. Precise, quiet, and readable.
 
-**Core promise:** Trace every claim to its measurement.
-**Primary audience:** project team, researchers, academic reviewers, and technically curious visitors.
-**Personality:** precise, inquisitive, measured, quietly expressive.
-**Voice:** short, testable statements; plain words for complex concepts; no unsupported victory language.
+**Audience:** research team, reviewers, and visitors following the project.
 
-## Identity concept: a disrupted signal
+**Content hierarchy:** current results first, context second, detailed methodology through source links. Avoid repeated taglines, uppercase micro-labels, fabricated data graphics, or marketing claims.
 
-Three parallel measurement rails. One rail is interrupted by a diamond-shaped observation. The intervention is small, but it changes what the system should do next. It represents a counterexample, not a DNA helix, a generic atom, or an AI sparkle.
+## Mark
 
-The mark is intentionally built from four straight strokes plus one diamond. Use the approved SVG artwork, not an emoji or a rotated collection of UI badges. Preserve generous clearance around the mark and keep details visibly separate at favicon size.
+Three horizontal tracks interrupted at the center by a contrasting diamond. The break represents a counterexample: an observation requiring closer inspection. It remains legible at favicon size.
 
-## Palette
+- Master symbol: `frontend/public/cera-symbol.svg`
+- Light and dark horizontal lockups: `frontend/public/cera-wordmark-light.svg`, `frontend/public/cera-wordmark-dark.svg`
+- App icon: `frontend/app/icon.svg`
+- Social card: `frontend/app/opengraph-image.tsx`
+- React mark: `frontend/components/brand-mark.tsx`
 
-| Semantic token | Hex | Purpose |
+Maintain consistent geometry and clear space at least the width of the diamond.
+
+## Colors
+
+| Token | Value | Use |
 | --- | --- | --- |
-| Dark evidence ink | `#15201D` | Hero, nav, primary text |
-| Paper | `#F3F1EB` | Main research canvas |
-| Chalk | `#FBFAF6` | Cards, reading surfaces |
-| Secondary ink | `#52615B` | Captions and supporting text |
-| Rule | `#D9DDD4` | Delineation, not decoration |
-| Deep evergreen | `#365D51` | Links, positive structure |
-| Signal copper | `#DA925F` | Counterexample / attention accent |
-| Soft mint | `#BBD4C7` | Non-semantic hero annotation |
+| Ink | `#17251F` | Text |
+| Deep | `#101D18` | Navigation and hero |
+| Paper | `#F0F2EE` | Main canvas |
+| White | `#FAFBF8` | Light contrast |
+| Muted | `#53635A` | Supporting content |
+| Line | `#D8E0D8` | Separators |
+| Copper | `#DE966C` | Intervention and primary action |
+| Sage | `#AFC7B8` | Subtle contrast |
 
-Use copper sparingly. Never rely on copper/green alone to convey the state of research evidence. Avoid purple gradients, neon accents, glassmorphism, meaningless blobs, generic molecule illustrations, and ornamental charts.
+**Typography:** Instrument Serif for display headings; DM Sans for interface text; IBM Plex Mono for numerical values.
 
-## Typography
+**Components:** hairline separators, open spacing, minimal surfaces. Motion only for focus and navigation. Respect reduced-motion settings.
 
-- **Instrument Serif**: editorial large headings, occasional scientific quotations. No body copy.
-- **DM Sans**: navigation, body, data tables and controls.
-- **IBM Plex Mono**: dataset IDs, provenance, numerals, timestamps, technical annotations.
+## Navigation
 
-Fallbacks are included. Font loading is decorative, not required for function.
+- Overview: premise and most important results
+- Datasets: landscape profile and provenance
+- Results: fixed amylase development study with filtering
+- Method: short, accurate explanation of the experiment
 
-## Information architecture
+The interface is read-only. No experiment execution is exposed to website visitors.
 
-1. **Overview**: the research question, method concept, and evidence orientation.
-2. **Landscapes**: source-backed datasets, readiness and split warnings.
-3. **Experiments**: clearly dated, frozen development findings from alpha amylase.
-4. **Method**: the exact information boundary and the specify/search/audit/repair loop.
+## Integrity
 
-The website remains **read-only**. It does not run optimizers. Never show a decorative CTA that implies an experiment can be launched.
+- Frozen results: `research/repeated_matched_findings.md` in `research/experiment-foundations`
+- Displayed statistics must match the committed result.
+- Do not imply that the existing repair pilot found a successful repair.
+- Dataset profile source caveats and split leakage matter; do not conceal them for visual simplicity.
+- Offline dataset API uses a visibly disclosed reference snapshot.
 
-## Truthfulness contracts
+## Design review
 
-- `research/experiment-foundations` is the source for the static experiment snapshot.
-- Show the date and provenance for any frozen figure.
-- Distinguish development results, prepared datasets, and final evaluation.
-- Say 'no accepted repairs' instead of implying the system repaired itself.
-- Scores are *finite-pool, retrospective* observations, not proof of biological generalization.
-- If the backend dataset catalog is offline, show a labeled reference snapshot instead of a broken blank state.
-
-## UI craft
-
-Editorial whitespace and strong text hierarchy, few borders, substantial data hierarchy, no gratuitous grids of feature cards. Every animation conveys transition or focus; respect reduced motion. Minimum 44-pixel tap targets, visible keyboard focus, semantic tables, honest missing states.
-
-## Skill-informed decisions
-
-- **Intent**: explicitly stated audience, task journeys, and information honesty.
-- **Hallmark**: structural distinction and avoiding stock AI dashboard motifs.
-- **Taste**: typography, proportion, restrained motion and coherent component voice.
-- **Brandkit**: a single memorable, geometry-backed symbol applied consistently.
-- **Accessibility craft**: focus states, robust fallback content, semantic navigation, reduced-motion behavior.
-
-External references are inspiration, not vendor dependencies. No external skill code or assets are copied into the application.
+Apply Hallmark's restraint and anti-template principles, Taste's proportion and typography checks, Intent's user-purpose lens, and Brandkit's coherent identity logic. The result is evaluated by clarity and fidelity, not amount of text or decoration.
