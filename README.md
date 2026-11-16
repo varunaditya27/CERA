@@ -29,15 +29,15 @@ python3 -m venv .venv
 .venv/bin/uvicorn app.main:app --app-dir backend --reload
 ```
 
-In a second terminal, run `cd frontend && npm install && npm run dev`, then visit `http://localhost:3000`. The frontend reads the API server-side at `http://127.0.0.1:8000`; set `CERA_API_URL` for a different API address. API documentation is at `http://127.0.0.1:8000/docs`. Dataset counts are read from the local CSV files, and the interface displays an unavailable state if the API or files are missing.
+In a second terminal, run `cd frontend && npm install && npm run dev`, then visit `http://localhost:3000`. The frontend reads the API server-side at `http://127.0.0.1:8000`; set `CERA_API_URL` for a different API address. API documentation is at `http://127.0.0.1:8000/docs`. If the catalog is unavailable, dataset pages show explicitly labeled committed reference counts.
 
-The frontend has dedicated routes for the overview (`/`), dataset catalog (`/datasets`), individual dataset profiles (`/datasets/[id]`), and the planned research method (`/workflow`). Dataset counts come from the API; the website does not run experiments or display results. Repository-local design and engineering skills are listed in `skills-lock.json`.
+The frontend provides the overview (`/`), dataset catalog (`/datasets`), dataset profiles (`/datasets/[id]`), committed amylase development results (`/experiments`), and method (`/workflow`). Results are a read-only, source-linked snapshot from [the repeated matched findings](research/repeated_matched_findings.md), not live experimentation or final cross-protein validation. Visual foundations are documented in [CERA brand system](design/CERA_BRAND.md). Repository-local engineering skills are listed in `skills-lock.json`.
 
 Backend code is grouped under `backend/app/`: `api` serves the catalog, `datasets` identifies source files, `features` handles sequence representations, `experiments` runs and evaluates searches, `rewards` contains warning and repair rules, `llm` contains Gemini integrations, `analysis` replays earlier studies, and `provenance` fingerprints source files. `app.main` is a compatibility package for the existing API command.
 
 ## Amylase measurement runner
 
-The local Python runner is separate from the web catalog. It selects initial amylase measurements and reveals requested eligible variants within a budget. Separate development modules provide prediction, selection, ranges and warning checks; repair is not yet implemented. The runner's design and limits are documented in the [development protocol](research/amylase_development_protocol.md).
+The local Python runner is separate from the web catalog. It selects initial amylase measurements and reveals requested eligible variants within a budget. Development modules provide prediction, selection, ranges, warning checks and experimental constrained repair. The runner's design and limits are documented in the [development protocol](research/amylase_development_protocol.md).
 
 For an interactive run from the repository root, start `PYTHONPATH=backend python3`, then:
 
@@ -66,7 +66,7 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/python scr
 
 The output directory must not already exist. The command writes separate run records (`.jsonl`) and best-observed-score tables (`.csv`) for random selection and a simple ridge predictor. Both use the same starting set and budget; the predictor holds 20 initial examples aside and fits on the remaining 80 plus later revealed measurements. Its model choices are checked using cross-validation within the fitting data. Each greedy selection record contains its predicted scores before the measurements are revealed. A score table starts at zero new measurements and includes the best starting score.
 
-An exploratory reference run is in `output/amylase_comparison_seed1_final/`. It is one run, not evidence of an overall winner or a test of CERA's repair system. Later repeated runs, prediction ranges and development warnings are documented in the [work log](research/project_decisions_and_work_log.md); repairs remain future work. A failed or interrupted comparison may leave a partial output directory; inspect its records before using them.
+An exploratory reference run is in `output/amylase_comparison_seed1_final/`. It is one run, not evidence of an overall winner or a test of CERA's repair system. Later repeated runs, prediction ranges, warning checks and experimental repairs are documented in the [work log](research/project_decisions_and_work_log.md); no repair was accepted in the latest matched amylase development comparison. A failed or interrupted comparison may leave a partial output directory; inspect its records before using them.
 
 ## Amylase sequence representations
 
