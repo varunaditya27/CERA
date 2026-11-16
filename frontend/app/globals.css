@@ -675,3 +675,8 @@ body{background:var(--paper)}
 .visibility-cell.is-known strong{color:#244A3E}
 .visibility-cell small{font-size:10px;color:var(--muted)}
 @media(max-width:650px){.visibility-cell{min-height:88px;padding:11px}.visibility-cell strong{font-size:31px}}
+
+/* The observation enters the mark only when the identity is interacted with. */
+.brand-measure{transition:transform .28s cubic-bezier(.2,.8,.2,1);transform-box:fill-box;transform-origin:center}
+.site-brand:hover .brand-measure,.site-brand:focus-visible .brand-measure{transform:translateX(-4px)}
+@media(prefers-reduced-motion:reduce){.brand-measure{transition:none}}
