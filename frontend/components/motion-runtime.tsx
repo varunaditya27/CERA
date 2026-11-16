@@ -22,7 +22,7 @@ export function MotionRuntime(){
     let disposed=false;
     let request=0;
     let teardown=()=>{};
-    const needsReset=resetPending.current;
+    let lenisResetPending=resetPending.current;
     resetPending.current=false;
     const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
     const coarse=window.matchMedia('(pointer: coarse)');
@@ -31,6 +31,8 @@ export function MotionRuntime(){
       teardown();
       teardown=()=>{};
       const id=++request;
+      const needsReset=lenisResetPending;
+      lenisResetPending=false;
       if(reduced.matches||coarse.matches)return;
 
       const [{default:Lenis},{default:gsap},{ScrollTrigger}]=await Promise.all([
