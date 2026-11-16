@@ -1,22 +1,32 @@
 import { ArrowUpRight } from 'lucide-react';
-import { Topbar } from '../../components/topbar';
+import { MethodExplorer } from '../../components/method-explorer';
 
 export const metadata={title:'Method'};
 
-const steps=[
- {name:'Prepare',body:'Start with 100 measured variants. Fit models on 80 and reserve 20 to set prediction ranges.'},
- {name:'Predict',body:'A frozen ESM-2 encoder provides sequence features. Five ridge models estimate fitness for unmeasured variants.'},
- {name:'Select',body:'Choose up to ten eligible variants per round. Record predictions before revealing their measured scores.'},
- {name:'Audit and repair',body:'Check warnings, then verify any permitted reward-weight change. Retain the old rule or stop when no proposal passes.'}
+const parameters=[
+  {value:'100',label:'Starting measurements'},
+  {value:'100',label:'Maximum new measurements'},
+  {value:'10',label:'Variants per batch'},
+  {value:'4',label:'Maximum substitutions'}
 ];
 
 export default function Workflow(){
- return <><Topbar section="Method"/><div className="route-content">
-  <header className="route-hero method-intro"><h1>The method</h1><p>Retrospective search over measured protein variants. Hidden scores are revealed only when selected.</p></header>
-  <ol className="method-list">{steps.map((step,i)=><li className="method-item" key={step.name}>
-    <span className="method-number">{String(i+1).padStart(2,'0')}</span><h2>{step.name}</h2><p>{step.body}</p>
-  </li>)}</ol>
-  <div className="method-outro"><span>The current amylase experiments accepted no repairs. The procedure is still under evaluation.</span><a href="https://github.com/varunaditya27/CERA/blob/research/experiment-foundations/research/repeated_matched_protocol.md" className="inline-link" target="_blank" rel="noreferrer">Experiment protocol <ArrowUpRight size={17}/></a></div>
-  <footer className="site-footer"><span>CERA</span><span>Research in progress</span></footer>
- </div></>;
+  return <div className="route-content method-page">
+    <header className="route-hero"><h1>The method</h1>
+      <p>A retrospective search where unselected fitness scores remain hidden until a variant is queried.</p>
+    </header>
+    <MethodExplorer/>
+    <section className="method-parameters" aria-label="Development protocol parameters">
+      {parameters.map(item=><div key={item.label}><strong>{item.value}</strong><span>{item.label}</span></div>)}
+    </section>
+    <div className="method-context">
+      <div><h2>What the checks establish</h2></div>
+      <div><p>A passing repair is an allowed change supported by earlier evidence, not proof of improved future fitness. The full evaluation is still pending on the other proteins.</p>
+        <a href="https://github.com/varunaditya27/CERA/blob/research/experiment-foundations/research/repeated_matched_protocol.md" className="inline-link" target="_blank" rel="noreferrer">
+          Experiment protocol <ArrowUpRight size={16}/>
+        </a>
+      </div>
+    </div>
+    <footer className="site-footer"><span>CERA</span><span>Development methodology</span></footer>
+  </div>;
 }
