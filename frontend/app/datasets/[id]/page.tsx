@@ -3,6 +3,36 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { Topbar } from '../../../components/topbar';
 import { DATASET_NOTES, getDatasets } from '../../../lib/datasets';
+import { DATASET_REFERENCE } from '../../../lib/research';
+
 export const dynamic='force-dynamic';
-export async function generateMetadata({params}:{params:Promise<{id:string}>}) {const {id}=await params; const names:Record<string,string>={amylase:'Alpha amylase',ired:'Imine reductase',hydro:'Hydrophobic core',gb1:'GB1',gfp:'Green fluorescent protein'};return {title:names[id] ?? 'Dataset'};}
-export default async function DatasetDetail({params}:{params:Promise<{id:string}>}){const {id}=await params;const info=DATASET_NOTES[id];if(!info) notFound();const datasets=await getDatasets();const d=datasets?.find(item=>item.id===id);if(datasets&&!d) notFound();return <><Topbar section="Dataset details"/><div className="content route-content"><Link className="back-link" href="/datasets"><ArrowLeft size={15}/> All datasets</Link><div className="detail-layout"><div><div className="detail-source">{d?.source ?? 'Dataset'}</div><h1>{d?.name ?? 'Dataset details unavailable'}</h1><p className="detail-lead">{info.description}</p><section className="detail-section"><h2>Before an experiment</h2><p>{info.preparation}</p></section><section className="detail-section"><h2>Source</h2><p>Consult the original source and the project’s dataset documentation when reporting results.</p><a className="text-link" href={info.sourceUrl} target="_blank" rel="noreferrer">{info.sourceLabel} <ArrowUpRight size={15}/></a></section></div><aside className="detail-meta" aria-label="Dataset profile"><h2>Dataset profile</h2>{d?<dl><div><dt>Variants</dt><dd>{d.variants?.toLocaleString('en-US') ?? 'Unavailable'}</dd></div><div><dt>Role</dt><dd>{d.purpose}</dd></div><div><dt>Split</dt><dd>{d.split}</dd></div><div><dt>Shift</dt><dd>{d.shift}</dd></div><div><dt>Local file</dt><dd>{d.available?'Available':'Unavailable'}</dd></div></dl>:<p>Start the API server to load this dataset’s profile.</p>}</aside></div></div></>}
+export async function generateMetadata({params}:{params:Promise<{id:string}>}){
+ const {id}=await params;
+ const names:Record<string,string>={amylase:'Alpha amylase',ired:'Imine reductase',hydro:'Hydrophobic core',gb1:'GB1',gfp:'Green fluorescent protein'};
+ return {title:names[id] ?? 'Dataset'};
+}
+export default async function DatasetDetail({params}:{params:Promise<{id:string}>}){
+ const {id}=await params;
+ const info=DATASET_NOTES[id];
+ if(!info)notFound();
+ const live=await getDatasets();
+ const data=(live??DATASET_REFERENCE).find(d=>d.id===id);
+ if(!data)notFound();
+ return <><Topbar section="Datasets"/><div className="route-content">
+   <Link href="/datasets" className="detail-back"><ArrowLeft size={16} aria-hidden="true"/> All datasets</Link>
+   <div className="detail-layout">
+     <div><div className="route-hero"><h1>{data.name}</h1><p className="detail-lead">{info.description}</p></div>
+       <section className="detail-section"><h2>Preparation</h2><p>{info.preparation}</p></section>
+       <section className="detail-section"><h2>Source</h2><a className="inline-link" href={info.sourceUrl} target="_blank" rel="noreferrer">{info.sourceLabel} <ArrowUpRight size={15}/></a></section>
+       {!live && <p className="quiet-note">Counts from the committed reference snapshot.</p>}
+     </div>
+     <aside className="detail-meta"><h2>Dataset details</h2><dl>
+       <div><dt>Variants</dt><dd>{data.variants?.toLocaleString('en-US') ?? 'Unavailable'}</dd></div>
+       <div><dt>Role</dt><dd>{data.purpose}</dd></div>
+       <div><dt>Split</dt><dd>{data.split}</dd></div>
+       <div><dt>Shift</dt><dd>{data.shift}</dd></div>
+     </dl></aside>
+   </div>
+   <footer className="site-footer"><span>CERA</span><Link href="/datasets">All datasets</Link></footer>
+ </div></>;
+}
