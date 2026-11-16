@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * An illustrative, procedural fitness surface.
@@ -9,6 +9,7 @@ import { useEffect, useRef } from 'react';
  */
 export function HeroLandscape(){
   const ref=useRef<HTMLCanvasElement>(null);
+  const [ready,setReady]=useState(false);
 
   useEffect(()=>{
     const canvas=ref.current;
@@ -119,12 +120,19 @@ export function HeroLandscape(){
     canvas.addEventListener('pointermove',move,{passive:true});
     canvas.addEventListener('pointerleave',leave);
     reduced.addEventListener('change',motionChange);
-    size();start();
+    size();setReady(true);start();
     return()=>{active=false;cancelAnimationFrame(raf);observer.disconnect();viewport.disconnect();canvas.removeEventListener('pointermove',move);canvas.removeEventListener('pointerleave',leave);reduced.removeEventListener('change',motionChange);};
   },[]);
 
-  return <div className="landscape-stage">
+  return <div className={ready?'landscape-stage rendered':'landscape-stage'}>
     <div className="landscape-axis landscape-axis-y" aria-hidden="true"/>
+    <svg className="landscape-static" viewBox="0 0 600 500" aria-hidden="true" focusable="false">
+      {Array.from({length:14},(_,i)=> {
+        const offset=i*20;
+        return <path key={i} d={`M 45 ${340-offset*.32} C 150 ${300-offset} 240 ${390-offset*1.1} 310 ${185-offset*.25} S 485 ${180+offset*.48} 552 ${220+offset*.6}`} fill="none" stroke="var(--sea)" strokeOpacity={.13+i*.018} strokeWidth="1"/>;
+      })}
+      <circle cx="318" cy="169" r="10" fill="none" stroke="var(--copper)"/><circle cx="318" cy="169" r="3" fill="var(--copper)"/>
+    </svg>
     <canvas className="landscape-canvas" ref={ref} aria-hidden="true"/>
     <div className="landscape-label"><span className="landscape-label-mark" aria-hidden="true"/>Conceptual fitness landscape</div>
   </div>;
