@@ -88,6 +88,11 @@ This is the running record for later review. Add dated entries as work proceeds.
 - No implementation code changed for these runs. Prediction intervals, CERA detectors and repairs remain unimplemented; these results are not a final evaluation.
 - A post-hoc first-round analysis found higher median predictions for the original-test group in all ten runs despite every top selected variant coming from the original-train group. It also measured how many candidates have substitutions absent from the initial fitting examples. This is exploratory evidence, not a causal explanation; details are in the findings document.
 
+### 2026-11-16: predictor ranking investigation
+
+- Inspected saved rankings across all 100 greedy rounds: the highest-ranked original-test candidate was never above rank 102. In the first round its rank ranged from 313 to 492.
+- Reconstructed the seed-2 first-round model from saved settings and verified 100 predictions against the record. The 7,904 position-and-letter indicators absent from the 80 fitting examples had zero fitted coefficients. The relationship between this observation and the observed selection pattern remains unproven. No model or experiment settings were changed.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
