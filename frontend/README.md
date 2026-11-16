@@ -31,9 +31,9 @@ The results come from `frontend/lib/research.ts`, a frozen source-linked summary
 
 Read [brand/DESIGN.md](../brand/DESIGN.md) and [brand/VOICE.md](../brand/VOICE.md) before making new pages or changes to global styles.
 
-- Newsreader: display typography.
-- Onest: readable interface copy.
-- Fragment Mono: numeric data.
+- Newsreader: display typography (self-hosted via Next.js).
+- Onest: readable interface copy (self-hosted via Next.js).
+- Fragment Mono: numeric data (self-hosted via Next.js).
 - CSS tokens in `app/globals.css` define the palette and spatial rhythm.
 - Shared top navigation in `components/navigation.tsx` replaces the old sidebar.
 
