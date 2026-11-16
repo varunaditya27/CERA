@@ -101,4 +101,4 @@ Replay requires the pinned representation cache and Git history containing commi
 
 ## Reward foundation
 
-The development reward validator and constrained batch selector are described in [reward foundation](research/reward_foundation.md). They are tested separately and are not yet connected to the pilot or a repair loop.
+The development reward validator and constrained batch selector are described in [reward foundation](research/reward_foundation.md). A separate [reward pilot](research/reward_pilot_findings.md) connects them to the amylase experiment. Repair and verification are not yet implemented.

@@ -170,6 +170,13 @@ This is the running record for later review. Add dated entries as work proceeds.
 - The backend suite passed 32 tests. A real historical first-round check with zero weights reproduced all ten saved greedy selections among 3,175 candidates. The selector has not yet been connected to an experiment; distance computation, repair and its verifier remain outstanding.
 - Updated stale README statements that predated the existing model, range and warning work.
 
+### 2026-11-16: reward pilot and Gemini configuration
+
+- Added a provisional candidate-distance normalization using only known sequences, then connected the checked reward and deterministic batch selector to the amylase pilot. Logged candidate distances, scale, specification and each selection score before reveal. A zero normalization scale is an error rather than a silently substituted value.
+- Seed 13 completed ten batches, with 94/100 scores inside their saved ranges and best known score 0.18225. Independently reconstructed all candidate distances and all batch choices, source scores, chronology and budget. The 35-test backend suite passed. Findings, code limitations and losslessly compressed evidence are in [reward pilot findings](reward_pilot_findings.md).
+- At Varun's request, checked Gemini configuration without printing the credential. The API model list accepted the key but did not list the configured model spelling; corrected the ignored local configuration to the listed `gemini-3.5-flash-lite`. No generation call or model integration was made in this step. Google's [structured-output documentation](https://ai.google.dev/gemini-api/docs/structured-output) will inform the later constrained interface; output must still pass local validation.
+- The pilot has no repair or abstention behavior. The weights, clipping and distance scale are development choices, not validated defaults or evidence of improvement.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

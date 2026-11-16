@@ -1,0 +1,8 @@
+{
+  "rounds_checked": 10,
+  "new_measurements": 100,
+  "covered": 94,
+  "best_observed": 0.18225,
+  "final_budget": 0,
+  "independent_checks": "source scores, chronology, all distances, greedy rewards and selection order"
+}
