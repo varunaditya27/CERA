@@ -177,6 +177,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - At Varun's request, checked Gemini configuration without printing the credential. The API model list accepted the key but did not list the configured model spelling; corrected the ignored local configuration to the listed `gemini-3.5-flash-lite`. No generation call or model integration was made in this step. Google's [structured-output documentation](https://ai.google.dev/gemini-api/docs/structured-output) will inform the later constrained interface; output must still pass local validation.
 - The pilot has no repair or abstention behavior. The weights, clipping and distance scale are development choices, not validated defaults or evidence of improvement.
 
+### 2026-11-16: Gemini goal compilation and pilot
+
+- Implemented a bounded Gemini request for the fixed fitness goal. It sends no sequence or fitness data, asks only for three weights, validates the resulting specification locally, retries an invalid response once, and records an explicit fallback on failure. Mutation and budget limits remain set by ordinary code. Recorded status and token counts, without storing the key or invalid raw responses.
+- The configured Gemini model returned a valid proposal on its first live request (39 input and 39 output tokens). Its saved specification drove a ten-batch seed-13 amylase pilot. An independent audit checked the compiled input fingerprint, all candidate distances and reward rankings, reveal chronology, source scores and budget. The pilot recorded 95/100 covered new scores and best known score 0.18225; these single-run descriptions are not evidence of superiority.
+- The 41-test backend suite passed. [Gemini compiler documentation](gemini_goal_compiler.md) records the prompt boundary, fallback, result and remaining gaps. Arbitrary user goals, warning-driven LLM repair, verification and no-LLM evaluation remain unimplemented.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

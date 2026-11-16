@@ -20,7 +20,7 @@ from app.warning_checks import (constraint_warning, coverage_warning, disagreeme
                                 distance_snapshot, diversity_warning, support_warning)
 
 
-def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None):
+def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, reward_origin=None):
     if reward_spec is not None:
         reward_spec = copy.deepcopy(reward_spec)
         validate_spec(reward_spec)
@@ -41,7 +41,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None):
         history = []
         round_number = 0
         run.record_settings({'method': 'esm_bootstrap_ridge_reward' if reward_spec else 'esm_bootstrap_ridge_greedy',
-                             'reward_spec': reward_spec, 'role_seed': role_seed,
+                             'reward_spec': reward_spec, 'reward_origin': reward_origin, 'role_seed': role_seed,
                              'member_seed': member_seed, 'reserved_ids': reserved,
                              'penalties': PENALTIES, 'folds': 5, 'cv_seed': seed,
                              'cv_scoring': 'neg_mean_squared_error', 'member_count': 5,
