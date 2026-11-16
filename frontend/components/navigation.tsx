@@ -11,6 +11,7 @@ const links=[
  {href:'/workflow',label:'Method'},
  {href:'/experiments',label:'Results'},
  {href:'/datasets',label:'Datasets'},
+ {href:'/system',label:'System'},
 ];
 
 export function Navigation(){
