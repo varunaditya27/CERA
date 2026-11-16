@@ -1,4 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="CERA symbol">
- <path d="M6 11H42M6 24H18M34 24H42M6 37H42" stroke="#182722" stroke-width="3.2"/>
- <path d="M26 16L34 24L26 32L18 24Z" fill="#DE966C"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-labelledby="title"><title id="title">CERA monogram</title><path d="M62 17H32C20 17 15 24 15 35V45C15 56 20 63 32 63H62" fill="none" stroke="#182722" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/><path d="M60 40H43" stroke="#E9875C" stroke-width="8" stroke-linecap="square"/></svg>
