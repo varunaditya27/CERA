@@ -31,8 +31,8 @@ export const DATASET_REFERENCE = [
   {id:'amylase',name:'Alpha amylase',source:'FLIP2',purpose:'Development',shift:'Position',split:'Close to far',note:'Stain-removal activity across positional shift',variants:3706,available:true},
   {id:'ired',name:'Imine reductase',source:'FLIP2',purpose:'Evaluation',shift:'Mutation count',split:'Two to many',note:'Enzyme variants across mutation-count shift',variants:8586,available:true},
   {id:'hydro',name:'Hydrophobic core',source:'FLIP2',purpose:'Evaluation',shift:'Fitness',split:'Low to high',note:'Three separate protein backbones',variants:24935,available:true},
-  {id:'gb1',name:'GB1',source:'FLIP',purpose:'Additional',shift:'Fitness',split:'Low vs high',note:'Optional four-site binding landscape',variants:8733,available:true},
-  {id:'gfp',name:'Green fluorescent protein',source:'ProteinGym',purpose:'Additional',shift:'Not assigned',split:'Needs seed split',note:'Optional fluorescence assay',variants:51714,available:true}
+  {id:'gb1',name:'GB1',source:'FLIP',purpose:'Additional',shift:'Fitness',split:'Low vs high',note:'Optional four-site binding landscape',variants:null,available:false},
+  {id:'gfp',name:'Green fluorescent protein',source:'ProteinGym',purpose:'Additional',shift:'Not assigned',split:'Needs seed split',note:'Optional fluorescence assay',variants:null,available:false}
 ] as const;
 
 export function fitness(value: number) { return value.toFixed(5); }
