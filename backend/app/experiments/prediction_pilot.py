@@ -29,7 +29,7 @@ from app.rewards.warning_checks import (constraint_warning, coverage_warning, di
 
 def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, reward_origin=None,
               repair=False, repair_advisor=None, repair_model=None, dataset='amylase', acquisition=None,
-              local_search=None, targeted_disagreement=False):
+              local_search=None, targeted_disagreement=False, direct_diversity=False):
     if acquisition not in (None, 'ucb', 'ei') or (acquisition is not None and (reward_spec is not None or repair)):
         raise ValueError('Invalid acquisition configuration')
     if (local_search not in (None, 'genetic', 'adalead') or
@@ -37,8 +37,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
         raise ValueError('Invalid local search configuration')
     if repair and reward_spec is None:
         raise ValueError('Repair requires a reward specification')
-    if targeted_disagreement and not repair:
-        raise ValueError('Targeted disagreement requires repair mode')
+    if (targeted_disagreement or direct_diversity) and not repair:
+        raise ValueError('Experimental repair checks require repair mode')
     if repair_advisor is not None and not repair:
         raise ValueError('A repair advisor requires repair mode')
     if reward_spec is not None:
@@ -83,6 +83,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                              'dataset': dataset,
                              'reward_spec': reward_spec, 'reward_origin': reward_origin, 'repair': repair,
                              'targeted_disagreement': targeted_disagreement,
+                             'direct_diversity': direct_diversity,
                              'repair_advisor': 'gemini' if repair_advisor else 'rule_based',
                              'repair_model': repair_model,
                              'role_seed': role_seed,
@@ -210,7 +211,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                            'diversity': chosen}
                 reward_spec, failures, actions, abstain = handle_warnings(
                     reward_spec, warnings, targets, features, reference, batch_budget, calibration, earlier, failures,
-                    advisor=repair_advisor)
+                    advisor=repair_advisor, direct_diversity=direct_diversity)
                 run.record_settings({'round': round_number, 'repair_actions': actions,
                                      'consecutive_failures': failures})
                 if abstain:

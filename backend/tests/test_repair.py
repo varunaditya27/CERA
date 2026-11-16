@@ -66,6 +66,40 @@ class RepairTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             verify_repair(spec, proposed, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier)
 
+    def test_direct_diversity_accepts_resolved_batch_without_removing_every_target(self):
+        spec, candidates, calibration, earlier = fixture()
+        spec['budget']['batch_size'] = 2
+        candidates['a'].update(spread=0.0, distance=0.0)
+        candidates['c'] = {'sequence': 'CCAA', 'mean': 0.85, 'spread': 0.0, 'distance': 0.0}
+        proposed = repair_candidates(spec, 'diversity')[0]['specification']
+        old = verify_repair(spec, proposed, 'diversity', candidates, 'AAAA', 2, ['a', 'b'], calibration, earlier)
+        new = verify_repair(spec, proposed, 'diversity', candidates, 'AAAA', 2, ['a', 'b'], calibration, earlier,
+                            direct_diversity=True)
+        self.assertFalse(old['accepted'])
+        self.assertEqual(new['replayed_ids'], ['a', 'c'])
+        self.assertTrue(new['checks']['diversity_resolved'])
+        self.assertTrue(new['accepted'])
+        candidates['c']['sequence'] = 'AACA'
+        unresolved = verify_repair(spec, proposed, 'diversity', candidates, 'AAAA', 2, ['a', 'b'], calibration, earlier,
+                                   direct_diversity=True)
+        self.assertFalse(unresolved['checks']['diversity_resolved'])
+        self.assertFalse(unresolved['accepted'])
+
+    def test_direct_diversity_rejects_unavailable_or_missing_calibration(self):
+        spec, candidates, calibration, earlier = fixture()
+        proposed = repair_candidates(spec, 'diversity')[0]['specification']
+        result = verify_repair(spec, proposed, 'diversity', candidates, 'AAAA', 1, ['a'], calibration, earlier,
+                               direct_diversity=True)
+        self.assertIsNone(result['checks']['diversity_resolved'])
+        self.assertFalse(result['accepted'])
+        spec['budget']['batch_size'] = 2
+        candidates['c'] = {'sequence': 'CCAA', 'mean': 0.85, 'spread': 0.0, 'distance': 0.0}
+        proposed = repair_candidates(spec, 'diversity')[0]['specification']
+        result = verify_repair(spec, proposed, 'diversity', candidates, 'AAAA', 2, ['a', 'b'], calibration[:19], earlier,
+                               direct_diversity=True)
+        self.assertIsNone(result['checks']['calibration_coverage'])
+        self.assertFalse(result['accepted'])
+
     def test_rejects_coverage_and_ranking_regressions(self):
         spec, candidates, calibration, earlier = fixture()
         proposed = repair_candidates(spec, 'support_shift')[0]['specification']

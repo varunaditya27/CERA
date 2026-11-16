@@ -7,6 +7,7 @@ from scipy.stats import spearmanr
 from app.rewards.repair_menu import TERMS, repair_candidates
 from app.rewards.reward_selection import select_batch
 from app.rewards.reward_spec import validate_spec
+from app.rewards.warning_checks import diversity_warning
 
 
 def _score(spec, row):
@@ -16,7 +17,7 @@ def _score(spec, row):
 
 
 def verify_repair(old, proposed, warning_type, candidates, reference, remaining,
-                  counterexamples, calibration, earlier):
+                  counterexamples, calibration, earlier, direct_diversity=False):
     validate_spec(old)
     validate_spec(proposed)
     if warning_type not in TERMS:
@@ -51,7 +52,12 @@ def verify_repair(old, proposed, warning_type, candidates, reference, remaining,
             new_rank = float(spearmanr(labels, new_values).statistic)
             if not math.isfinite(old_rank) or not math.isfinite(new_rank):
                 old_rank = new_rank = None
-    checks = {'allowed_change_and_constraints': unchanged, 'counterexamples_displaced': displaced,
+    resolution = {'counterexamples_displaced': displaced}
+    if direct_diversity and warning_type == 'diversity':
+        warning = diversity_warning({item['id']: candidates[item['id']]['sequence'] for item in replay})
+        resolution = {'diversity_resolved': (None if warning['status'] == 'unavailable'
+                                           else warning['status'] == 'not_triggered')}
+    checks = {'allowed_change_and_constraints': unchanged, **resolution,
               'calibration_coverage': None if coverage is None else 0.8 <= coverage <= 1.0,
               'earlier_rank_preserved': None if old_rank is None else new_rank >= old_rank - 0.05}
     return {'accepted': all(value is True for value in checks.values()), 'checks': checks,

@@ -275,6 +275,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - The original laboratory's pinned data README describes approximately 11,000 variants with determinable fitness and about 6,000 without measured activity, in separate tables. Previously verified local pairs all match the former table. Documented the resulting selection limitation and the unresolved filtering chain in [IRED preparation](ired_preparation.md).
 
+### 2026-11-16: direct diversity repair check
+
+- With Varun's approval, added an opt-in check that assesses whether the replayed batch resolves the existing diversity warning. It retains the original rule by default, leaves other warnings and verifier checks unchanged, and rejects unavailable evidence. The backend suite passed 83 tests. A separate [comparison protocol](direct_diversity_protocol.md) was recorded before running seeds 41–45.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

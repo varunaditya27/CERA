@@ -6,7 +6,7 @@ from app.rewards.repair_verification import verify_repair
 
 
 def choose_repair(spec, warning_type, candidates, reference, remaining, counterexamples, calibration, earlier,
-                  advisor=None):
+                  advisor=None, direct_diversity=False):
     attempts = []
     menu = repair_candidates(spec, warning_type)
     advice = advisor(warning_type, menu) if advisor is not None and menu else None
@@ -17,7 +17,8 @@ def choose_repair(spec, warning_type, candidates, reference, remaining, countere
         menu = [menu[index]] + menu[:index] + menu[index + 1:]
     for candidate in menu:
         verification = verify_repair(spec, candidate['specification'], warning_type, candidates,
-                                     reference, remaining, counterexamples, calibration, earlier)
+                                     reference, remaining, counterexamples, calibration, earlier,
+                                     direct_diversity=direct_diversity)
         attempts.append({'term': candidate['term'], 'cost': candidate['cost'],
                          'proposed_weight': candidate['specification']['terms'][candidate['term']]['weight'],
                          'verification': verification})

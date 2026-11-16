@@ -7,7 +7,7 @@ PRIORITY = ('support_shift', 'coverage', 'disagreement', 'diversity')
 
 
 def handle_warnings(spec, warnings, targets, features, reference, batch_budget, calibration, earlier, failures,
-                    advisor=None):
+                    advisor=None, direct_diversity=False):
     events = []
     for kind in PRIORITY:
         warning = warnings[kind]
@@ -24,7 +24,7 @@ def handle_warnings(spec, warnings, targets, features, reference, batch_budget, 
             events.append({'warning': kind, 'status': 'no_replayed_targets', 'replayed_ids': replayed})
             continue
         result = choose_repair(spec, kind, features, reference, batch_budget, affected, calibration, earlier,
-                               advisor=advisor)
+                               advisor=advisor, direct_diversity=direct_diversity)
         spec = result['specification']
         failures = 0 if result['status'] == 'accepted' else failures + 1
         events.append({'warning': kind, 'status': result['status'], 'targets': affected,

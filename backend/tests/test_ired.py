@@ -66,7 +66,7 @@ class IredTests(unittest.TestCase):
                 result = run_pilot(root / 'run', seed=7, reward_spec=spec, dataset='ired')
                 acquisition_result = run_pilot(root / 'acquisition', seed=7, dataset='ired', acquisition='ei')
                 targeted_result = run_pilot(root / 'targeted', seed=7, reward_spec=spec, dataset='ired',
-                                            repair=True, targeted_disagreement=True)
+                                            repair=True, targeted_disagreement=True, direct_diversity=True)
             events = [json.loads(line) for line in (root / 'run/run.jsonl').read_text().splitlines()]
             self.assertEqual(result['batches'], 1)
             self.assertEqual(next(e['settings']['dataset'] for e in events if e['event'] == 'method'), 'ired')
@@ -82,4 +82,6 @@ class IredTests(unittest.TestCase):
                                 if event['event'] == 'method' and 'disagreement_target_evidence' in event['settings'])
             reveal_index = next(i for i, event in enumerate(targeted_events) if event['event'] == 'reveal')
             self.assertLess(target_index, reveal_index)
+            setup = next(e['settings'] for e in targeted_events if e['event'] == 'method')
+            self.assertTrue(setup['direct_diversity'])
             self.assertEqual(targeted_result['batches'], 1)
