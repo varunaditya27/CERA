@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Navigation } from '../components/navigation';
+import { fragmentMono, newsreader, onest } from './fonts';
 import { MotionRuntime } from '../components/motion-runtime';
 import './globals.css';
 import 'lenis/dist/lenis.css';
@@ -13,7 +14,7 @@ export const metadata:Metadata={
 };
 
 export default function RootLayout({children}:{children:React.ReactNode}){
-  return <html lang="en"><body>
+  return <html lang="en" className={`${newsreader.variable} ${onest.variable} ${fragmentMono.variable}`}><body>
     <a href="#main-content" className="skip-link">Skip to content</a>
     <Navigation/>
     <MotionRuntime/>
