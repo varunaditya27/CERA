@@ -1,0 +1,11 @@
+{
+  "rounds": 2,
+  "measurements": 20,
+  "remaining": 80,
+  "repair_failures": [
+    1,
+    2
+  ],
+  "stop_reason": "failed_repairs",
+  "independent_checks": "baseline selections, all candidate distances, each proposed replay, calibration, rank correlations, source scores and stop"
+}

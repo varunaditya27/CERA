@@ -1,0 +1,51 @@
+import copy
+import unittest
+from unittest.mock import patch
+
+from app.goal_compiler import DEFAULT_SPEC
+from app.repair_coordinator import handle_warnings
+
+
+class RepairCoordinatorTests(unittest.TestCase):
+    def test_priority_and_two_failed_repairs_stop(self):
+        spec = copy.deepcopy(DEFAULT_SPEC)
+        warnings = {kind: {'status': 'triggered'} for kind in ('support_shift', 'coverage', 'disagreement', 'diversity')}
+        targets = {kind: ['a'] for kind in warnings}
+        with patch('app.repair_coordinator.select_batch', return_value=[{'id': 'a'}]), \
+             patch('app.repair_coordinator.choose_repair', return_value={'status': 'retained',
+                   'specification': spec, 'attempts': []}) as choose:
+            result, failures, events, stopped = handle_warnings(spec, warnings, targets, {}, 'AAAA', 1, [], [], 0)
+        self.assertTrue(stopped)
+        self.assertEqual(failures, 2)
+        self.assertEqual([event['warning'] for event in events], ['support_shift', 'coverage'])
+        self.assertEqual(choose.call_count, 2)
+        self.assertEqual(result, spec)
+
+    def test_no_replayed_targets_does_not_consume_failure(self):
+        spec = copy.deepcopy(DEFAULT_SPEC)
+        warnings = {kind: {'status': 'not_triggered'} for kind in ('support_shift', 'coverage', 'disagreement', 'diversity')}
+        warnings['coverage']['status'] = 'triggered'
+        targets = {kind: [] for kind in warnings}
+        with patch('app.repair_coordinator.select_batch', return_value=[{'id': 'a'}]):
+            _, failures, events, stopped = handle_warnings(spec, warnings, targets, {}, 'AAAA', 1, [], [], 1)
+        self.assertEqual(events[0]['status'], 'no_replayed_targets')
+        self.assertEqual(failures, 1)
+        self.assertFalse(stopped)
+
+    def test_accepted_change_is_used_next_and_resets_failures(self):
+        spec = copy.deepcopy(DEFAULT_SPEC)
+        revised = copy.deepcopy(spec)
+        revised['terms']['distance_penalty']['weight'] = 0.55
+        warnings = {kind: {'status': 'triggered' if kind in ('support_shift', 'coverage') else 'not_triggered'}
+                    for kind in ('support_shift', 'coverage', 'disagreement', 'diversity')}
+        targets = {kind: ['a'] for kind in warnings}
+        responses = [{'status': 'accepted', 'specification': revised, 'attempts': []},
+                     {'status': 'retained', 'specification': revised, 'attempts': []}]
+        with patch('app.repair_coordinator.select_batch', return_value=[{'id': 'a'}]), \
+             patch('app.repair_coordinator.choose_repair', side_effect=responses) as choose:
+            result, failures, events, stopped = handle_warnings(spec, warnings, targets, {}, 'AAAA', 1, [], [], 1)
+        self.assertEqual(choose.call_args_list[1].args[0], revised)
+        self.assertEqual([event['consecutive_failures'] for event in events], [0, 1])
+        self.assertEqual(result, revised)
+        self.assertEqual(failures, 1)
+        self.assertFalse(stopped)

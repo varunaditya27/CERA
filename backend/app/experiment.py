@@ -26,6 +26,7 @@ class Experiment:
         self.__revealed = {identifier: self.__scores[identifier] for identifier in initial}
         self.__budget = budget
         self.__batch_size = batch_size
+        self.__early_stop = None
         self.__log_path = Path(log_path)
         self.__log = self.__log_path.open('x', encoding='utf-8')
         try:
@@ -65,11 +66,19 @@ class Experiment:
 
     @property
     def stop_reason(self):
+        if self.__early_stop is not None:
+            return self.__early_stop
         if self.__budget == 0:
             return 'budget_exhausted'
         if len(self.__revealed) == len(self.__sequences):
             return 'no_candidates'
         return None
+
+    def stop_early(self, reason):
+        if reason != 'failed_repairs' or self.stop_reason is not None:
+            raise ValueError('Invalid early stop')
+        self.__write({'event': 'stop', 'stop_reason': reason, 'remaining': self.__budget})
+        self.__early_stop = reason
 
     def record_settings(self, settings):
         self.__write({'event': 'method', 'settings': settings})
@@ -83,7 +92,7 @@ class Experiment:
 
     def reveal(self, identifiers, predictions=None, prediction_ranges=None):
         ids = list(identifiers)
-        if (not ids or any(not isinstance(i, str) for i in ids) or len(ids) > self.__batch_size
+        if (self.stop_reason is not None or not ids or any(not isinstance(i, str) for i in ids) or len(ids) > self.__batch_size
                 or len(ids) > self.__budget or len(set(ids)) != len(ids)
                 or any(i not in self.__sequences or i in self.__revealed for i in ids)):
             raise ValueError('Invalid measurement request')

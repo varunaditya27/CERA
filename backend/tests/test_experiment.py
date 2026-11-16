@@ -85,6 +85,17 @@ class ExperimentTests(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             self.make_run()
 
+    def test_early_stop_preserves_budget_and_rejects_reveals(self):
+        run = self.make_run()
+        candidate = next(iter(run.candidates))
+        run.stop_early('failed_repairs')
+        self.assertEqual(run.remaining, 2)
+        self.assertEqual(run.stop_reason, 'failed_repairs')
+        with self.assertRaises(ValueError):
+            run.reveal([candidate])
+        self.assertEqual(json.loads((self.root / 'run.jsonl').read_text().splitlines()[-1]),
+                         {'event': 'stop', 'stop_reason': 'failed_repairs', 'remaining': 2})
+
     def test_local_amylase_feasibility(self):
         run = Experiment(DATA, REFERENCE, self.root / 'real.jsonl', seed=1)
         self.addCleanup(run.close)

@@ -101,6 +101,6 @@ Replay requires the pinned representation cache and Git history containing commi
 
 ## Reward foundation
 
-The development reward validator and constrained batch selector are described in [reward foundation](research/reward_foundation.md). A separate [reward pilot](research/reward_pilot_findings.md) connects them to the amylase experiment. An isolated, tested [repair foundation](research/repair_foundation.md) is not yet connected to a run.
+The development reward validator and constrained batch selector are described in [reward foundation](research/reward_foundation.md). A separate [reward pilot](research/reward_pilot_findings.md) connects them to the amylase experiment. An experimental rule-based [repair pilot](research/repair_pilot_findings.md) records warning handling and can stop early after repeated failed changes.
 
 The [Gemini goal compiler](research/gemini_goal_compiler.md) can propose the three allowed reward weights and save a validated, replayable specification. It supports the current fixed fitness goal and uses a rule-based fallback; it does not yet propose repairs.

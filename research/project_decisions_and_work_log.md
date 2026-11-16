@@ -189,6 +189,13 @@ This is the running record for later review. Add dated entries as work proceeds.
 - The 46-test backend suite passed, including a controlled accepted example and rejection for insufficient data, a constant ranking, changed constraints, failure to displace, low coverage, rank deterioration and an exhausted menu. See [repair foundation](repair_foundation.md) for exact decisions and limitations.
 - These functions are not yet connected to the experiment. The caller must verify evidence chronology; calibration is reused and unchanged by a reward-only edit. No repair, rollback, abstention or benefit has been demonstrated in a protein run.
 
+### 2026-11-16: integrated repair pilot
+
+- Connected the finite rule-based repair menu and verifier to the amylase reward pilot behind `--repair`. Saved the verifier's interval-setting and earlier-example evidence before each reveal; ordered warnings, rechecked replayed diversity, retained historical warning records, and added a logged early stop that preserves the remaining measurement budget and prevents later reveals.
+- The seed-13 pilot stopped after two batches and two failed disagreement-driven repairs, with 80 new measurements unspent. Every proposed weight change failed to displace all flagged selections; no repair was accepted. This is an observation about the strict provisional rules and frequent warning, not evidence that the warning diagnoses error.
+- Independently reconstructed both initial selections, candidate distances, six proposed batches, calibration and ranking checks, source measurements and the early stop. The full backend suite passed 50 tests. [Repair pilot findings](repair_pilot_findings.md) documents the warning-target choices, evidence limitations and unresolved work.
+- Gemini supplied the initial saved reward weights only; it did not choose repairs. An accepted change was exercised in a controlled test, not in this pilot. Interval-setting data are reused and earlier ranking predictions include training examples, so neither check establishes generalization.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

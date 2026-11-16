@@ -13,6 +13,7 @@ def main():
     parser.add_argument('output_dir', help='New directory for run record and coverage table')
     parser.add_argument('specification', type=Path, help='JSON reward specification')
     parser.add_argument('--seed', type=int, default=1)
+    parser.add_argument('--repair', action='store_true', help='Enable the experimental rule-based repair loop')
     args = parser.parse_args()
     content = args.specification.read_bytes()
     spec = json.loads(content)
@@ -22,7 +23,8 @@ def main():
             raise ValueError('Invalid compiled specification source')
         origin.update(source=spec['source'], model=spec['model'])
         spec = spec['specification']
-    print(json.dumps(run_pilot(args.output_dir, seed=args.seed, reward_spec=spec, reward_origin=origin)))
+    print(json.dumps(run_pilot(args.output_dir, seed=args.seed, reward_spec=spec,
+                               reward_origin=origin, repair=args.repair)))
 
 
 if __name__ == '__main__':
