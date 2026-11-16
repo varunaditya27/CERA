@@ -99,6 +99,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Checked current package metadata and GPU-reported memory. These checks do not demonstrate checkpoint loading, GPU inference or full-dataset feasibility. Recorded an unavailable full-text source and remaining scientific uncertainties explicitly.
 - No application code was changed, no model was downloaded or run, and no new experimental performance was claimed.
 
+### 2026-11-16: ESM-2 feasibility check
+
+- Loaded the pinned ESM-2 8M model and tested the amylase reference and a shorter prefix without using any fitness scores. The first GPU inference failed when a native component could not find `Python.h`; an isolated run with `TORCH_DISABLE_NATIVE_JIT=1` succeeded. Avoided an uninitialized pooling layer and documented the loader's unused pretraining-head warning.
+- Checked residue-only pooling, output size and finite values, repeat and padding differences, and small warmed GPU batch timings. Exact observations, limits, environment and sources are in [ESM feasibility and plan](esm_feasibility_and_plan.md). These small checks do not establish full-dataset performance or predictive usefulness.
+- Prepared a focused representation-module and cache implementation plan. No project application code or dataset was changed; model files were downloaded to the user cache. The prior research-review entry remains historical and describes that earlier review only.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
