@@ -6,9 +6,8 @@ import './globals.css';
 import 'lenis/dist/lenis.css';
 
 export const metadata:Metadata={
-  metadataBase:new URL('https://github.com/varunaditya27/CERA'),
   title:{default:'CERA | Protein fitness research',template:'%s | CERA'},
-  description:'CERA studies how to identify and repair unreliable learned rewards in protein fitness optimization.',
+  description:'CERA studies unreliable learned rewards in protein optimization and how to test possible corrections.',
   openGraph:{title:'CERA',description:'Counterexample-guided reward auditing for protein fitness optimization.',type:'website'},
   robots:{index:true,follow:true}
 };
