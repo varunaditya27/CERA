@@ -134,6 +134,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Predeclared ten exploratory amylase range runs, their seed assignments, independent audit checks, score and width denominators, failure handling and lossless record retention in the [repeated-range protocol](repeated_range_protocol.md). The earlier seed-1 pilot remains separate.
 - The analysis does not claim independent biological replication or guaranteed 90% coverage. No model or detector settings were changed.
 
+### 2026-11-16: repeated range pilots completed
+
+- Ran all ten predeclared amylase pilots, seeds 2–11. Each exhausted its 100-new-measurement budget; coverage varied from 76/100 to 100/100 and mean widths from approximately 0.1321 to 0.1999. The pooled 899/1,000 is descriptive and does not establish a guarantee.
+- Audited all 100 batches against the source records and independently reconstructed every predictor group, selected penalty, reserved-error radius and selected predictions in the same software environment. Preserved complete records losslessly with compressed and uncompressed fingerprints. See [repeated-range findings](repeated_range_findings.md).
+- As a separate post-hoc check, the synopsis's below-0.75 coverage rule would have fired in 7 of 80 overlapping three-batch windows. No detector has been implemented or validated, and no causal interpretation is claimed.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
