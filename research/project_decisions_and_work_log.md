@@ -288,6 +288,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Reconstructed the candidate features, scoring rule, remaining budget, calibration examples and earlier-ranking evidence from the original seed 34 and 35 targeted records. Re-ran both repair modes on each saved diversity warning. The strict mode retained the old rule; the direct mode accepted the first proposed diversity weight, 0.35, with all recorded safeguards passing. Its replayed identifiers exactly matched the original saved first proposal. This verifies the implementation on two retrospectively chosen examples; it does not predict later selections or performance after acceptance.
 
+### 2026-11-16: current README alignment
+
+- Corrected outdated README claims that repair was unimplemented and separate hydrophobic-core protein groups remained undecided. Documented the two opt-in repair checks and linked their development protocols. This updates current guidance without rewriting the historical research notes.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

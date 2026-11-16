@@ -13,7 +13,7 @@ The three primary FLIP2 splits described in the synopsis are stored under `data/
 
 Run `python3 scripts/download_data.py` to download missing files and check SHA-256 hashes, gzip integrity, columns, and row counts. Python 3 standard library is sufficient. If an existing file fails validation, inspect it before replacing it. Source: [FLIP2 benchmark](https://flip.protein.properties/) and [archived dataset and provenance](https://zenodo.org/records/18433203). See [dataset sources and attribution](data/SOURCES.md) for the original datasets, publications, licenses, and direct split links.
 
-The FLIP2 site describes 17,143 IRED variants, but the downloaded two-to-many split contains 8,586 rows. Do not assume the split contains the full landscape; investigate the source and filtering before drawing conclusions. Hydro contains three wild types; whether to search them separately remains an open design decision. The optional GB1 split and ProteinGym GFP assay are also included; see the [usability audit](data/USABILITY.md) for limitations and preparation steps.
+The FLIP2 site describes 17,143 IRED variants, but the downloaded two-to-many split contains 8,586 rows. Do not assume the split contains the full landscape; investigate the source and filtering before drawing conclusions. Hydro contains three wild types, which are prepared as separate protein groups; its score-derived starting split requires care. The optional GB1 split and ProteinGym GFP assay are also included; see the [usability audit](data/USABILITY.md) for limitations and preparation steps.
 
 These raw files contain all measured targets. The amylase runner limits scores exposed through its supported interface, but direct file access can still reveal them. The amylase reference, score direction, representations and exploratory models have been checked; IRED and Hydro retain documented provenance questions. See the [research roadmap](research/CERA_research_evidence_and_roadmap.md) and newer entries in the [work log](research/project_decisions_and_work_log.md).
 
@@ -37,7 +37,7 @@ Backend code is grouped under `backend/app/`: `api` serves the catalog, `dataset
 
 ## Amylase measurement runner
 
-The local Python runner is separate from the web catalog. It selects initial amylase measurements and reveals requested eligible variants within a budget. Separate development modules provide prediction, selection, ranges and warning checks; repair is not yet implemented. The runner's design and limits are documented in the [development protocol](research/amylase_development_protocol.md).
+The local Python runner is separate from the web catalog. It selects initial amylase measurements and reveals requested eligible variants within a budget. Separate development modules provide prediction, selection, ranges, warnings and experimental checked repairs. The runner's design and limits are documented in the [development protocol](research/amylase_development_protocol.md).
 
 For an interactive run from the repository root, start `PYTHONPATH=backend python3`, then:
 
@@ -66,7 +66,7 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/python scr
 
 The output directory must not already exist. The command writes separate run records (`.jsonl`) and best-observed-score tables (`.csv`) for random selection and a simple ridge predictor. Both use the same starting set and budget; the predictor holds 20 initial examples aside and fits on the remaining 80 plus later revealed measurements. Its model choices are checked using cross-validation within the fitting data. Each greedy selection record contains its predicted scores before the measurements are revealed. A score table starts at zero new measurements and includes the best starting score.
 
-An exploratory reference run is in `output/amylase_comparison_seed1_final/`. It is one run, not evidence of an overall winner or a test of CERA's repair system. Later repeated runs, prediction ranges and development warnings are documented in the [work log](research/project_decisions_and_work_log.md); repairs remain future work. A failed or interrupted comparison may leave a partial output directory; inspect its records before using them.
+An exploratory reference run is in `output/amylase_comparison_seed1_final/`. It is one run, not evidence of an overall winner or a test of CERA's repair system. Later repeated runs, prediction ranges, warnings and experimental repairs are documented in the [work log](research/project_decisions_and_work_log.md). A failed or interrupted comparison may leave a partial output directory; inspect its records before using them.
 
 ## Amylase sequence representations
 
@@ -114,5 +114,7 @@ Replay requires the pinned representation cache and Git history containing commi
 ## Reward foundation
 
 The development reward validator and constrained batch selector are described in [reward foundation](research/reward_foundation.md). A separate [reward pilot](research/reward_pilot_findings.md) connects them to the amylase experiment. An experimental rule-based [repair pilot](research/repair_pilot_findings.md) records warning handling and can stop early after repeated failed changes.
+
+Two experimental repair checks are opt-in on `scripts/run_reward_pilot.py`: `--targeted-disagreement` identifies selected candidates with large model-rank disagreement, and `--direct-diversity` checks whether a proposed replay resolves the batch diversity warning. Both require `--repair` or `--gemini-repair`; omitting them preserves the original checks. The [targeted disagreement protocol](research/targeted_disagreement_protocol.md), [direct diversity protocol](research/direct_diversity_protocol.md), and [work log](research/project_decisions_and_work_log.md) describe their development results and limitations.
 
 The [Gemini goal compiler](research/gemini_goal_compiler.md) can propose the three allowed reward weights and save a validated, replayable specification. It supports the current fixed fitness goal and uses a rule-based fallback. An experimental [Gemini-assisted repair pilot](research/gemini_repair_pilot.md) lets the model prioritize a fixed menu while retaining local verification.
