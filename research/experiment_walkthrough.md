@@ -43,6 +43,20 @@ The synopsis proposes 100 starting measurements plus at most 100 new ones, in ba
 
 Evidence: [FLIP2 benchmark](https://flip.protein.properties/) reports that split difficulty varies; [Fannjiang et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC9618043/) discuss uncertainty under selection based on earlier data; the [split-conformal rank formula](https://academic.oup.com/jrsssb/article/87/4/1100/8058684) shows the discrete dependence on the size of the interval-setting set. The 100/100 choice is a project design judgment, not a value established by those sources.
 
+### How should the initial measurements be used?
+
+The predictor learns from examples; a prediction interval is a range intended to cover a future measurement. In ordinary split-conformal prediction, a separate calibration set is used to set the range from previous prediction errors. The underlying predictor must not have been fit using those calibration scores. A range chosen using a set cannot be treated as independently verified merely because it covers the same set. The original benchmark's `validation` flag identifies a benchmark validation subset; it is not automatically a suitable calibration set for this new sequential experiment. [FLIP2 data format](https://flip.protein.properties/); [split-conformal reference](https://proceedings.mlr.press/v162/ndiaye22a.html).
+
+Possible initial allocations of 100 known measurements:
+
+- **80 to fit, 20 to set ranges:** matches the synopsis's 20% proposal; leaves more fitting data, but range setting relies on a small set. For a standard 90% split-conformal rank, 20 calibration errors select the 19th smallest error; that is a calculation, not a coverage guarantee for this adaptive search.
+- **70 to fit, 30 to set ranges:** gives the range-setting step more examples, but reduces fitting data and departs from the synopsis's proposed fraction. It is not established to be better for CERA.
+- **Reuse data through a more complex resampling method:** can make more data useful to fitting across multiple models, but needs a precisely specified method and its own validity analysis; it is not interchangeable with the synopsis's simple split.
+
+Recommendation for the development pilot: begin with the synopsis's 80/20 allocation and assess stability and prediction quality on amylase, rather than claim that an untested allocation is optimal. Decide separately how newly revealed scores are assigned, whether a calibration set can remain untouched by fitting and model selection, and how independent future coverage is measured. If the same calibration set influences repeated model or repair choices, the consequences need explicit analysis; do not assume standard guarantees survive. The choice of allocation is open and no pilot is implemented.
+
+Local check, before any mutation cap or other exclusion: original validation flags have train/False, train/True and test/False counts respectively of 1,426/356/1,924 for amylase, 3,746/662/4,178 for IRED, and 9,974/2,493/12,468 for Hydro. These are available-row counts, not permission to reveal their scores or an approved selection method.
+
 ### Fair comparison
 
 Each method should use the same starting examples, permitted candidate set, constraints and maximum number of new measurements. Different methods can make different choices. Record any differences in model fitting or computing cost so an improvement is not attributed to repairs without evidence. Early stopping is an outcome to record rather than silently filling in missing measurements.

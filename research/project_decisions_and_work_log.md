@@ -42,6 +42,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Compared the submitted 100 initial / up to 100 additional budget with the available amylase counts, the need to reserve data for prediction intervals, and the need for multiple opportunities to observe recovery. Documented the working choice and its limitations in the experiment walkthrough.
 - No pilot, statistical power study, hardware benchmark, or evaluation-dataset tuning was performed. Batch size, interval-setting allocation, repeat count, and exceptional request handling remain open.
 
+### 2026-11-16: initial data roles
+
+- Reviewed the distinction between fitting a predictor and setting its prediction ranges, including why a range-setting set is not independent proof of its own performance and why adaptive choices complicate coverage claims.
+- Counted original train/test and validation flags in all three local primary datasets. Documented candidate allocations and the counts in the [experiment walkthrough](experiment_walkthrough.md).
+- Recommend evaluating the synopsis's 80/20 allocation during amylase development, but this is not an approved rule, a demonstrated optimum, or a completed pilot. Allocation and the treatment of subsequently revealed scores remain open.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
