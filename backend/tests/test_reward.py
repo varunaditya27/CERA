@@ -1,4 +1,5 @@
 import copy
+import random
 import unittest
 
 from app.rewards.reward_selection import select_batch
@@ -59,3 +60,26 @@ class RewardTests(unittest.TestCase):
         candidate = {'sequence': 'AAAC', 'mean': 1, 'spread': 0, 'distance': 0}
         with self.assertRaises(ValueError):
             select_batch(specification(), {'x': candidate, 'y': candidate}, 'AAAA', 2)
+
+    def test_vectorized_results_match_direct_calculation(self):
+        rng = random.Random(1729)
+        alphabet = 'ACDEFGHIKLMNPQRSTVWY'
+        sequences = ['A' * 18 + a + b for a in alphabet[:7] for b in alphabet[:7]]
+        candidates = {f'{index:02d}': {'sequence': sequence, 'mean': rng.random(),
+                                      'spread': rng.random(), 'distance': rng.random()}
+                      for index, sequence in enumerate(sequences)}
+        spec = specification()
+        spec['hard_constraints']['max_mutations'] = 2
+        expected = []
+        for _ in range(3):
+            values = []
+            for identifier, row in candidates.items():
+                if identifier in [item['id'] for item in expected]:
+                    continue
+                diversity = min((sum(a != b for a, b in zip(row['sequence'], candidates[item['id']]['sequence'])) / 20
+                                 for item in expected), default=0.0)
+                reward = row['mean'] - 0.5 * row['spread'] - 0.3 * row['distance'] + diversity
+                values.append((reward, identifier, diversity))
+            reward, identifier, diversity = min(values, key=lambda item: (-item[0], item[1]))
+            expected.append({'id': identifier, 'reward': reward, 'diversity': diversity})
+        self.assertEqual(select_batch(spec, candidates, 'A' * 20, 3), expected)

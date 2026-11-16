@@ -1,6 +1,8 @@
 """Select a constrained batch using a validated reward specification."""
 import math
 
+import numpy as np
+
 from app.rewards.reward_spec import validate_spec
 
 ALPHABET = set('ACDEFGHIKLMNPQRSTVWY')
@@ -31,19 +33,27 @@ def select_batch(spec, candidates, reference, remaining):
     terms = spec['terms']
     chosen = []
     count = min(remaining, spec['budget']['batch_size'], len(eligible))
+    if not count:
+        return chosen
+    ids = sorted(eligible)
+    rows = [eligible[i] for i in ids]
+    sequences = np.asarray([list(row['sequence'].encode('ascii')) for row in rows], dtype=np.uint8)
+    means = np.asarray([row['mean'] for row in rows], dtype=np.float64)
+    spreads = np.asarray([row['spread'] for row in rows], dtype=np.float64)
+    distances = np.asarray([row['distance'] for row in rows], dtype=np.float64)
+    with np.errstate(over='ignore', invalid='ignore'):
+        base = means - terms['uncertainty_penalty']['weight'] * spreads - terms['distance_penalty']['weight'] * distances
+    diversity = np.zeros(len(ids), dtype=np.float64)
+    selected = np.zeros(len(ids), dtype=bool)
     while len(chosen) < count:
-        scored = []
-        for identifier, candidate in eligible.items():
-            if any(identifier == entry['id'] for entry in chosen):
-                continue
-            diversity = min((sum(a != b for a, b in zip(candidate['sequence'], eligible[entry['id']]['sequence']))
-                             / len(reference) for entry in chosen), default=0.0)
-            score = (candidate['mean'] - terms['uncertainty_penalty']['weight'] * candidate['spread']
-                     - terms['distance_penalty']['weight'] * candidate['distance']
-                     + terms['diversity_bonus']['weight'] * diversity)
-            if not math.isfinite(score):
-                raise ValueError('Non-finite reward')
-            scored.append((score, identifier, diversity))
-        score, identifier, diversity = min(scored, key=lambda row: (-row[0], row[1]))
-        chosen.append({'id': identifier, 'reward': score, 'diversity': diversity})
+        with np.errstate(over='ignore', invalid='ignore'):
+            scores = base + terms['diversity_bonus']['weight'] * diversity
+        if not np.isfinite(scores[~selected]).all():
+            raise ValueError('Non-finite reward')
+        scores[selected] = -np.inf
+        index = int(np.argmax(scores))
+        chosen.append({'id': ids[index], 'reward': float(scores[index]), 'diversity': float(diversity[index])})
+        selected[index] = True
+        new_distance = np.count_nonzero(sequences != sequences[index], axis=1) / len(reference)
+        diversity = new_distance if len(chosen) == 1 else np.minimum(diversity, new_distance)
     return chosen

@@ -238,6 +238,11 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Added separate references and verified score-free ESM caches for all three proteins, a common FLIP2 row loader, per-protein measurement access and pilot dispatch. A separate GPU check reproduced one vector per protein within 1.67e-6 absolute difference. The backend suite passed 74 tests, including synthetic dispatch and real cache and budget checks.
 - No hydrophobic-core search evaluation was run. The original train/test split is score-derived, so drawing train-side initial measurements is privileged retrospective information. [Hydrophobic-core preparation](hydro_preparation.md) records source links, counts, fingerprints and remaining limitations.
 
+### 2026-11-16: reward selection performance
+
+- Replaced repeated Python sequence-distance loops with an incremental array calculation while preserving the reward formula, constraints and deterministic identifier tie-break. The 75-test backend suite passed.
+- Reconstructed all 12 earlier fixed/repair selections and six repair proposal replays. Identifiers and diversity matched saved evidence; rewards matched within 1e-14. The prior and new implementations produced exactly equal output for the first checked batch. The prior batch took about 2.03 seconds versus a new mean of about 0.115 seconds across 12 batches in this environment. See [performance check](reward_selection_performance.md) for limits.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
