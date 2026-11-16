@@ -1,9 +1,42 @@
 'use client';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Database, FlaskConical, Layers3, BookOpen } from 'lucide-react';
-const routes = [{href:'/',label:'Overview',icon:Layers3},{href:'/datasets',label:'Datasets',icon:Database},{href:'/workflow',label:'Method',icon:FlaskConical}];
+import { ArrowUpRight, BookOpen, ChartNoAxesCombined, Database, FlaskConical, LayoutGrid } from 'lucide-react';
+import { BrandMark } from './brand-mark';
+
+const routes = [
+  {href:'/', label:'Overview', number:'01', icon:LayoutGrid},
+  {href:'/datasets', label:'Landscapes', number:'02', icon:Database},
+  {href:'/experiments', label:'Experiments', number:'03', icon:ChartNoAxesCombined},
+  {href:'/workflow', label:'Method', number:'04', icon:FlaskConical}
+];
+
 export function Navigation() {
- const pathname = usePathname();
- return <aside className="sidebar" aria-label="Workspace sidebar"><Link className="brand" href="/"><span className="brand-mark" aria-hidden="true"><span/><span/><span/><span/></span><span>CERA<small>Research workspace</small></span></Link><div className="side-content"><span className="side-label">Workspace</span><nav aria-label="Workspace navigation">{routes.map(({href,label,icon:Icon})=>{const active=href==='/' ? pathname==='/' : pathname.startsWith(href);return <Link key={href} className={active?'nav-active':undefined} aria-current={active?'page':undefined} href={href}><Icon size={17} aria-hidden="true"/><span>{label}</span></Link>})}</nav></div><div className="sidebar-bottom"><span className="sidebar-icon"><BookOpen size={17} aria-hidden="true"/></span><div><strong>Project reference</strong><p>Reward auditing for protein fitness optimization</p></div></div></aside>
+  const pathname = usePathname();
+  return <aside className="sidebar" aria-label="Workspace navigation">
+    <Link className="brand" href="/" aria-label="CERA, return to overview">
+      <span className="brand-emblem"><BrandMark size={34} light/></span>
+      <span className="brand-type">CERA<small>COUNTEREXAMPLE RESEARCH</small></span>
+    </Link>
+    <div className="sidebar-section">
+      <span className="sidebar-caption">RESEARCH ATLAS / 2026</span>
+      <nav className="side-links" aria-label="Primary">
+        {routes.map(({href,label,number,icon:Icon})=>{
+          const active = href === '/' ? pathname === '/' : pathname.startsWith(href);
+          return <Link key={href} href={href} className={active ? 'side-link is-current' : 'side-link'} aria-current={active?'page':undefined}>
+            <span className="nav-number">{number}</span><Icon size={17} strokeWidth={1.65} aria-hidden="true"/><span>{label}</span>
+          </Link>;
+        })}
+      </nav>
+    </div>
+    <div className="sidebar-bottom">
+      <span className="sidebar-caption">WORKING STUDY</span>
+      <p>Building a search that can question its own reward.</p>
+      <a href="https://github.com/varunaditya27/CERA/tree/research/experiment-foundations" target="_blank" rel="noreferrer" className="sidebar-external">
+        <BookOpen size={15} aria-hidden="true"/> Read the research <ArrowUpRight size={14} aria-hidden="true"/>
+      </a>
+      <span className="sidebar-edition">CERA · EVIDENCE FIRST</span>
+    </div>
+  </aside>;
 }
