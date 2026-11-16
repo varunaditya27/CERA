@@ -4,9 +4,6 @@ import { HeroLandscape } from '../components/hero-landscape';
 import { LandingMotion } from '../components/landing-motion';
 import { SectionReveal } from '../components/section-reveal';
 import { DATASET_REFERENCE, RESEARCH_SOURCE } from '../lib/research';
-import { getDatasets } from '../lib/datasets';
-
-export const dynamic='force-dynamic';
 
 const featuredMethods=[
   {name:'Recombination',fitness:'0.21163',ratio:1},
@@ -14,9 +11,8 @@ const featuredMethods=[
   {name:'CERA repair',fitness:'0.19332',ratio:0.19331666666666664/0.2116333333333333}
 ];
 
-export default async function Home(){
-  const api=await getDatasets();
-  const datasets=api??DATASET_REFERENCE;
+export default function Home(){
+  const datasets=DATASET_REFERENCE;
 
   return <div className="landing">
     <LandingMotion/>
@@ -104,7 +100,7 @@ export default async function Home(){
             <ArrowUpRight size={20} aria-hidden="true"/>
           </Link>)}
         </div>
-        {!api&&<p className="snapshot-note">Dataset counts from the committed research snapshot.</p>}
+        <p className="snapshot-note">Counts from the committed research snapshot.</p>
       </SectionReveal>
     </section>
 
