@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
- <rect width="64" height="64" rx="12" fill="#0E1A1A"/>
- <path d="M11 17H53M11 32H24M40 32H53M11 47H53" stroke="#F2F3EE" stroke-width="3.8"/>
- <path d="M32 24L40 32L32 40L24 32Z" fill="#DE966C"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-labelledby="title"><title id="title">CERA monogram</title><rect width="80" height="80" rx="14" fill="#102425"/><path d="M62 17H32C20 17 15 24 15 35V45C15 56 20 63 32 63H62" fill="none" stroke="#F2F3EE" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/><path d="M60 40H43" stroke="#E9875C" stroke-width="8" stroke-linecap="square"/></svg>
