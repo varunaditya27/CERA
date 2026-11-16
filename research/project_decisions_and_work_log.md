@@ -13,6 +13,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 | 2026-11-16 | Approved by Varun | Keep the amylase reference's measured score hidden until selected under the normal budget. Its sequence can be used to count substitutions. Other datasets' reference treatment remains open. |
 | 2026-11-16 | Delegated working choice | Retain the synopsis's 100 initial and up to 100 additional measurements per main run provisionally, pending dataset feasibility and an amylase development pilot before freezing the protocol. User requested the best number be analyzed and selected; optimality is not established. |
 | 2026-11-16 | User instruction | Work on a new branch and commit progress as work proceeds. Do not push or open a pull request unless separately requested. |
+| 2026-11-16 | User instruction | Use the datasets as source material and make important research-design decisions without constant supervision. Record decisions and evidence. The existing instruction to present a plan and ask before writing code remains in effect. |
 | 2026-11-16 | Open | Reference treatment, measurement budget details, split information visible to the search, per-protein Hydro handling, repair selection and recovery definitions require agreement. |
 
 ## Work completed
@@ -47,6 +48,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Reviewed the distinction between fitting a predictor and setting its prediction ranges, including why a range-setting set is not independent proof of its own performance and why adaptive choices complicate coverage claims.
 - Counted original train/test and validation flags in all three local primary datasets. Documented candidate allocations and the counts in the [experiment walkthrough](experiment_walkthrough.md).
 - Recommend evaluating the synopsis's 80/20 allocation during amylase development, but this is not an approved rule, a demonstrated optimum, or a completed pilot. Allocation and the treatment of subsequently revealed scores remain open.
+
+### 2026-11-16: delegated development protocol
+
+- Following Varun's delegation, selected a provisional amylase development protocol and documented the reasoning, explicit information boundaries, validation roles, budget edge cases and checks in [amylase development protocol](amylase_development_protocol.md). These are development decisions subject to evidence and are not experimental results or a frozen final evaluation protocol.
+- The pilot uses 80 initial examples for fitting and model selection and 20 for setting ranges, when interval methods are added. Model selection stays inside the 80; no extra permanent validation group is assumed. Reuse of the 20 and the adaptive search mean formal coverage guarantees must not be claimed without additional justification.
+- Prepared a limited implementation plan for a score-controlled runner and meaningful checks. No implementation code has been written; approval is required before starting it.
 
 ## Next review gates
 

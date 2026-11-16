@@ -1,6 +1,6 @@
 # Experiment walkthrough and choices
 
-Status: illustrative walkthrough; the primary candidate-pool choice is approved below, and the other experiment rules remain proposals. The variants and scores below are invented; they are not experimental results. The actual dataset facts and remaining questions are in the [evidence ledger](dataset_evidence_ledger.md).
+Status: illustrative walkthrough. The variants and scores below are invented; they are not experimental results. Subsequent delegated development decisions are recorded in the [amylase development protocol](amylase_development_protocol.md); dataset facts and remaining questions are in the [evidence ledger](dataset_evidence_ledger.md).
 
 ## Who knows what?
 
@@ -53,7 +53,7 @@ Possible initial allocations of 100 known measurements:
 - **70 to fit, 30 to set ranges:** gives the range-setting step more examples, but reduces fitting data and departs from the synopsis's proposed fraction. It is not established to be better for CERA.
 - **Reuse data through a more complex resampling method:** can make more data useful to fitting across multiple models, but needs a precisely specified method and its own validity analysis; it is not interchangeable with the synopsis's simple split.
 
-Recommendation for the development pilot: begin with the synopsis's 80/20 allocation and assess stability and prediction quality on amylase, rather than claim that an untested allocation is optimal. Decide separately how newly revealed scores are assigned, whether a calibration set can remain untouched by fitting and model selection, and how independent future coverage is measured. If the same calibration set influences repeated model or repair choices, the consequences need explicit analysis; do not assume standard guarantees survive. The choice of allocation is open and no pilot is implemented.
+Following Varun's delegation, the development pilot will begin with the synopsis's 80/20 allocation; the [development protocol](amylase_development_protocol.md) records how newly revealed scores are handled and its statistical limitations. No pilot has been implemented, and the allocation is not a proven optimum.
 
 Local check, before any mutation cap or other exclusion: original validation flags have train/False, train/True and test/False counts respectively of 1,426/356/1,924 for amylase, 3,746/662/4,178 for IRED, and 9,974/2,493/12,468 for Hydro. These are available-row counts, not permission to reveal their scores or an approved selection method.
 
