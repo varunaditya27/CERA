@@ -1,0 +1,79 @@
+import copy
+import unittest
+
+from app.goal_compiler import DEFAULT_SPEC
+from app.repair_engine import choose_repair
+from app.repair_menu import repair_candidates
+from app.repair_verification import verify_repair
+
+
+def fixture():
+    spec = copy.deepcopy(DEFAULT_SPEC)
+    for term in spec['terms'].values():
+        term['weight'] = 0.0
+    spec['budget']['batch_size'] = 1
+    candidates = {'a': {'sequence': 'AAAA', 'mean': 1.0, 'spread': 1.0, 'distance': 0.9},
+                  'b': {'sequence': 'AAAC', 'mean': 0.9, 'spread': 0.0, 'distance': 0.0}}
+    calibration = [{'lower': 0.0, 'upper': 1.0, 'score': 0.5} for _ in range(18)]
+    calibration += [{'lower': 0.0, 'upper': 1.0, 'score': 2.0} for _ in range(2)]
+    earlier = [{'mean': float(i), 'spread': 0.0, 'distance': 0.0, 'score': float(i)}
+               for i in range(5)]
+    return spec, candidates, calibration, earlier
+
+
+class RepairTests(unittest.TestCase):
+    def test_chooses_cheapest_checked_change_without_mutating_old_spec(self):
+        spec, candidates, calibration, earlier = fixture()
+        original = copy.deepcopy(spec)
+        result = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier)
+        self.assertEqual(result['status'], 'accepted')
+        self.assertEqual(len(result['attempts']), 1)
+        self.assertEqual(result['specification']['terms']['distance_penalty']['weight'], 0.25)
+        self.assertAlmostEqual(result['attempts'][0]['cost'], 0.175)
+        self.assertEqual(spec, original)
+        self.assertTrue(all(result['attempts'][0]['verification']['checks'].values()))
+
+    def test_missing_evidence_and_no_repair_keep_old_rule(self):
+        spec, candidates, calibration, earlier = fixture()
+        result = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration[:19], earlier)
+        self.assertEqual(result['status'], 'retained')
+        self.assertEqual(result['specification'], spec)
+        self.assertIsNone(result['attempts'][0]['verification']['checks']['calibration_coverage'])
+        spec['terms']['distance_penalty']['weight'] = 2.0
+        self.assertEqual(repair_candidates(spec, 'support_shift'), [])
+
+    def test_bad_constraints_and_undisplaced_cases_fail(self):
+        spec, candidates, calibration, earlier = fixture()
+        proposed = copy.deepcopy(spec)
+        proposed['terms']['distance_penalty']['weight'] = 0.01
+        proposed['hard_constraints']['max_mutations'] = 3
+        result = verify_repair(spec, proposed, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier)
+        self.assertFalse(result['checks']['allowed_change_and_constraints'])
+        self.assertFalse(result['checks']['counterexamples_displaced'])
+        self.assertFalse(result['accepted'])
+
+    def test_constant_ranking_is_unavailable_and_false_evidence_is_rejected(self):
+        spec, candidates, calibration, earlier = fixture()
+        proposed = repair_candidates(spec, 'support_shift')[0]['specification']
+        for row in earlier:
+            row['score'] = 1.0
+        result = verify_repair(spec, proposed, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier)
+        self.assertIsNone(result['checks']['earlier_rank_preserved'])
+        self.assertFalse(result['accepted'])
+        with self.assertRaises(ValueError):
+            verify_repair(spec, proposed, 'support_shift', candidates, 'AAAA', 1, ['b'], calibration, earlier)
+        calibration[0]['score'] = float('nan')
+        with self.assertRaises(ValueError):
+            verify_repair(spec, proposed, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier)
+
+    def test_rejects_coverage_and_ranking_regressions(self):
+        spec, candidates, calibration, earlier = fixture()
+        proposed = repair_candidates(spec, 'support_shift')[0]['specification']
+        calibration[0]['score'] = calibration[1]['score'] = calibration[2]['score'] = 2.0
+        for i, row in enumerate(earlier):
+            row['mean'] = 0.05 * i
+            row['distance'] = i / 4
+        result = verify_repair(spec, proposed, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier)
+        self.assertFalse(result['checks']['calibration_coverage'])
+        self.assertFalse(result['checks']['earlier_rank_preserved'])
+        self.assertFalse(result['accepted'])

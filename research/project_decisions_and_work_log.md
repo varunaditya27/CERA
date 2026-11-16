@@ -183,6 +183,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - The configured Gemini model returned a valid proposal on its first live request (39 input and 39 output tokens). Its saved specification drove a ten-batch seed-13 amylase pilot. An independent audit checked the compiled input fingerprint, all candidate distances and reward rankings, reveal chronology, source scores and budget. The pilot recorded 95/100 covered new scores and best known score 0.18225; these single-run descriptions are not evidence of superiority.
 - The 41-test backend suite passed. [Gemini compiler documentation](gemini_goal_compiler.md) records the prompt boundary, fallback, result and remaining gaps. Arbitrary user goals, warning-driven LLM repair, verification and no-LLM evaluation remain unimplemented.
 
+### 2026-11-16: checked repair foundation
+
+- Added a finite, cost-ordered menu of allowed single-weight changes, a verifier and a chooser that retains the original rule if no proposal passes. The verifier checks that specified previously selected items are displaced in a replay, the proposal and constraints are allowed, supplied calibration coverage meets a provisional tolerance, and earlier individual reward rankings do not deteriorate beyond a provisional margin. It marks insufficient or constant-ranking evidence unavailable and does not accept it.
+- The 46-test backend suite passed, including a controlled accepted example and rejection for insufficient data, a constant ranking, changed constraints, failure to displace, low coverage, rank deterioration and an exhausted menu. See [repair foundation](repair_foundation.md) for exact decisions and limitations.
+- These functions are not yet connected to the experiment. The caller must verify evidence chronology; calibration is reused and unchanged by a reward-only edit. No repair, rollback, abstention or benefit has been demonstrated in a protein run.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
