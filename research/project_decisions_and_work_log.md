@@ -196,6 +196,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Independently reconstructed both initial selections, candidate distances, six proposed batches, calibration and ranking checks, source measurements and the early stop. The full backend suite passed 50 tests. [Repair pilot findings](repair_pilot_findings.md) documents the warning-target choices, evidence limitations and unresolved work.
 - Gemini supplied the initial saved reward weights only; it did not choose repairs. An accepted change was exercised in a controlled test, not in this pilot. Interval-setting data are reused and earlier ranking predictions include training examples, so neither check establishes generalization.
 
+### 2026-11-16: Gemini-assisted repair pilot
+
+- Added a constrained Gemini advisor that receives only the warning type and numbered repair term, weight and cost options. It chooses an option from the existing menu; the normal verifier checks it, then checks remaining options by cost. Invalid choices retry once, and failures fall back to cheapest-first ordering. This explicitly resolves the synopsis's conflicting model-choice and cheapest-first instructions for development.
+- In one matched seed-13 pilot, two Gemini calls each selected the middle-cost option; all three options failed verification in each batch. The run retained the old reward and stopped after 20 new measurements with 80 remaining, as in the rule-based pilot. An audit matched both selections and per-weight verification against the independently audited rule-based record, checked sanitized advice and confirmed the key was absent from the run record.
+- The 55-test suite passed. Details, usage, assumptions and reproduction are in [Gemini repair pilot](gemini_repair_pilot.md). No repair was accepted, and this single paired development run does not establish model benefit or detector accuracy.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

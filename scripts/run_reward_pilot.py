@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 
 from app.prediction_pilot import run_pilot
@@ -14,6 +15,7 @@ def main():
     parser.add_argument('specification', type=Path, help='JSON reward specification')
     parser.add_argument('--seed', type=int, default=1)
     parser.add_argument('--repair', action='store_true', help='Enable the experimental rule-based repair loop')
+    parser.add_argument('--gemini-repair', action='store_true', help='Use Gemini to prioritize repair options')
     args = parser.parse_args()
     content = args.specification.read_bytes()
     spec = json.loads(content)
@@ -23,8 +25,18 @@ def main():
             raise ValueError('Invalid compiled specification source')
         origin.update(source=spec['source'], model=spec['model'])
         spec = spec['specification']
-    print(json.dumps(run_pilot(args.output_dir, seed=args.seed, reward_spec=spec,
-                               reward_origin=origin, repair=args.repair)))
+    advisor = model = None
+    if args.gemini_repair:
+        from dotenv import dotenv_values
+        from app.gemini_client import request_repair
+        from app.repair_advisor import advise_repair
+        settings = dotenv_values(Path(__file__).resolve().parents[1] / 'backend' / '.env')
+        key = os.environ.get('GEMINI_API_KEY') or settings.get('GEMINI_API_KEY')
+        model = os.environ.get('GEMINI_MODEL') or settings.get('GEMINI_MODEL')
+        advisor = lambda kind, menu: advise_repair(lambda warning, options: request_repair(key, model, warning, options),
+                                                   kind, menu)
+    print(json.dumps(run_pilot(args.output_dir, seed=args.seed, reward_spec=spec, reward_origin=origin,
+                               repair=args.repair or args.gemini_repair, repair_advisor=advisor, repair_model=model)))
 
 
 if __name__ == '__main__':

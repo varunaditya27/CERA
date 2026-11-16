@@ -22,9 +22,11 @@ from app.warning_checks import (constraint_warning, coverage_warning, disagreeme
 
 
 def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, reward_origin=None,
-              repair=False):
+              repair=False, repair_advisor=None, repair_model=None):
     if repair and reward_spec is None:
         raise ValueError('Repair requires a reward specification')
+    if repair_advisor is not None and not repair:
+        raise ValueError('A repair advisor requires repair mode')
     if reward_spec is not None:
         reward_spec = copy.deepcopy(reward_spec)
         validate_spec(reward_spec)
@@ -47,6 +49,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
         failures = 0
         run.record_settings({'method': 'esm_bootstrap_ridge_reward' if reward_spec else 'esm_bootstrap_ridge_greedy',
                              'reward_spec': reward_spec, 'reward_origin': reward_origin, 'repair': repair,
+                             'repair_advisor': 'gemini' if repair_advisor else 'rule_based',
+                             'repair_model': repair_model,
                              'role_seed': role_seed,
                              'member_seed': member_seed, 'reserved_ids': reserved,
                              'penalties': PENALTIES, 'folds': 5, 'cv_seed': seed,
@@ -62,7 +66,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                                                             'warning_checks.py', 'reward_distance.py',
                                                             'reward_selection.py', 'reward_spec.py',
                                                             'repair_coordinator.py', 'repair_engine.py',
-                                                            'repair_menu.py', 'repair_verification.py')},
+                                                            'repair_menu.py', 'repair_verification.py',
+                                                            'repair_advisor.py', 'gemini_client.py')},
                              'scikit_learn': importlib.metadata.version('scikit-learn'),
                              'numpy': importlib.metadata.version('numpy'),
                              'scipy': importlib.metadata.version('scipy')})
@@ -139,7 +144,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                                         if not ranges[i]['lower'] <= value <= ranges[i]['upper']],
                            'disagreement': chosen, 'diversity': chosen}
                 reward_spec, failures, actions, abstain = handle_warnings(
-                    reward_spec, warnings, targets, features, reference, batch_budget, calibration, earlier, failures)
+                    reward_spec, warnings, targets, features, reference, batch_budget, calibration, earlier, failures,
+                    advisor=repair_advisor)
                 run.record_settings({'round': round_number, 'repair_actions': actions,
                                      'consecutive_failures': failures})
                 if abstain:

@@ -19,11 +19,11 @@ class GeminiError(Exception):
     pass
 
 
-def request_weights(api_key, model):
+def _request_json(api_key, model, prompt, schema):
     if not isinstance(api_key, str) or not api_key or not isinstance(model, str) or not re.fullmatch(r'[A-Za-z0-9._-]+', model):
         raise GeminiError('invalid_configuration')
-    body = {'contents': [{'parts': [{'text': PROMPT}]}],
-            'generationConfig': {'responseMimeType': 'application/json', 'responseJsonSchema': SCHEMA,
+    body = {'contents': [{'parts': [{'text': prompt}]}],
+            'generationConfig': {'responseMimeType': 'application/json', 'responseJsonSchema': schema,
                                  'temperature': 0, 'maxOutputTokens': 2048}}
     request = Request(f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent',
                       data=json.dumps(body).encode(), headers={'x-goog-api-key': api_key,
@@ -49,3 +49,17 @@ def request_weights(api_key, model):
         return text, counts
     except (KeyError, IndexError, TypeError, ValueError, json.JSONDecodeError):
         raise GeminiError('invalid_response') from None
+
+
+def request_weights(api_key, model):
+    return _request_json(api_key, model, PROMPT, SCHEMA)
+
+
+def request_repair(api_key, model, warning_type, options):
+    prompt = ('Select one numbered repair option for this protein fitness search warning. '
+              'Options have different parameter values and costs; all will be checked locally. '
+              'Return only the option number.\n' + json.dumps({'warning': warning_type, 'options': options}))
+    schema = {'type': 'object', 'properties': {'option': {'type': 'integer', 'minimum': 0,
+                                                         'maximum': len(options) - 1}},
+              'required': ['option'], 'additionalProperties': False}
+    return _request_json(api_key, model, prompt, schema)

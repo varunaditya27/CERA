@@ -6,7 +6,8 @@ from app.warning_checks import diversity_warning
 PRIORITY = ('support_shift', 'coverage', 'disagreement', 'diversity')
 
 
-def handle_warnings(spec, warnings, targets, features, reference, batch_budget, calibration, earlier, failures):
+def handle_warnings(spec, warnings, targets, features, reference, batch_budget, calibration, earlier, failures,
+                    advisor=None):
     events = []
     for kind in PRIORITY:
         warning = warnings[kind]
@@ -22,11 +23,13 @@ def handle_warnings(spec, warnings, targets, features, reference, batch_budget, 
         if not affected:
             events.append({'warning': kind, 'status': 'no_replayed_targets', 'replayed_ids': replayed})
             continue
-        result = choose_repair(spec, kind, features, reference, batch_budget, affected, calibration, earlier)
+        result = choose_repair(spec, kind, features, reference, batch_budget, affected, calibration, earlier,
+                               advisor=advisor)
         spec = result['specification']
         failures = 0 if result['status'] == 'accepted' else failures + 1
         events.append({'warning': kind, 'status': result['status'], 'targets': affected,
-                       'attempts': result['attempts'], 'specification': spec, 'consecutive_failures': failures})
+                       'attempts': result['attempts'], 'advice': result.get('advice'),
+                       'specification': spec, 'consecutive_failures': failures})
         if failures >= spec['abstain_after_failed_repairs']:
             return spec, failures, events, True
     return spec, failures, events, False

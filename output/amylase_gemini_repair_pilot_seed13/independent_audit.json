@@ -1,0 +1,13 @@
+{
+  "rounds": 2,
+  "measurements": 20,
+  "remaining": 80,
+  "gemini_calls": 2,
+  "accepted_advice": 2,
+  "model_choices": [
+    1,
+    1
+  ],
+  "stop_reason": "failed_repairs",
+  "checks": "matched starting data and batches; same verification results per weight as independently audited rule-based run; sanitized option metadata; credential absent"
+}
