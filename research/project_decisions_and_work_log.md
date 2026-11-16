@@ -93,6 +93,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Inspected saved rankings across all 100 greedy rounds: the highest-ranked original-test candidate was never above rank 102. In the first round its rank ranged from 313 to 492.
 - Reconstructed the seed-2 first-round model from saved settings and verified 100 predictions against the record. The 7,904 position-and-letter indicators absent from the 80 fitting examples had zero fitted coefficients. The relationship between this observation and the observed selection pattern remains unproven. No model or experiment settings were changed.
 
+### 2026-11-16: implementation research review
+
+- Reviewed primary research and official documentation on protein search baselines, uncertainty under adaptive selection, model disagreement, ESM representations, and leakage; mapped the findings to the actual CERA code and remaining decisions in [implementation research notes](implementation_research_notes.md).
+- Checked current package metadata and GPU-reported memory. These checks do not demonstrate checkpoint loading, GPU inference or full-dataset feasibility. Recorded an unavailable full-text source and remaining scientific uncertainties explicitly.
+- No application code was changed, no model was downloaded or run, and no new experimental performance was claimed.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
