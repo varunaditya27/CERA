@@ -117,4 +117,13 @@ The development reward validator and constrained batch selector are described in
 
 Two experimental repair checks are opt-in on `scripts/run_reward_pilot.py`: `--targeted-disagreement` identifies selected candidates with large model-rank disagreement, and `--direct-diversity` checks whether a proposed replay resolves the batch diversity warning. Both require `--repair` or `--gemini-repair`; omitting them preserves the original checks. The [targeted disagreement protocol](research/targeted_disagreement_protocol.md), [direct diversity protocol](research/direct_diversity_protocol.md), and [work log](research/project_decisions_and_work_log.md) describe their development results and limitations.
 
+Recheck the two newer saved amylase comparisons from the repository root with:
+
+```sh
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend python3 scripts/audit_development_repairs.py output/amylase_targeted_disagreement_31_35
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend python3 scripts/audit_development_repairs.py output/amylase_direct_diversity_41_45
+```
+
+The audit checks source and run fingerprints, matched starting observations, recorded seeds, choices, disagreement groups and targets, repair replays, measurements, budgets and summary rows. It reconstructs decisions from saved predictions and distances; it does not independently refit predictors, regenerate distances or prove that recorded warnings, calibration and ranking safeguards are scientifically valid.
+
 The [Gemini goal compiler](research/gemini_goal_compiler.md) can propose the three allowed reward weights and save a validated, replayable specification. It supports the current fixed fitness goal and uses a rule-based fallback. An experimental [Gemini-assisted repair pilot](research/gemini_repair_pilot.md) lets the model prioritize a fixed menu while retaining local verification.
