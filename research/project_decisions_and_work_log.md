@@ -301,6 +301,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Compared the current implementation and recorded results against the research roadmap. Documented open recovery-metric, repair-evidence, frozen-comparison, multi-protein evaluation and reporting gaps in [evaluation readiness](evaluation_readiness.md). No evaluation-protein search was run and no final method was selected.
 
+### 2026-11-16: recovery measurement options
+
+- Compared one-batch, 30-subsequent-measurement and all-later-measurement summaries, including early-stop handling, dependence and the distinction between a warning and a causal repair effect. Illustrated the options using saved amylase seeds 31 and 34. The 30-measurement definition is a recommendation for review, not an implemented or frozen metric. See [recovery options](recovery_measurement_options.md).
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
