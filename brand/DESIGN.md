@@ -1,81 +1,89 @@
-# CERA design contract
+# CERA / design system
 
-Version: 2026-11-16. Branch: `design/research-atlas`.
+Revised: 16 November 2026. Working branch: `design/research-atlas`.
 
-## Direction
+## Point of view
 
-**Scientific editorial.** A serious research publication with one interactive experimental landscape. Precision is the identity. The interface should never resemble a biotech stock template, generic SaaS admin panel, or an AI chatbot wrapper.
+**An experimental evidence instrument.** Precise enough for a researcher, immediately graspable by someone watching a project demonstration. The visual personality comes from the contrast between **prediction** and **measurement**, not decorative scientific symbols.
 
-## Color tokens (exact)
+The landing page should be curious and memorable. Reading pages should be quiet. There must never be more animation than information.
 
-| Token | Hex | Use |
+## Identity / the aperture
+
+The mark is a bespoke open `C` interrupted by an independent copper measurement line. Its unequal elements represent an expectation that is being challenged. This replaces the old rails-and-diamond symbol. The symbol has no dependence on a downloaded font and remains recognizable at small sizes.
+
+Assets:
+
+- `frontend/components/brand-logo.tsx`: inline vector lockup for the navbar
+- `frontend/components/brand-mark.tsx`: inline monogram
+- `frontend/public/cera-symbol.svg`: standalone mark
+- `frontend/public/cera-wordmark-dark.svg` / `cera-wordmark-light.svg`: vector paths, no text-font dependency
+- `frontend/app/icon.svg`: favicon
+- `frontend/app/opengraph-image.tsx`: social preview
+
+Do not reuse the old diamond. Do not place DNA helices, molecular stock photography, circuitry, hexagonal icons, AI sparkles or generic atom motifs around the mark. Use its opened geometry in focused charts and interactions rather than repeating the logo decoratively.
+
+## Core palette
+
+| Role | Token | Hex |
 | --- | --- | --- |
-| Deep | `#0E1A1A` | Landing hero and footer |
-| Deep secondary | `#17292A` | Results section |
-| Ink | `#182722` | Text |
-| Paper | `#F2F3EE` | Reading surface |
-| Chalk | `#FBFCF8` | High contrast light |
-| Muted | `#627169` | Secondary copy |
-| Rule | `#D4DBD3` | Dividers |
-| Light rule | `#38504C` | Dark dividers |
-| Soft | `#E5EAE4` | Hover/background |
-| Copper | `#DE966C` | Intervention, primary action |
-| Copper soft | `#F2D7C4` | Optional emphasis |
-| Mineral | `#A8C8BF` | Scientific visualization |
-| Light text | `#F2F3ED` | Text on deep surfaces |
-| Light muted | `#ADC2BA` | Supporting text on deep |
+| Deep petrol | `--deep` | `#102425` |
+| Deep secondary | `--deep-2` | `#173333` |
+| Text | `--ink` | `#182722` |
+| Warm paper | `--paper` | `#F3F1EB` |
+| Light surface | `--white` | `#FCFCF8` |
+| Secondary text | `--muted` | `#627169` |
+| Separator | `--line` | `#D4DBD3` |
+| Soft green | `--soft` | `#E5EAE4` |
+| Measurement / intervention | `--copper` | `#E9875C` |
+| Model / structure | `--sea` | `#9BCDBF` |
+| Dark-surface text | `--light-text` | `#F3F1EB` |
+| Dark-surface secondary | `--light-muted` | `#ACC6BD` |
 
-No additional colors without purpose and documentation. The visualizations can use transparent derived values for legibility. Color is never the only cue for a status or conclusion.
+Copper on a light background uses the darker `--accent-on-light: #B9512B` for readable small text. Do not use color alone to encode a difference: always use names, values, position or status text.
 
 ## Typography
 
-- **Newsreader**, variable serif: all display headings and large data moments. Optical display nature gives a scientific journal feel. Weight 300-400; italic only as deliberate emphasis.
-- **Onest**, humanist neo-grotesk: body, navigation, buttons and labels. Weight 400–700. Readability and distinct characters are more important than density.
-- **Fragment Mono**, regular: measurements, identifiers, and provenance references. Use sparingly.
+- **Geologica**, variable display: designed by Monokrom. Large headings and strong numerals. Use weight 530–650 with variable `SHRP` approximately 38–65 for distinctive technical sharpness. This replaces Newsreader.
+- **Onest**, body and interface: comfortable reading, straightforward navigation and controls.
+- **Fragment Mono**, tabular figures: measurements, counts, stage numbers and technical reference labels.
 
-Fonts are loaded with Next.js `next/font/google` and self-hosted at build time (`frontend/app/fonts.ts`), using `font-display:swap`. Fallbacks are Georgia, sans-serif and monospace respectively. Do not replace with Inter/Roboto/Space Grotesk/DM Sans or add more font families casually.
+All are self-hosted at build time through `next/font/google` in `frontend/app/fonts.ts`. No external font request is needed at runtime. Use one clear display family; do not add a second decorative serif.
 
-## Scale and grid
+## Layout
 
-- Page container: min(100% - 96px, 1320px); 56px under 900px; 40px under 650px.
-- Desktop nav: 88px, 72px scrolled; on mobile 72/66px.
-- Main sections: 90–154px vertical spacing by density, rather than equal cards.
-- Body: 14–16px with 1.65–1.8 line-height.
-- Editorial headings: responsive 50–130px, not single fixed sizes.
-- Hairline separators: 1px. Default border radius: none.
-- Minimum mobile control target: 44px.
+- Max content width 1320px; desktop side gutters 48px; mobile 20px.
+- Desktop top nav: 88px, 72px after scroll. Mobile: 72px, 66px after scroll.
+- Landing opens on dark petrol; interior pages use warm paper and an immediately readable top bar.
+- Section scale follows content. No arbitrary 3-card grids or repeated slogans to fill space.
+- Meaningful line drawings and direct data labels take precedence over rounded cards.
 
-## Symbol
+## Routes and presentation flow
 
-Three evidence rails interrupted at the middle by a copper diamond. This refers to a prediction being challenged by an observation, not a synthetic DNA helix. The diamond occupies the central gap, maintaining exact geometry and negative space.
+1. `/`: question, short interactive prompt, process, current findings, landscapes
+2. `/walkthrough`: interactive two-round illustration with reveal/measurement budget and presentation view
+3. `/workflow`: the exact research loop and its constraints
+4. `/system`: implemented software layers and evidence boundaries
+5. `/experiments`: real amylase findings and two-method comparison
+6. `/datasets` and `/datasets/[id]`: experimental landscapes, provenance and preparation
 
-Assets: `frontend/public/cera-symbol.svg`, `cera-wordmark-light.svg`, `cera-wordmark-dark.svg`, `frontend/app/icon.svg`, `frontend/app/opengraph-image.tsx`, React `brand-mark.tsx`.
+Top navigation: custom SVG lockup at left; Walkthrough, Method, Results, Datasets and System at center; GitHub at right. Mobile: responsive button menu. No sidebar.
 
-Keep the symbol readable at 32px. Do not rotate, glow, gradient-fill, or tile it.
-
-## Navigation
-
-Sticky, full-width top bar. On landing it begins transparent, then transitions into the paper reading bar. Other routes use the paper bar immediately. Desktop: symbol/wordmark left, page links centered, GitHub right. Mobile: button-led accessible dropdown. No persistent sidebar, mega-menu, or floating capsule that competes with the research visualization.
+For a course demonstration, begin with `/`, open the fullscreen `/walkthrough`, then show `/workflow` and `/system`, and finish on `/experiments`. Detailed data questions should link to `/datasets`. Do not add labels like “for faculty” to the public interface.
 
 ## Motion
 
-- Lenis v1.3.27, GSAP v3.15.1. They share GSAP's ticker; GSAP seconds are converted to milliseconds for Lenis.
-- Hero entrance: masked three-line headline, followed by description, actions and surface.
-- Scroll: restrained section reveals, a subtle hero surface parallax, staged data mark entrances.
-- Hover: direct, precise and quick. No custom cursor, random particles, video backgrounds or perpetual decorative animation outside the hero.
-- Native touch scrolling and reduced-motion accessibility take precedence.
-- Animated graphics are illustrative and must be labeled as such.
+- GSAP and Lenis remain synchronized on a single animation clock.
+- Dynamic Canvas surface illustrates a fitness landscape; it is explicitly **conceptual**.
+- The 9 vs 3 values in the hero and walkthrough are from the repo's invented teaching example, not real experiment outcomes.
+- Scroll reveals and parallax are restrained; touch scrolling remains native; reduced motion disables animated timing.
+- Interactive demo controls are explicit, rewindable and keyboard-accessible. Presentation mode enlarges the work area instead of replaying a video.
+- Do not add extra animation libraries unless they solve a distinct need.
 
-## Page structure
+## Scientific integrity
 
-Landing page: hero / research question / protocol / dated experimental evidence / protein landscapes / footer.
-Dedicated routes: `/datasets`, `/datasets/[id]`, `/experiments`, `/workflow`.
-Only the landing page is immersive. Inside routes prioritize reading and comparing.
+The current repeated comparison consists of 90 development runs on alpha amylase, not a confirmed scientific improvement. All 120 tested reward-weight proposals were rejected by the current verifier. Neither CERA variant demonstrated an accepted repair. The comparison and its 10 seeds must be clearly identified. Evaluation on IRED and hydrophobic core is not complete. A sourced illustration must never be mistaken for measured evidence.
 
-## Integrity
+## Craft gates
 
-Do not invent measurement numbers, protein outcomes, warning rates, sources, or claims of successful repairs. The latest comparison is exploratory amylase evidence, not final cross-protein validation. All frozen values should link to their report. If the backend is unavailable, the dataset list may use a visibly labeled committed reference snapshot.
-
-## Accessibility and QA
-
-Semantic headings, tables and navigation; strong focus rings, meaningful alt text, explicit reading order, responsive layouts, adequate contrast, reduced-motion support. A complete release requires mobile and desktop browser verification and a passing Next production build. Never claim these tests succeeded without running them.
+Before merging: production build, screenshot review at 1440 / 1024 / 768 / 390 / 320 px, reduced-motion check, mouse and keyboard journey, mobile-menu and presentation-mode checks, correct contrast, no horizontal overflow, source-link and dataset-state verification. The design branch was edited via GitHub; a checked-in workflow does not itself prove the build has passed.
