@@ -1,56 +1,115 @@
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { Topbar } from '../components/topbar';
+import { ArrowDown, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { HeroLandscape } from '../components/hero-landscape';
+import { SectionReveal } from '../components/section-reveal';
 import { DATASET_REFERENCE, RESEARCH_SOURCE } from '../lib/research';
 import { getDatasets } from '../lib/datasets';
 
 export const dynamic='force-dynamic';
 
-function SignalGraphic() {
-  return <svg className="signal-graphic" viewBox="0 0 560 420" role="img" aria-label="Illustration of a model prediction diverging from an observed measurement">
-    <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#71857A" strokeOpacity=".14" strokeWidth="1"/></pattern></defs>
-    <rect width="560" height="420" fill="url(#grid)"/>
-    <path d="M36 300H522" stroke="#73857C" strokeOpacity=".55"/><path d="M36 40V330" stroke="#73857C" strokeOpacity=".55"/>
-    <path d="M45 282 C116 252 168 254 218 205 S340 119 410 104 S489 89 515 66" fill="none" stroke="#BBD4C7" strokeWidth="3.2" strokeLinecap="round"/>
-    <path d="M45 282 C116 252 168 254 218 205 S302 194 341 233 S421 275 515 259" fill="none" stroke="#DA925F" strokeWidth="3.2" strokeLinecap="round"/>
-    <path d="M272 165V219" stroke="#F1EDE4" strokeWidth="1.1" strokeDasharray="4 7" strokeOpacity=".68"/>
-    <circle cx="272" cy="165" r="6" fill="#BBD4C7"/><circle cx="272" cy="219" r="6" fill="#DA925F"/>
-    <path d="M272 189L283 200L272 211L261 200Z" fill="#DA925F" stroke="#15201D" strokeWidth="3"/>
-    <text x="338" y="91" fill="#BBD4C7" fontSize="14">Prediction</text><text x="395" y="292" fill="#DA925F" fontSize="14">Observation</text>
-    <text x="40" y="354" fill="#9CAEA4" fontSize="12">Illustrative, not experimental data</text>
-  </svg>;
-}
+const featuredMethods=[
+  {name:'Recombination',fitness:'0.21163',ratio:1},
+  {name:'Random',fitness:'0.19711',ratio:0.1971083333333333/0.2116333333333333},
+  {name:'CERA repair',fitness:'0.19332',ratio:0.19331666666666664/0.2116333333333333}
+];
 
 export default async function Home(){
-  const apiDatasets=await getDatasets();
-  const datasets=apiDatasets ?? DATASET_REFERENCE;
-  return <><Topbar section="Overview"/><div className="home-content">
-    <section className="hero">
-      <div className="hero-copy">
-        <h1>When the reward is wrong.</h1>
-        <p>Investigating unreliable learned rewards in protein fitness optimization.</p>
-        <Link href="/experiments" className="button button-accent">View results <ArrowUpRight size={17} aria-hidden="true"/></Link>
+  const api=await getDatasets();
+  const datasets=api??DATASET_REFERENCE;
+
+  return <div className="landing">
+    <section className="landing-hero" aria-labelledby="landing-title">
+      <div className="hero-grain" aria-hidden="true"/>
+      <div className="landing-hero-inner">
+        <div className="landing-hero-copy">
+          <h1 id="landing-title">When the reward<br/>is <span>wrong.</span></h1>
+          <p>CERA investigates how to detect and correct unreliable learned rewards in protein optimization.</p>
+          <div className="hero-links">
+            <Link className="action-solid" href="/workflow">Explore the method <ArrowUpRight size={18} aria-hidden="true"/></Link>
+            <Link className="action-text" href="/experiments">See results <ArrowRight size={18} aria-hidden="true"/></Link>
+          </div>
+        </div>
+        <HeroLandscape/>
       </div>
-      <div className="hero-visual"><SignalGraphic/></div>
+      <div className="hero-bottom">
+        <span>Protein fitness optimization</span>
+        <a href="#question" aria-label="Scroll to the research question">Scroll to explore <ArrowDown size={16} aria-hidden="true"/></a>
+      </div>
     </section>
 
-    <section className="summary-line" aria-label="Latest development study">
-      <div><span className="quiet-label">Alpha amylase study</span><h2>90 matched runs. No accepted repairs.</h2><p>The verifier rejected all proposed reward changes. The recombination baseline reached the eligible-pool maximum in 8 of 10 seeds.</p><a className="inline-link" href={RESEARCH_SOURCE} target="_blank" rel="noreferrer">Read study <ArrowUpRight size={16} aria-hidden="true"/></a></div>
-      <div className="study-figure"><strong>0<span>/120</span></strong><span>Accepted repair proposals</span></div>
+    <section id="question" className="question-section wrap">
+      <SectionReveal className="question-grid">
+        <div className="chapter-index">01 <span>Research question</span></div>
+        <h2>Can a search tell when its own scoring rule has failed?</h2>
+        <div className="question-aside">
+          <p>Prediction models can rank promising protein variants incorrectly. CERA records those failures and tests whether a constrained change to the reward improves subsequent search.</p>
+          <Link href="/workflow" className="underlined-link">How CERA works <ArrowUpRight size={17}/></Link>
+        </div>
+      </SectionReveal>
     </section>
 
-    <section className="home-datasets">
-      <div className="section-head"><h2>Datasets</h2><Link href="/datasets" className="inline-link">View all <ArrowRight size={17} aria-hidden="true"/></Link></div>
-      <div className="dataset-preview">
-        {datasets.slice(0,3).map((dataset)=> <Link key={dataset.id} href={'/datasets/'+dataset.id} className="dataset-preview-row">
-          <span className="dataset-preview-name">{dataset.name}</span><span className="dataset-preview-role">{dataset.purpose}</span>
-          <span className="dataset-preview-count">{dataset.variants?.toLocaleString('en-US') ?? '—'} <small>variants</small></span>
-          <ArrowUpRight size={17} aria-hidden="true"/>
-        </Link>)}
+    <section className="process-section" aria-labelledby="process-heading">
+      <div className="wrap">
+        <SectionReveal>
+          <div className="process-heading"><h2 id="process-heading">The process</h2><span>Four stages</span></div>
+          <div className="process-rail" role="list">
+            {[
+              {number:'01',name:'Specify',detail:'Define a bounded reward.'},
+              {number:'02',name:'Search',detail:'Select variants within budget.'},
+              {number:'03',name:'Audit',detail:'Compare prediction with measurement.'},
+              {number:'04',name:'Repair',detail:'Verify a change or retain the original.'}
+            ].map(step=><div role="listitem" key={step.number} className="process-item">
+              <span className="process-number">{step.number}</span>
+              <h3>{step.name}</h3>
+              <p>{step.detail}</p>
+            </div>)}
+          </div>
+        </SectionReveal>
       </div>
-      {!apiDatasets && <p className="quiet-note">Showing committed dataset counts. API not connected.</p>}
     </section>
-    <section className="home-method"><div><h2>Method</h2><p>Specify, search, audit, and verify any proposed repair.</p></div><Link href="/workflow" className="inline-link">How it works <ArrowRight size={18}/></Link></section>
-    <footer className="site-footer"><span>CERA</span><a href="https://github.com/varunaditya27/CERA" target="_blank" rel="noreferrer">Source code <ArrowUpRight size={14}/></a></footer>
-  </div></>;
+
+    <section className="evidence-section" aria-labelledby="evidence-heading">
+      <div className="wrap">
+        <SectionReveal className="evidence-grid">
+          <div className="evidence-copy">
+            <span className="chapter-index">02 <span>Development findings</span></span>
+            <h2 id="evidence-heading">The results are not yet a success story.</h2>
+            <p>Across ten matched alpha-amylase seeds, neither repair policy accepted a change. Recombination was the strongest method by median best fitness.</p>
+            <Link href="/experiments" className="action-outline-light">View the comparison <ArrowUpRight size={18}/></Link>
+          </div>
+          <div className="evidence-plot">
+            <div className="evidence-plot-head"><span>Median best fitness</span><span>Alpha amylase · 10 seeds</span></div>
+            {featuredMethods.map(row=><div className="plot-row" key={row.name}>
+              <div className="plot-label"><span>{row.name}</span><b>{row.fitness}</b></div>
+              <div className="plot-track"><div className="plot-fill" style={{width:`${row.ratio*100}%`}}/></div>
+            </div>)}
+            <div className="plot-foot"><span>0</span><span>0.21163</span></div>
+            <p>Scores are from a retrospective, finite pool. Higher is better.</p>
+          </div>
+        </SectionReveal>
+      </div>
+    </section>
+
+    <section className="landscapes-section wrap" aria-labelledby="datasets-heading">
+      <SectionReveal>
+        <div className="section-heading"><div><span className="chapter-index">03 <span>Data</span></span><h2 id="datasets-heading">Protein landscapes</h2></div><Link className="underlined-link" href="/datasets">All datasets <ArrowUpRight size={17}/></Link></div>
+        <div className="landscapes-list">
+          {datasets.slice(0,3).map((dataset,i)=><Link className="landscape-entry" key={dataset.id} href={'/datasets/'+dataset.id}>
+            <span className="landscape-entry-index">{String(i+1).padStart(2,'0')}</span>
+            <span className="landscape-entry-title">{dataset.name}<small>{dataset.shift} shift</small></span>
+            <span className="landscape-entry-role">{dataset.purpose}</span>
+            <span className="landscape-entry-count">{dataset.variants?.toLocaleString('en-US')??'—'}</span>
+            <ArrowUpRight size={20} aria-hidden="true"/>
+          </Link>)}
+        </div>
+        {!api&&<p className="snapshot-note">Dataset counts from the committed research snapshot.</p>}
+      </SectionReveal>
+    </section>
+
+    <footer className="landing-footer">
+      <div className="wrap footer-inner"><div><span className="footer-wordmark">CERA</span><p>Counterexample-guided reward auditing</p></div>
+        <div className="footer-links"><Link href="/workflow">Method</Link><Link href="/experiments">Results</Link><a href={RESEARCH_SOURCE} target="_blank" rel="noreferrer">Research source <ArrowUpRight size={15}/></a></div>
+      </div>
+    </footer>
+  </div>;
 }
