@@ -39,7 +39,7 @@ export function WalkthroughLab(){
  const scene=scenes[step];
  const candidates=step===3?second:initial;
  const select=step===1||step===2?'C':step===3?'D':undefined;
- const used=step===0?0:step===3?2:1;
+ const used=step===0||step===1?0:step===2?1:2;
  const next=()=>setStep(v=>v===3?0:(v+1) as Step);
  const back=()=>setStep(v=>Math.max(0,v-1) as Step);
 
