@@ -11,6 +11,7 @@ def advise_repair(request, warning_type, candidates):
                 'cost': candidate['cost']} for i, candidate in enumerate(candidates)]
     attempts = []
     for _ in range(2):
+        usage = None
         try:
             text, usage = request(warning_type, options)
             response = json.loads(text, object_pairs_hook=_unique_object)
@@ -23,7 +24,10 @@ def advise_repair(request, warning_type, candidates):
             if str(error) != 'invalid_response':
                 break
         except (TypeError, ValueError):
-            attempts.append({'status': 'invalid_choice'})
+            attempt = {'status': 'invalid_choice'}
+            if usage is not None:
+                attempt['usage'] = usage
+            attempts.append(attempt)
         else:
             attempts.append({'status': 'accepted', 'usage': usage})
             return {'source': 'gemini', 'option': response['option'], 'options': options, 'attempts': attempts}
