@@ -126,4 +126,12 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend python3 scripts/audi
 
 The audit checks source and run fingerprints, matched starting observations, recorded seeds, choices, disagreement groups and targets, repair replays, measurements, budgets and summary rows. It reconstructs decisions from saved predictions and distances; it does not independently refit predictors, regenerate distances or prove that recorded warnings, calibration and ranking safeguards are scientifically valid.
 
+To inspect recovery after the first coverage warning in a completed saved run:
+
+```sh
+PYTHONPATH=backend python3 scripts/summarize_recovery.py output/amylase_targeted_disagreement_31_35/seed_32/fixed/run.jsonl.gz
+```
+
+The report checks later, non-overlapping-with-the-warning observations in windows of 30, records the first window with 26–28 covered scores and includes its mean range width. Later windows can overlap each other. Runs without a warning or enough follow-up are reported separately; recovery does not establish that a repair caused it. See [recovery options](research/recovery_measurement_options.md).
+
 The [Gemini goal compiler](research/gemini_goal_compiler.md) can propose the three allowed reward weights and save a validated, replayable specification. It supports the current fixed fitness goal and uses a rule-based fallback. An experimental [Gemini-assisted repair pilot](research/gemini_repair_pilot.md) lets the model prioritize a fixed menu while retaining local verification.
