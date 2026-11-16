@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="300" height="84" viewBox="0 0 300 84" role="img" aria-labelledby="title">
-<title id="title">CERA wordmark, light</title>
-<g fill="none" stroke="#F2F3EE" stroke-width="3.5"><path d="M8 16H64M8 42H27M47 42H64M8 68H64"/></g><path d="M37 32L47 42L37 52L27 42Z" fill="#DE966C"/>
-<text x="89" y="60" font-family="Arial, sans-serif" font-size="56" font-weight="700" letter-spacing="-5" fill="#F2F3EE">CERA</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="80" viewBox="0 0 390 80" role="img" aria-labelledby="title"><title id="title">CERA</title><g fill="none" stroke="#F2F3EE" stroke-width="9" stroke-linejoin="miter"><path d="M67 17H36C24 17 19 24 19 35V45C19 56 24 63 36 63H67"/></g><path d="M65 40H48" stroke="#E9875C" stroke-width="7.5"/><g transform="translate(97 3) scale(1.18)" fill="none" stroke="#F2F3EE" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter"><path d="M44 8H26C15 8 11 14 11 25V39C11 50 15 56 26 56H44"/><path d="M85 8H58V56H85M58 32H79"/><path d="M99 56V8H118C132 8 137 15 137 23C137 31 132 39 118 39H99M118 39L141 56"/><path d="M154 56L176 8L198 56M163 37H189"/></g></svg>
