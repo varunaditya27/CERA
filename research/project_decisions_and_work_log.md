@@ -297,6 +297,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 - With Varun's approval, added `scripts/audit_development_repairs.py` for the two newer comparisons. It reconstructs selections and repair replays independently using saved predictions and distances, checks disagreement group and target evidence before reveal, source and run fingerprints, starting observations, fitting seeds, measurements, budgets and summaries. Average ranks for ties follow [SciPy's documented rule](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rankdata.html).
 - The targeted-disagreement audit passed 10 runs, 72 selections and 30 repair replays; the direct-diversity audit passed 10 runs, 62 selections and 42 replays. A deliberately altered summary and an altered selection with recomputed fingerprints were rejected end to end; new tests also reject altered target and summary evidence. The backend suite passed 85 tests. The audit does not refit predictors, regenerate distances, independently validate every repair safeguard or establish detector accuracy.
 
+### 2026-11-16: evaluation readiness review
+
+- Compared the current implementation and recorded results against the research roadmap. Documented open recovery-metric, repair-evidence, frozen-comparison, multi-protein evaluation and reporting gaps in [evaluation readiness](evaluation_readiness.md). No evaluation-protein search was run and no final method was selected.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
