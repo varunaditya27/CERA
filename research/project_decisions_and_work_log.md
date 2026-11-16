@@ -284,6 +284,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Ran the predeclared five matched pairs for seeds 41–45. The strict and direct runs had identical recorded outcomes and spent 40, 100, 100, 20 and 50 new measurements respectively; three pairs stopped after failed repairs and two exhausted their budgets. One diversity warning occurred in each arm (seed 43); all three proposals still failed the diversity threshold, so no direct diversity repair was accepted. This does not measure the benefit of the earlier six resolved replays or establish equivalent performance generally.
 - Independently checked input fingerprints, matching initial measurements and model seeds, 62 selections, 42 repair replays, the direct threshold where invoked, pre-reveal target evidence, scores, budgets and all ten summary rows. These were one-off read-only checks, not a saved audit program. The 83-test backend suite passed before the comparison. Full records are in `output/amylase_direct_diversity_41_45/`; these remain exploratory results for one protein.
 
+### 2026-11-16: direct diversity check on saved examples
+
+- Reconstructed the candidate features, scoring rule, remaining budget, calibration examples and earlier-ranking evidence from the original seed 34 and 35 targeted records. Re-ran both repair modes on each saved diversity warning. The strict mode retained the old rule; the direct mode accepted the first proposed diversity weight, 0.35, with all recorded safeguards passing. Its replayed identifiers exactly matched the original saved first proposal. This verifies the implementation on two retrospectively chosen examples; it does not predict later selections or performance after acceptance.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
