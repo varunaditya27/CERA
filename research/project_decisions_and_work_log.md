@@ -153,6 +153,11 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Ran and independently audited one fresh warning-enabled seed-12 pilot. Post-hoc first-round inspection found a large difference between ranking agreement over the full pool and the top 100; this motivates further investigation, not a causal conclusion. Results, evidence paths and limits are in [warning-check findings](warning_checks_findings.md).
 - Repairs, warning prioritization and the language model remain unimplemented. The retrospective replay requires historical Git commit `78fce61` and the pinned representation cache.
 
+### 2026-11-16: disagreement investigation planning
+
+- Rechecked the historical warning evidence and researched how selection can affect observed associations and how Spearman ranking correlation behaves. The first-round full-pool versus top-100 result remains post-hoc and cannot establish causation or warning accuracy.
+- Prepared an [exploratory comparison plan](disagreement_context_plan.md) covering equally sized top, middle, bottom and random candidate groups, reconstruction checks, chronological score access and reporting limitations. Keep the warning and threshold unchanged until independent evaluation is designed. No new analysis or application code was run or written in this step.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
