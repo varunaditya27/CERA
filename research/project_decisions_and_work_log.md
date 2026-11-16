@@ -30,6 +30,11 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Corrected an initial interpretation of the IRED `WT` field: it marks a row, while that row's `aa_seq` provides the reference sequence. The recorded final counts use the corrected interpretation.
 - Added a [two-round experiment walkthrough and decision options](experiment_walkthrough.md). Varun subsequently approved the broad candidate pool; reference treatment and budget policy remain open.
 
+### 2026-11-16: first amylase feasibility check
+
+- Counted local candidates against the pinned original reference under an illustrative four-substitution limit, separately by original split and validation flag. The training side retains at least 1,258 non-validation candidates before any additional exclusions. The limit and validation handling are not approved experiment rules.
+- Recorded a recommendation to keep the reference score hidden until it is selected; Varun has not yet approved this recommendation.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

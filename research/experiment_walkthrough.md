@@ -33,6 +33,8 @@ The proposal also needs explicit rules for a request that repeats C, an unknown 
 
 The reference is the starting protein sequence against which substitutions are counted. In amylase it appears in the local test side. Options include initially revealing its score, allowing it to be selected under the normal budget, or excluding it. Revealing it initially gives useful context but adds a starting measurement outside the proposed train-only selection; selecting it later preserves the ordinary query rule; excluding it changes the candidate pool. Specify whether any initial reference measurement counts toward the stated 100 starting measurements. No option is approved.
 
+Recommendation for discussion: allow it to be selected like any other eligible unqueried variant; keep its score hidden until selected. The sequence can still serve as a reference for counting substitutions. This preserves the proposed train-side starting measurements without assuming that knowledge of a sequence includes knowledge of its measured score. The reference may never be selected, so comparisons requiring an initially measured reference would need a separate explicit rule.
+
 ### What does the budget count?
 
 The synopsis proposes 100 starting measurements plus at most 100 new ones, in batches of ten. It does not by itself settle how duplicates, failed requests or an early stop are represented. Recommend recording initial and newly revealed counts separately and plotting outcomes against actual newly revealed measurements. The exact duplicate and failure rules remain open.
