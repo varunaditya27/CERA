@@ -86,6 +86,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 - In all ten pairs the greedy method selected zero original-test variants. Random selection chose 49–61 original-test variants in each pair. Original split labels were joined after selection. The cause remains unestablished.
 - Independently checked every pair's starting data, settings, selections, pre-reveal rankings, source measurements, budget arithmetic, stop state and reconstructed tables. All 200 method-batches passed the recorded checks. Results and limitations are in [repeated comparison findings](repeated_comparison_findings.md); complete logs and tables are in `output/amylase_repeated/`.
 - No implementation code changed for these runs. Prediction intervals, CERA detectors and repairs remain unimplemented; these results are not a final evaluation.
+- A post-hoc first-round analysis found higher median predictions for the original-test group in all ten runs despite every top selected variant coming from the original-train group. It also measured how many candidates have substitutions absent from the initial fitting examples. This is exploratory evidence, not a causal explanation; details are in the findings document.
 
 ## Next review gates
 

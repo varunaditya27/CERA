@@ -22,3 +22,11 @@ The ten pairs were run through the existing Python interface with `seed` from 2 
 - The current predictor has no calibration, uncertainty intervals, warning detectors or repairs. Its success at finding high observed scores within this pool says nothing yet about whether CERA repairs improve search.
 - Understand the apparent reluctance to choose shifted-side variants before drawing conclusions. Analyze the model's pre-reveal rankings, sequence changes and training support on amylase without using IRED or Hydro to tune choices. Distinguish evidence from any causal hypothesis.
 - The initial development protocol reserves 20 known examples from predictor fitting, although no interval method exists yet; comparison results are conditional on that allocation. The random selector does not need those scores, but both methods receive the same starting measurements.
+
+## Follow-up inspection of the first selection round
+
+This inspection was conducted after seeing the repeated results and is exploratory, not predeclared. For each run, compare the saved pre-reveal predictions of all candidates grouped by their original split, and compare sequence changes against the 80 starting fitting examples. Group labels were joined after the runs for analysis only.
+
+- The median predicted score for original-test candidates exceeded the median for original-train candidates in all ten first rounds. Nevertheless, the selected top ten in each first round were all original-train candidates. A higher median does not imply the highest individual predictions belong to that group.
+- In every first round, 1,708 of 1,709 original-test candidates contained at least one specific position-and-letter change not present in the 80 starting fitting sequences. The one without such a change is the reference sequence. Among original-train candidates, the corresponding counts ranged from 1,268 to 1,327 out of 1,466.
+- These counts characterize training support, not the true fitness of those candidates. They do not prove that unfamiliar substitutions caused the selection pattern. The model can combine seen and unseen features, and we have not yet isolated their effects or tested alternative selection rules.
