@@ -4,7 +4,7 @@ export type Dataset={id:string;name:string;source:string;purpose:string;shift:st
 
 export async function getDatasets():Promise<Dataset[]|null>{
  try{
-  const response=await fetch(`${process.env.CERA_API_URL || 'http://127.0.0.1:8000'}/api/datasets`,{cache:'no-store',signal:AbortSignal.timeout(3000)});
+  const response=await fetch(`${process.env.CERA_API_URL || 'http://127.0.0.1:8000'}/api/datasets`,{cache:'no-store',signal:AbortSignal.timeout(800)});
   return response.ok?await response.json() as Dataset[]:null;
  }catch{return null;}
 }
