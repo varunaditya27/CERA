@@ -16,6 +16,10 @@ On the available measured variants, how do the experimental warning-and-repair s
 
 This full list is nine methods × ten seeds × four proteins = 360 attempted runs. It could take substantial time and storage; the existing 90-run amylase comparison occupied approximately 219 MiB, but protein sizes and early stops differ, so that is not a reliable forecast for this study. The configured Gemini model's actual quota and cost have not been established here.
 
+## Provider pricing check (17 November 2026)
+
+The locally configured model name is `gemini-3.5-flash-lite`; Google lists that name as a [stable model](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite). Google's [standard pricing page](https://ai.google.dev/gemini-api/docs/pricing) lists a free tier and paid rates of USD 0.30 per million input tokens and USD 2.50 per million output tokens, including thinking tokens, at the time of this check. The actual account tier, available quota, exact number of future calls and final charges were not checked and must not be inferred from these list prices. Prices and model availability can change. The existing advisor sends warning types and sanitized menu metadata; it does not send sequences or fitness scores. No request was made for this pricing check.
+
 ## Outcomes and reporting
 
 The primary outcome is best observed score at each method's actual stop, paired by protein and seed, together with the number of new measurements. This compares complete policies under the same upper budget; it must not disguise an early stop as a 100-measurement result. Also report the per-run best-score curve, feasible-pool regret, and top-1% indicator, noting whether the starting set already achieved the latter. The eligible-pool optimum and top-1% threshold may be calculated only by an evaluator after all planned selectors have finished; neither is passed back to search.

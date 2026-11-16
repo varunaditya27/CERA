@@ -332,6 +332,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Drafted a matched four-protein comparison with score-blind starts, separate protein reporting, actual-stop outcomes, recovery follow-up and explicit Gemini/failure accounting. Identified that the current evaluator requires train-side starts and an amylase cache, so a separately tested evaluator and independent audit are needed before real runs. This is a [review draft](multiprotein_comparison_draft.md), not a frozen protocol or completed evaluation.
 
+### 2026-11-17: Gemini model pricing source check
+
+- Checked the configured model name against Google's model and pricing documentation without making an API request. Recorded the published per-token list prices and the fact that actual account tier, quota and future charges remain unknown in the [comparison draft](multiprotein_comparison_draft.md). No credential was recorded.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
