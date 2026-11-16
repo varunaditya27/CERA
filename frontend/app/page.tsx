@@ -5,7 +5,6 @@ import { LandingMotion } from '../components/landing-motion';
 import { SectionReveal } from '../components/section-reveal';
 import { DATASET_REFERENCE, RESEARCH_SOURCE } from '../lib/research';
 
-const source='https://github.com/varunaditya27/CERA/blob/research/experiment-foundations/research/experiment_walkthrough.md';
 const featuredMethods=[
  {name:'Recombination',fitness:'0.21163',ratio:1},
  {name:'Random selection',fitness:'0.19711',ratio:0.1971083333333333/0.2116333333333333},
