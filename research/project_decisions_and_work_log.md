@@ -80,6 +80,13 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Audited the first run after completion: the random method's 100 new choices comprised 49 original-train and 51 original-test variants, while the greedy method chose 100 original-train variants. These labels were joined after the run from the raw file and were not provided as candidate metadata. The observation does not establish the cause.
 - Recorded the seeds, pair matching rules, checks and reporting limits for ten additional exploratory pairs in the [repeated-comparison protocol](repeated_comparison_protocol.md), before starting those runs. The seed-1 run is reported separately.
 
+### 2026-11-16: repeated comparisons completed
+
+- Executed ten predeclared amylase pairs with initial seeds 2–11 and independent recorded selection and data-role seed assignments. The greedy run had the higher final best-observed score in nine pairs and random in one; this is descriptive and specific to the development dataset.
+- In all ten pairs the greedy method selected zero original-test variants. Random selection chose 49–61 original-test variants in each pair. Original split labels were joined after selection. The cause remains unestablished.
+- Independently checked every pair's starting data, settings, selections, pre-reveal rankings, source measurements, budget arithmetic, stop state and reconstructed tables. All 200 method-batches passed the recorded checks. Results and limitations are in [repeated comparison findings](repeated_comparison_findings.md); complete logs and tables are in `output/amylase_repeated/`.
+- No implementation code changed for these runs. Prediction intervals, CERA detectors and repairs remain unimplemented; these results are not a final evaluation.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
