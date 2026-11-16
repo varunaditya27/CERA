@@ -318,6 +318,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Reviewed current multi-dataset dispatch and identified that the repeated runner and random baseline are amylase-specific. Documented score-blind versus benchmark train-side starting examples and a proposed staged implementation in [multi-protein evaluation options](multiprotein_evaluation_options.md). No final protocol or test-protein search was run.
 
+### 2026-11-16: multi-protein starting-pool feasibility
+
+- Counted eligible sequences without running searches: IRED 7,633 and Hydro groups 1,010, 1,292 and 2,916, each sufficient for 100 starting and up to 100 later measurements. Added row-order invariance to the proposed score-blind starting-pool checks in [evaluation options](multiprotein_evaluation_options.md).
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

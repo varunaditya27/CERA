@@ -17,6 +17,10 @@ The benchmark supplies a train/test split. In IRED, its split is based on number
 
 The official [FLIP2 description](https://flip.protein.properties/) identifies the original split designs; the local [Hydro preparation](hydro_preparation.md) documents the score-derived split. Neither choice guarantees unbiased estimates of real-world protein engineering performance, and IRED's local file covers only a subset of the screened variants.
 
+## Feasibility check
+
+With the existing four-substitution limit, IRED has 7,633 eligible variants and the three Hydro groups have 1,010, 1,292 and 2,916. After 100 starting measurements, each group would still have more than the planned maximum of 100 new measurements available. These are sequence-eligibility counts, not search results. For a score-blind implementation, sort the eligible sequence identifiers before seeded sampling and test invariance to CSV row order as well as split flags; this makes the sampled set reproducible even if file rows are reordered.
+
 ## Proposed implementation steps if score-blind starts are selected
 
 1. Add a clearly specified starting-pool choice to the existing controlled measurement runner, retaining the current default for historical reproducibility. Independently test that the score-blind choice does not depend on split or validation flags, that every method receives identical initial observations, and that budget and duplicate-query checks still hold.
