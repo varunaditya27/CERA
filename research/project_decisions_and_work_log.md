@@ -336,6 +336,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Checked the configured model name against Google's model and pricing documentation without making an API request. Recorded the published per-token list prices and the fact that actual account tier, quota and future charges remain unknown in the [comparison draft](multiprotein_comparison_draft.md). No credential was recorded.
 
+### 2026-11-17: multi-protein evaluator and independent audit
+
+- Varun selected the full nine-method comparison. Added a score-blind evaluator that checks terminal statuses for every supplied group before loading full-pool scores, verifies starting samples, source and recorded method settings, budgets and measurements, preserves failed/interrupted runs, computes recovery summaries and per-seed differences against fixed reward. Its normal mode requires all four protein groups; a partial report is explicitly labeled development.
+- Added a separate audit that reconstructs all recorded random, greedy, acquisition, local-proposal ranking and reward selections and repair replays from saved evidence. It independently reconstructs one available local-proposal round per local method and one reward-distance round per protein, and checks disagreement target chronology. It does not independently refit predictors or validate every warning and verifier assumption. Its normal mode also requires all four groups to reach terminal statuses.
+- Synthetic end-to-end tests exercised all nine methods on IRED-format data with a mocked Gemini request, and random and greedy on Hydro-format data. They checked the terminal-status barrier, incomplete and interrupted records, paired missing values, and rejection of altered starts and selections even after fingerprints were recomputed. The full backend suite passed 92 tests. No real IRED or Hydro search or live Gemini request was made. The [comparison protocol](multiprotein_comparison_draft.md) remains a draft until reviewed before real runs.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
