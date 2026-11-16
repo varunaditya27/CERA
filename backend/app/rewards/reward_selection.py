@@ -1,7 +1,7 @@
 """Select a constrained batch using a validated reward specification."""
 import math
 
-from app.reward_spec import validate_spec
+from app.rewards.reward_spec import validate_spec
 
 ALPHABET = set('ACDEFGHIKLMNPQRSTVWY')
 

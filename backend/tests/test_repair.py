@@ -1,10 +1,10 @@
 import copy
 import unittest
 
-from app.goal_compiler import DEFAULT_SPEC
-from app.repair_engine import choose_repair
-from app.repair_menu import repair_candidates
-from app.repair_verification import verify_repair
+from app.llm.goal_compiler import DEFAULT_SPEC
+from app.rewards.repair_engine import choose_repair
+from app.rewards.repair_menu import repair_candidates
+from app.rewards.repair_verification import verify_repair
 
 
 def fixture():

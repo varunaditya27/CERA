@@ -7,10 +7,10 @@ from pathlib import Path
 
 import numpy as np
 
-from app.ired import DATA, REFERENCE
-from app.amylase import ROOT
-from app.representation_cache import load_cache
-from app.representations import MODEL, REVISION, sequence_id
+from app.datasets.ired import DATA, REFERENCE
+from app.datasets.amylase import ROOT
+from app.features.representation_cache import load_cache
+from app.features.representations import MODEL, REVISION, sequence_id
 
 CACHE = ROOT / 'output/representations/ired_esm2_c731040.npz'
 CACHE_SHA256 = '417c6215b07275fc6149842f8f5e0706528eeb238d09300ed40def91144ae0df'

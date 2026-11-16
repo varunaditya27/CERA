@@ -5,8 +5,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from app.amylase import DATA, REFERENCE
-from app.experiment import Experiment
+from app.datasets.amylase import DATA, REFERENCE
+from app.experiments.experiment import Experiment
 
 
 class ExperimentTests(unittest.TestCase):

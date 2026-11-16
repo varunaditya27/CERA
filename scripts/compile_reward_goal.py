@@ -7,8 +7,8 @@ from pathlib import Path
 
 from dotenv import dotenv_values
 
-from app.gemini_client import request_weights
-from app.goal_compiler import compile_goal
+from app.llm.gemini_client import request_weights
+from app.llm.goal_compiler import compile_goal
 
 
 def main():

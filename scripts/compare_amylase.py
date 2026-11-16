@@ -2,7 +2,7 @@
 """Run one exploratory matched amylase comparison."""
 import argparse
 
-from app.comparison import run_comparison
+from app.experiments.comparison import run_comparison
 
 
 def main():

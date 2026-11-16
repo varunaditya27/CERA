@@ -1,14 +1,14 @@
 """Run and summarize a matched exploratory comparison."""
 import csv
-import hashlib
 import importlib.metadata
 import json
 import random
 from pathlib import Path
 
-from app.amylase import DATA, REFERENCE
-from app.experiment import Experiment
-from app.selection import PENALTIES, choose_greedy, choose_random
+from app.datasets.amylase import DATA, REFERENCE
+from app.experiments.experiment import Experiment
+from app.experiments.selection import PENALTIES, choose_greedy, choose_random
+from app.provenance.sources import source_hashes
 
 
 def summarize(log_path, output_path):
@@ -40,8 +40,8 @@ def run_comparison(output_dir, seed=1, selection_seed=2, role_seed=3):
                                  'role_seed': role_seed, 'reserved_ids': sorted(reserved),
                                  'penalties': PENALTIES, 'folds': 5, 'cv_scoring': 'neg_mean_squared_error',
                                  'encoding': 'fixed 20-amino-acid indicators by position',
-                                 'source_sha256': {name: hashlib.sha256((Path(__file__).parent / name).read_bytes()).hexdigest()
-                                                   for name in ('amylase.py', 'experiment.py', 'selection.py', 'comparison.py')},
+                                 'source_sha256': source_hashes(('amylase.py', 'experiment.py', 'selection.py',
+                                                                 'comparison.py', 'sources.py')),
                                  'scikit_learn': importlib.metadata.version('scikit-learn'),
                                  'numpy': importlib.metadata.version('numpy'),
                                  'scipy': importlib.metadata.version('scipy')})

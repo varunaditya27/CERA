@@ -5,7 +5,7 @@ import random
 import sys
 from pathlib import Path
 
-from app.amylase import load_amylase
+from app.datasets.amylase import load_amylase
 
 
 class Experiment:

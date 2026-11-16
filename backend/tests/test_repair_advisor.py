@@ -2,11 +2,11 @@ import copy
 import unittest
 from unittest.mock import patch
 
-from app.gemini_client import GeminiError
-from app.goal_compiler import DEFAULT_SPEC
-from app.repair_advisor import advise_repair
-from app.repair_engine import choose_repair
-from app.repair_menu import repair_candidates
+from app.llm.gemini_client import GeminiError
+from app.llm.goal_compiler import DEFAULT_SPEC
+from app.llm.repair_advisor import advise_repair
+from app.rewards.repair_engine import choose_repair
+from app.rewards.repair_menu import repair_candidates
 
 
 class RepairAdvisorTests(unittest.TestCase):
@@ -41,7 +41,7 @@ class RepairAdvisorTests(unittest.TestCase):
     def test_model_preference_is_checked_then_remaining_options_in_cost_order(self):
         checks = [{'accepted': False}, {'accepted': True}]
         advisor = lambda kind, menu: {'option': 2, 'source': 'gemini'}
-        with patch('app.repair_engine.verify_repair', side_effect=checks) as verify:
+        with patch('app.rewards.repair_engine.verify_repair', side_effect=checks) as verify:
             result = choose_repair(self.spec, 'disagreement', {}, 'AAAA', 1, [], [], [], advisor=advisor)
         self.assertEqual([x['proposed_weight'] for x in result['attempts']], [1.5, 0.75])
         self.assertEqual(verify.call_count, 2)

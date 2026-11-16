@@ -1,7 +1,7 @@
 """Construct finite, cost-ordered reward changes for development warnings."""
 import copy
 
-from app.reward_spec import LIMITS, validate_spec
+from app.rewards.reward_spec import LIMITS, validate_spec
 
 TERMS = {'support_shift': 'distance_penalty', 'coverage': 'uncertainty_penalty',
          'disagreement': 'uncertainty_penalty', 'diversity': 'diversity_bonus'}

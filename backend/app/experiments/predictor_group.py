@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.linear_model import Ridge, RidgeCV
 from sklearn.model_selection import KFold
 
-from app.selection import PENALTIES
+from app.experiments.selection import PENALTIES
 
 
 def fit_group(vectors, scores, fitting_ids, reserved_ids, cv_seed, member_seeds):

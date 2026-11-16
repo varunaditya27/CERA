@@ -2,8 +2,8 @@
 import copy
 import json
 
-from app.gemini_client import GeminiError
-from app.reward_spec import LIMITS, validate_spec
+from app.llm.gemini_client import GeminiError
+from app.rewards.reward_spec import LIMITS, validate_spec
 
 DEFAULT_SPEC = {'goal': 'maximize_fitness', 'terms': {
     'uncertainty_penalty': {'weight': 0.5, 'allowed_range': [0.0, 2.0]},

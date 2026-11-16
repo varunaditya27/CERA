@@ -2,9 +2,9 @@
 import random
 from pathlib import Path
 
-from app.amylase import DATA, REFERENCE
-from app.experiment import Experiment
-from app.selection import choose_random
+from app.datasets.amylase import DATA, REFERENCE
+from app.experiments.experiment import Experiment
+from app.experiments.selection import choose_random
 
 
 def run_random(output_dir, seed):

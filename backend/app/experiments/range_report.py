@@ -3,7 +3,7 @@ import csv
 import json
 from pathlib import Path
 
-from app.prediction_intervals import batch_coverage
+from app.experiments.prediction_intervals import batch_coverage
 
 
 def summarize_ranges(log_path, output_path):

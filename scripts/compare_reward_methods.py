@@ -8,11 +8,11 @@ import hashlib
 import json
 from pathlib import Path
 
-from app.amylase import DATA, REFERENCE, load_amylase
-from app.evaluation import evaluate
-from app.prediction_pilot import run_pilot
-from app.random_baseline import run_random
-from app.reward_spec import validate_spec
+from app.datasets.amylase import DATA, REFERENCE, load_amylase
+from app.experiments.evaluation import evaluate
+from app.experiments.prediction_pilot import run_pilot
+from app.experiments.random_baseline import run_random
+from app.rewards.reward_spec import validate_spec
 
 
 def main():
@@ -77,7 +77,8 @@ def main():
                 writer = csv.DictWriter(file, fieldnames=list(rows[0]))
                 writer.writeheader()
                 writer.writerows(rows)
-    files = ('backend/app/evaluation.py', 'backend/app/random_baseline.py', 'scripts/compare_reward_methods.py')
+    files = ('backend/app/experiments/evaluation.py', 'backend/app/experiments/random_baseline.py',
+             'scripts/compare_reward_methods.py')
     manifest = {'seed': args.seed, 'dataset_sha256': data_hash, 'reference_sha256': reference_hash,
                 'eligible_count': len(sequences), 'specification_sha256': hashlib.sha256(spec_path.read_bytes()).hexdigest(),
                 'code_sha256': {file: hashlib.sha256(Path(file).read_bytes()).hexdigest() for file in files},

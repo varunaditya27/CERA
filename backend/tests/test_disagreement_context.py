@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 from scipy.stats import spearmanr
 
-from app.disagreement_context import group_correlations
+from app.analysis.disagreement_context import group_correlations
 
 
 class DisagreementContextTests(unittest.TestCase):

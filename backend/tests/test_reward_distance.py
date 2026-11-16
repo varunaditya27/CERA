@@ -1,6 +1,6 @@
 import unittest
 
-from app.reward_distance import known_distances, normalized_distances
+from app.rewards.reward_distance import known_distances, normalized_distances
 
 
 class RewardDistanceTests(unittest.TestCase):

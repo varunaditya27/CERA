@@ -214,6 +214,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Random reached 0.19428 after 100 new measurements; greedy and fixed remained at the shared initial best of 0.18225 after 100; repair remained there and stopped after 20. The initial best was already in the eligible pool's top 1%. These are descriptive one-run observations, not evidence of a general winner or repair effectiveness.
 - Independently checked all records, starting data, source scores, query and stopping accounting and reported metrics. The full backend suite passed 61 tests. See [comparison findings](matched_reward_comparison_findings.md) for outputs, limitations and reproduction.
 
+### 2026-11-16: backend package organization
+
+- At Varun's request, moved the flat backend modules into focused `api`, `datasets`, `features`, `experiments`, `rewards`, `llm`, `analysis` and `provenance` packages. Updated imports, tests, scripts and current README examples. Kept `app.main:app` as a compatibility package so existing API startup instructions continue to work.
+- Source fingerprints now locate each uniquely named application module within the package tree and reject missing or ambiguous names. Historical replay still reads the original flat file paths from the pinned Git commit; existing records and caches were not rewritten.
+- The 62-test suite passed. A historical seed-2 replay matched all 50 prior warning results. Started the compatibility API and verified both endpoints over HTTP, including five available datasets. The real IRED model padding check passed on GPU with maximum observed difference approximately 3.65e-07. These are targeted checks, not a rerun of every experiment.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

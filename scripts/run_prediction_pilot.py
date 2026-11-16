@@ -3,7 +3,7 @@
 import argparse
 import json
 
-from app.prediction_pilot import run_pilot
+from app.experiments.prediction_pilot import run_pilot
 
 
 def main():

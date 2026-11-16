@@ -1,24 +1,25 @@
 """Run an exploratory representation-based prediction-range pilot."""
-import hashlib
 import importlib.metadata
 import copy
 import random
 import time
 from pathlib import Path
 
-from app.amylase import DATA, REFERENCE
-from app.amylase_representations import CACHE, CACHE_SHA256, load_verified_representations
-from app import ired, ired_representations
-from app.experiment import Experiment
-from app.prediction_intervals import interval_radius
-from app.predictor_group import fit_group, predict_group, predict_members
-from app.range_report import summarize_ranges
-from app.repair_coordinator import handle_warnings
-from app.reward_distance import known_distances, normalized_distances
-from app.reward_selection import select_batch
-from app.reward_spec import validate_spec
-from app.selection import PENALTIES
-from app.warning_checks import (constraint_warning, coverage_warning, disagreement_warning,
+from app.datasets.amylase import DATA, REFERENCE
+from app.features.amylase_representations import CACHE, CACHE_SHA256, load_verified_representations
+from app.datasets import ired
+from app.features import ired_representations
+from app.experiments.experiment import Experiment
+from app.experiments.prediction_intervals import interval_radius
+from app.experiments.predictor_group import fit_group, predict_group, predict_members
+from app.experiments.range_report import summarize_ranges
+from app.provenance.sources import source_hashes
+from app.rewards.repair_coordinator import handle_warnings
+from app.rewards.reward_distance import known_distances, normalized_distances
+from app.rewards.reward_selection import select_batch
+from app.rewards.reward_spec import validate_spec
+from app.experiments.selection import PENALTIES
+from app.rewards.warning_checks import (constraint_warning, coverage_warning, disagreement_warning,
                                 distance_snapshot, diversity_warning, support_warning)
 
 
@@ -68,8 +69,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                              'spread_ddof': 0, 'nominal_coverage': 0.9,
                              'interval': 'absolute_residual_order_statistic',
                              'cache_sha256': cache_hash,
-                             'source_sha256': {name: hashlib.sha256((Path(__file__).parent / name).read_bytes()).hexdigest()
-                                               for name in ('amylase.py', 'amylase_representations.py', 'experiment.py',
+                             'source_sha256': source_hashes(('amylase.py', 'amylase_representations.py', 'experiment.py',
                                                             'predictor_group.py', 'prediction_intervals.py',
                                                             'prediction_pilot.py', 'range_report.py',
                                                             'representation_cache.py', 'representations.py', 'selection.py',
@@ -78,7 +78,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                                                             'repair_coordinator.py', 'repair_engine.py',
                                                             'repair_menu.py', 'repair_verification.py',
                                                             'repair_advisor.py', 'gemini_client.py', 'ired.py',
-                                                            'ired_representations.py')},
+                                                            'ired_representations.py', 'sources.py')),
                              'scikit_learn': importlib.metadata.version('scikit-learn'),
                              'numpy': importlib.metadata.version('numpy'),
                              'scipy': importlib.metadata.version('scipy')})

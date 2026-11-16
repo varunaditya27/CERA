@@ -16,9 +16,9 @@ import transformers
 from huggingface_hub import hf_hub_download
 from transformers import AutoModel, AutoTokenizer
 
-from app import amylase, ired
-from app.representation_cache import load_cache, save_cache
-from app.representations import MODEL, REVISION, represent, sequence_id
+from app.datasets import amylase, ired
+from app.features.representation_cache import load_cache, save_cache
+from app.features.representations import MODEL, REVISION, represent, sequence_id
 
 
 def main():
@@ -82,8 +82,8 @@ def main():
                 'safetensors': importlib.metadata.version('safetensors'),
                 'code_sha256': {str(path.relative_to(Path(__file__).resolve().parents[1])): hashlib.sha256(path.read_bytes()).hexdigest()
                                 for path in (Path(__file__).resolve(),
-                                             Path(__file__).resolve().parents[1] / 'backend/app/representations.py',
-                                             Path(__file__).resolve().parents[1] / 'backend/app/representation_cache.py')},
+                                             Path(__file__).resolve().parents[1] / 'backend/app/features/representations.py',
+                                             Path(__file__).resolve().parents[1] / 'backend/app/features/representation_cache.py')},
                 'cuda_build': torch.version.cuda, 'native_jit_disabled': os.getenv('TORCH_DISABLE_NATIVE_JIT') == '1',
                 'gpu': torch.cuda.get_device_name() if args.device == 'cuda' else None}
     if args.device == 'cuda':

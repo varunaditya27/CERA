@@ -2,8 +2,8 @@ import json
 import unittest
 from unittest.mock import patch
 
-from app.gemini_client import GeminiError, request_weights
-from app.goal_compiler import DEFAULT_SPEC, compile_goal
+from app.llm.gemini_client import GeminiError, request_weights
+from app.llm.goal_compiler import DEFAULT_SPEC, compile_goal
 
 
 class GoalCompilerTests(unittest.TestCase):
@@ -42,7 +42,7 @@ class GoalCompilerTests(unittest.TestCase):
             def read(self, size):
                 return json.dumps({'candidates': [{'finishReason': 'STOP', 'content': {'parts': [
                     {'text': '{"uncertainty_penalty":0,"distance_penalty":0,"diversity_bonus":0}'}]}}]}).encode()
-        with patch('app.gemini_client.urlopen', return_value=Response()) as send:
+        with patch('app.llm.gemini_client.urlopen', return_value=Response()) as send:
             request_weights('sentinel-secret', 'example-model')
         request = send.call_args.args[0]
         self.assertNotIn('sentinel-secret', request.full_url)

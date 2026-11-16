@@ -7,8 +7,8 @@ import hashlib
 import json
 from pathlib import Path
 
-from app.amylase_representations import load_verified_representations
-from app.warning_replay import replay_record
+from app.features.amylase_representations import load_verified_representations
+from app.analysis.warning_replay import replay_record
 
 
 def main():

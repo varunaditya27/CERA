@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 
-from app.representations import FEATURES
+from app.features.representations import FEATURES
 
 
 def _validate(ids, vectors):

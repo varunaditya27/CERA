@@ -8,11 +8,11 @@ from unittest.mock import patch
 import numpy as np
 from sklearn.linear_model import RidgeCV
 
-from app.amylase_representations import load_verified_representations
-from app.experiment import Experiment
-from app.prediction_intervals import batch_coverage, interval_radius
-from app.predictor_group import fit_group, predict_group
-from app.range_report import summarize_ranges
+from app.features.amylase_representations import load_verified_representations
+from app.experiments.experiment import Experiment
+from app.experiments.prediction_intervals import batch_coverage, interval_radius
+from app.experiments.predictor_group import fit_group, predict_group
+from app.experiments.range_report import summarize_ranges
 
 
 class RestrictedScores(dict):

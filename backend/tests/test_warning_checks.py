@@ -6,9 +6,9 @@ from pathlib import Path
 
 import numpy as np
 
-from app.warning_checks import (constraint_warning, coverage_warning, disagreement_warning,
+from app.rewards.warning_checks import (constraint_warning, coverage_warning, disagreement_warning,
                                 distance_snapshot, diversity_warning, support_warning)
-from app.experiment import Experiment
+from app.experiments.experiment import Experiment
 
 
 class WarningTests(unittest.TestCase):

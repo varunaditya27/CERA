@@ -9,12 +9,13 @@ from pathlib import Path
 
 import numpy as np
 
-from app.amylase import DATA, REFERENCE, ROOT
-from app.amylase_representations import CACHE_SHA256
-from app.prediction_intervals import interval_radius
-from app.predictor_group import fit_group, predict_group, predict_members
-from app.representations import sequence_id
-from app.warning_checks import (constraint_warning, coverage_warning, disagreement_warning,
+from app.datasets.amylase import DATA, REFERENCE, ROOT
+from app.features.amylase_representations import CACHE_SHA256
+from app.experiments.prediction_intervals import interval_radius
+from app.experiments.predictor_group import fit_group, predict_group, predict_members
+from app.features.representations import sequence_id
+from app.provenance.sources import source_hashes
+from app.rewards.warning_checks import (constraint_warning, coverage_warning, disagreement_warning,
                                 distance_snapshot, diversity_warning, support_warning)
 
 HISTORICAL_COMMIT = '78fce61'
@@ -76,8 +77,8 @@ def replay_record(source_path, output_path, vectors, on_selection=None):
         write({'event': 'replay_start', 'source_record': str(source_path),
                'source_sha256': hashlib.sha256(source_path.read_bytes()).hexdigest(),
                'historical_commit': HISTORICAL_COMMIT, 'cache_sha256': CACHE_SHA256,
-               'reconstruction_code_sha256': {name: hashlib.sha256((ROOT / 'backend/app' / name).read_bytes()).hexdigest()
-                                              for name in ('warning_checks.py', 'warning_replay.py', 'predictor_group.py')},
+               'reconstruction_code_sha256': source_hashes(('warning_checks.py', 'warning_replay.py',
+                                                             'predictor_group.py', 'sources.py')),
                'versions': {name: importlib.metadata.version(name) for name in ('numpy', 'scipy', 'scikit-learn')}})
         for event in events[2:]:
             if event['event'] == 'method':

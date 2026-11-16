@@ -1,8 +1,8 @@
 """Try permitted reward changes in increasing cost and retain the old rule on failure."""
 import copy
 
-from app.repair_menu import repair_candidates
-from app.repair_verification import verify_repair
+from app.rewards.repair_menu import repair_candidates
+from app.rewards.repair_verification import verify_repair
 
 
 def choose_repair(spec, warning_type, candidates, reference, remaining, counterexamples, calibration, earlier,

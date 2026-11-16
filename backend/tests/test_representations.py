@@ -6,8 +6,8 @@ from types import SimpleNamespace
 import numpy as np
 import torch
 
-from app.representation_cache import load_cache, save_cache
-from app.representations import FEATURES, represent, sequence_id
+from app.features.representation_cache import load_cache, save_cache
+from app.features.representations import FEATURES, represent, sequence_id
 
 
 class FakeTokenizer:

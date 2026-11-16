@@ -4,9 +4,9 @@ import math
 import numpy as np
 from scipy.stats import spearmanr
 
-from app.repair_menu import TERMS, repair_candidates
-from app.reward_selection import select_batch
-from app.reward_spec import validate_spec
+from app.rewards.repair_menu import TERMS, repair_candidates
+from app.rewards.reward_selection import select_batch
+from app.rewards.reward_spec import validate_spec
 
 
 def _score(spec, row):

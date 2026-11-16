@@ -1,8 +1,8 @@
 import copy
 import unittest
 
-from app.reward_selection import select_batch
-from app.reward_spec import validate_spec
+from app.rewards.reward_selection import select_batch
+from app.rewards.reward_spec import validate_spec
 
 
 def specification():

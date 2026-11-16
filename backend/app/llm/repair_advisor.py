@@ -1,8 +1,8 @@
 """Validate a model's preference for one member of a fixed repair menu."""
 import json
 
-from app.gemini_client import GeminiError
-from app.goal_compiler import _unique_object
+from app.llm.gemini_client import GeminiError
+from app.llm.goal_compiler import _unique_object
 
 
 def advise_repair(request, warning_type, candidates):

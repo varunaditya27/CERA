@@ -1,7 +1,7 @@
 """Handle triggered warnings in the documented order using saved batch evidence."""
-from app.repair_engine import choose_repair
-from app.reward_selection import select_batch
-from app.warning_checks import diversity_warning
+from app.rewards.repair_engine import choose_repair
+from app.rewards.reward_selection import select_batch
+from app.rewards.warning_checks import diversity_warning
 
 PRIORITY = ('support_shift', 'coverage', 'disagreement', 'diversity')
 

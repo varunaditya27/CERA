@@ -9,9 +9,9 @@ from pathlib import Path
 
 import numpy as np
 
-from app.amylase_representations import load_verified_representations
-from app.disagreement_context import compare_groups
-from app.warning_replay import replay_record
+from app.features.amylase_representations import load_verified_representations
+from app.analysis.disagreement_context import compare_groups
+from app.analysis.warning_replay import replay_record
 
 
 def digest(path):
@@ -65,8 +65,8 @@ def main():
         writer = csv.DictWriter(file, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
-    files = ['backend/app/disagreement_context.py', 'backend/app/warning_replay.py',
-             'backend/app/predictor_group.py', 'scripts/analyze_disagreement_context.py']
+    files = ['backend/app/analysis/disagreement_context.py', 'backend/app/analysis/warning_replay.py',
+             'backend/app/experiments/predictor_group.py', 'scripts/analyze_disagreement_context.py']
     manifest = {'inputs': inputs, 'code_sha256': {path: digest(Path(path)) for path in files}}
     (args.output_dir / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
 

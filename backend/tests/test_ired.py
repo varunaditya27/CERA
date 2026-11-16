@@ -7,13 +7,13 @@ import json
 from pathlib import Path
 from unittest.mock import patch
 
-from app.amylase import load_amylase
-from app.experiment import Experiment
-from app.ired import DATA, REFERENCE
-from app.ired_representations import CACHE, load_verified_representations
-from app.goal_compiler import DEFAULT_SPEC
-from app.prediction_pilot import run_pilot
-from app.representations import sequence_id
+from app.datasets.amylase import load_amylase
+from app.experiments.experiment import Experiment
+from app.datasets.ired import DATA, REFERENCE
+from app.features.ired_representations import CACHE, load_verified_representations
+from app.llm.goal_compiler import DEFAULT_SPEC
+from app.experiments.prediction_pilot import run_pilot
+from app.features.representations import sequence_id
 import numpy as np
 
 
@@ -61,8 +61,8 @@ class IredTests(unittest.TestCase):
                        for index, sequence in enumerate(sequences)}
             spec = copy.deepcopy(DEFAULT_SPEC)
             spec['budget'] = {'rounds': 1, 'batch_size': 1}
-            with patch('app.ired.DATA', data), patch('app.ired.REFERENCE', reference), \
-                 patch('app.ired_representations.load_verified_representations', return_value=vectors):
+            with patch('app.datasets.ired.DATA', data), patch('app.datasets.ired.REFERENCE', reference), \
+                 patch('app.features.ired_representations.load_verified_representations', return_value=vectors):
                 result = run_pilot(root / 'run', seed=7, reward_spec=spec, dataset='ired')
             events = [json.loads(line) for line in (root / 'run/run.jsonl').read_text().splitlines()]
             self.assertEqual(result['batches'], 1)

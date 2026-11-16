@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from app.evaluation import evaluate
+from app.experiments.evaluation import evaluate
 
 
 class EvaluationTests(unittest.TestCase):

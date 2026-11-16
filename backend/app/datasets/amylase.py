@@ -5,7 +5,7 @@ import io
 import math
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 DATA = ROOT / 'data/raw/flip2/amylase/close_to_far.csv'
 REFERENCE = ROOT / 'data/amylase_reference.fasta'
 

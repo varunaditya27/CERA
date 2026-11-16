@@ -33,6 +33,8 @@ In a second terminal, run `cd frontend && npm install && npm run dev`, then visi
 
 The frontend has dedicated routes for the overview (`/`), dataset catalog (`/datasets`), individual dataset profiles (`/datasets/[id]`), and the planned research method (`/workflow`). Dataset counts come from the API; the website does not run experiments or display results. Repository-local design and engineering skills are listed in `skills-lock.json`.
 
+Backend code is grouped under `backend/app/`: `api` serves the catalog, `datasets` identifies source files, `features` handles sequence representations, `experiments` runs and evaluates searches, `rewards` contains warning and repair rules, `llm` contains Gemini integrations, `analysis` replays earlier studies, and `provenance` fingerprints source files. `app.main` is a compatibility package for the existing API command.
+
 ## Amylase measurement runner
 
 The local Python runner is separate from the web catalog. It selects initial amylase measurements and reveals requested eligible variants within a budget. Separate development modules provide prediction, selection, ranges and warning checks; repair is not yet implemented. The runner's design and limits are documented in the [development protocol](research/amylase_development_protocol.md).
@@ -40,8 +42,8 @@ The local Python runner is separate from the web catalog. It selects initial amy
 For an interactive run from the repository root, start `PYTHONPATH=backend python3`, then:
 
 ```python
-from app.amylase import DATA, REFERENCE
-from app.experiment import Experiment
+from app.datasets.amylase import DATA, REFERENCE
+from app.experiments.experiment import Experiment
 
 run = Experiment(DATA, REFERENCE, 'amylase-run.jsonl', seed=1)
 print(len(run.revealed), len(run.candidates), run.remaining)
@@ -77,7 +79,7 @@ TORCH_DISABLE_NATIVE_JIT=1 OPENBLAS_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/p
 TORCH_DISABLE_NATIVE_JIT=1 OPENBLAS_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/python scripts/embed_amylase.py --device cuda --batch-size 16 --output output/representations/my-amylase-cache.npz
 ```
 
-The first run can download model files to the normal Hugging Face cache. The output cache contains sequence identifiers, vectors and metadata, including dataset, reference, model-file, code and settings fingerprints; it contains no scores. Writing is atomic and refuses to replace an existing file. A temporary file can remain after a process is forcibly interrupted; the final cache is only linked into place after the write finishes. Use `app.representation_cache.load_cache` with the expected ordered identifiers and exact settings to validate a cache before using it. The tested local cache is `output/representations/amylase_esm2_c731040_v2.npz`.
+The first run can download model files to the normal Hugging Face cache. The output cache contains sequence identifiers, vectors and metadata, including dataset, reference, model-file, code and settings fingerprints; it contains no scores. Writing is atomic and refuses to replace an existing file. A temporary file can remain after a process is forcibly interrupted; the final cache is only linked into place after the write finishes. Use `app.features.representation_cache.load_cache` with the expected ordered identifiers and exact settings to validate a cache before using it. The tested local cache is `output/representations/amylase_esm2_c731040_v2.npz`.
 
 The same embedding command accepts `--dataset ired`. The IRED reference, cache, source checks and outstanding provenance questions are documented in [IRED preparation](research/ired_preparation.md). Its pilot dispatch is available but is not a completed evaluation.
 

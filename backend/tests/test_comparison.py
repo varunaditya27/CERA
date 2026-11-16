@@ -5,9 +5,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from app.comparison import summarize
-from app.experiment import Experiment
-from app.selection import choose_greedy, choose_random
+from app.experiments.comparison import summarize
+from app.experiments.experiment import Experiment
+from app.experiments.selection import choose_greedy, choose_random
 
 
 class ComparisonTests(unittest.TestCase):

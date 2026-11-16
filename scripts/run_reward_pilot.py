@@ -6,7 +6,7 @@ import json
 import os
 from pathlib import Path
 
-from app.prediction_pilot import run_pilot
+from app.experiments.prediction_pilot import run_pilot
 
 
 def main():
@@ -29,8 +29,8 @@ def main():
     advisor = model = None
     if args.gemini_repair:
         from dotenv import dotenv_values
-        from app.gemini_client import request_repair
-        from app.repair_advisor import advise_repair
+        from app.llm.gemini_client import request_repair
+        from app.llm.repair_advisor import advise_repair
         settings = dotenv_values(Path(__file__).resolve().parents[1] / 'backend' / '.env')
         key = os.environ.get('GEMINI_API_KEY') or settings.get('GEMINI_API_KEY')
         model = os.environ.get('GEMINI_MODEL') or settings.get('GEMINI_MODEL')
