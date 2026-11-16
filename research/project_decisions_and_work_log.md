@@ -67,6 +67,14 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Prepared [the first comparison plan](first_comparison_plan.md): matched random selection versus a simple one-hot ridge predictor, with saved pre-reveal predictions and matched starting data. This is a proposed development comparison, not a CERA result.
 - Confirmed the current system has scikit-learn, NumPy and SciPy, but the project does not declare them. Version and dependency choices require verification before implementation. No comparison code has been written or run.
 
+### 2026-11-16: first exploratory comparison
+
+- With Varun's approval, exposed revealed sequences, added pre-reveal prediction records, and implemented separate selection and comparison modules. Pinned the tested research dependencies separately from the catalog's requirements. The original model-selection default produced undefined scores on tiny test folds; use negative mean squared error to compare model choices instead.
+- Seven unit tests passed with `OPENBLAS_NUM_THREADS=1 PYTHONPATH=backend python3 -m unittest discover -s backend/tests -v`.
+- Ran `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend python3 scripts/compare_amylase.py output/amylase_comparison_seed1_final --seed 1`. Both methods started at best observed score 0.1568 with the same initial data; after 100 new measurements the random run reached 0.2116333333333333 and the greedy run 0.1896333333333333. These are one-run exploratory results, not evidence of a general winner.
+- Independently checked that initial data, fingerprints and budget settings match; selections precede reveals, no identifier repeats, greedy choices are highest recorded predictions, both stop at budget exhaustion, and the CSV summaries reconstruct from the logs. A repeated run produced identical summary files. Full run records and summaries are in `output/amylase_comparison_seed1_final/`.
+- No prediction intervals, CERA failure detection, repairs, language model, repeated-run uncertainty, or evaluation-dataset results are implemented. The original score information remains accessible to processes with direct raw-file access.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

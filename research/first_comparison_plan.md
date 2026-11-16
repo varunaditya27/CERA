@@ -1,6 +1,6 @@
 # First amylase comparison: implementation plan
 
-Status: planned, not implemented or approved for code changes. The purpose is to test the experiment machinery with two understandable methods, not to claim CERA's repair system works. This plan follows the [amylase development protocol](amylase_development_protocol.md) and the user's delegated research-design direction.
+Status: implemented for one exploratory development run after Varun's approval. The purpose is to test the experiment machinery with two understandable methods, not to claim CERA's repair system works. This plan follows the [amylase development protocol](amylase_development_protocol.md) and the user's delegated research-design direction.
 
 ## What will be compared
 

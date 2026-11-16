@@ -1,5 +1,6 @@
 """Controlled measurement access for a retrospective amylase run."""
 import json
+import math
 import random
 import sys
 from pathlib import Path
@@ -55,6 +56,10 @@ class Experiment:
         return self.__revealed.copy()
 
     @property
+    def revealed_sequences(self):
+        return {identifier: self.__sequences[identifier] for identifier in self.__revealed}
+
+    @property
     def remaining(self):
         return self.__budget
 
@@ -66,13 +71,21 @@ class Experiment:
             return 'no_candidates'
         return None
 
-    def reveal(self, identifiers):
+    def record_settings(self, settings):
+        self.__write({'event': 'method', 'settings': settings})
+
+    def reveal(self, identifiers, predictions=None):
         ids = list(identifiers)
         if (not ids or any(not isinstance(i, str) for i in ids) or len(ids) > self.__batch_size
                 or len(ids) > self.__budget or len(set(ids)) != len(ids)
                 or any(i not in self.__sequences or i in self.__revealed for i in ids)):
             raise ValueError('Invalid measurement request')
-        self.__write({'event': 'selection', 'ids': ids})
+        if predictions is not None:
+            if (set(predictions) != set(self.candidates) or any(
+                    isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+                    for value in predictions.values())):
+                raise ValueError('Invalid candidate predictions')
+        self.__write({'event': 'selection', 'ids': ids, 'predictions': predictions})
         measured = {identifier: self.__scores[identifier] for identifier in ids}
         remaining = self.__budget - len(ids)
         stop_reason = ('budget_exhausted' if remaining == 0 else

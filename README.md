@@ -31,7 +31,7 @@ python3 -m venv .venv
 
 In a second terminal, run `cd frontend && npm install && npm run dev`, then visit `http://localhost:3000`. The frontend reads the API server-side at `http://127.0.0.1:8000`; set `CERA_API_URL` for a different API address. API documentation is at `http://127.0.0.1:8000/docs`. Dataset counts are read from the local CSV files, and the interface displays an unavailable state if the API or files are missing.
 
-The frontend has dedicated routes for the overview (`/`), dataset catalog (`/datasets`), individual dataset profiles (`/datasets/[id]`), and the planned research method (`/workflow`). Dataset counts come from the API; experiment execution and results are not implemented yet. Repository-local design and engineering skills are listed in `skills-lock.json`.
+The frontend has dedicated routes for the overview (`/`), dataset catalog (`/datasets`), individual dataset profiles (`/datasets/[id]`), and the planned research method (`/workflow`). Dataset counts come from the API; the website does not run experiments or display results. Repository-local design and engineering skills are listed in `skills-lock.json`.
 
 ## Amylase measurement runner
 
@@ -53,3 +53,15 @@ run.close()
 The log file must not already exist; choose a new path for each run. It records the dataset and reference fingerprints, settings, initially revealed scores, and each selection before its revealed measurements. The reference sequence was retrieved from the [original source at a fixed commit](https://github.com/florisvdf/mutation-predictability/blob/aea601d50493892fc6a73601beb90b8d0c93cd52/data/AMY_BACSU/reference.fasta). A failed or interrupted log write can leave an incomplete record; inspect it before interpreting the run. The interface prevents accidental score disclosure through its supported methods, but Python code with direct file or object access can still read raw scores.
 
 Run the focused checks with `PYTHONPATH=backend python3 -m unittest discover -s backend/tests -v`.
+
+## First exploratory comparison
+
+Install the additional research dependencies with `.venv/bin/pip install -r backend/requirements-research.txt` after setting up the environment above. These versions require Python 3.11 or newer. From the repository root, run:
+
+```sh
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/python scripts/compare_amylase.py output/my-amylase-comparison --seed 1
+```
+
+The output directory must not already exist. The command writes separate run records (`.jsonl`) and best-observed-score tables (`.csv`) for random selection and a simple ridge predictor. Both use the same starting set and budget; the predictor holds 20 initial examples aside and fits on the remaining 80 plus later revealed measurements. Its model choices are checked using cross-validation within the fitting data. Each greedy selection record contains its predicted scores before the measurements are revealed. A score table starts at zero new measurements and includes the best starting score.
+
+An exploratory reference run is in `output/amylase_comparison_seed1_final/`. It is one run, not evidence of an overall winner or a test of CERA's repair system. Repeated runs, uncertainty analysis, intervals, detectors and repairs remain future work. A failed or interrupted comparison may leave a partial output directory; inspect its records before using them.
