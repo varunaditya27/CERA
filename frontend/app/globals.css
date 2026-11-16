@@ -17,9 +17,9 @@
   --sea:#A8C8BF;
   --light-text:#F2F3ED;
   --light-muted:#ADC2BA;
-  --serif:'Newsreader',Georgia,serif;
-  --sans:'Onest',Arial,sans-serif;
-  --mono:'Fragment Mono',monospace;
+  --serif:var(--font-newsreader),Georgia,serif;
+  --sans:var(--font-onest),Arial,sans-serif;
+  --mono:var(--font-fragment-mono),monospace;
   color-scheme:light;
 }
 *,*::before,*::after{box-sizing:border-box}
