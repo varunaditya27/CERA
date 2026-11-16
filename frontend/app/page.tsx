@@ -37,7 +37,7 @@ export default function Home(){
      <span className="hero-display-note">Illustrative values</span>
     </div>
    </div>
-   <div className="hero-bottom"><span>Measure what matters.</span><a href="#question" aria-label="Scroll to the research question">Explore <ArrowDown size={16} aria-hidden="true"/></a></div>
+   <div className="hero-bottom"><span>Protein fitness research</span><a href="#question" aria-label="Scroll to the research question">Explore <ArrowDown size={16} aria-hidden="true"/></a></div>
   </section>
 
   <section id="question" className="question-section wrap">
@@ -54,18 +54,23 @@ export default function Home(){
   <section className="home-example" aria-labelledby="example-heading">
    <div className="wrap home-example-grid">
     <SectionReveal className="home-example-copy">
-     <div className="chapter-index">02 <span>Illustrated case</span></div>
-     <h2 id="example-heading">Predicted <span>9.</span><br/>Measured <span>3.</span></h2>
-     <p>In a two-round example, the highest-ranked candidate performs worse than expected. Follow each decision and see which information is still hidden.</p>
-     <Link className="underlined-link" href="/walkthrough">Open walkthrough <ArrowUpRight size={17}/></Link>
+     <span className="chapter-index">02 <span>What the search can see</span></span>
+     <h2 id="example-heading">The next score is still <span>hidden.</span></h2>
+     <p>Protein sequences are visible, but unmeasured fitness scores are not. The system must choose what to measure before seeing the answer.</p>
+     <Link className="underlined-link" href="/walkthrough">Try the selection <ArrowUpRight size={17}/></Link>
     </SectionReveal>
-    <div className="home-example-figure" aria-label="Illustrative score difference: predicted nine, measured three">
-     <div className="case-axis" aria-hidden="true"><span>0</span><span>5</span><span>10</span></div>
-     <div className="case-bars">
-      <div><span>Predicted</span><div className="case-bar-track"><i style={{width:'90%'}}/></div><strong>9</strong></div>
-      <div><span>Measured</span><div className="case-bar-track"><i style={{width:'30%'}}/></div><strong>3</strong></div>
+    <div className="home-example-figure" aria-label="Illustrative starting view with two known protein scores and four hidden ones">
+     <div className="visibility-head"><span>Protein</span><span>Measured fitness</span></div>
+     <div className="visibility-grid">
+      {[
+       {id:'A',score:'4',known:true},{id:'B',score:'6',known:true},
+       {id:'C',score:'?',known:false},{id:'D',score:'?',known:false},
+       {id:'E',score:'?',known:false},{id:'F',score:'?',known:false},
+      ].map(item=><div key={item.id} className={item.known?'visibility-cell is-known':'visibility-cell'}>
+       <span>{item.id}</span><strong>{item.score}</strong><small>{item.known?'Measured':'Hidden'}</small>
+      </div>)}
      </div>
-     <span className="case-caption">Illustrative example, not experiment data</span>
+     <p className="case-caption">Illustrative starting set, not experimental data</p>
     </div>
    </div>
   </section>
