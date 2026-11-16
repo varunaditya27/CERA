@@ -96,6 +96,16 @@ class ExperimentTests(unittest.TestCase):
         self.assertEqual(json.loads((self.root / 'run.jsonl').read_text().splitlines()[-1]),
                          {'event': 'stop', 'stop_reason': 'failed_repairs', 'remaining': 2})
 
+    def test_no_neighbors_stop_and_invalid_stop_reason(self):
+        run = self.make_run()
+        with self.assertRaises(ValueError):
+            run.stop_early('unknown')
+        run.stop_early('no_neighbors')
+        self.assertEqual(run.stop_reason, 'no_neighbors')
+        self.assertEqual(run.remaining, 2)
+        with self.assertRaises(ValueError):
+            run.reveal([next(iter(run.candidates))])
+
     def test_local_amylase_feasibility(self):
         run = Experiment(DATA, REFERENCE, self.root / 'real.jsonl', seed=1)
         self.addCleanup(run.close)

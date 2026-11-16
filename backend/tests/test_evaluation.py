@@ -33,6 +33,11 @@ class EvaluationTests(unittest.TestCase):
         self.assertIsNone(result['covered'])
         self.assertIsNone(result['mean_range_width'])
 
+    def test_no_neighbors_is_an_explicit_early_stop(self):
+        events = copy.deepcopy(self.events)
+        events[-1]['stop_reason'] = 'no_neighbors'
+        self.assertEqual(self.run_evaluation(events)['stop_reason'], 'no_neighbors')
+
     def test_bad_fingerprint_duplicate_wrong_score_and_incomplete_are_rejected(self):
         cases = []
         bad = copy.deepcopy(self.events); bad[0]['data_sha256'] = 'other'; cases.append(bad)

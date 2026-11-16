@@ -14,9 +14,11 @@ def main():
     parser.add_argument('--member-seed', type=int, default=4)
     parser.add_argument('--dataset', choices=('amylase', 'ired'), default='amylase')
     parser.add_argument('--acquisition', choices=('ucb', 'ei'))
+    parser.add_argument('--local-search', choices=('genetic', 'adalead'))
     args = parser.parse_args()
     print(json.dumps(run_pilot(args.output_dir, seed=args.seed, role_seed=args.role_seed,
-                               member_seed=args.member_seed, dataset=args.dataset, acquisition=args.acquisition)))
+                               member_seed=args.member_seed, dataset=args.dataset, acquisition=args.acquisition,
+                               local_search=args.local_search)))
 
 
 if __name__ == '__main__':

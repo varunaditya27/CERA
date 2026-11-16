@@ -97,6 +97,8 @@ The pilot also records five development warning checks. Member predictions and d
 
 The same pilot can use the experimental `ucb` and `ei` acquisition rules. Their formulas, assumptions, matched development results and commands are in [acquisition baseline findings](research/acquisition_baseline_findings.md).
 
+Finite-pool recombination and AdaLead-style options are also available through `--local-search`; their proposal rules, sparse-neighborhood stopping behavior and development results are in [local-search findings](research/local_search_baselines_findings.md).
+
 To retrospectively replay the checks on the ten earlier range runs, use a new output directory:
 
 ```sh

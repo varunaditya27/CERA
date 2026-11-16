@@ -226,6 +226,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Both seed-13 amylase runs used the same starting and reserved sets, model seeds and budget as the earlier greedy run. After 100 measurements, the mean-plus-spread run's best observed score was 0.19428 and expected improvement's was 0.18432; the earlier greedy run remained at its initial best of 0.18225. These are one-seed development observations, not a general ranking.
 - Independently reconstructed all acquisition scores and selected batches, checked source measurements and budgets, and preserved lossless records. The full backend suite passed 65 tests. [Findings](acquisition_baseline_findings.md) record assumptions, outputs and remaining baselines.
 
+### 2026-11-16: finite-pool evolutionary baselines
+
+- Predeclared and added deterministic finite-pool recombination-and-mutation and AdaLead-style two-step search, with explicit parent selection, predicted-score ordering, two-substitution proximity and a `no_neighbors` stop preserving unspent budget. These are adaptations, not exact implementations of unrestricted algorithms.
+- In one matched amylase seed-13 development run, recombination used 100 new measurements and found the eligible pool's maximum score (0.21163). AdaLead-style search used 14 and stopped with no eligible neighbors, reaching 0.18690. The shared initial best was 0.18225. These observations are not a general method ranking or repair evaluation.
+- Independently reconstructed every parent and proposal set using mutation-position dictionaries, checked selections, source scores, matching initial settings, budget and stop, and preserved the complete records. The full backend suite passed 71 tests. See [local-search findings](local_search_baselines_findings.md) for methods, outputs and limits.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

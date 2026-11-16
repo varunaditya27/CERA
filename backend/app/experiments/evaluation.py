@@ -63,7 +63,7 @@ def evaluate(events, scores, train_ids, data_hash, reference_hash):
             snapshot(count)
             pending = None
         elif event['event'] == 'stop':
-            if (stop is not None or pending is not None or event['stop_reason'] != 'failed_repairs'
+            if (stop is not None or pending is not None or event['stop_reason'] not in ('failed_repairs', 'no_neighbors')
                     or event['remaining'] != budget - (len(known) - start['initial_count'])):
                 raise ValueError('Invalid early stop')
             stop = event['stop_reason']

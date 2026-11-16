@@ -75,7 +75,7 @@ class Experiment:
         return None
 
     def stop_early(self, reason):
-        if reason != 'failed_repairs' or self.stop_reason is not None:
+        if reason not in ('failed_repairs', 'no_neighbors') or self.stop_reason is not None:
             raise ValueError('Invalid early stop')
         self.__write({'event': 'stop', 'stop_reason': reason, 'remaining': self.__budget})
         self.__early_stop = reason

@@ -1,0 +1,3 @@
+method,new_measurements,best_observed,pool_regret,found_top_one_percent,stop_reason,covered,range_count,mean_range_width,proposal_rounds
+genetic,100,0.2116333333333333,0.0,True,budget_exhausted,97,100,0.1998910927531166,10
+adalead,14,0.1868999999999999,0.024733333333333413,True,no_neighbors,11,14,0.21986520156030795,4

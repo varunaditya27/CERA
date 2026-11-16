@@ -1,0 +1,7 @@
+{
+  "methods": [
+    "genetic",
+    "adalead"
+  ],
+  "checks": "all parent sets, proposal sets, rankings, source measurements, matching initial and reserved examples, budgets and stop reasons"
+}
