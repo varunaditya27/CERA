@@ -158,6 +158,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Rechecked the historical warning evidence and researched how selection can affect observed associations and how Spearman ranking correlation behaves. The first-round full-pool versus top-100 result remains post-hoc and cannot establish causation or warning accuracy.
 - Prepared an [exploratory comparison plan](disagreement_context_plan.md) covering equally sized top, middle, bottom and random candidate groups, reconstruction checks, chronological score access and reporting limitations. Keep the warning and threshold unchanged until independent evaluation is designed. No new analysis or application code was run or written in this step.
 
+### 2026-11-16: disagreement comparison
+
+- Reconstructed all ten historical amylase runs and compared predictor ordering in top, middle, bottom, random and full candidate groups. Every top and random comparison used 100 candidates; all 500 group-round values were available. Average correlations were approximately 0.100, -0.221, 0.221, 0.644 and 0.649 respectively. Results are descriptive and do not establish warning accuracy or causation.
+- Checked original record and representation fingerprints, model reconstruction, all candidate predictions, all 100 top-group values against the earlier replay, and first-round values against the previous context table. The backend suite passed 27 tests. The analysis code, records, limitations and reproduction command are in [the findings](disagreement_context_findings.md).
+- The existing warning threshold remains unchanged. This analysis does not validate a warning or repair.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

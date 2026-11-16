@@ -1,6 +1,6 @@
 # Investigating the ranking-disagreement warning
 
-Status: proposed retrospective analysis, 16 November 2026. No new analysis described below has been run. The first-round comparison that motivated it was already inspected, so this is exploratory rather than independent confirmation.
+Status: retrospective analysis completed; see [findings](disagreement_context_findings.md). The first-round comparison that motivated it was already inspected, so this is exploratory rather than independent confirmation.
 
 ## The question
 

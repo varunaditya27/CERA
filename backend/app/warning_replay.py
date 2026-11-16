@@ -35,7 +35,7 @@ def _verify_source(settings):
             raise ValueError('Historical source fingerprint mismatch')
 
 
-def replay_record(source_path, output_path, vectors):
+def replay_record(source_path, output_path, vectors, on_selection=None):
     source_path = Path(source_path)
     with gzip.open(source_path, 'rt', encoding='utf-8') as file:
         events = [json.loads(line) for line in file]
@@ -112,6 +112,8 @@ def replay_record(source_path, output_path, vectors):
                     if not (np.isclose(values.mean(), ranges[identifier]['mean'], rtol=1e-10, atol=1e-12)
                             and np.isclose(values.std(ddof=0), ranges[identifier]['spread'], rtol=1e-10, atol=1e-12)):
                         raise ValueError('Historical member predictions mismatch')
+                if on_selection is not None:
+                    on_selection(round_number, models, vectors, ranked, ranges)
                 members = {identifier: [float(value) for value in member_values[:, index]]
                            for index, identifier in enumerate(top)}
                 candidates = {identifier: sequences[identifier] for identifier in ranges}
