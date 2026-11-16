@@ -3,25 +3,27 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
-/**
- * A single clock for Lenis and GSAP. We deliberately keep native touch
- * scrolling and respect the user's reduced-motion preference.
- */
+/** Lenis uses GSAP's ticker. Native touch and reduced-motion requests are respected. */
 export function MotionRuntime(){
   const pathname=usePathname();
 
   useEffect(()=>{
     let disposed=false;
-    let dispose=()=>{};
+    let request=0;
+    let teardown=()=>{};
     const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
     const coarse=window.matchMedia('(pointer: coarse)');
 
-    async function initialize(){
+    async function sync(){
+      teardown();
+      teardown=()=>{};
+      const id=++request;
       if(reduced.matches||coarse.matches)return;
+
       const [{default:Lenis},{default:gsap},{ScrollTrigger}]=await Promise.all([
         import('lenis'),import('gsap'),import('gsap/ScrollTrigger')
       ]);
-      if(disposed)return;
+      if(disposed||id!==request)return;
 
       gsap.registerPlugin(ScrollTrigger);
       const lenis=new Lenis({
@@ -39,15 +41,24 @@ export function MotionRuntime(){
       gsap.ticker.lagSmoothing(0);
       ScrollTrigger.refresh();
 
-      dispose=()=>{
+      teardown=()=>{
         gsap.ticker.remove(tick);
         lenis.off('scroll',update);
         lenis.destroy();
       };
     }
 
-    void initialize();
-    return()=>{disposed=true;dispose();};
+    const onPreference=()=>void sync();
+    reduced.addEventListener('change',onPreference);
+    coarse.addEventListener('change',onPreference);
+    void sync();
+
+    return()=>{
+      disposed=true;request++;
+      reduced.removeEventListener('change',onPreference);
+      coarse.removeEventListener('change',onPreference);
+      teardown();
+    };
   },[pathname]);
   return null;
 }
