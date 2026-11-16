@@ -164,6 +164,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Checked original record and representation fingerprints, model reconstruction, all candidate predictions, all 100 top-group values against the earlier replay, and first-round values against the previous context table. The backend suite passed 27 tests. The analysis code, records, limitations and reproduction command are in [the findings](disagreement_context_findings.md).
 - The existing warning threshold remains unchanged. This analysis does not validate a warning or repair.
 
+### 2026-11-16: reward foundation
+
+- Compared the current implementation with the synopsis and added a separate closed reward-specification validator and deterministic batch selector. Hard constraints filter candidates before scoring; model spread, precomputed normalized distance and nearest-selected sequence diversity are explicit terms. The diversity normalization is a provisional decision documented in [reward foundation](reward_foundation.md), not a validated research setting.
+- The backend suite passed 32 tests. A real historical first-round check with zero weights reproduced all ten saved greedy selections among 3,175 candidates. The selector has not yet been connected to an experiment; distance computation, repair and its verifier remain outstanding.
+- Updated stale README statements that predated the existing model, range and warning work.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

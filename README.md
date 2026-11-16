@@ -15,7 +15,7 @@ Run `python3 scripts/download_data.py` to download missing files and check SHA-2
 
 The FLIP2 site describes 17,143 IRED variants, but the downloaded two-to-many split contains 8,586 rows. Do not assume the split contains the full landscape; investigate the source and filtering before drawing conclusions. Hydro contains three wild types; whether to search them separately remains an open design decision. The optional GB1 split and ProteinGym GFP assay are also included; see the [usability audit](data/USABILITY.md) for limitations and preparation steps.
 
-These raw files contain all measured targets. A future experiment must enforce label hiding in its query interface; storing the files here does not itself prevent leakage. Target direction and wild-type metadata still need verification before experiments. Embeddings and models have not been generated.
+These raw files contain all measured targets. The amylase runner limits scores exposed through its supported interface, but direct file access can still reveal them. The amylase reference, score direction, representations and exploratory models have been checked; IRED and Hydro retain documented provenance questions. See the [research roadmap](research/CERA_research_evidence_and_roadmap.md) and newer entries in the [work log](research/project_decisions_and_work_log.md).
 
 Run `python3 scripts/download_optional_data.py` to restore or verify GB1 and ProteinGym GFP, then `python3 scripts/audit_data.py` to check all five extracted datasets. See [dataset sources](data/SOURCES.md) for citations and licenses.
 
@@ -35,7 +35,7 @@ The frontend has dedicated routes for the overview (`/`), dataset catalog (`/dat
 
 ## Amylase measurement runner
 
-The first research component is a local Python runner, separate from the web catalog. It selects initial amylase measurements and reveals requested eligible variants within a budget. It does not implement a prediction model, search strategy, prediction ranges, repairs, or research results. The design and limits are documented in the [development protocol](research/amylase_development_protocol.md).
+The local Python runner is separate from the web catalog. It selects initial amylase measurements and reveals requested eligible variants within a budget. Separate development modules provide prediction, selection, ranges and warning checks; repair is not yet implemented. The runner's design and limits are documented in the [development protocol](research/amylase_development_protocol.md).
 
 For an interactive run from the repository root, start `PYTHONPATH=backend python3`, then:
 
@@ -64,7 +64,7 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/python scr
 
 The output directory must not already exist. The command writes separate run records (`.jsonl`) and best-observed-score tables (`.csv`) for random selection and a simple ridge predictor. Both use the same starting set and budget; the predictor holds 20 initial examples aside and fits on the remaining 80 plus later revealed measurements. Its model choices are checked using cross-validation within the fitting data. Each greedy selection record contains its predicted scores before the measurements are revealed. A score table starts at zero new measurements and includes the best starting score.
 
-An exploratory reference run is in `output/amylase_comparison_seed1_final/`. It is one run, not evidence of an overall winner or a test of CERA's repair system. Repeated runs, uncertainty analysis, intervals, detectors and repairs remain future work. A failed or interrupted comparison may leave a partial output directory; inspect its records before using them.
+An exploratory reference run is in `output/amylase_comparison_seed1_final/`. It is one run, not evidence of an overall winner or a test of CERA's repair system. Later repeated runs, prediction ranges and development warnings are documented in the [work log](research/project_decisions_and_work_log.md); repairs remain future work. A failed or interrupted comparison may leave a partial output directory; inspect its records before using them.
 
 ## Amylase sequence representations
 
@@ -98,3 +98,7 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/python scr
 ```
 
 Replay requires the pinned representation cache and Git history containing commit `78fce61`; it verifies historical code and record fingerprints before rebuilding the predictor groups. Replay writes new evidence and never changes the original runs. It does not implement repairs or establish detection accuracy.
+
+## Reward foundation
+
+The development reward validator and constrained batch selector are described in [reward foundation](research/reward_foundation.md). They are tested separately and are not yet connected to the pilot or a repair loop.
