@@ -305,6 +305,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Compared one-batch, 30-subsequent-measurement and all-later-measurement summaries, including early-stop handling, dependence and the distinction between a warning and a causal repair effect. Illustrated the options using saved amylase seeds 31 and 34. The 30-measurement definition is a recommendation for review, not an implemented or frozen metric. See [recovery options](recovery_measurement_options.md).
 
+### 2026-11-16: recovery follow-up feasibility
+
+- Checked coverage-warning timing in the 20 recent saved runs. Ten runs warned; three had at least 30 later measurements, seven had ten or fewer, and ten did not warn. The three with sufficient follow-up were fixed-reward runs. This is a feasibility check only, recorded in [recovery options](recovery_measurement_options.md); it does not compare recovery rates.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

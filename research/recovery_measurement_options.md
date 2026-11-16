@@ -23,6 +23,10 @@ For options 1 and 2, count only the first warning and first qualifying later win
 
 These examples were selected after inspecting the development records and are illustrations, not an independent evaluation or evidence of causation.
 
+## Follow-up available in the two recent comparisons
+
+A read-only pass over the 20 saved runs in seeds 31–35 and 41–45 found a first coverage warning in 10 runs. Three fixed-reward runs had 70 later measurements each; the other seven warned runs had either ten or zero later measurements before a failed-repair stop. The remaining ten runs did not trigger a coverage warning. Thus the proposed 30-measurement definition would be evaluable for only three of these ten warned runs, all from the fixed-reward arm. This is a feasibility count, not an estimate of recovery or a fair comparison of methods. It highlights a substantial trade-off: the longer window gives finer coverage increments but will often be unavailable under the current stopping policy. A one-batch definition would also have no later batch in the two runs that stopped in the warning batch.
+
 ## Important interpretation
 
 The observations in a search are adaptively chosen and share models and training examples; ordinary independent-binomial confidence intervals should not be asserted without checking assumptions. A stop can prevent future recovery from being observed. It is not automatically equivalent to ordinary random loss to follow-up; time-to-event analyses distinguish such competing outcomes from censoring, as explained in this [primary competing-risk methods paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC8986229/). For this small study, report counts and individual trajectories rather than fitting a survival model by default. If a later protocol uses a more formal model, state its assumptions and estimand first.
