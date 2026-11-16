@@ -75,6 +75,11 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Independently checked that initial data, fingerprints and budget settings match; selections precede reveals, no identifier repeats, greedy choices are highest recorded predictions, both stop at budget exhaustion, and the CSV summaries reconstruct from the logs. A repeated run produced identical summary files. Full run records and summaries are in `output/amylase_comparison_seed1_final/`.
 - No prediction intervals, CERA failure detection, repairs, language model, repeated-run uncertainty, or evaluation-dataset results are implemented. The original score information remains accessible to processes with direct raw-file access.
 
+### 2026-11-16: repeated-comparison preparation
+
+- Audited the first run after completion: the random method's 100 new choices comprised 49 original-train and 51 original-test variants, while the greedy method chose 100 original-train variants. These labels were joined after the run from the raw file and were not provided as candidate metadata. The observation does not establish the cause.
+- Recorded the seeds, pair matching rules, checks and reporting limits for ten additional exploratory pairs in the [repeated-comparison protocol](repeated_comparison_protocol.md), before starting those runs. The seed-1 run is reported separately.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
