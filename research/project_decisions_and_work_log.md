@@ -314,6 +314,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Varun selected the 30-later-measurement option. Implemented a separate read-only summary that validates recorded coverage warnings and chronology, excludes the warning batch, checks 30-measurement windows after later batches and records the first with 26–28 covered scores, its width, follow-up and stop reason. No warning, insufficient follow-up and observed non-recovery remain distinct. The [options document](recovery_measurement_options.md) explains the statistical limitations.
 - Applied the measurement to the 20 saved recent amylase runs: two fixed-reward runs reached the band, one fixed-reward run had sufficient follow-up without reaching it, seven runs had insufficient follow-up, and ten had no coverage warning. These development records are not a causal comparison; no later-protein result was used. The backend suite passed 89 tests, including both band boundaries, high coverage, sliding windows, missing follow-up and malformed records.
 
+### 2026-11-16: multi-protein evaluation preparation
+
+- Reviewed current multi-dataset dispatch and identified that the repeated runner and random baseline are amylase-specific. Documented score-blind versus benchmark train-side starting examples and a proposed staged implementation in [multi-protein evaluation options](multiprotein_evaluation_options.md). No final protocol or test-protein search was run.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
