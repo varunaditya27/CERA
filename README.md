@@ -101,6 +101,8 @@ The same pilot can use the experimental `ucb` and `ei` acquisition rules. Their 
 
 Finite-pool recombination and AdaLead-style options are also available through `--local-search`; their proposal rules, sparse-neighborhood stopping behavior and development results are in [local-search findings](research/local_search_baselines_findings.md).
 
+The [repeated matched development comparison](research/repeated_matched_findings.md) records ten amylase seeds across nine methods, including the observed repair stops and Gemini-call accounting. These are not final results on the other proteins.
+
 To retrospectively replay the checks on the ten earlier range runs, use a new output directory:
 
 ```sh

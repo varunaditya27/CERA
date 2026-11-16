@@ -243,6 +243,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Replaced repeated Python sequence-distance loops with an incremental array calculation while preserving the reward formula, constraints and deterministic identifier tie-break. The 75-test backend suite passed.
 - Reconstructed all 12 earlier fixed/repair selections and six repair proposal replays. Identifiers and diversity matched saved evidence; rewards matched within 1e-14. The prior and new implementations produced exactly equal output for the first checked batch. The prior batch took about 2.03 seconds versus a new mean of about 0.115 seconds across 12 batches in this environment. See [performance check](reward_selection_performance.md) for limits.
 
+### 2026-11-16: repeated matched development comparison
+
+- Predeclared and ran seeds 21–30 across random, greedy, fixed reward, rule-based repair, Gemini-assisted repair, mean-plus-spread, expected improvement, recombination and AdaLead-style search. All 90 runs completed. The resumable runner records failures and interrupted work without silently replacing them, and evaluates full-pool metrics only after all selectors finish.
+- Both repair variants stopped after 20 new measurements in all ten seeds: all 120 proposed changes failed to displace every flagged batch member, and no repair was accepted. Their final best scores matched the fixed-reward runs for every paired seed, despite the latter spending 100 measurements. Recombination reached the eligible pool maximum in 8/10 runs; AdaLead-style search stopped after 0–32 measurements. All initial sets already contained a top-1% variant. These are descriptive results on one protein, not a general ranking or repair validation.
+- Independently audited 90 records, 658 selections and 120 repair replays, plus 27 representative local-proposal rounds and six representative distance rounds. A second audit checked 20 successful Gemini advice requests, no fallback and 2,984 reported tokens. The backend suite passed 77 tests before the runs. [Findings](repeated_matched_findings.md) contain all outputs, denominators and limitations.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

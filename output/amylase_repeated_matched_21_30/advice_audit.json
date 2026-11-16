@@ -1,0 +1,15 @@
+{
+  "runs_checked": 90,
+  "totals": {
+    "advice_gemini": 20,
+    "advice_fallback": 0,
+    "advice_request_attempts": 20,
+    "advice_reported_tokens": 2984
+  },
+  "reported_token_types": {
+    "promptTokenCount": 2800,
+    "candidatesTokenCount": 184,
+    "totalTokenCount": 2984
+  },
+  "audit_script_sha256": "547ccced949277824c8c11425de626debb15183b12e8268bc863dff832e23be5"
+}

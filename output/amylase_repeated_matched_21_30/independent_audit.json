@@ -1,0 +1,9 @@
+{
+  "runs": 90,
+  "selections": 658,
+  "repair_replays": 120,
+  "representative_local_rounds": 27,
+  "representative_distance_rounds": 6,
+  "model_advice": 20,
+  "audit_script_sha256": "d063e8a3e96cdaf7d930d330b6248bc1addf1ce4eec26b1bccd1ceeeeaaf54a9"
+}
