@@ -259,6 +259,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Examined all ten failed actions and their 30 proposed changes in the five targeted runs. Every change failed the requirement to remove all flagged candidates; the two diversity actions flagged whole batches. The failure counter carries attempts across rounds and warning types. Documented evidence, limits, relevant research and alternative designs in [the diagnosis](targeted_repair_diagnosis.md). No repair behavior was changed.
 
+### 2026-11-16: retrospective diversity replay check
+
+- Recomputed average pairwise sequence differences for the six rejected diversity proposals from the source sequences. All six met the current warning threshold, despite retaining eight or nine original batch members. The recorded remaining verifier checks also passed. This is a retrospective check of saved replays, not evidence of later-round performance under a changed rule. See [the diagnosis](targeted_repair_diagnosis.md).
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
