@@ -263,6 +263,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Recomputed average pairwise sequence differences for the six rejected diversity proposals from the source sequences. All six met the current warning threshold, despite retaining eight or nine original batch members. The recorded remaining verifier checks also passed. This is a retrospective check of saved replays, not evidence of later-round performance under a changed rule. See [the diagnosis](targeted_repair_diagnosis.md).
 
+### 2026-11-16: retrospective coverage replay check
+
+- Compared saved coverage-warning replays with their pre-reveal ranges and the source dataset's subsequently available scores. Among 18 proposed batches, one had one fewer range miss than the original, 14 had the same number, and three had one more. These post-hoc source scores were not available to the selector and do not establish later-round behavior. See [the diagnosis](targeted_repair_diagnosis.md).
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

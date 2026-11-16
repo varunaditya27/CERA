@@ -18,6 +18,8 @@ Each action tried three candidate weight changes. All 30 attempts failed `counte
 
 Coverage refers to the share of measured scores falling inside the prediction ranges recorded before those measurements. Its warning examines the last 30 measurements, but its repair targets are the misses in the current batch only. The warning can therefore reflect a history wider than the targets used for the proposed repair. Across the six coverage actions in these runs, the attempted changes retained all targets except that the largest adjustment displaced one target in one action each for seeds 31 and 33. In both disagreements, no proposed weight removed any target.
 
+A further retrospective check compared the recorded prediction ranges and source scores for each original coverage-warning batch and its three replayed proposals. Of the 18 proposed batches, one had one fewer score outside its recorded range, 14 had the same number, and three had one more. The check used source scores for candidates that were not necessarily measured in that run; it was performed only after selection, and those outcomes must not be used as pre-selection information. These observations do not predict performance in later rounds and do not validate a repair strategy.
+
 The counter named `consecutive_failures` counts failed repair actions, including actions from different warning types or different rounds. A round with no attempted repair does not reset it. Two such failures stop the experiment; seed 34's failures occurred four rounds apart, and seed 35's two failures occurred in the same round. This is the behavior of the current code, not evidence that the stop policy is scientifically optimal.
 
 ## What the checks do and do not establish
