@@ -35,7 +35,7 @@ export function Navigation(){
   return <header className={['site-nav',home?'nav-home':'nav-interior',scrolled?'nav-scrolled':'',open?'nav-open':''].join(' ')}>
     <div className="nav-inner">
       <Link href="/" className="site-brand" aria-label="CERA home">
-        <span className="brand-symbol"><BrandMark size={32} light={home&&!scrolled}/></span>
+        <span className="brand-symbol"><BrandMark size={32} light={home&&!scrolled&&!open}/></span>
         <span className="brand-name">CERA</span>
       </Link>
 
