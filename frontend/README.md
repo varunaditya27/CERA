@@ -1,6 +1,6 @@
 # CERA frontend
 
-Next.js 16 / React 19. This branch is a **read-only research presentation**. It does not run the optimization algorithm, accept protein sequences, or modify the saved experiment records.
+Next.js 16 + React 19. The research website is **read-only**. It explains and displays the existing project, without running optimization or revealing hidden assay labels.
 
 ## Run
 
@@ -11,50 +11,60 @@ npm run dev
 # http://localhost:3000
 ```
 
-To run the connected local dataset catalog, start the separate FastAPI service from the repository root, as documented in the root README. Without the service, the frontend shows explicitly labeled reference counts.
+Start the FastAPI dataset catalog separately using the root README. Without it, the website uses visibly labeled committed reference counts. For a production build run `npm run build`.
 
-Check the production build with `npm run build`. The design branch also has a frontend build workflow.
+## Routes
 
-## Pages
-
-| Route | Purpose |
+| Route | Function |
 | --- | --- |
-| `/` | Animated introduction, methodology, measured development findings |
+| `/` | Question, visual example, method, real development findings |
+| `/walkthrough` | Hands-on, four-step **illustrative** experiment with presentation view |
+| `/workflow` | Interactive breakdown of the method and protocol |
+| `/system` | Software architecture and scientific boundaries |
+| `/experiments` | Frozen 90-run amylase findings, table and two-method comparison |
 | `/datasets` | Dataset directory |
-| `/datasets/[id]` | Provenance, split and caveats |
-| `/experiments` | Filterable nine-method amylase comparison |
-| `/workflow` | Interactive explanation of the experimental loop |
+| `/datasets/[id]` | Dataset provenance and preparation notes |
 
-The results come from `frontend/lib/research.ts`, a frozen source-linked summary of `research/repeated_matched_findings.md`. The graph inside the hero is **conceptual**, not a plot of assay measurements. Dataset source copy lives in `frontend/lib/datasets.ts`.
+## Research integrity
 
-## Design system
+The 9-to-3 example on the landing page and in `/walkthrough` is **invented for teaching**, drawn from `research/experiment_walkthrough.md`. It must never be presented as an observed amylase result.
 
-Read [brand/DESIGN.md](../brand/DESIGN.md) and [brand/VOICE.md](../brand/VOICE.md) before making new pages or changes to global styles.
+The experiment data displayed in `/experiments` comes from `frontend/lib/research.ts`, a frozen, linked summary of `research/repeated_matched_findings.md`. The model-assisted repair study did **not** accept any changes. IRED and Hydro evaluations are pending.
 
-- Newsreader: display typography (self-hosted via Next.js).
-- Onest: readable interface copy (self-hosted via Next.js).
-- Fragment Mono: numeric data (self-hosted via Next.js).
-- CSS tokens in `app/globals.css` define the palette and spatial rhythm.
-- Shared top navigation in `components/navigation.tsx` replaces the old sidebar.
+## Identity and design
 
-## Motion architecture
+Read [design system](../brand/DESIGN.md), [voice](../brand/VOICE.md), and [design references](../brand/INSPIRATION.md).
 
-- `components/motion-runtime.tsx`: Lenis and GSAP use a shared animation clock; touch users and reduced-motion users retain native scrolling.
-- `components/landing-motion.tsx`: hero entry, subtle scroll parallax, process and data transitions.
-- `components/section-reveal.tsx`: scoped one-time GSAP reveals. Elements are visible without JavaScript and when reduced motion is requested.
-- `components/hero-landscape.tsx`: procedural Canvas surface, throttled by visibility with SVG fallback and no hidden assay data.
+- Custom open-C aperture symbol and geometric CERA vector lockup. Assets live in `public/`, `app/icon.svg` and `components/brand-logo.tsx`.
+- **Geologica** with a loaded Sharpness axis for headlines; **Onest** for interface; **Fragment Mono** for values.
+- `next/font/google` self-hosts the font assets at build time.
+- Petrol, warm paper, mineral green, and copper, defined as CSS variables in `app/globals.css`.
+- Responsive sticky top nav, not a permanent sidebar.
 
-GSAP animations use scoped contexts and clean up on route changes. Do not add another `requestAnimationFrame` loop to Lenis or stack a second generic animation library for the same interactions.
+## Motion
 
-## Quality checks
+- `components/motion-runtime.tsx` runs GSAP and Lenis on one clock.
+- `components/landing-motion.tsx` stages the entrance and scroll-linked sections.
+- `components/hero-landscape.tsx` is a procedural illustration, not experimental data. It has a static SVG fallback.
+- `components/section-reveal.tsx` uses scoped GSAP with cleanup and keeps content readable if JavaScript or motion is unavailable.
+- Mobile coarse pointers scroll natively; reduced-motion preferences are respected.
 
-Before merging or publishing, confirm these in a real browser:
+## Suggested demonstration
 
-1. Desktop layouts at 1440px and 1024px, mobile at 390px and 320px, plus a tablet width.
-2. Navigation, anchor scrolling, focus outlines, mobile menu (including Escape), and keyboard-only use.
-3. Motion on normal devices and still, readable content with `prefers-reduced-motion: reduce`.
-4. No horizontal overflow, overlapping hero text, layout jumps, inaccessible comparison tables, or blank content when the backend is offline.
-5. Plot values correspond to the committed CSV and source report. Negative repair outcomes must remain explicit.
-6. Production build, browser console, accessibility tree and mobile performance.
+`Home → Walkthrough (Present) → Method → System → Results`, then open a dataset profile if requested.
 
-CI verifies the Next.js build, but does **not** replace browser and visual testing. These visual checks should not be claimed as completed until performed.
+The illustrative walkthrough is deliberately separate from measured results. The System page shows the implementation boundary, while Results shows what succeeded or failed in actual experiments. This distinction is more important than a glossy transition.
+
+## Quality gates
+
+Before merging:
+
+- `npm ci && npm run build` from `frontend/`, checked in CI.
+- Browser inspection at 1440, 1024, 768, 390 and 320 px.
+- Click and keyboard checks for all navigation links, the walkthrough's steps, Back/Reset and presentation mode, method tabs, and comparison selects.
+- Contrast and accessible labels, including a reduced-motion run.
+- No clipped hero words or horizontal page overflow.
+- Research values, early-stop accounting and citations cross-checked against the saved report.
+- Evaluate any performance loss from Canvas/GSAP/Lenis on a lower-powered device.
+
+CI does not replace actual browser checks. These checks should not be reported as passed unless they were run.
