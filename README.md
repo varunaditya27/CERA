@@ -52,7 +52,7 @@ run.close()
 
 The log file must not already exist; choose a new path for each run. It records the dataset and reference fingerprints, settings, initially revealed scores, and each selection before its revealed measurements. The reference sequence was retrieved from the [original source at a fixed commit](https://github.com/florisvdf/mutation-predictability/blob/aea601d50493892fc6a73601beb90b8d0c93cd52/data/AMY_BACSU/reference.fasta). A failed or interrupted log write can leave an incomplete record; inspect it before interpreting the run. The interface prevents accidental score disclosure through its supported methods, but Python code with direct file or object access can still read raw scores.
 
-Run the focused checks with `PYTHONPATH=backend python3 -m unittest discover -s backend/tests -v`.
+After installing both research and embedding requirements below, run the focused checks with `PYTHONPATH=backend python3 -m unittest discover -s backend/tests -v`. The ordinary checks use a fake model and do not download a checkpoint or require a GPU.
 
 ## First exploratory comparison
 
@@ -65,3 +65,16 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/python scr
 The output directory must not already exist. The command writes separate run records (`.jsonl`) and best-observed-score tables (`.csv`) for random selection and a simple ridge predictor. Both use the same starting set and budget; the predictor holds 20 initial examples aside and fits on the remaining 80 plus later revealed measurements. Its model choices are checked using cross-validation within the fitting data. Each greedy selection record contains its predicted scores before the measurements are revealed. A score table starts at zero new measurements and includes the best starting score.
 
 An exploratory reference run is in `output/amylase_comparison_seed1_final/`. It is one run, not evidence of an overall winner or a test of CERA's repair system. Repeated runs, uncertainty analysis, intervals, detectors and repairs remain future work. A failed or interrupted comparison may leave a partial output directory; inspect its records before using them.
+
+## Amylase sequence representations
+
+The representation code converts sequences into 320-number vectors using a fixed ESM-2 checkpoint; it does not predict or store fitness scores. Install `.venv/bin/pip install -r backend/requirements-embeddings.txt` in addition to the research requirements. PyTorch device support depends on the installed build and machine; the checked versions and GPU limitation are documented in [ESM feasibility](research/esm_feasibility_and_plan.md).
+
+For the GPU configuration tested here, run the explicit real-model padding check, then create a cache at a new path:
+
+```sh
+TORCH_DISABLE_NATIVE_JIT=1 OPENBLAS_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/python scripts/embed_amylase.py --verify-only --device cuda
+TORCH_DISABLE_NATIVE_JIT=1 OPENBLAS_NUM_THREADS=1 PYTHONPATH=backend .venv/bin/python scripts/embed_amylase.py --device cuda --batch-size 16 --output output/representations/my-amylase-cache.npz
+```
+
+The first run can download model files to the normal Hugging Face cache. The output cache contains sequence identifiers, vectors and metadata, including dataset, reference, model-file, code and settings fingerprints; it contains no scores. Writing is atomic and refuses to replace an existing file. A temporary file can remain after a process is forcibly interrupted; the final cache is only linked into place after the write finishes. Use `app.representation_cache.load_cache` with the expected ordered identifiers and exact settings to validate a cache before using it. The tested local cache is `output/representations/amylase_esm2_c731040_v2.npz`.

@@ -105,6 +105,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Checked residue-only pooling, output size and finite values, repeat and padding differences, and small warmed GPU batch timings. Exact observations, limits, environment and sources are in [ESM feasibility and plan](esm_feasibility_and_plan.md). These small checks do not establish full-dataset performance or predictive usefulness.
 - Prepared a focused representation-module and cache implementation plan. No project application code or dataset was changed; model files were downloaded to the user cache. The prior research-review entry remains historical and describes that earlier review only.
 
+### 2026-11-16: amylase representations
+
+- Varun approved the implementation plan. Added a separate representation module, validated non-pickle cache module, explicit model-check/cache script, separate embedding requirements and lightweight tests. The original catalog and measurement runner remain independent.
+- Eleven unit tests passed. A real pinned-model GPU check passed for unequal-length inputs with a maximum padded/unpadded difference of approximately 6.56e-07. Generated and validated a score-free cache of 3,706 x 320 vectors; independently reproduced three earlier-cache vectors and checked a second full generation against the first. Exact commands, hashes, timing, GPU workaround and limitations are in [ESM feasibility and plan](esm_feasibility_and_plan.md).
+- No predictor has been fitted with these vectors; their scientific usefulness, CPU behavior, intervals, detectors and repair are unverified. The user model cache was used but not cleared or modified beyond the model download.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

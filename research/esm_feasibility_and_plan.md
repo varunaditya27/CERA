@@ -31,7 +31,9 @@ Using 16 actual amylase sequences of length 425, no scores, one initial batch-1 
 
 These figures omit tokenization, cache writing, loading and other pipeline costs. Each timing is one observation, and free hardware resources vary. They do not justify claiming an end-to-end runtime, optimal batch size or full-data capacity. All checked outputs were finite.
 
-## Implementation plan for approval
+## Implementation plan
+
+Varun approved this stage after the feasibility check. Implemented results and verification are recorded below.
 
 1. Add a focused representation module, separate from dataset loading, selection, measurement accounting and the web catalog. Verify the installed APIs and pin a compatible model revision and software requirements; do not silently install or alter system packages. Load only the base model without the unused pooling layer.
 2. Accept allowed sequences and stable identifiers without scores. Tokenize in batches and average only residue embeddings, excluding padding and special tokens. Use evaluation mode and inference mode. Reject invalid sequences, truncation or mismatched identifiers rather than producing ambiguous results. Make the selected device, precision, checkpoint revision and execution settings explicit.
@@ -40,3 +42,11 @@ These figures omit tokenization, cache writing, loading and other pipeline costs
 5. After checks pass, benchmark a small representative group and only then produce the amylase representation cache. Record model-file fingerprints, actual settings, elapsed time, peak memory, source data fingerprint and results. Do not claim that representations improve the model until a separately specified fair comparison is run.
 
 The present isolated workaround is not yet a permanent application requirement or a chosen production fallback. Decide on a reproducible environment after comparing options; CPU and other Python installations remain untested. The ensemble, prediction intervals, detection and repair stay outside this implementation stage.
+
+## Implementation and full amylase cache
+
+The representation and cache modules are separate from the runner, catalog and selection methods. The real-model check passed using the same pinned checkpoint, CUDA device and process-local `TORCH_DISABLE_NATIVE_JIT=1`; the maximum padded/unpadded absolute difference was `6.556510925292969e-07`. Eleven ordinary unit tests passed without network access or a GPU, including cache corruption, duplicate identifiers, token loss, non-finite values and padding checks.
+
+The explicitly invoked full cache run generated 3,706 vectors of 320 float32 values from all local amylase sequences, without storing scores. The embedding step took 19.2066 seconds and reported peak allocated GPU memory 238.23 MiB in this environment; timing excludes model loading and cache writing. The cache is `output/representations/amylase_esm2_c731040_v2.npz`, SHA-256 `d1092467446bb7cf48d6ae53d51207fb8acc89fa0d60bf59c31a831c6ecd73a3`. Its metadata records model-file hashes, source and reference hashes, code hashes, versions, pooling, precision, device and settings. Cache contents and source-ordered IDs were validated after writing.
+
+Three individually recomputed vectors from an earlier otherwise-equivalent full run matched their batch outputs within `7.16e-07` maximum absolute difference. A second complete run using the final metadata produced numerically identical vectors to that earlier run in this environment. This is a limited reproducibility check, not a guarantee across devices, versions or future runs. Neither cache was used to train or evaluate a fitness predictor. The five unused pretraining-head weight warnings remain expected for the base model; no missing base pooling layer was loaded.
