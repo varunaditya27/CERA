@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Navigation } from '../components/navigation';
+import { MotionRuntime } from '../components/motion-runtime';
 import './globals.css';
+import 'lenis/dist/lenis.css';
 
 export const metadata:Metadata={
   metadataBase:new URL('https://github.com/varunaditya27/CERA'),
@@ -14,6 +16,7 @@ export default function RootLayout({children}:{children:React.ReactNode}){
   return <html lang="en"><body>
     <a href="#main-content" className="skip-link">Skip to content</a>
     <Navigation/>
+    <MotionRuntime/>
     <main id="main-content" className="main" tabIndex={-1}>{children}</main>
   </body></html>;
 }
