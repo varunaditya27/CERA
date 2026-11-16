@@ -5,11 +5,10 @@ import random
 import time
 from pathlib import Path
 
-from app.datasets.amylase import DATA, REFERENCE
 from app.features.amylase_representations import CACHE, CACHE_SHA256, load_verified_representations
-from app.datasets import hydro, ired
+from app.datasets import hydro
+from app.datasets.registry import dataset_source
 from app.features import hydro_representations, ired_representations
-from app.datasets.amylase import load_amylase
 from app.experiments.experiment import Experiment
 from app.experiments.acquisition import acquisition_scores, choose_acquisition
 from app.experiments.local_search import propose_local
@@ -29,7 +28,7 @@ from app.rewards.warning_checks import (constraint_warning, coverage_warning, di
 
 def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, reward_origin=None,
               repair=False, repair_advisor=None, repair_model=None, dataset='amylase', acquisition=None,
-              local_search=None, targeted_disagreement=False, direct_diversity=False):
+              local_search=None, targeted_disagreement=False, direct_diversity=False, initial_pool='train'):
     if acquisition not in (None, 'ucb', 'ei') or (acquisition is not None and (reward_spec is not None or repair)):
         raise ValueError('Invalid acquisition configuration')
     if (local_search not in (None, 'genetic', 'adalead') or
@@ -44,17 +43,15 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
     if reward_spec is not None:
         reward_spec = copy.deepcopy(reward_spec)
         validate_spec(reward_spec)
-    loader = load_amylase
+    data_path, reference_path, loader = dataset_source(dataset)
     if dataset == 'amylase':
-        data_path, reference_path, cache, cache_hash = DATA, REFERENCE, CACHE, CACHE_SHA256
+        cache, cache_hash = CACHE, CACHE_SHA256
         vectors = load_verified_representations()
     elif dataset == 'ired':
-        data_path, reference_path = ired.DATA, ired.REFERENCE
         cache, cache_hash = ired_representations.CACHE, ired_representations.CACHE_SHA256
         vectors = ired_representations.load_verified_representations()
     elif isinstance(dataset, str) and dataset.startswith('hydro-') and dataset.removeprefix('hydro-') in hydro.PROTEINS:
         protein = dataset.removeprefix('hydro-')
-        data_path, reference_path, loader = hydro.DATA, hydro.REFERENCES[protein], hydro.load_hydro
         cache = hydro.ROOT / 'output/representations' / f'hydro_{protein}_esm2_c731040.npz'
         cache_hash = hydro_representations.CACHE_HASHES[protein]
         vectors = hydro_representations.load_verified_representations(protein)
@@ -67,7 +64,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
     mutation_limit = reward_spec['hard_constraints']['max_mutations'] if reward_spec else 4
     run = Experiment(data_path, reference_path, output / 'run.jsonl', seed=seed,
                      budget=budget['rounds'] * budget['batch_size'], batch_size=budget['batch_size'],
-                     max_mutations=mutation_limit, loader=loader)
+                     max_mutations=mutation_limit, loader=loader, initial_pool=initial_pool)
     try:
         initial = sorted(run.revealed)
         reserved = sorted(random.Random(role_seed).sample(initial, 20))
@@ -104,7 +101,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                                                             'repair_advisor.py', 'gemini_client.py', 'ired.py',
                                                             'ired_representations.py', 'sources.py', 'acquisition.py',
                                                             'local_search.py', 'flip2.py', 'hydro.py',
-                                                            'hydro_representations.py', 'disagreement_targets.py')),
+                                                            'hydro_representations.py', 'disagreement_targets.py', 'registry.py')),
                              'scikit_learn': importlib.metadata.version('scikit-learn'),
                              'numpy': importlib.metadata.version('numpy'),
                              'scipy': importlib.metadata.version('scipy')})

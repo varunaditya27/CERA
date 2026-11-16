@@ -35,6 +35,12 @@ The frontend has dedicated routes for the overview (`/`), dataset catalog (`/dat
 
 Backend code is grouped under `backend/app/`: `api` serves the catalog, `datasets` identifies source files, `features` handles sequence representations, `experiments` runs and evaluates searches, `rewards` contains warning and repair rules, `llm` contains Gemini integrations, `analysis` replays earlier studies, and `provenance` fingerprints source files. `app.main` is a compatibility package for the existing API command.
 
+## Multi-protein comparison preparation
+
+The staged runner `scripts/run_matched_proteins.py` supports the available protein groups and explicitly requested methods and seeds. It chooses starting measurements from sorted eligible sequence identifiers without using benchmark split labels, and records input, representation-cache, software and code fingerprints. It writes compressed run records and per-run status; it does not evaluate the hidden full-pool outcomes. See `PYTHONPATH=backend python3 scripts/run_matched_proteins.py --help` for arguments. Resume verifies inputs and completed-record fingerprints; failed or interrupted runs are retained for inspection, not automatically retried.
+
+The current tests exercise synthetic IRED and hydrophobic-core data. The comparison protocol and outcome evaluation are not yet frozen or validated for a final multi-protein study; no real multi-protein comparisons have been run with this runner. A seeded sample may differ across Python versions, so the manifest records the Python version; see [Python's reproducibility notes](https://docs.python.org/3/library/random.html#notes-on-reproducibility).
+
 ## Amylase measurement runner
 
 The local Python runner is separate from the web catalog. It selects initial amylase measurements and reveals requested eligible variants within a budget. Separate development modules provide prediction, selection, ranges, warnings and experimental checked repairs. The runner's design and limits are documented in the [development protocol](research/amylase_development_protocol.md).

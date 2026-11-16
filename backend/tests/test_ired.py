@@ -13,6 +13,7 @@ from app.datasets.ired import DATA, REFERENCE
 from app.features.ired_representations import CACHE, load_verified_representations
 from app.llm.goal_compiler import DEFAULT_SPEC
 from app.experiments.prediction_pilot import run_pilot
+from app.experiments.repeated_runs import run_one
 from app.features.representations import sequence_id
 import numpy as np
 
@@ -67,6 +68,16 @@ class IredTests(unittest.TestCase):
                 acquisition_result = run_pilot(root / 'acquisition', seed=7, dataset='ired', acquisition='ei')
                 targeted_result = run_pilot(root / 'targeted', seed=7, reward_spec=spec, dataset='ired',
                                             repair=True, targeted_disagreement=True, direct_diversity=True)
+            with patch('app.datasets.ired.DATA', data), patch('app.datasets.ired.REFERENCE', reference), \
+                 patch('app.features.ired_representations.load_verified_representations', return_value=vectors):
+                run_one(root / 'matched_random', 7, 'random', spec, dataset='ired', initial_pool='eligible')
+                run_one(root / 'matched_greedy', 7, 'greedy', spec, dataset='ired', initial_pool='eligible')
+            random_events = [json.loads(line) for line in (root / 'matched_random/run.jsonl').read_text().splitlines()]
+            greedy_events = [json.loads(line) for line in (root / 'matched_greedy/run.jsonl').read_text().splitlines()]
+            self.assertEqual(random_events[0]['initial'], greedy_events[0]['initial'])
+            self.assertEqual(random_events[0]['initial_pool'], 'eligible')
+            self.assertEqual(random_events[-1]['stop_reason'], 'no_candidates')
+            self.assertEqual([e for e in greedy_events if e['event'] == 'reveal'][-1]['stop_reason'], 'no_candidates')
             events = [json.loads(line) for line in (root / 'run/run.jsonl').read_text().splitlines()]
             self.assertEqual(result['batches'], 1)
             self.assertEqual(next(e['settings']['dataset'] for e in events if e['event'] == 'method'), 'ired')

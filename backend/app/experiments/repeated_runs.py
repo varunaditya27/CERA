@@ -7,16 +7,20 @@ from app.experiments.random_baseline import run_random
 METHODS = ('random', 'greedy', 'fixed', 'repair', 'gemini_repair', 'ucb', 'ei', 'genetic', 'adalead')
 
 
-def run_one(path, seed, method, specification, advisor=None, model=None):
+def run_one(path, seed, method, specification, advisor=None, model=None, dataset='amylase',
+            initial_pool='train', targeted_disagreement=False, direct_diversity=False):
     if method not in METHODS:
         raise ValueError('Unknown comparison method')
     if method == 'random':
-        return run_random(path, seed)
-    options = {'seed': seed, 'role_seed': 2000 + seed, 'member_seed': 3000 + seed}
+        return run_random(path, seed, dataset=dataset, initial_pool=initial_pool)
+    options = {'seed': seed, 'role_seed': 2000 + seed, 'member_seed': 3000 + seed,
+               'dataset': dataset, 'initial_pool': initial_pool}
     if method in ('fixed', 'repair', 'gemini_repair'):
         options.update(reward_spec=copy.deepcopy(specification),
                        reward_origin={'source': 'repeated_matched_development'},
                        repair=method != 'fixed')
+        if method != 'fixed':
+            options.update(targeted_disagreement=targeted_disagreement, direct_diversity=direct_diversity)
         if method == 'gemini_repair':
             if advisor is None:
                 raise ValueError('Gemini repair requires an advisor with explicit fallback')

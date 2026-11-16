@@ -10,7 +10,7 @@ from app.datasets.amylase import load_amylase
 
 class Experiment:
     def __init__(self, data_path, reference_path, log_path, seed, initial_count=100,
-                 budget=100, batch_size=10, max_mutations=4, loader=load_amylase):
+                 budget=100, batch_size=10, max_mutations=4, loader=load_amylase, initial_pool='train'):
         if not isinstance(seed, int) or isinstance(seed, bool):
             raise ValueError('Seed must be an integer')
         if any(not isinstance(n, int) or isinstance(n, bool) for n in
@@ -20,9 +20,12 @@ class Experiment:
             raise ValueError('Invalid experiment counts')
         self.__sequences, self.__scores, train, data_hash, reference_hash = loader(
             data_path, reference_path, max_mutations)
-        if len(train) < initial_count:
+        if initial_pool not in ('train', 'eligible'):
+            raise ValueError('Invalid starting pool')
+        starting = train if initial_pool == 'train' else sorted(self.__sequences)
+        if len(starting) < initial_count:
             raise ValueError('Not enough eligible starting candidates')
-        initial = random.Random(seed).sample(train, initial_count)
+        initial = random.Random(seed).sample(starting, initial_count)
         self.__revealed = {identifier: self.__scores[identifier] for identifier in initial}
         self.__budget = budget
         self.__batch_size = batch_size
@@ -32,6 +35,7 @@ class Experiment:
         try:
             self.__write({'event': 'start', 'seed': seed, 'initial_count': initial_count,
                           'budget': budget, 'batch_size': batch_size, 'max_mutations': max_mutations,
+                          'initial_pool': initial_pool,
                           'data_sha256': data_hash, 'reference_sha256': reference_hash,
                           'python_version': sys.version, 'initial': self.__revealed,
                           'remaining': budget, 'stop_reason': self.stop_reason})

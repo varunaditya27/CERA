@@ -45,6 +45,28 @@ class ExperimentTests(unittest.TestCase):
         self.assertNotIn(reference_id, json.loads(log)['initial'])
         self.assertEqual(run.reveal([reference_id]), {reference_id: 1.0})
 
+    def test_eligible_start_is_invariant_to_row_order_split_and_unseen_scores(self):
+        first = Experiment(self.data, self.reference, self.root / 'eligible.jsonl', seed=42,
+                           initial_count=2, initial_pool='eligible')
+        self.addCleanup(first.close)
+        with self.data.open(newline='') as file:
+            rows = list(csv.DictReader(file))
+        for row in rows:
+            row['set'] = 'test' if row['set'] == 'train' else 'train'
+            row['validation'] = 'True' if row['validation'] == 'False' else 'False'
+            row['target'] = str(float(row['target']) + 1000)
+        with self.data.open('w', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=['sequence', 'target', 'set', 'validation'])
+            writer.writeheader()
+            writer.writerows(reversed(rows))
+        second = Experiment(self.data, self.reference, self.root / 'reordered.jsonl', seed=42,
+                            initial_count=2, initial_pool='eligible')
+        self.addCleanup(second.close)
+        self.assertEqual(set(first.revealed), set(second.revealed))
+        self.assertEqual(json.loads((self.root / 'eligible.jsonl').read_text())['initial_pool'], 'eligible')
+        with self.assertRaises(ValueError):
+            Experiment(self.data, self.reference, self.root / 'invalid.jsonl', seed=42, initial_pool='unknown')
+
     def test_invalid_batches_are_atomic(self):
         run = self.make_run()
         candidate = next(iter(run.candidates))

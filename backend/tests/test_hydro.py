@@ -12,6 +12,7 @@ import numpy as np
 from app.datasets.hydro import DATA, PROTEINS, REFERENCES, load_hydro
 from app.experiments.experiment import Experiment
 from app.experiments.prediction_pilot import run_pilot
+from app.experiments.repeated_runs import run_one
 from app.features.hydro_representations import load_verified_representations
 from app.features.representations import sequence_id
 from app.llm.goal_compiler import DEFAULT_SPEC
@@ -69,6 +70,14 @@ class HydroTests(unittest.TestCase):
             with patch('app.datasets.hydro.DATA', data), patch.dict('app.datasets.hydro.REFERENCES', {'P06241': reference}), \
                  patch('app.features.hydro_representations.load_verified_representations', return_value=vectors):
                 result = run_pilot(root / 'run', seed=7, reward_spec=spec, dataset='hydro-P06241')
+            with patch('app.datasets.hydro.DATA', data), patch.dict('app.datasets.hydro.REFERENCES', {'P06241': reference}), \
+                 patch('app.features.hydro_representations.load_verified_representations', return_value=vectors):
+                run_one(root / 'random', 7, 'random', spec, dataset='hydro-P06241', initial_pool='eligible')
+                run_one(root / 'greedy', 7, 'greedy', spec, dataset='hydro-P06241', initial_pool='eligible')
+            random_events = [json.loads(line) for line in (root / 'random/run.jsonl').read_text().splitlines()]
+            greedy_events = [json.loads(line) for line in (root / 'greedy/run.jsonl').read_text().splitlines()]
+            self.assertEqual(random_events[0]['initial'], greedy_events[0]['initial'])
+            self.assertEqual(random_events[0]['initial_pool'], 'eligible')
             events = [json.loads(line) for line in (root / 'run/run.jsonl').read_text().splitlines()]
             self.assertEqual(result['batches'], 1)
             self.assertEqual(next(e['settings']['dataset'] for e in events if e['event'] == 'method'), 'hydro-P06241')
