@@ -1,0 +1,34 @@
+{
+  "seed": 13,
+  "dataset_sha256": "d04c2fcb7421ffb6ac8b776ed938f7a97c81f8de57f71257d34d9d3722435297",
+  "reference_sha256": "d809b63aea6e67cc9385e19cde5324430fed57e0643a0090cf4990922879d868",
+  "eligible_count": 3275,
+  "specification_sha256": "0c94c3eb15d681b2244b388c281e5d30e1954164c2eda970f640a60d378b03a1",
+  "code_sha256": {
+    "backend/app/evaluation.py": "b4daa324ed4f40ae7b1dc7e9321ec36c1dc730717f9808c1a0210e1f328ed24b",
+    "backend/app/random_baseline.py": "afedd2a7623710fae17609b95bfc19b2d1b0c81bab925549028cc5d143b1ab49",
+    "scripts/compare_reward_methods.py": "231ed4c6c0f12b3ca2eecafa8fe8890e113242ed5a139ac49463ce05ef818152"
+  },
+  "methods": {
+    "random": {
+      "status": "completed",
+      "uncompressed_sha256": "d5e051f73ee7b68249dd3939f89fcb4950a895ab4506478dc5c58788caf3eff9",
+      "gzip_sha256": "74b90e9a04dff48a67729da00b56df32de8b8e00c993c80a04da9c577d1e00e7"
+    },
+    "greedy": {
+      "status": "completed",
+      "uncompressed_sha256": "1d9df7f76340703f1fd6b16063a3c06401fb5af9a09f18d4c54c8511ab05c1fa",
+      "gzip_sha256": "5908472baafcb36ddcbe4d6e4fd7dbb82b29dc696ea8b46ebb6f4624ca61760f"
+    },
+    "fixed": {
+      "status": "completed",
+      "uncompressed_sha256": "400d0d0706db14a680fffb64dd56598afbedf9f26754255df71d0cf61dd30bac",
+      "gzip_sha256": "17226b1fd8ee0e13f6def4080668ee3e5970e5e15d092089fed965735a4fd239"
+    },
+    "repair": {
+      "status": "completed",
+      "uncompressed_sha256": "47c203130023e57ee491d5dda428df6b59899ff201ffcc61d14c6ecb09d72ffc",
+      "gzip_sha256": "104c40773964421b51a395cdd000d700550c0eeaacbee47d024050dee4d6c7b0"
+    }
+  }
+}

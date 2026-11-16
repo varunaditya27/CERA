@@ -208,6 +208,12 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Generated and pinned 8,586 score-free, 320-number ESM representations. Regenerated three vectors independently in the same GPU environment with zero observed difference. Added cache validation, IRED dataset dispatch, a measurement-boundary check and a synthetic one-round dispatch test. The full backend suite passed 58 tests. [IRED preparation](ired_preparation.md) records fingerprints, hardware observations and limitations.
 - No IRED reward or repair evaluation was run. Treat it as an evaluation dataset and freeze the development rules and matched procedure before interpreting a result.
 
+### 2026-11-16: matched reward comparison
+
+- Predeclared and ran one matched amylase comparison of random, greedy prediction, fixed reward and rule-based repair. The evaluator accessed full-pool scores only after all selectors finished and reported actual measurement counts, finite-pool regret, top-1% membership and available range metrics. All methods shared their initial examples and budget; model-based methods shared role and member seeds.
+- Random reached 0.19428 after 100 new measurements; greedy and fixed remained at the shared initial best of 0.18225 after 100; repair remained there and stopped after 20. The initial best was already in the eligible pool's top 1%. These are descriptive one-run observations, not evidence of a general winner or repair effectiveness.
+- Independently checked all records, starting data, source scores, query and stopping accounting and reported metrics. The full backend suite passed 61 tests. See [comparison findings](matched_reward_comparison_findings.md) for outputs, limitations and reproduction.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
