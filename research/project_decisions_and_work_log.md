@@ -428,6 +428,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: IRED starting-pool choice
 
 - Varun chose to start from variants with at most two substitutions and allow selection from all eligible unmeasured variants afterward. Updated the [split feasibility review](split_evaluation_feasibility.md) and prepared a separate [implementation and study plan](ired_low_change_study_plan.md) for review. No implementation, provider call or new protein-search run was made in this step.
+- Independently reconstructed all 4,408 ordered initial-pool identifiers using sequences and split metadata, then checked score-independent sampling for proposed seeds 61–70. Each proposed sample included 13–20 benchmark-validation-flagged variants, consistent with the draft inclusion policy. This was a read-only preflight; the loader read the source table but scores did not determine the samples.
 
 ## Next review gates
 
