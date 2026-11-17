@@ -1,6 +1,6 @@
 # Multi-protein code review
 
-Reviewed the changes from `e5a3cc4` through `6335ea1` on 17 November 2026, using the two-axis [code-review skill](https://github.com/mattpocock/skills) and the [comparison draft](multiprotein_comparison_draft.md) as the specification. The two review axes were conducted independently. Findings are based on code inspection; no real protein searches were run for this review.
+Reviewed the changes from `e5a3cc4` through `6335ea1` on 17 November 2026, using the two-axis `mattpocock-skills:code-review` workflow and the [comparison draft](multiprotein_comparison_draft.md) as the specification. The two review axes were conducted independently. Findings are based on code inspection; no real protein searches were run for this review.
 
 ## Standards
 
