@@ -91,7 +91,6 @@ class HybridPilotTest(unittest.TestCase):
             vectors = {sequence_id(seq): np.array([i / 120, (i % 17) / 17, (i % 11) / 11], dtype=np.float32)
                        for i, seq in enumerate(sequences)}
             spec = copy.deepcopy(DEFAULT_SPEC)
-            spec['budget'] = {'rounds': 2, 'batch_size': 10}
             with patch('app.datasets.amylase.DATA', data), patch('app.datasets.amylase.REFERENCE', reference), \
                  patch('app.experiments.prediction_pilot.load_verified_representations', return_value=vectors):
                 result = run_pilot(root / 'run', seed=7, reward_spec=spec, hybrid_device='cpu')
@@ -116,4 +115,23 @@ class HybridPilotTest(unittest.TestCase):
             checked = evaluate(events, scores, set(train), data_hash, ref_hash)
             self.assertEqual(result['batches'], 2)
             self.assertEqual(checked['curve'][-1]['new_measurements'], 20)
-            self.assertEqual(checked['stop_reason'], 'budget_exhausted')
+            self.assertEqual(checked['stop_reason'], 'no_candidates')
+            import sys
+            from collections import Counter
+            sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'scripts'))
+            from audit_development_repairs import audit_run
+            sequences_by_id, _, _, _, _ = load_amylase(data, reference, 4)
+            row = {'status': 'completed', **checked['curve'][-1], 'stop_reason': checked['stop_reason'],
+                   'covered': checked['covered'], 'range_count': checked['range_count'],
+                   'mean_range_width': checked['mean_range_width']}
+            row['found_top_one_percent'] = str(row['found_top_one_percent'])
+            manifest = {'data_sha256': data_hash, 'reference_sha256': ref_hash}
+            audit_run(events, 7, 'fixed', sequences_by_id, scores, train, manifest, row, Counter(),
+                      hybrid_device='cpu', role_seed=3, member_seed=4)
+            altered = copy.deepcopy(events)
+            fit = next(e['settings']['hybrid_fit'] for e in altered
+                       if e['event'] == 'method' and 'hybrid_fit' in e['settings'])
+            fit['training_ids'].append(fit['validation_ids'][0])
+            with self.assertRaisesRegex(ValueError, 'Hybrid fitting roles'):
+                audit_run(altered, 7, 'fixed', sequences_by_id, scores, train, manifest, row, Counter(),
+                          hybrid_device='cpu', role_seed=3, member_seed=4)

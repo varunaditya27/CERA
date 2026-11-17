@@ -633,3 +633,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: mixed predictor implementation
 
 - Added an explicit Amylase development option with three ridge and two PyTorch neural members. Neural early-stopping identifiers are drawn from revealed fitting examples before bootstrap, and scaling uses the remaining neural training examples only; the 20 range-setting examples stay separate. The device, architecture, training settings, seeds, roles, epochs, losses and fitting times are recorded. Synthetic tests check role separation, finite outputs, restored best weights, CPU reproducibility, a complete episode and study-scope guards. All 162 backend tests passed. The prior reactive-calibration audit reproduced its saved counts, and a historical ridge round reproduced 3,175 recorded means and spreads with zero observed difference. No real mixed-predictor episode had run at this checkpoint.
+
+### 2026-11-17: initial mixed-predictor GPU pilot
+
+- A seed-181 Amylase pilot used the RTX 5050 for the two neural members, ran two batches and stopped after failed repairs. Its audit checked two selections and six repair replays, and a GPU refit reproduced 3,175 first-round means and spreads exactly in this environment. A follow-up check found that the training seed operation can change CUDA random state during CPU-only fitting; this pilot and its source fingerprint are preserved while that issue is corrected. No performance comparison or generalization claim is made.

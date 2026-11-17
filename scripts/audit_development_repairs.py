@@ -72,7 +72,8 @@ def read_source():
 
 
 def audit_run(events, seed, method, sequences, scores, train, manifest, row, counts, bypass_evidence_gate=False,
-              apply_last_rejected=False, rollback_monitor=False, reactive_calibration=False):
+              apply_last_rejected=False, rollback_monitor=False, reactive_calibration=False,
+              hybrid_device=None, role_seed=None, member_seed=None):
     start = events[0]
     require(start['event'] == 'start' and (start['seed'], start['initial_count'], start['budget'],
             start['batch_size'], start['max_mutations']) == (seed, 100, 100, 10, 4), 'Invalid start')
@@ -80,14 +81,16 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
             'Recorded source fingerprint mismatch')
     require(start['initial'] == {i: scores[i] for i in random.Random(seed).sample(train, 100)}, 'Initial data mismatch')
     setup = next(event['settings'] for event in events if event['event'] == 'method')
-    require((setup['role_seed'], setup['member_seed']) == (2000 + seed, 3000 + seed), 'Seed mismatch')
-    require(setup['reserved_ids'] == sorted(random.Random(2000 + seed).sample(sorted(start['initial']), 20)),
+    role_seed = 2000 + seed if role_seed is None else role_seed
+    member_seed = 3000 + seed if member_seed is None else member_seed
+    require((setup['role_seed'], setup['member_seed']) == (role_seed, member_seed), 'Seed mismatch')
+    require(setup['reserved_ids'] == sorted(random.Random(role_seed).sample(sorted(start['initial']), 20)),
             'Reserved examples mismatch')
     targeted = method != 'fixed'
     direct = method == 'direct'
     require(setup.get('rollback_monitor', False) is rollback_monitor, 'Rollback monitoring mode mismatch')
     require(setup.get('reactive_calibration', False) is reactive_calibration, 'Reactive calibration mode mismatch')
-    require(setup.get('hybrid_device') is None, 'Hybrid predictor is not part of this study')
+    require(setup.get('hybrid_device') == hybrid_device, 'Hybrid predictor mode mismatch')
     require(not reactive_calibration or method == 'fixed', 'Reactive audit requires fixed-reward comparison')
     if rollback_monitor:
         from app.analysis.rollback_audit import audit_rollback_events
@@ -96,7 +99,7 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
             and setup['repair'] == (method != 'fixed'),
             'Repair mode mismatch')
     known, spec = dict(start['initial']), copy.deepcopy(setup['reward_spec'])
-    generator = random.Random(3000 + seed)
+    generator = random.Random(member_seed)
     pending = warning = target = distances = ranges = ids = None
     covered, widths, stop = 0, [], None
     calibration_ids, revealed_order, update_required = list(setup['reserved_ids']), [], None
@@ -111,6 +114,19 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
                         and set(settings['fitting_ids']) == set(known) - set(calibration_ids), 'Fitting evidence mismatch')
                 if reactive_calibration:
                     require(settings.get('calibration_ids') == calibration_ids, 'Calibration role mismatch')
+                if hybrid_device is not None:
+                    fitting = sorted(settings['fitting_ids'])
+                    expected_validation = sorted(random.Random(seed).sample(fitting, math.ceil(len(fitting) * .2)))
+                    info = settings['hybrid_fit']
+                    require(info['validation_ids'] == expected_validation and
+                            info['training_ids'] == sorted(set(fitting) - set(expected_validation)) and
+                            len(info['members']) == 2 and
+                            [m['seed'] for m in info['members']] == settings['member_seeds'][3:] and
+                            all(1 <= m['best_epoch'] <= m['epochs'] <= 200 and
+                                math.isfinite(m['best_validation_mse_normalized']) and
+                                m['best_validation_mse_normalized'] >= 0 for m in info['members']) and
+                            math.isfinite(settings['hybrid_fit_seconds']) and settings['hybrid_fit_seconds'] >= 0,
+                            'Hybrid fitting roles or member metadata mismatch')
             if 'calibration_update' in settings:
                 update = settings['calibration_update']
                 require(reactive_calibration and update_required == round_number and settings['round'] == round_number

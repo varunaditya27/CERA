@@ -1,0 +1,16 @@
+{
+  "record_sha256": "e2cc94a6eb508b4868c2538d33bc87f1315c3a3994c56ec6b704eed69c86dde7",
+  "device": "cuda",
+  "first_round_refitted_candidates": 3175,
+  "maximum_mean_difference": 0.0,
+  "maximum_spread_difference": 0.0,
+  "counts": {
+    "selections": 2,
+    "repair_replays": 6,
+    "runs": 1
+  },
+  "new_measurements": 20,
+  "stop_reason": "failed_repairs",
+  "covered": 18,
+  "range_count": 20
+}
