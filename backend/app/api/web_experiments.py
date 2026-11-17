@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from app.llm.local_advisor import AdvisorConfigurationError
 from app.workspace.runs_service import RunBusy, list_experiments, read_experiment, run_experiment
+from app.workspace.run_review import review_run
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -66,3 +67,16 @@ def get_experiment(run_id: str, request: Request):
         return read_experiment(run_id)
     except (OSError, ValueError) as error:
         raise HTTPException(status_code=404, detail='Completed experiment not found.') from error
+
+
+@router.get('/api/experiments/run/{run_id}/review')
+def review_experiment(run_id: str, request: Request):
+    local_only(request)
+    if not re.fullmatch('[0-9a-f]{32}', run_id):
+        raise HTTPException(status_code=404, detail='Completed experiment not found.')
+    try:
+        return review_run(run_id)
+    except FileNotFoundError as error:
+        raise HTTPException(status_code=404, detail='Completed experiment not found.') from error
+    except (OSError, ValueError, KeyError, TypeError, IndexError, StopIteration) as error:
+        raise HTTPException(status_code=409, detail='Saved experiment could not be verified.') from error

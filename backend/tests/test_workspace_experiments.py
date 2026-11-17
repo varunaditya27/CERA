@@ -1,4 +1,5 @@
 import fcntl
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -29,7 +30,23 @@ class WorkspaceExperimentTest(unittest.TestCase):
             incomplete.mkdir()
             listed = client.get('/api/experiments/amylase').json()
             self.assertIn({'status': 'incomplete_or_running', 'id': incomplete.name}, listed)
-            self.assertTrue((Path(directory) / result['id'] / 'run.jsonl').is_file())
+            record = Path(directory) / result['id'] / 'run.jsonl'
+            self.assertTrue(record.is_file())
+            review_url = '/api/experiments/run/' + result['id'] + '/review'
+            review = client.get(review_url)
+            self.assertEqual(review.status_code, 200, review.text)
+            payload = review.json()
+            self.assertEqual(sum(len(batch['measurements']) for batch in payload['batches']), 100)
+            self.assertEqual(set(payload['batches'][0]['measurements'][0]), {'id', 'score', 'prediction', 'lower', 'upper'})
+            self.assertNotIn('prediction_ranges', review.text)
+            self.assertNotIn('pool_optimum', review.text)
+            self.assertEqual(client.get('/api/experiments/run/' + 'f' * 32 + '/review').status_code, 404)
+            events = [json.loads(line) for line in record.read_text().splitlines()]
+            reveal = next(event for event in events if event['event'] == 'reveal')
+            first = next(iter(reveal['measurements']))
+            reveal['measurements'][first] += 1
+            record.write_text(''.join(json.dumps(event) + '\n' for event in events))
+            self.assertEqual(client.get(review_url).status_code, 409)
             self.assertEqual(client.get('/api/experiments/amylase/not-an-id').status_code, 404)
             self.assertEqual(client.post('/api/experiments/amylase', json={'seed': -1}).status_code, 422)
             self.assertEqual(client.post('/api/experiments/unknown', json={'seed': 3}).status_code, 422)
@@ -37,6 +54,7 @@ class WorkspaceExperimentTest(unittest.TestCase):
             self.assertEqual(client.post('/api/experiments/amylase', json={'seed': 3, 'gemini': True}).status_code, 422)
             remote = TestClient(app, client=('192.0.2.1', 50000))
             self.assertEqual(remote.post('/api/experiments/amylase', json={'seed': 3}).status_code, 403)
+            self.assertEqual(remote.get(review_url).status_code, 403)
 
     def test_gemini_fallback_is_reported(self):
         from app.llm.gemini_client import GeminiError
@@ -57,6 +75,11 @@ class WorkspaceExperimentTest(unittest.TestCase):
             self.assertEqual(result['provider_attempts'], result['provider_fallbacks'])
             self.assertIsNone(result['reported_total_tokens'])
             self.assertEqual(result['provider_usage_reports'], 0)
+            review = client.get('/api/experiments/run/' + result['id'] + '/review')
+            self.assertEqual(review.status_code, 200, review.text)
+            actions = [action for batch in review.json()['batches'] for action in batch['repairs']]
+            self.assertTrue(any(action['attempts'] for action in actions))
+            self.assertNotIn('replayed_ids', review.text)
 
     def test_missing_gemini_configuration_does_not_start_run(self):
         from app.llm.local_advisor import AdvisorConfigurationError
