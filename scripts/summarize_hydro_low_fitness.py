@@ -24,6 +24,8 @@ def summarize(report):
                 or any(r['status'] != 'completed' for r in rows)):
             raise ValueError('Study has missing, repeated or failed runs')
         methods = []
+        fixed_curve = {(row['seed'], row['new_measurements']): row['best_observed']
+                       for row in group['curves'] if row['method'] == 'fixed'}
         fixed = {r['seed']: r for r in rows if r['method'] == 'fixed'}
         for method in METHODS:
             runs = [r for r in rows if r['method'] == method]
@@ -31,11 +33,17 @@ def summarize(report):
             if any(sum(r['selected_split_counts'].values()) != r['new_measurements'] for r in runs):
                 raise ValueError('Split counts do not match measurement counts')
             differences = [r['best_observed'] - fixed[r['seed']]['best_observed'] for r in runs]
+            matched = [r['best_observed'] - fixed_curve[r['seed'], r['new_measurements']] for r in runs
+                       if (r['seed'], r['new_measurements']) in fixed_curve]
             methods.append({'method': method, 'median_best': median(r['best_observed'] for r in runs),
                             'new_measurements': {'median': median(counts), 'min': min(counts), 'max': max(counts)},
                             'stop_reasons': dict(sorted(Counter(r['stop_reason'] for r in runs).items())),
                             'selected_train': sum(r['selected_split_counts']['train'] for r in runs),
                             'selected_test': sum(r['selected_split_counts']['test'] for r in runs),
+                            'same_measurement_comparisons': len(matched),
+                            'higher_equal_lower_same_measurements': [sum(d > 1e-12 for d in matched),
+                                                                     sum(abs(d) <= 1e-12 for d in matched),
+                                                                     sum(d < -1e-12 for d in matched)],
                             'higher_equal_lower_vs_fixed': [sum(d > 1e-12 for d in differences),
                                                             sum(abs(d) <= 1e-12 for d in differences),
                                                             sum(d < -1e-12 for d in differences)],

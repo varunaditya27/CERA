@@ -15,11 +15,15 @@ class HydroSummaryTest(unittest.TestCase):
                  'repairs_accepted': 0, 'advice_gemini': 0, 'advice_fallback': 0,
                  'advice_request_attempts': 0, 'advice_reported_tokens': 0}
                 for seed in range(141, 151) for method in METHODS]
-        report = {'scope': 'hydro_low_fitness', 'groups': [{'dataset': d, 'summaries': copy.deepcopy(rows)} for d in DATASETS]}
+        report = {'scope': 'hydro_low_fitness', 'groups': [{'dataset': d, 'summaries': copy.deepcopy(rows),
+                                                                  'curves': [{'seed': seed, 'method': 'fixed',
+                                                                              'new_measurements': 10, 'best_observed': 1}
+                                                                             for seed in range(141, 151)]} for d in DATASETS]}
         result = summarize(report)
         self.assertEqual(result[0]['methods'][0]['higher_equal_lower_vs_fixed'], [10, 0, 0])
         self.assertEqual(result[0]['methods'][0]['selected_test'], 70)
         self.assertIsNone(result[0]['methods'][0]['covered'])
+        self.assertEqual(result[0]['methods'][0]['higher_equal_lower_same_measurements'], [10, 0, 0])
         self.assertEqual(result[0]['methods'][METHODS.index('fixed')]['higher_equal_lower_vs_fixed'], [0, 10, 0])
         broken = copy.deepcopy(report)
         broken['groups'][0]['summaries'].pop()
