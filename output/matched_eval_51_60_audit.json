@@ -1,0 +1,57 @@
+{
+  "scope": "four_protein",
+  "capture_method": "Manually transcribed from successful audit stdout; independent summary recheck was a separate one-off command.",
+  "audit_script_sha256": "1df86a34c89fcb142a5a16384518d1330b2cbd61516dbbba1cdb27b3e114ec3b",
+  "evaluation_report_sha256": "33b5d1c00930942986277f0fe74b7a35c2ae3f8e44ed8079cf66a156c1e44939",
+  "groups": [
+    {
+      "dataset": "ired",
+      "completed": 90,
+      "repair_replays": 118,
+      "representative_distance_rounds": 1,
+      "representative_local_rounds": 2,
+      "selections": 728
+    },
+    {
+      "dataset": "hydro-P06241",
+      "completed": 90,
+      "repair_replays": 170,
+      "representative_distance_rounds": 1,
+      "representative_local_rounds": 2,
+      "selections": 730
+    },
+    {
+      "dataset": "hydro-P01053",
+      "completed": 90,
+      "repair_replays": 125,
+      "representative_distance_rounds": 1,
+      "representative_local_rounds": 2,
+      "selections": 721
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "completed": 90,
+      "repair_replays": 136,
+      "representative_distance_rounds": 1,
+      "representative_local_rounds": 2,
+      "selections": 764
+    }
+  ],
+  "independent_summary_recheck": {
+    "runs": 360,
+    "paired_differences": 320,
+    "checks": [
+      "source_scores",
+      "best_observed",
+      "pool_regret",
+      "top_one_percent",
+      "budget_and_stop",
+      "range_counts_and_widths",
+      "warning_counts",
+      "repair_cost_entries",
+      "provider_accounting",
+      "recovery_windows",
+      "paired_differences"
+    ]
+  }
+}
