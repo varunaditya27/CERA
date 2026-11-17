@@ -407,6 +407,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: split evaluation feasibility
 
 - Rechecked FLIP2's split definitions and counted local eligible rows without inspecting scores. Documented [two IRED candidate-pool alternatives](split_evaluation_feasibility.md), the current runner's limitations and Hydro's score-derived split leakage risk. Requested a choice of IRED candidate pool before preparing implementation. No new run or code change was made.
+- Inspected the runner, random and local-search methods, evaluator and audit while the pool choice was pending. Documented the need to keep candidate exposure, reveal validation, exhaustion, manifests and independent reconstruction consistent if a restricted mode is selected. No implementation choice or new run was made.
 
 ## Next review gates
 
