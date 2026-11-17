@@ -413,6 +413,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - While the IRED pool choice remained pending, checked the already saved paired outcomes and installed SciPy version. Documented [statistical limitations](matched_statistics_feasibility.md), including ten all-zero pairs for each repair method on P01053, ties on other proteins, differing measurement counts and incomplete recovery follow-up. No p-values, confidence intervals, code changes or additional experimental outcomes were produced.
 
+### 2026-11-17: main-study metric inventory
+
+- Inspected the evaluator and representative compressed record against the synopsis metrics. Updated the [completion review](completion_evidence_review.md) to distinguish top-1% hit from top-1% recall, identify evidence potentially available for cumulative regret and batch metrics, and distinguish retained repair proposals from rollback after later outcomes. This is a record-availability review, not a new analysis of all runs or a claim that missing scientific outcomes can be reconstructed.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
