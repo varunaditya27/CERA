@@ -107,6 +107,7 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors,
             if method != 'random':
                 validate_recorded_sources(setup['source_sha256'], manifest['code_sha256'])
                 require(setup['role_seed'] == 2000 + seed and setup['member_seed'] == 3000 + seed
+                        and setup.get('stop_on_failed_repairs', True) is True
                         and setup['cache_sha256'] == manifest['representation_cache_sha256']
                         and setup['reserved_ids'] == sorted(random.Random(2000 + seed).sample(sorted(expected_initial), 20)),
                         'Predictor configuration mismatch')

@@ -439,6 +439,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - All 90 runs reached completed runner status. The independent audit reconstructed 703 selection batches and 135 repair replays, with one representative distance and two local-proposal checks. An additional one-off calculation verified all 90 recorded summaries and 80 paired differences against source scores and compressed records. Each repair method was higher than fixed reward once, tied seven times and lower twice at actual stop; each stopped after failed repairs in all ten runs. [Findings](ired_low_change_findings.md) distinguish early stops, whole-run coverage, provider accounting and the limits of the exploratory design.
 
+### 2026-11-17: development stopping comparison implementation
+
+- Prepared an isolated Amylase-only comparison of normal repair stopping and continuing after failed repairs, documented in the [protocol](abstention_ablation_protocol.md). Failed proposals remain rejected and constraints remain active; the default policy is unchanged. Added a separate runner and reconstruction audit, synthetic matched-run and stopping tests, and checks that ordinary matched-study evaluation rejects records claiming the stop was disabled. The complete backend suite passed 111 tests; no real development comparison had run at this point.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

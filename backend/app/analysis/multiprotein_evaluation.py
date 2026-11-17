@@ -117,6 +117,7 @@ def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, 
                 uses_repair = method in ('repair', 'gemini_repair')
                 if (settings['reward_spec'] != (specification if uses_reward else None)
                         or settings['repair'] != uses_repair
+                        or settings.get('stop_on_failed_repairs', True) is not True
                         or settings['targeted_disagreement'] != (manifest['targeted_disagreement'] if uses_repair else False)
                         or settings['direct_diversity'] != (manifest['direct_diversity'] if uses_repair else False)
                         or settings['acquisition'] != (method if method in ('ucb', 'ei') else None)

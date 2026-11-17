@@ -3,10 +3,34 @@ import unittest
 from unittest.mock import patch
 
 from app.llm.goal_compiler import DEFAULT_SPEC
+from app.experiments.prediction_pilot import run_pilot
 from app.rewards.repair_coordinator import handle_warnings
 
 
 class RepairCoordinatorTests(unittest.TestCase):
+    def test_development_without_abstention_keeps_checks_and_continues(self):
+        spec = copy.deepcopy(DEFAULT_SPEC)
+        warnings = {kind: {'status': 'triggered' if kind in ('support_shift', 'coverage', 'disagreement')
+                            else 'not_triggered'}
+                    for kind in ('support_shift', 'coverage', 'disagreement', 'diversity')}
+        targets = {kind: ['a'] for kind in warnings}
+        with patch('app.rewards.repair_coordinator.select_batch', return_value=[{'id': 'a'}]), \
+             patch('app.rewards.repair_coordinator.choose_repair', return_value={'status': 'retained',
+                   'specification': spec, 'attempts': []}) as choose:
+            result, failures, events, stopped = handle_warnings(
+                spec, warnings, targets, {}, 'AAAA', 1, [], [], 0, stop_on_failed_repairs=False)
+        self.assertFalse(stopped)
+        self.assertEqual(failures, 3)
+        self.assertEqual(choose.call_count, 3)
+        self.assertEqual([event['status'] for event in events], ['retained'] * 3)
+        self.assertEqual(result, spec)
+
+    def test_abstention_ablation_is_restricted(self):
+        with self.assertRaisesRegex(ValueError, 'restricted'):
+            run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True, dataset='ired', stop_on_failed_repairs=False)
+        with self.assertRaisesRegex(ValueError, 'restricted'):
+            run_pilot('unused', stop_on_failed_repairs=False)
+
     def test_priority_and_two_failed_repairs_stop(self):
         spec = copy.deepcopy(DEFAULT_SPEC)
         warnings = {kind: {'status': 'triggered'} for kind in ('support_shift', 'coverage', 'disagreement', 'diversity')}

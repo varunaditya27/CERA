@@ -28,7 +28,8 @@ from app.rewards.warning_checks import (constraint_warning, coverage_warning, di
 
 def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, reward_origin=None,
               repair=False, repair_advisor=None, repair_model=None, dataset='amylase', acquisition=None,
-              local_search=None, targeted_disagreement=False, direct_diversity=False, initial_pool='train'):
+              local_search=None, targeted_disagreement=False, direct_diversity=False, initial_pool='train',
+              stop_on_failed_repairs=True):
     if acquisition not in (None, 'ucb', 'ei') or (acquisition is not None and (reward_spec is not None or repair)):
         raise ValueError('Invalid acquisition configuration')
     if (local_search not in (None, 'genetic', 'adalead') or
@@ -40,6 +41,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
         raise ValueError('Experimental repair checks require repair mode')
     if repair_advisor is not None and not repair:
         raise ValueError('A repair advisor requires repair mode')
+    if not isinstance(stop_on_failed_repairs, bool) or (not stop_on_failed_repairs and (not repair or dataset != 'amylase')):
+        raise ValueError('Disabling repair abstention is restricted to Amylase development repair runs')
     if reward_spec is not None:
         reward_spec = copy.deepcopy(reward_spec)
         validate_spec(reward_spec)
@@ -81,6 +84,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                              'reward_spec': reward_spec, 'reward_origin': reward_origin, 'repair': repair,
                              'targeted_disagreement': targeted_disagreement,
                              'direct_diversity': direct_diversity,
+                             'stop_on_failed_repairs': stop_on_failed_repairs,
                              'repair_advisor': 'gemini' if repair_advisor else 'rule_based',
                              'repair_model': repair_model,
                              'role_seed': role_seed,
@@ -197,7 +201,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                            'diversity': chosen}
                 reward_spec, failures, actions, abstain = handle_warnings(
                     reward_spec, warnings, targets, features, reference, batch_budget, calibration, earlier, failures,
-                    advisor=repair_advisor, direct_diversity=direct_diversity)
+                    advisor=repair_advisor, direct_diversity=direct_diversity,
+                    stop_on_failed_repairs=stop_on_failed_repairs)
                 run.record_settings({'round': round_number, 'repair_actions': actions,
                                      'consecutive_failures': failures})
                 if abstain:
