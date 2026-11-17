@@ -396,6 +396,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - With implementation approved, defined the [follow-up protocol](warning_followup_protocol.md), implemented a separate evaluator and tests, and analyzed the existing Amylase development replay. The [findings](warning_followup_findings.md) preserve missing follow-up, per-seed counts and the exploratory limitations. A one-off independent source-record calculation checked all 200 later-window rows; the complete backend suite passed 101 tests. No warning threshold was changed and no test-landscape outcome was used for tuning.
 
+### 2026-11-17: exploratory disagreement and ranking
+
+- Implemented the [ranking protocol](disagreement_ranking_protocol.md) for the already approved warning evaluation. The [findings](disagreement_ranking_findings.md) compare saved warnings with separately revealed selected-batch rank correlation without imposing a new failure cutoff. Only two of 100 batches lacked a warning, limiting comparisons. A separate one-off rank calculation checked all 100 coefficients; the backend suite passed 103 tests. No warning, search behavior or test-landscape tuning changed.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
