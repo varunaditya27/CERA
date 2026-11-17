@@ -121,6 +121,7 @@ def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, 
                         or settings.get('bypass_evidence_gate', False) is not False
                         or settings.get('disabled_repair_terms', []) != []
                         or settings.get('universal_penalty', False) is not False
+                        or settings.get('apply_last_rejected', False) is not False
                         or settings['targeted_disagreement'] != (manifest['targeted_disagreement'] if uses_repair else False)
                         or settings['direct_diversity'] != (manifest['direct_diversity'] if uses_repair else False)
                         or settings['acquisition'] != (method if method in ('ucb', 'ei') else None)

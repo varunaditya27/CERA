@@ -71,7 +71,8 @@ def read_source():
     return sequences, scores, train
 
 
-def audit_run(events, seed, method, sequences, scores, train, manifest, row, counts, bypass_evidence_gate=False):
+def audit_run(events, seed, method, sequences, scores, train, manifest, row, counts, bypass_evidence_gate=False,
+              apply_last_rejected=False):
     start = events[0]
     require(start['event'] == 'start' and (start['seed'], start['initial_count'], start['budget'],
             start['batch_size'], start['max_mutations']) == (seed, 100, 100, 10, 4), 'Invalid start')
@@ -134,6 +135,12 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
                                         if bypass_evidence_gate else item['verification']['accepted'])
                                     for item in action['attempts'])
                                 and action['specification'] == spec, 'Retained repair mismatch')
+                    elif action['status'] == 'applied_rejected':
+                        require(apply_last_rejected and action['attempts']
+                                and all(not item['verification']['accepted'] for item in action['attempts'])
+                                and action['attempts'][-1]['verification']['checks']['allowed_change_and_constraints'] is True
+                                and action['specification'] == proposed, 'Invalid rejected repair application')
+                        spec = action['specification']
         elif event['event'] == 'warning' and event['type'] == 'disagreement':
             require(pending is None, 'Warning chronology error')
             warning = event

@@ -6,8 +6,10 @@ from app.rewards.repair_verification import verify_repair
 
 
 def choose_repair(spec, warning_type, candidates, reference, remaining, counterexamples, calibration, earlier,
-                  advisor=None, direct_diversity=False, bypass_evidence_gate=False, universal_penalty=False):
-    if not isinstance(universal_penalty, bool) or not isinstance(bypass_evidence_gate, bool):
+                  advisor=None, direct_diversity=False, bypass_evidence_gate=False, universal_penalty=False,
+                  apply_last_rejected=False):
+    if (any(not isinstance(value, bool) for value in (universal_penalty, bypass_evidence_gate, apply_last_rejected))
+            or (apply_last_rejected and (bypass_evidence_gate or universal_penalty))):
         raise ValueError('Invalid experimental repair setting')
     attempts = []
     menu = repair_candidates(spec, 'coverage' if universal_penalty else warning_type)
@@ -28,4 +30,8 @@ def choose_repair(spec, warning_type, candidates, reference, remaining, countere
                 else verification['accepted']):
             return {'status': 'accepted', 'specification': candidate['specification'], 'attempts': attempts,
                     'advice': advice}
+    if (apply_last_rejected and attempts and
+            attempts[-1]['verification']['checks']['allowed_change_and_constraints'] is True):
+        return {'status': 'applied_rejected', 'specification': candidate['specification'], 'attempts': attempts,
+                'advice': advice}
     return {'status': 'retained', 'specification': copy.deepcopy(spec), 'attempts': attempts, 'advice': advice}

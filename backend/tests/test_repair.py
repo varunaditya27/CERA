@@ -23,6 +23,26 @@ def fixture():
 
 
 class RepairTests(unittest.TestCase):
+    def test_apply_last_rejected_preserves_hard_guard_and_success(self):
+        spec, candidates, calibration, earlier = fixture()
+        result = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration[:19], earlier,
+                               apply_last_rejected=True)
+        self.assertEqual(result['status'], 'applied_rejected')
+        self.assertTrue(all(not item['verification']['accepted'] for item in result['attempts']))
+        self.assertEqual(result['specification']['terms']['distance_penalty']['weight'], 1.0)
+        success = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier,
+                                apply_last_rejected=True)
+        self.assertEqual(success['status'], 'accepted')
+        full = copy.deepcopy(spec)
+        full['terms']['distance_penalty']['weight'] = 2.0
+        self.assertEqual(choose_repair(full, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier,
+                                       apply_last_rejected=True)['status'], 'retained')
+        with patch('app.rewards.repair_engine.verify_repair', return_value={
+                'accepted': False, 'checks': {'allowed_change_and_constraints': False}}):
+            guarded = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier,
+                                    apply_last_rejected=True)
+        self.assertEqual(guarded['status'], 'retained')
+
     def test_universal_penalty_changes_menu_but_keeps_warning_checks(self):
         spec, candidates, calibration, earlier = fixture()
         normal = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier)

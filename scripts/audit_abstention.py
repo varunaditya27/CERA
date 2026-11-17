@@ -31,7 +31,7 @@ def check_stopping(events, normal):
         for action in settings['repair_actions']:
             if action['status'] == 'accepted':
                 failures = 0
-            elif action['status'] == 'retained':
+            elif action['status'] in ('retained', 'applied_rejected'):
                 failures += 1
             else:
                 continue
@@ -56,6 +56,8 @@ def main():
         seeds, methods = list(range(91, 96)), ['normal', 'no_distance', 'no_uncertainty', 'no_diversity']
     elif comparison == 'universal':
         seeds, methods = list(range(101, 106)), ['normal', 'universal']
+    elif comparison == 'retention':
+        seeds, methods = list(range(111, 116)), ['normal', 'no_retention']
     else:
         raise ValueError('Unexpected study comparison')
     require(manifest['seeds'] == seeds and manifest['methods'] == methods
@@ -87,11 +89,12 @@ def main():
                     setup.get('bypass_evidence_gate', False) is (method == 'bypass') and
                     setup.get('disabled_repair_terms', []) == ([removed] if removed else []) and
                     setup.get('universal_penalty', False) is (method == 'universal') and
+                    setup.get('apply_last_rejected', False) is (method == 'no_retention') and
                     setup['cache_sha256'] == manifest['cache_sha256'], 'Study mode mismatch')
             validate_recorded_sources(setup['source_sha256'], manifest['code_sha256'])
             check_stopping(events, method != 'continue')
             spec = setup['reward_spec']
-            bypassed = disabled = 0
+            bypassed = disabled = applied_rejected = 0
             warnings = {(event['round'], event['type']): event['status'] for event in events
                         if event['event'] == 'warning'}
             terms = {'support_shift': 'distance_penalty', 'coverage': 'uncertainty_penalty',
@@ -115,9 +118,13 @@ def main():
                         disabled += 1
                         continue
                     require(removed is None or terms[kind] != removed, 'Disabled repair was attempted')
-                    if action['status'] not in ('accepted', 'retained'):
+                    if action['status'] not in ('accepted', 'retained', 'applied_rejected'):
                         continue
                     menu_action = {**action, 'warning': 'coverage'} if method == 'universal' else action
+                    if action['status'] == 'applied_rejected':
+                        require(method == 'no_retention', 'Unexpected rejected repair application')
+                        menu_action = {**menu_action, 'status': 'retained'}
+                        applied_rejected += 1
                     check_repair_order(spec, 'repair', menu_action)
                     for attempt in action['attempts']:
                         check_repair_cost(spec, menu_action['warning'], attempt)
@@ -128,13 +135,19 @@ def main():
                             require(len(action['attempts']) == 1, 'Evidence bypass did not use first eligible proposal')
                         bypassed += not action['attempts'][-1]['verification']['accepted']
                         spec = action['specification']
+                    elif action['status'] == 'applied_rejected':
+                        spec = action['specification']
             if 'accepted_without_evidence' in summaries[(seed, method)]:
                 require(int(summaries[(seed, method)]['accepted_without_evidence']) == bypassed,
                         'Bypass count mismatch')
             if 'disabled_actions' in summaries[(seed, method)]:
                 require(int(summaries[(seed, method)]['disabled_actions']) == disabled, 'Disabled repair count mismatch')
+            if 'rejected_repairs_applied' in summaries[(seed, method)]:
+                require(int(summaries[(seed, method)]['rejected_repairs_applied']) == applied_rejected,
+                        'Rejected repair count mismatch')
             initial = audit_run(events, seed, 'direct', sequences, scores, train, manifest,
-                                summaries[(seed, method)], counts, bypass_evidence_gate=method == 'bypass')
+                                summaries[(seed, method)], counts, bypass_evidence_gate=method == 'bypass',
+                                apply_last_rejected=method == 'no_retention')
             if seed in initials:
                 require(initials[seed] == initial, 'Paired starts differ')
             initials[seed] = initial

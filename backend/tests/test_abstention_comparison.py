@@ -47,11 +47,12 @@ class AbstentionComparisonTests(unittest.TestCase):
                        for i, s in enumerate(sequences)}
             seqs, scores, train, _, _ = load_flip2(data, reference, 4)
             for comparison, seed, expected_count in (('evidence', 81, 2), ('repair-terms', 91, 4),
-                                                     ('universal', 101, 2)):
+                                                     ('universal', 101, 2), ('retention', 111, 2)):
                 output = root / comparison
                 with patch.object(compare_abstention, 'DATA', data), patch.object(compare_abstention, 'REFERENCE', reference), \
                      patch.object(compare_abstention, 'EVIDENCE_SEEDS', (81,)), patch.object(compare_abstention, 'TERM_SEEDS', (91,)), \
                      patch.object(compare_abstention, 'UNIVERSAL_SEEDS', (101,)), \
+                     patch.object(compare_abstention, 'RETENTION_SEEDS', (111,)), \
                      patch('app.datasets.amylase.DATA', data), patch('app.datasets.amylase.REFERENCE', reference), \
                      patch('app.experiments.prediction_pilot.load_verified_representations', return_value=vectors), \
                      patch.object(sys, 'argv', ['compare_abstention.py', str(output), '--comparison', comparison]), \
@@ -68,10 +69,12 @@ class AbstentionComparisonTests(unittest.TestCase):
                     events = [json.loads(line) for line in raw.splitlines()]
                     self.assertEqual(events[1]['settings']['bypass_evidence_gate'], method == 'bypass')
                     self.assertEqual(events[1]['settings']['universal_penalty'], method == 'universal')
+                    self.assertEqual(events[1]['settings']['apply_last_rejected'], method == 'no_retention')
                     expected = [compare_abstention.REMOVED_TERMS[method]] if method in compare_abstention.REMOVED_TERMS else []
                     self.assertEqual(events[1]['settings']['disabled_repair_terms'], expected)
                     starts.append(audit_run(events, seed, 'direct', seqs, scores, train, manifest, row, Counter(),
-                                            bypass_evidence_gate=method == 'bypass'))
+                                            bypass_evidence_gate=method == 'bypass',
+                                            apply_last_rejected=method == 'no_retention'))
                     check_stopping(events, True)
                 self.assertTrue(all(start == starts[0] for start in starts))
 

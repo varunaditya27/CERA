@@ -491,6 +491,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - All ten Amylase runs completed; the independent audit checked 76 selections and 36 repair replays. In both policies, all six actions reaching an attempt were for coverage or disagreement, which already use the uncertainty penalty in the normal policy. Every selected batch matched within each pair. The [findings](universal_penalty_findings.md) mark the comparison inconclusive rather than claiming equivalence or an unobserved intervention effect.
 
+### 2026-11-17: rejected-repair retention comparison implementation
+
+- Defined the isolated Amylase [retention protocol](retention_ablation_protocol.md): after every ordinary proposal fails, its alternative applies the last proposal only when the menu and hard guards permit it, records it as rejected, and still counts the failure toward stopping. This is not rollback of an earlier accepted rule after later deterioration. Synthetic cases cover successful proposals, empty menus, failed evidence and hard-guard rejection; ordinary study verification rejects the experimental mode. All 126 backend tests passed, followed by 14 targeted tests after an additional experimental-setting guard. The earlier universal-penalty audit reproduced its saved output. No real retention comparison had run at this point.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
