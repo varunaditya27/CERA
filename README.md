@@ -1,6 +1,8 @@
 # CERA
 A framework for auditing, diagnosing, and repairing unreliable learned rewards in protein fitness optimization through counterexample-guided analysis, uncertainty estimation, and constrained LLM-assisted repair.
 
+For the current implementation, main results, reproducibility checks and open work, start with the [integrated project status and results](research/project_status_and_results.md). Earlier research notes are dated snapshots.
+
 ## Dataset setup
 
 The three primary FLIP2 splits described in the synopsis are stored under `data/raw/flip2/` as both compressed archives and extracted CSV files:

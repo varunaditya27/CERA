@@ -593,3 +593,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Added optional user goal text to the Gemini goal compiler while keeping fixed bounds and the existing fixed-goal fallback unchanged. User-goal compilation rejects model-classified unsupported requests and fails closed on provider errors; the model can still misinterpret text, so the saved specification requires review. A live supported goal compiled successfully and ran through a 20-measurement Amylase repair episode; a live minimization request was rejected. All 150 backend tests passed. [Details](natural_goal_compiler.md) include provider-data handling and limits.
 - Confirmed the checkout's frontend matches `origin/research/experiment-foundations`; its production build passed and a live local backend returned the overview, datasets, IRED detail and workflow pages over HTTP. This check did not test browser interactions or deployment. The local NVIDIA GPU is visible to PyTorch; the sequence representations used in the completed studies were previously generated on the GPU. No larger model was evaluated.
+
+### 2026-11-17: integrated project status
+
+- Added an [integrated report](project_status_and_results.md) connecting the implemented pipeline, datasets, main results, verification and unfinished work. Checked 95 repository Markdown documents for local-link resolution with no unresolved relative links; this mechanical check is not a full scientific review of each historical note.
