@@ -384,6 +384,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 - All 360 approved runs completed at the runner level. The independent audit reconstructed 2,943 selection batches and 549 repair replays, plus representative local and distance checks. A separate one-off verification checked all 360 summaries and 320 paired differences against source scores and saved records. The audit stdout was transcribed into `output/matched_eval_51_60_audit.json`; its one-off summary verification is not a reusable program.
 - Across 40 paired starts, each repair variant had 0 higher, 35 equal and 5 lower final best scores than fixed reward at actual stop. Rule-based repair stopped after failed repairs in 35/40 runs; Gemini-assisted repair in 36/40. Twenty-three repairs were accepted in each arm, and 102 valid Gemini selections and four HTTP 503 fallbacks were recorded. These are finite-pool observations, not proof of equivalence or a causal result. [Findings](multiprotein_study_findings.md) document every protein, baselines, denominators, provider-accounting limits and remaining work.
 
+### 2026-11-17: synopsis completion review
+
+- Compared the original synopsis and briefing guide with the completed study and current research records. Added a [completion evidence review](completion_evidence_review.md) that distinguishes completed evidence from missing split-based evaluation, warning accuracy, component-removal studies, statistical analysis and final deliverables. No new experiment, code change or performance claim was made. The next proposed step is to assess feasibility and design a development-only controlled warning evaluation before implementation.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
