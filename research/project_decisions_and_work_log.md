@@ -649,3 +649,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: mixed-predictor export protocol
 
 - Defined a [reusable model export](hybrid_model_export_protocol.md) that refits only on observations revealed in a completed, audited episode and stores numeric weights without executable object serialization. The final refit includes the last batch and is not evaluated by the original episode. No model artifact had been produced at this checkpoint.
+
+### 2026-11-17: mixed-predictor export implementation
+
+- Added a numeric-only, atomic model archive and NumPy inference loader. The export command audits a completed mixed-predictor episode, reconstructs only its revealed observations, refits a final group with the range-setting examples held out, and checks CPU-loaded predictions against the fitted models before publishing the file. Tests cover prediction parity, source-role boundaries, changed archives, invalid inputs and refusal to overwrite; all 166 backend tests passed. No real model artifact had been exported at this checkpoint.
