@@ -536,3 +536,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: constraint and diversity rule findings
 
 - The saved [controlled cases](rule_warning_controls_findings.md) matched all ten constraint expectations and all four available diversity expectations; the fifth diversity case was unavailable. A separate audit recomputed all 15 cases. These hand-selected rule checks are not estimates of biological detection performance.
+
+### 2026-11-17: exploratory paired analysis protocol
+
+- Defined a [post-result analysis protocol](exploratory_paired_analysis_protocol.md) for paired best-score differences and actual measurement counts, with cautious interpretation for ten tied starts per fixed dataset. It specifies paired resampling, exhaustive sign permutations, explicit zero handling and a multiple-comparison family. This does not turn exploratory results into a prespecified confirmatory study.
