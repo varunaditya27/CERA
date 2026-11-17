@@ -367,6 +367,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Ran all 90 approved IRED combinations (seeds 51–60 and nine methods) with score-blind starting sets; all reached a completed runner status. The complete compressed records and statuses are preserved under `output/matched_eval_51_60_ired/`. No search outcomes were evaluated or interpreted at this stage; the four-protein audit and evaluation remain pending.
 
+### 2026-11-17: Hydro P06241 matched runs completed
+
+- All 90 approved P06241 combinations reached a completed runner status. Records and statuses are preserved under `output/matched_eval_51_60_hydro-P06241/`. No search outcomes were evaluated at this stage; the four-protein audit and evaluation remain pending.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
