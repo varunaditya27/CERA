@@ -11,7 +11,7 @@ class AdvisorConfigurationError(Exception):
     pass
 
 
-def local_repair_advisor():
+def local_gemini_configuration():
     try:
         from dotenv import dotenv_values
     except ImportError as error:
@@ -21,6 +21,12 @@ def local_repair_advisor():
     model = os.environ.get('GEMINI_MODEL') or settings.get('GEMINI_MODEL')
     if not isinstance(key, str) or not key.strip() or not isinstance(model, str) or not re.fullmatch(r'[A-Za-z0-9._-]+', model):
         raise AdvisorConfigurationError('Gemini configuration unavailable')
+
+    return key, model
+
+
+def local_repair_advisor():
+    key, model = local_gemini_configuration()
 
     def advisor(kind, menu):
         return advise_repair(lambda warning, options: request_repair(key, model, warning, options), kind, menu)

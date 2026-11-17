@@ -1,12 +1,15 @@
 'use client';
 import { useActionState } from 'react';
+import Link from 'next/link';
+import type { SavedGoal } from '../../lib/goals';
 import { startExperiment } from './actions';
 import { datasetName, experimentDatasets } from '../../lib/experiment-datasets';
 
-export function ExperimentForm() {
+export function ExperimentForm({ goals }: { goals: SavedGoal[] | null }) {
   const [state, action, pending] = useActionState(startExperiment, {});
   return <><form action={action} className="experiment-form">
     <label htmlFor="dataset">Protein dataset</label><p id="dataset-help">Each hydrophobic-core protein is a separate search.</p><select id="dataset" name="dataset" defaultValue="amylase" aria-describedby="dataset-help">{Object.entries(experimentDatasets).map(([id, name]) => <option value={id} key={id}>{name}</option>)}</select>
+    <label htmlFor="goal">Reward specification</label><p id="goal-choice-help">Use the fixed default or select a saved goal after reviewing its weights on the <Link className="text-link" href="/goals">Goals page</Link>. {goals === null && 'Saved goals are unavailable.'}</p><select id="goal" name="goal" defaultValue="default" aria-describedby="goal-choice-help"><option value="default">Fixed default specification</option>{goals?.map(goal => <option key={goal.id} value={`${goal.id}:${goal.sha256}`}>{goal.input_goal.slice(0, 80)} · {goal.id.slice(0, 8)}</option>)}</select>
     <label htmlFor="seed">Starting seed</label><p id="seed-help">A whole number controls the initial sample. Use the same seed to reproduce the starting examples.</p>
     <input id="seed" name="seed" type="number" defaultValue="1" min="0" max="2147483647" step="1" required aria-describedby="seed-help"/>
     <fieldset><legend>Search method</legend><label><input type="radio" name="method" value="fixed" defaultChecked/> Fixed reward</label><label><input type="radio" name="method" value="repair"/> Rule-based repair</label><label><input type="radio" name="method" value="gemini"/> Gemini-assisted repair</label></fieldset>

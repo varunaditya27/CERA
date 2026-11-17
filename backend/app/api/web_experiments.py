@@ -10,6 +10,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from app.llm.local_advisor import AdvisorConfigurationError
 from app.workspace.runs_service import RunBusy, list_experiments, read_experiment, run_experiment
 from app.workspace.run_review import review_run
+from app.workspace.goals_service import GoalChanged
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -20,9 +21,13 @@ class ExperimentRequest(BaseModel):
     seed: int = Field(ge=0, le=2147483647)
     repair: bool = False
     gemini: bool = False
+    goal_id: str | None = Field(default=None, pattern='^[0-9a-f]{32}$')
+    goal_sha256: str | None = Field(default=None, pattern='^[0-9a-f]{64}$')
 
     @model_validator(mode='after')
     def check_mode(self):
+        if (self.goal_id is None) != (self.goal_sha256 is None):
+            raise ValueError('Goal identifier and fingerprint must be supplied together')
         if self.gemini and not self.repair:
             raise ValueError('Gemini requires repair mode')
         return self
@@ -41,7 +46,9 @@ def create_experiment(dataset: Literal['amylase', 'ired', 'hydro-P06241', 'hydro
                       body: ExperimentRequest, request: Request):
     local_only(request)
     try:
-        return run_experiment(body.seed, body.repair, body.gemini, dataset)
+        return run_experiment(body.seed, body.repair, body.gemini, dataset, body.goal_id, body.goal_sha256)
+    except GoalChanged as error:
+        raise HTTPException(status_code=409, detail='Saved goal is missing or has changed.') from error
     except AdvisorConfigurationError as error:
         raise HTTPException(status_code=503, detail='Gemini configuration is unavailable.') from error
     except RunBusy as error:

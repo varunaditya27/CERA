@@ -1,6 +1,6 @@
 import 'server-only';
 
-export type Experiment = { id: string; dataset?: string; seed: number; repair: boolean; gemini?: boolean; provider_attempts?: number; provider_fallbacks?: number; reported_total_tokens?: number | null; provider_usage_reports?: number; new_measurements: number; best_observed: number; stop_reason: string; covered: number | null; range_count: number; mean_range_width: number | null; warnings: Record<string, number>; accepted_repairs: number };
+export type Experiment = { id: string; dataset?: string; goal_id?: string | null; seed: number; repair: boolean; gemini?: boolean; provider_attempts?: number; provider_fallbacks?: number; reported_total_tokens?: number | null; provider_usage_reports?: number; new_measurements: number; best_observed: number; stop_reason: string; covered: number | null; range_count: number; mean_range_width: number | null; warnings: Record<string, number>; accepted_repairs: number };
 export type RecentExperiment = ({ status: 'completed' } & Experiment) | { status: 'incomplete_or_running'; id: string };
 export async function getRecentExperiments(): Promise<RecentExperiment[] | null> {
   try {
@@ -12,7 +12,7 @@ export async function getRecentExperiments(): Promise<RecentExperiment[] | null>
 type Attempt = { term: string; proposed_weight: number; accepted: boolean; checks: Record<string, boolean | null> };
 type Repair = { warning: string; status: string; advice_source: string | null; attempts: Attempt[] };
 type Batch = { round: number; measurements: { id: string; score: number; prediction: number; lower: number; upper: number }[]; warnings: { type: string; status: string }[]; repairs: Repair[] };
-export type RunReview = { summary: Experiment; batches: Batch[] };
+export type RunReview = { summary: Experiment; batches: Batch[]; goal: string | null; specification: { terms: Record<'uncertainty_penalty' | 'distance_penalty' | 'diversity_bonus', { weight: number }> } };
 export async function getRunReview(id: string): Promise<{ review?: RunReview; unavailable: boolean }> {
   try {
     const response = await fetch(`${process.env.CERA_API_URL || 'http://127.0.0.1:8000'}/api/experiments/run/${encodeURIComponent(id)}/review`, { cache: 'no-store', signal: AbortSignal.timeout(15000) });

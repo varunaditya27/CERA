@@ -17,7 +17,7 @@ class RunBusy(Exception):
     pass
 
 
-def run_experiment(seed, repair, gemini=False, dataset='amylase'):
+def run_experiment(seed, repair, gemini=False, dataset='amylase', goal_id=None, goal_sha256=None):
     from app.experiments.prediction_pilot import run_pilot
 
     RUNS.mkdir(parents=True, exist_ok=True)
@@ -32,10 +32,17 @@ def run_experiment(seed, repair, gemini=False, dataset='amylase'):
             advisor, model = local_repair_advisor()
         run_id = uuid.uuid4().hex
         directory = RUNS / run_id
-        spec_bytes = SPECIFICATION.read_bytes()
-        spec = json.loads(spec_bytes)
+        if goal_id is None:
+            spec_bytes = SPECIFICATION.read_bytes()
+            spec = json.loads(spec_bytes)
+            origin = {'source': 'specification_file', 'input_sha256': hashlib.sha256(spec_bytes).hexdigest()}
+        else:
+            from app.workspace.goals_service import load_goal
+            goal = load_goal(goal_id, goal_sha256)
+            spec = goal['specification']
+            origin = {'source': 'gemini', 'input_sha256': goal['sha256'], 'model': goal['model'], 'input_goal': goal['input_goal']}
         run_pilot(directory, seed=seed, reward_spec=spec,
-                  reward_origin={'source': 'specification_file', 'input_sha256': hashlib.sha256(spec_bytes).hexdigest()},
+                  reward_origin=origin,
                   repair=repair, repair_advisor=advisor, repair_model=model, dataset=dataset)
         events = [json.loads(line) for line in (directory / 'run.jsonl').read_text(encoding='utf-8').splitlines()]
         data, reference, loader = dataset_source(dataset)
@@ -61,7 +68,7 @@ def run_experiment(seed, repair, gemini=False, dataset='amylase'):
                             if 'totalTokenCount' in usage:
                                 provider_usage_reports += 1
                                 provider_tokens += usage['totalTokenCount']
-        result = {'id': run_id, 'dataset': dataset, 'seed': seed, 'repair': repair, 'gemini': gemini,
+        result = {'id': run_id, 'dataset': dataset, 'goal_id': goal_id, 'seed': seed, 'repair': repair, 'gemini': gemini,
                   'provider_attempts': provider_attempts, 'provider_fallbacks': provider_fallbacks,
                   'reported_total_tokens': provider_tokens if provider_usage_reports else None,
                   'provider_usage_reports': provider_usage_reports, 'new_measurements': final['new_measurements'],

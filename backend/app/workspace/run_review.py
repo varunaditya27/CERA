@@ -4,6 +4,7 @@ from collections import Counter
 
 from app.datasets.registry import dataset_source
 from app.experiments.evaluation import evaluate
+from app.rewards.reward_spec import validate_spec
 from app.workspace import runs_service
 
 
@@ -18,6 +19,7 @@ def review_run(run_id):
     if (setup['dataset'] != dataset or events[0]['seed'] != summary['seed']
             or setup['repair'] != summary['repair']):
         raise ValueError('Run settings mismatch')
+    validate_spec(setup['reward_spec'])
     data, reference, loader = dataset_source(dataset)
     _, scores, train, data_hash, reference_hash = loader(data, reference, events[0]['max_mutations'])
     evaluation = evaluate(events, scores, set(train), data_hash, reference_hash)
@@ -62,4 +64,5 @@ def review_run(run_id):
     for batch in batches:
         batch['warnings'] = warnings.get(batch['round'], [])
         batch['repairs'] = repairs.get(batch['round'], [])
-    return {'summary': summary, 'batches': batches}
+    return {'summary': summary, 'batches': batches, 'specification': setup['reward_spec'],
+            'goal': setup['reward_origin'].get('input_goal')}
