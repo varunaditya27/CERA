@@ -487,6 +487,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Implemented an isolated Amylase development mode that proposes changes to the uncertainty penalty for every warning while retaining the original warning-specific verification checks and hard guards. Normal matched-study evaluation and audit reject this setting. Synthetic policy, guard and paired-run tests passed; all 124 backend tests passed. The previous repair-term audit reproduced its saved result before the final boolean validation was added. The [protocol](universal_penalty_protocol.md) fixes seeds 101–105 and records that this is a post-result-motivated comparison. No real universal-penalty run was made at this point.
 
+### 2026-11-17: universal-penalty comparison results
+
+- All ten Amylase runs completed; the independent audit checked 76 selections and 36 repair replays. In both policies, all six actions reaching an attempt were for coverage or disagreement, which already use the uncertainty penalty in the normal policy. Every selected batch matched within each pair. The [findings](universal_penalty_findings.md) mark the comparison inconclusive rather than claiming equivalence or an unobserved intervention effect.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
