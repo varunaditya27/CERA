@@ -363,6 +363,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 - With Varun's approval, corrected the review findings: enforced the agreed nine-method, ten-seed, four-group scope and exact reward specification, cross-group code/environment/model consistency, complete predictor-source records and compressed-before-decompressed fingerprint checks. The evaluator now records each dimensionless repair cost and whether it was accepted; the independent audit checks the permitted menu, attempt ordering and fallback choice, and recomputes the cost. Synthetic tests and the full 97-test backend suite passed. See [review](multiprotein_code_review.md).
 - Sent one separate synthetic, score-free Gemini repair-menu request as a provider preflight. The configured `gemini-3.5-flash-lite` returned a valid choice on its first attempt and reported 149 input, 10 candidate-output and 159 total tokens. Actual billing and future quota availability remain unknown; this call is not part of any protein-search result.
 
+### 2026-11-17: IRED matched runs completed
+
+- Ran all 90 approved IRED combinations (seeds 51–60 and nine methods) with score-blind starting sets; all reached a completed runner status. The complete compressed records and statuses are preserved under `output/matched_eval_51_60_ired/`. No search outcomes were evaluated or interpreted at this stage; the four-protein audit and evaluation remain pending.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
