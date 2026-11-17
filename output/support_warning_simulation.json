@@ -1,0 +1,108 @@
+{
+  "scope": "synthetic constructed shifts; not biological validation",
+  "python": "3.14.8",
+  "versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.18.1"
+  },
+  "script_sha256": "2edd70b2a322139358107f3f55b74fdfec98f75ee6d5dd120e54ee84463672d2",
+  "warning_source_sha256": {
+    "warning_checks.py": "d4ee45ed71dd6a663a9ab579021ed068973dd06adaf8164ac2251fa3591ba9df"
+  },
+  "seed": 2026111702,
+  "batches_per_condition": 1000,
+  "conditions": {
+    "reference": {
+      "shifted": false,
+      "miss_probability": 0.1,
+      "batches": 1000,
+      "distance_threshold": 1.0,
+      "distances": {
+        "c0": 0.010000000000000009,
+        "c1": 0.020000000000000018,
+        "c2": 0.030000000000000027,
+        "c3": 0.040000000000000036,
+        "c4": 0.050000000000000044,
+        "c5": 0.06000000000000005,
+        "c6": 0.07000000000000006,
+        "c7": 0.08000000000000007,
+        "c8": 0.09000000000000008,
+        "c9": 0.10000000000000009
+      },
+      "triggered": 0,
+      "not_triggered": 1000,
+      "unavailable": 0,
+      "exact_trigger_probability": 0.0
+    },
+    "shifted_well_covered": {
+      "shifted": true,
+      "miss_probability": 0.1,
+      "batches": 1000,
+      "distance_threshold": 1.0,
+      "distances": {
+        "c0": 6.0,
+        "c1": 7.0,
+        "c2": 8.0,
+        "c3": 9.0,
+        "c4": 10.0,
+        "c5": 11.0,
+        "c6": 12.0,
+        "c7": 13.0,
+        "c8": 14.0,
+        "c9": 15.0
+      },
+      "triggered": 74,
+      "not_triggered": 926,
+      "unavailable": 0,
+      "exact_trigger_probability": 0.07019082640000002
+    },
+    "shifted_poorly_covered": {
+      "shifted": true,
+      "miss_probability": 0.5,
+      "batches": 1000,
+      "distance_threshold": 1.0,
+      "distances": {
+        "c0": 6.0,
+        "c1": 7.0,
+        "c2": 8.0,
+        "c3": 9.0,
+        "c4": 10.0,
+        "c5": 11.0,
+        "c6": 12.0,
+        "c7": 13.0,
+        "c8": 14.0,
+        "c9": 15.0
+      },
+      "triggered": 943,
+      "not_triggered": 57,
+      "unavailable": 0,
+      "exact_trigger_probability": 0.9453125
+    }
+  },
+  "comparisons": {
+    "shifted_well_covered": {
+      "true_positive": 74,
+      "false_negative": 926,
+      "false_positive": 0,
+      "true_negative": 1000,
+      "positive_unavailable": 0,
+      "negative_unavailable": 0,
+      "precision": 1.0,
+      "recall": 0.074,
+      "false_alarm_rate": 0.0,
+      "f1": 0.1378026070763501
+    },
+    "shifted_poorly_covered": {
+      "true_positive": 943,
+      "false_negative": 57,
+      "false_positive": 0,
+      "true_negative": 1000,
+      "positive_unavailable": 0,
+      "negative_unavailable": 0,
+      "precision": 1.0,
+      "recall": 0.943,
+      "false_alarm_rate": 0.0,
+      "f1": 0.970663921770458
+    }
+  }
+}

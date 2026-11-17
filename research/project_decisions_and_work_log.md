@@ -511,6 +511,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Defined a [synthetic support-warning protocol](support_warning_simulation_protocol.md) that separates a constructed near/far candidate condition from independently simulated prediction misses. Added a reproducible simulator and an audit that reconstructs distances and outcomes without calling the warning, checks exact binomial probabilities and rejects altered distances. The full 131-test backend suite passed. These one-dimensional synthetic cases are not biological distribution-shift validation; no new simulation output had been recorded at this point.
 
+### 2026-11-17: controlled unfamiliar-candidate simulation findings
+
+- Simulated and independently audited 1,000 near-reference batches, 1,000 far batches with 10% per-score misses and 1,000 far batches with 50% misses. The warning fired 0, 74 and 943 times respectively. [Findings](support_warning_simulation_findings.md) explain that the near reference cannot trigger by construction, the warning explicitly requires both distance and misses, and the artificial-mixture metrics are not biological detection rates.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
