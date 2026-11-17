@@ -9,3 +9,5 @@
 .step-number{color:#4c705a}
 
 .overview-count small, footer, footer a{color:#405e4c}
+
+.results-section h2{font-family:Manrope,sans-serif;font-size:24px;letter-spacing:-.03em;margin:12px 0}.results-section>p{max-width:65ch;line-height:1.7;color:#506b5a;margin:12px 0;font-size:13px}.results-highlight{border-block:1px solid #dbe5dd;padding:24px 0;margin:25px 0;display:flex;align-items:baseline;gap:18px}.results-highlight strong{font-family:Manrope,sans-serif;font-size:30px;color:#315f52}.results-highlight span{color:#526c5d}.results-table-wrap{overflow:auto;margin:30px 0 14px}.results-table{border-collapse:collapse;width:100%;min-width:470px;text-align:left;font-size:12px}.results-table caption{text-align:left;font-weight:700;margin-bottom:12px}.results-table th,.results-table td{padding:14px 12px;border-bottom:1px solid #dbe5dd}.results-table thead th{color:#526c5d}.results-table td{font-variant-numeric:tabular-nums}.results-table-wrap:focus-visible{outline:3px solid #c28444;outline-offset:4px}.workflow-layout .method-note p+p{margin-top:12px}

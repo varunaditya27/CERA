@@ -95,6 +95,8 @@ The same embedding command accepts `--dataset ired`. The IRED reference, cache, 
 
 The three hydrophobic-core proteins are handled separately. Their source checks, references, score-free caches and the score-derived starting-set limitation are documented in [hydrophobic-core preparation](research/hydro_preparation.md).
 
+The web workspace also shows a read-only summary of the audited mixed-predictor search at `/results`. If its pinned audit is missing or changed, the results endpoint reports it unavailable. Experiment execution remains in the command-line scripts.
+
 ## Mixed predictor development
 
 The optional [mixed predictor](research/hybrid_predictor_findings.md) uses three ridge members and two neural networks, with GPU or CPU training. It is currently restricted to Amylase development and is not part of the completed five-ridge studies. A [reusable development model and inference example](research/hybrid_model_export_findings.md) are available; an [exploratory prediction comparison](research/exported_model_evaluation_findings.md) and [matched search comparison](research/mixed_search_comparison_findings.md) are available, with important limits.

@@ -665,3 +665,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: matched mixed-predictor searches
 
 - Completed ten fixed-reward Amylase search pairs with identical starts and 100 new measurements per run. The [replay audit](../output/mixed_search_comparison_191_200_audit.json) checked 20 runs and 200 selections and refitted the first mixed group for each pair on the GPU. Both approaches ended with the same best score in every pair; mixed and ridge selected-range coverage was 878/1,000 and 842/1,000. [Findings](mixed_search_comparison_findings.md) record that selections can differ, later groups were not independently refitted, and the reused development dataset cannot establish equivalence or generalization. All 167 backend tests passed.
+
+### 2026-11-17: read-only results in the web workspace
+
+- Added a dedicated backend endpoint that reads the fingerprint-pinned mixed-search audit and returns unavailable when the file is missing or changed. The existing frontend design now includes a results page showing the measured comparison and its limitations; it does not launch experiments. The production build, 168 backend tests, and live HTTP checks for both available and unavailable states passed. The browser inspection host was unavailable, so visual, responsive, and keyboard checks were not performed. Starlette emitted a deprecation warning for its httpx-based test client.
