@@ -645,3 +645,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: corrected GPU mixed-predictor pilot
 
 - Repeated seed 181 after isolating random state. The RTX 5050 run used two batches and stopped after failed repairs; 18/20 recorded ranges covered their scores. The [audit](../output/amylase_hybrid_gpu_seed181_v2_audit.json) checked two selections and six repair replays, and a same-device refit reproduced 3,175 first-round predictions with zero observed difference. All 163 backend tests passed. [Findings](hybrid_predictor_findings.md) preserve the prior pilot and explain that this single episode is not a model comparison or a reusable final trained model.
+
+### 2026-11-17: mixed-predictor export protocol
+
+- Defined a [reusable model export](hybrid_model_export_protocol.md) that refits only on observations revealed in a completed, audited episode and stores numeric weights without executable object serialization. The final refit includes the last batch and is not evaluated by the original episode. No model artifact had been produced at this checkpoint.
