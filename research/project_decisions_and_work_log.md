@@ -463,6 +463,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Extended the additional metric protocol and evaluator to identify the first accepted repair and inspect the first 30 later measurements when available. The analysis distinguishes no accepted repair, insufficient follow-up and an observed 30-measurement window; it does not treat the result as causal. Synthetic checks and all 119 backend tests passed. No new after-acceptance outcome had been calculated at this point.
 
+### 2026-11-17: after-acceptance coverage findings
+
+- Applied the post-result first-30-later-measurement definition to both saved studies. Across 100 repair-policy runs, 56 had no accepted repair, six had insufficient later measurements and 38 had complete windows. Independently recomputed all 100 classifications and coverage counts from compressed records and checked previous metric fields were unchanged. [Findings](after_repair_coverage_findings.md) give per-protein denominators and explain why the observations do not establish a causal effect or the original shift-split target.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

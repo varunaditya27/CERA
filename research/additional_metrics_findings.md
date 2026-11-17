@@ -16,6 +16,8 @@ Each median summarizes ten matched starts on the same measured protein, and the 
 
 The reports also give cumulative regret over *new* measurements and its per-measurement mean, plus the mean pairwise sequence differences and, for predictor methods, the prediction-versus-measurement rank correlation for each selected batch. Cumulative totals are not directly comparable when a policy stops early: making fewer measurements can yield a smaller sum. Random selection and constant or too-small batches have an unavailable rank correlation, represented as null. These are descriptions of selected variants, not estimates for unselected variants or a causal effect of repair.
 
+The later [after-repair coverage analysis](after_repair_coverage_findings.md) adds an explicitly defined first 30-measurement window following an accepted repair. Its output files supersede the files below for shared metric fields; the earlier outputs are retained for reproducibility.
+
 - [Four-protein metrics](../output/matched_eval_51_60_additional_metrics.json): SHA-256 `058e9da17d2334085927371b714bdac5d2a569b23adf7bf424e0423a0e29ff9d`.
 - [IRED low-change metrics](../output/ired_low_change_61_70_additional_metrics.json): SHA-256 `adfe9a01414cb332ba923e7f8d95adfa97d9c0114105f12667ddd95e2389fa38`.
 
