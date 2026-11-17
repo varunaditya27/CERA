@@ -404,6 +404,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Added hand-labeled valid, invalid, boundary and unavailable examples for the constraint and diversity rules. All ten constraint cases and five diversity cases matched their expected outcomes. The focused warning tests passed 11 tests and the full backend suite passed 105 tests. [Documentation](controlled_warning_cases.md) separates these rule checks from biological failure detection and cites the existing atomic-rejection integration test.
 
+### 2026-11-17: split evaluation feasibility
+
+- Rechecked FLIP2's split definitions and counted local eligible rows without inspecting scores. Documented [two IRED candidate-pool alternatives](split_evaluation_feasibility.md), the current runner's limitations and Hydro's score-derived split leakage risk. Requested a choice of IRED candidate pool before preparing implementation. No new run or code change was made.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
