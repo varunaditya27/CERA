@@ -388,6 +388,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Compared the original synopsis and briefing guide with the completed study and current research records. Added a [completion evidence review](completion_evidence_review.md) that distinguishes completed evidence from missing split-based evaluation, warning accuracy, component-removal studies, statistical analysis and final deliverables. No new experiment, code change or performance claim was made. The next proposed step is to assess feasibility and design a development-only controlled warning evaluation before implementation.
 
+### 2026-11-17: warning evaluation feasibility
+
+- Reviewed the current five warning implementations, their boundary tests and earlier replay findings. Prepared [a feasibility review](warning_evaluation_feasibility.md) separating rule-correctness checks from prediction of independently defined later outcomes. Identified follow-up censoring, selective measurement and circular labels as limitations; no outcomes, thresholds, new experiments or code were selected or changed.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
