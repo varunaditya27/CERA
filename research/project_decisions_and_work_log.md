@@ -435,6 +435,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Following Varun's full authorization to proceed, added an IRED-only train-start mode to the matched runner and a separately validated study scope to the evaluator and audit. Both reconstruct the exact ordered starting pool; the evaluator reports selected mutation counts. The original four-protein scope still requires all-eligible starts. A synthetic nine-method run with a mocked provider passed evaluation and audit; changed starting-pool order was rejected. All 107 backend tests passed, and re-evaluating the previous 360-run study reproduced its report byte for byte. The [runbook](ired_low_change_runbook.md) records the planned commands and limitations. No new IRED study run was made during implementation.
 
+### 2026-11-17: IRED low-change study completed
+
+- All 90 runs reached completed runner status. The independent audit reconstructed 703 selection batches and 135 repair replays, with one representative distance and two local-proposal checks. An additional one-off calculation verified all 90 recorded summaries and 80 paired differences against source scores and compressed records. Each repair method was higher than fixed reward once, tied seven times and lower twice at actual stop; each stopped after failed repairs in all ten runs. [Findings](ired_low_change_findings.md) distinguish early stops, whole-run coverage, provider accounting and the limits of the exploratory design.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
