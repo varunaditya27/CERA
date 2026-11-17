@@ -24,9 +24,16 @@ def main():
     content = args.specification.read_bytes()
     spec = json.loads(content)
     origin = {'input_sha256': hashlib.sha256(content).hexdigest(), 'source': 'specification_file'}
-    if isinstance(spec, dict) and set(spec) == {'source', 'attempts', 'specification', 'model'}:
+    compiled_keys = {'source', 'attempts', 'specification', 'model'}
+    if isinstance(spec, dict) and set(spec) in (compiled_keys, compiled_keys | {'input_goal'}):
         if spec['source'] not in ('gemini', 'fallback'):
             raise ValueError('Invalid compiled specification source')
+        if 'input_goal' in spec:
+            if spec['source'] != 'gemini':
+                raise ValueError('User goal requires a model-compiled specification')
+            if not isinstance(spec['input_goal'], str) or not spec['input_goal'].strip() or len(spec['input_goal']) > 1000:
+                raise ValueError('Invalid compiled goal text')
+            origin['input_goal'] = spec['input_goal']
         origin.update(source=spec['source'], model=spec['model'])
         spec = spec['specification']
     advisor = model = None

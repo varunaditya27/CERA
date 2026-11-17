@@ -1,5 +1,7 @@
 # Gemini reward-weight compilation
 
+This is a historical record of the fixed-goal implementation. The later [natural-language goal path](natural_goal_compiler.md) adds optional user goal text; this file preserves the original check and results.
+
 Implemented and checked 16 November 2026. This is a constrained first version of the language-model component, not the complete LLM-assisted repair system.
 
 ## What the model can do

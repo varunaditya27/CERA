@@ -1,0 +1,49 @@
+{
+  "source": "gemini",
+  "attempts": [
+    {
+      "status": "accepted",
+      "usage": {
+        "promptTokenCount": 95,
+        "candidatesTokenCount": 46,
+        "totalTokenCount": 141
+      }
+    }
+  ],
+  "specification": {
+    "goal": "maximize_fitness",
+    "terms": {
+      "uncertainty_penalty": {
+        "weight": 0.0,
+        "allowed_range": [
+          0.0,
+          2.0
+        ]
+      },
+      "distance_penalty": {
+        "weight": 0.0,
+        "allowed_range": [
+          0.0,
+          2.0
+        ]
+      },
+      "diversity_bonus": {
+        "weight": 0.5,
+        "allowed_range": [
+          0.0,
+          1.0
+        ]
+      }
+    },
+    "hard_constraints": {
+      "max_mutations": 4
+    },
+    "budget": {
+      "rounds": 10,
+      "batch_size": 10
+    },
+    "abstain_after_failed_repairs": 2
+  },
+  "input_goal": "Maximize protein fitness while favoring a diverse batch of variants.",
+  "model": "gemini-3.5-flash-lite"
+}

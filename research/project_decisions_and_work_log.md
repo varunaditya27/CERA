@@ -588,3 +588,8 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: repair-stopping diagnosis findings
 
 - The [diagnosis](hydro_repair_stopping_diagnosis_findings.md) found that all 54 early stops across the two repair arms followed failed actions in different batches. The 357 rejected proposals each failed either complete counterexample displacement or direct diversity resolution; some also failed ranking preservation. Passing the recorded calibration check does not establish improved later coverage. A separate audit checked 60 records and 363 proposals. This is descriptive and does not show what would happen without stopping.
+
+### 2026-11-17: natural-language fitness goal path
+
+- Added optional user goal text to the Gemini goal compiler while keeping fixed bounds and the existing fixed-goal fallback unchanged. User-goal compilation rejects model-classified unsupported requests and fails closed on provider errors; the model can still misinterpret text, so the saved specification requires review. A live supported goal compiled successfully and ran through a 20-measurement Amylase repair episode; a live minimization request was rejected. All 150 backend tests passed. [Details](natural_goal_compiler.md) include provider-data handling and limits.
+- Confirmed the checkout's frontend matches `origin/research/experiment-foundations`; its production build passed and a live local backend returned the overview, datasets, IRED detail and workflow pages over HTTP. This check did not test browser interactions or deployment. The local NVIDIA GPU is visible to PyTorch; the sequence representations used in the completed studies were previously generated on the GPU. No larger model was evaluated.
