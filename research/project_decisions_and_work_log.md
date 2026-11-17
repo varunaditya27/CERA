@@ -350,6 +350,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Compared the current request/response handling with Google's thinking-token documentation. The output limit covers reasoning as well as visible output, and the current client discards returned usage metadata for non-`STOP` responses. Documented that the existing token total may omit rejected requests and is not a billing total in the [comparison draft](multiprotein_comparison_draft.md). No live request or code change was made.
 
+### 2026-11-17: pre-study code review
+
+- At Varun's direction, reviewed changes since `e5a3cc4` against the comparison draft and personal coding standards in separate review axes. Identified missing cross-group code/environment/model matching, incomplete scope and fingerprint enforcement, omitted repair-cost reporting and compressed-file check ordering. Recorded [findings and proposed corrections](multiprotein_code_review.md). No real study runs were started.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
