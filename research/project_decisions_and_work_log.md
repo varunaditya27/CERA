@@ -400,6 +400,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Implemented the [ranking protocol](disagreement_ranking_protocol.md) for the already approved warning evaluation. The [findings](disagreement_ranking_findings.md) compare saved warnings with separately revealed selected-batch rank correlation without imposing a new failure cutoff. Only two of 100 batches lacked a warning, limiting comparisons. A separate one-off rank calculation checked all 100 coefficients; the backend suite passed 103 tests. No warning, search behavior or test-landscape tuning changed.
 
+### 2026-11-17: controlled warning rule examples
+
+- Added hand-labeled valid, invalid, boundary and unavailable examples for the constraint and diversity rules. All ten constraint cases and five diversity cases matched their expected outcomes. The focused warning tests passed 11 tests and the full backend suite passed 105 tests. [Documentation](controlled_warning_cases.md) separates these rule checks from biological failure detection and cites the existing atomic-rejection integration test.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
