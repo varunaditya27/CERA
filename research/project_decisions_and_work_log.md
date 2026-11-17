@@ -409,6 +409,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Rechecked FLIP2's split definitions and counted local eligible rows without inspecting scores. Documented [two IRED candidate-pool alternatives](split_evaluation_feasibility.md), the current runner's limitations and Hydro's score-derived split leakage risk. Requested a choice of IRED candidate pool before preparing implementation. No new run or code change was made.
 - Inspected the runner, random and local-search methods, evaluator and audit while the pool choice was pending. Documented the need to keep candidate exposure, reveal validation, exhaustion, manifests and independent reconstruction consistent if a restricted mode is selected. No implementation choice or new run was made.
 
+### 2026-11-17: matched-study statistical feasibility
+
+- While the IRED pool choice remained pending, checked the already saved paired outcomes and installed SciPy version. Documented [statistical limitations](matched_statistics_feasibility.md), including ten all-zero pairs for each repair method on P01053, ties on other proteins, differing measurement counts and incomplete recovery follow-up. No p-values, confidence intervals, code changes or additional experimental outcomes were produced.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
