@@ -532,3 +532,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: constraint and diversity rule controls
 
 - Added a [protocol](rule_warning_controls_protocol.md), a reproducible recorder and a separate calculation checking ten constraint cases and five diversity cases. The latter includes the exact boundary and one unavailable single-sequence case. Tests check the independent audit rejects altered records and that undefined metrics remain unavailable. All 135 backend tests passed. These hand-picked cases test rule implementation, not biological warning accuracy.
+
+### 2026-11-17: constraint and diversity rule findings
+
+- The saved [controlled cases](rule_warning_controls_findings.md) matched all ten constraint expectations and all four available diversity expectations; the fifth diversity case was unavailable. A separate audit recomputed all 15 cases. These hand-selected rule checks are not estimates of biological detection performance.

@@ -1,0 +1,200 @@
+{
+  "scope": "hand-labeled rule checks; not biological validation",
+  "script_sha256": "5c5e1eda33f3cca0638447a39eb705e79231cbfbb82abe15070eb54393f2e8b9",
+  "warning_source_sha256": {
+    "warning_checks.py": "d4ee45ed71dd6a663a9ab579021ed068973dd06adaf8164ac2251fa3591ba9df"
+  },
+  "constraint": {
+    "cases": [
+      {
+        "name": "one mutation",
+        "ids": [
+          "one"
+        ],
+        "remaining": 2,
+        "limit": 2,
+        "label": false,
+        "status": "not_triggered",
+        "reason": null
+      },
+      {
+        "name": "four at limit",
+        "ids": [
+          "four"
+        ],
+        "remaining": 2,
+        "limit": 2,
+        "label": false,
+        "status": "not_triggered",
+        "reason": null
+      },
+      {
+        "name": "five mutations",
+        "ids": [
+          "five"
+        ],
+        "remaining": 2,
+        "limit": 2,
+        "label": true,
+        "status": "triggered",
+        "reason": "mutation_limit"
+      },
+      {
+        "name": "two at limit",
+        "ids": [
+          "unchanged",
+          "one"
+        ],
+        "remaining": 2,
+        "limit": 2,
+        "label": false,
+        "status": "not_triggered",
+        "reason": null
+      },
+      {
+        "name": "duplicate",
+        "ids": [
+          "one",
+          "one"
+        ],
+        "remaining": 2,
+        "limit": 2,
+        "label": true,
+        "status": "triggered",
+        "reason": "duplicate"
+      },
+      {
+        "name": "unknown",
+        "ids": [
+          "unknown"
+        ],
+        "remaining": 2,
+        "limit": 2,
+        "label": true,
+        "status": "triggered",
+        "reason": "unknown_or_already_revealed"
+      },
+      {
+        "name": "budget",
+        "ids": [
+          "unchanged",
+          "one"
+        ],
+        "remaining": 1,
+        "limit": 2,
+        "label": true,
+        "status": "triggered",
+        "reason": "budget_or_batch_limit"
+      },
+      {
+        "name": "batch",
+        "ids": [
+          "unchanged",
+          "one"
+        ],
+        "remaining": 2,
+        "limit": 1,
+        "label": true,
+        "status": "triggered",
+        "reason": "budget_or_batch_limit"
+      },
+      {
+        "name": "empty",
+        "ids": [],
+        "remaining": 2,
+        "limit": 2,
+        "label": true,
+        "status": "triggered",
+        "reason": "empty_batch"
+      },
+      {
+        "name": "mixed",
+        "ids": [
+          "one",
+          "five"
+        ],
+        "remaining": 2,
+        "limit": 2,
+        "label": true,
+        "status": "triggered",
+        "reason": "mutation_limit"
+      }
+    ],
+    "summary": {
+      "true_positive": 7,
+      "false_negative": 0,
+      "false_positive": 0,
+      "true_negative": 3,
+      "unavailable": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_alarm_rate": 0.0
+    }
+  },
+  "diversity": {
+    "cases": [
+      {
+        "name": "one difference",
+        "batch": {
+          "a": "AAAA",
+          "b": "AAAC"
+        },
+        "label": true,
+        "status": "triggered",
+        "value": 1.0
+      },
+      {
+        "name": "two differences",
+        "batch": {
+          "a": "AAAA",
+          "b": "AACC"
+        },
+        "label": false,
+        "status": "not_triggered",
+        "value": 2.0
+      },
+      {
+        "name": "three differences",
+        "batch": {
+          "a": "AAAA",
+          "b": "ACCC"
+        },
+        "label": false,
+        "status": "not_triggered",
+        "value": 3.0
+      },
+      {
+        "name": "three variants",
+        "batch": {
+          "a": "AAAA",
+          "b": "AAAC",
+          "c": "AACC"
+        },
+        "label": true,
+        "status": "triggered",
+        "value": 1.3333333333333333
+      },
+      {
+        "name": "one variant",
+        "batch": {
+          "a": "AAAA"
+        },
+        "label": null,
+        "status": "unavailable",
+        "value": null
+      }
+    ],
+    "summary": {
+      "true_positive": 2,
+      "false_negative": 0,
+      "false_positive": 0,
+      "true_negative": 2,
+      "unavailable": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_alarm_rate": 0.0
+    }
+  }
+}
