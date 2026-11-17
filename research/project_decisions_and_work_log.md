@@ -354,6 +354,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - At Varun's direction, reviewed changes since `e5a3cc4` against the comparison draft and personal coding standards in separate review axes. Identified missing cross-group code/environment/model matching, incomplete scope and fingerprint enforcement, omitted repair-cost reporting and compressed-file check ordering. Recorded [findings and proposed corrections](multiprotein_code_review.md). No real study runs were started.
 
+### 2026-11-17: repair-cost meaning check
+
+- Checked the implemented repair-menu formula and confirmed that its recorded cost is a dimensionless score for ordering proposed weight changes, not a financial or compute cost. Added the formula and an example to the [pre-study review](multiprotein_code_review.md); no repair or evaluation code was changed.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

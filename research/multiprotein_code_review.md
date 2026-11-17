@@ -19,7 +19,7 @@ Reviewed the changes from `e5a3cc4` through `6335ea1` on 17 November 2026, using
 
 1. In both normal-mode entry points, verify the approved seeds, nine-method list and two repair flags, and require identical implementation, Python/dependency versions and Gemini model across groups. Preserve an explicitly labeled partial development mode.
 2. Require the complete expected set of recorded predictor source fingerprints and compare each with its manifest. Check compressed fingerprints before decompression, then verify uncompressed fingerprints.
-3. Report the recorded cost for every proposed repair and identify which proposed repair was accepted. Keep these values separate from Gemini token usage or financial charges; do not infer unrecorded usage.
+3. Report the recorded cost for every proposed repair and identify which proposed repair was accepted. The existing cost is `(new weight − old weight) / (allowed maximum − allowed minimum) + 0.05`; for example, raising a weight from 0.50 to 0.75 in a 0–2 range costs 0.175. This is a dimensionless rule-change score used to order options, not money or compute time. Keep it separate from Gemini token usage or financial charges, and do not infer unrecorded usage.
 4. Test mismatched group manifests, reduced scope, missing source entries, invalid compressed fingerprints and cost reporting on synthetic records, then rerun the full backend suite. Do not start the real study until the corrections pass.
 
 Counts: two documented-standard concerns and two judgment calls; the most consequential standard concern is incomplete source verification. Three spec findings; the most consequential is that different code or models can be silently combined across proteins.
