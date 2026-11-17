@@ -528,3 +528,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
 2. Work through a two-round example and agree on information access, candidate eligibility, measurement accounting and stopping.
 3. Define fair comparisons and the checks needed for the first implementation. Seek approval before writing code.
+
+### 2026-11-17: constraint and diversity rule controls
+
+- Added a [protocol](rule_warning_controls_protocol.md), a reproducible recorder and a separate calculation checking ten constraint cases and five diversity cases. The latter includes the exact boundary and one unavailable single-sequence case. Tests check the independent audit rejects altered records and that undefined metrics remain unavailable. All 135 backend tests passed. These hand-picked cases test rule implementation, not biological warning accuracy.
