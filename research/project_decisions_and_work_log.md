@@ -548,3 +548,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: exploratory paired analysis findings
 
 - The [post-result findings](exploratory_paired_analysis_findings.md) retain matched starts and actual stopping counts. One protein had ten tied differences for both methods; the signed-rank results there are unavailable. The other six available adjusted values are 1. A separate audit checked 80 paired observations, resampling and adjustments, and verified the six available signed-rank calculations. These results do not establish equivalence, a causal repair effect or biological replication.
+
+### 2026-11-17: exploratory held-out shift prediction protocol
+
+- Defined a separate [static prediction protocol](heldout_shift_prediction_protocol.md) for the existing mutation-count and low-to-high fitness benchmark splits. It freezes choices after prior outcomes had been viewed, identifies the score-derived Hydro split as privileged, retains the four-substitution cap, and separates prediction from held-out-score evaluation. It cannot substitute for the proposed sequential shift-search comparison.
