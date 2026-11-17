@@ -64,6 +64,17 @@ class ReactiveCalibrationTest(unittest.TestCase):
                           reward_spec=copy.deepcopy(DEFAULT_SPEC), reactive_calibration=True)
                 run_pilot(root / 'original', seed=7, role_seed=2007, member_seed=3007,
                           reward_spec=copy.deepcopy(DEFAULT_SPEC))
+                with patch('app.experiments.prediction_pilot.handle_warnings',
+                           side_effect=lambda spec, *args, **kwargs: (spec, 0, [], False)):
+                    run_pilot(root / 'repair', seed=7, role_seed=2007, member_seed=3007,
+                              reward_spec=copy.deepcopy(DEFAULT_SPEC), repair=True, reactive_calibration=True)
+                calls = []
+                def stop_after_three(spec, *args, **kwargs):
+                    calls.append(1)
+                    return spec, 2 if len(calls) == 3 else 0, [], len(calls) == 3
+                with patch('app.experiments.prediction_pilot.handle_warnings', side_effect=stop_after_three):
+                    run_pilot(root / 'stopped', seed=7, role_seed=2007, member_seed=3007,
+                              reward_spec=copy.deepcopy(DEFAULT_SPEC), repair=True, reactive_calibration=True)
             events = [json.loads(line) for line in (root / 'adaptive/run.jsonl').read_text().splitlines()]
             initial = next(e['settings']['reserved_ids'] for e in events if e['event'] == 'method')
             observed, current, round_number, updates = [], initial, 0, 0
@@ -101,6 +112,12 @@ class ReactiveCalibrationTest(unittest.TestCase):
                 audit_run(altered, 7, 'fixed', seqs, scores, train, manifest, row, Counter(), reactive_calibration=True)
             baseline = [json.loads(line) for line in (root / 'original/run.jsonl').read_text().splitlines()]
             self.assertFalse(any('calibration_update' in e.get('settings', {}) for e in baseline))
+            repair = [json.loads(line) for line in (root / 'repair/run.jsonl').read_text().splitlines()]
+            update_index = next(i for i, e in enumerate(repair) if 'calibration_update' in e.get('settings', {}))
+            self.assertIn('repair_actions', repair[update_index - 1]['settings'])
+            stopped = [json.loads(line) for line in (root / 'stopped/run.jsonl').read_text().splitlines()]
+            self.assertEqual(next(e for e in stopped if e['event'] == 'stop')['stop_reason'], 'failed_repairs')
+            self.assertFalse(any('calibration_update' in e.get('settings', {}) for e in stopped))
 
 
 if __name__ == '__main__':

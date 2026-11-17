@@ -1,0 +1,11 @@
+seed,method,status,new_measurements,best_observed,pool_regret,found_top_one_percent,stop_reason,covered,range_count,mean_range_width,repair_actions,repairs_accepted,disabled_actions,rejected_repairs_applied,accepted_without_evidence,calibration_updates
+171,normal,completed,100,0.1812,0.030433333333333312,True,budget_exhausted,99,100,0.18394502711706942,0,0,0,0,0,0
+171,reactive,completed,100,0.1812,0.030433333333333312,True,budget_exhausted,99,100,0.18394502711706942,0,0,0,0,0,0
+172,normal,completed,100,0.1942833333333333,0.017350000000000004,True,budget_exhausted,78,100,0.15739019726525857,0,0,0,0,0,0
+172,reactive,completed,100,0.1804166666666666,0.031216666666666726,True,budget_exhausted,80,100,0.17398536317806979,0,0,0,0,0,2
+173,normal,completed,100,0.1696666666666666,0.04196666666666671,False,budget_exhausted,85,100,0.1564978767904374,0,0,0,0,0,0
+173,reactive,completed,100,0.1696666666666666,0.04196666666666671,False,budget_exhausted,91,100,0.16650572655611715,0,0,0,0,0,1
+174,normal,completed,100,0.1773333333333333,0.034300000000000025,True,budget_exhausted,76,100,0.15107031666059723,0,0,0,0,0,0
+174,reactive,completed,100,0.1773333333333333,0.034300000000000025,True,budget_exhausted,86,100,0.17624477426018004,0,0,0,0,0,3
+175,normal,completed,100,0.1797666666666667,0.0318666666666666,True,budget_exhausted,86,100,0.16737497144843858,0,0,0,0,0,0
+175,reactive,completed,100,0.1797666666666667,0.0318666666666666,True,budget_exhausted,86,100,0.16737497144843858,0,0,0,0,0,0

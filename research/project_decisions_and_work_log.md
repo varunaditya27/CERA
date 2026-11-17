@@ -621,3 +621,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: reactive calibration implementation
 
 - Added the opt-in Amylase range-setting policy and a separate matched comparison. A synthetic warning episode verified that updated calibration identifiers are already revealed, are excluded from the next fit, and take effect only in the next round; its independent replay rejected an altered update. Normal matched-study evaluators and audits reject the experimental setting. All 158 backend tests passed, and the preceding later-rollback audit reproduced its saved counts. No real reactive-calibration comparison was run at this checkpoint.
+
+### 2026-11-17: reactive calibration development results
+
+- Ten matched fixed-reward Amylase runs completed and passed an independent audit of 100 selections and six calibration updates. Whole-run range coverage was 424/500 for fixed calibration and 442/500 for reactive calibration; mean width rose from 0.1633 to 0.1736, and one reactive run ended with a lower best score while four tied. The [findings](reactive_calibration_findings.md) retain the trade-off and note that the policies selected different variants. A synthetic repair-enabled check also confirmed update timing and no update after an early stop. All 158 backend tests passed.
