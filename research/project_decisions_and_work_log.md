@@ -641,3 +641,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: mixed-predictor random-state isolation
 
 - Corrected the neural initialization to seed only a forked CPU generator before moving the network to the requested device. The prior `torch.manual_seed` also affected CUDA random state during CPU-only fitting; a direct check exposed this behavior. Tests now verify that fitting on both CPU and the available GPU preserves the caller's CPU and GPU random states. All 163 backend tests passed, and the earlier reactive-calibration audit reproduced its counts. The initial GPU pilot remains preserved under its original source fingerprint; a fresh check is required for the corrected code.
+
+### 2026-11-17: corrected GPU mixed-predictor pilot
+
+- Repeated seed 181 after isolating random state. The RTX 5050 run used two batches and stopped after failed repairs; 18/20 recorded ranges covered their scores. The [audit](../output/amylase_hybrid_gpu_seed181_v2_audit.json) checked two selections and six repair replays, and a same-device refit reproduced 3,175 first-round predictions with zero observed difference. All 163 backend tests passed. [Findings](hybrid_predictor_findings.md) preserve the prior pilot and explain that this single episode is not a model comparison or a reusable final trained model.

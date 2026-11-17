@@ -95,6 +95,10 @@ The same embedding command accepts `--dataset ired`. The IRED reference, cache, 
 
 The three hydrophobic-core proteins are handled separately. Their source checks, references, score-free caches and the score-derived starting-set limitation are documented in [hydrophobic-core preparation](research/hydro_preparation.md).
 
+## Mixed predictor development
+
+The optional [mixed predictor](research/hybrid_predictor_findings.md) uses three ridge members and two neural networks, with GPU or CPU training. It is currently restricted to Amylase development and is not part of the completed five-ridge studies.
+
 ## Exploratory prediction ranges
 
 After installing both sets of research requirements, run the amylase range pilot into a new directory:
