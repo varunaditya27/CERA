@@ -601,3 +601,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: local GPU verification
 
 - Re-ran the pinned ESM-2 representation check on the local NVIDIA GPU with the cached model and no network access. Two finite 320-value vectors were produced; the same full-length sequence differed by at most 6.56e-7 when embedded alone versus in a padded batch. The loader reported unused language-model-head weights, as documented in the original representation check. No larger model or new protein-performance benchmark was run.
+
+### 2026-11-17: later rollback protocol
+
+- Defined an opt-in [Amylase development rule](later_rollback_protocol.md) to monitor the 30 measurements after an accepted repair and restore its immediate predecessor if fewer than 75% of ranges cover those measurements. Supersession and insufficient follow-up are explicit. This is an operational safeguard, not evidence of causation or a coverage guarantee; previously recorded studies remain unchanged.
