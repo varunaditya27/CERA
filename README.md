@@ -95,7 +95,7 @@ The same embedding command accepts `--dataset ired`. The IRED reference, cache, 
 
 The three hydrophobic-core proteins are handled separately. Their source checks, references, score-free caches and the score-derived starting-set limitation are documented in [hydrophobic-core preparation](research/hydro_preparation.md).
 
-The web workspace also shows a read-only summary of the audited mixed-predictor search at `/results`. If its pinned audit is missing or changed, the results endpoint reports it unavailable. Experiment execution remains in the command-line scripts.
+The web workspace shows a read-only summary of the audited mixed-predictor search at `/results` and can predict cached Amylase sequences at `/predict`. The prediction tool requires the research dependencies, saved model and verified representation cache; it accepts only complete cached sequences with at most four substitutions from the reference. It returns predictions rather than measured scores and marks whether the sequence was used in fitting or range setting. This development model is not validated for laboratory decisions. If its pinned audit is missing or changed, the results endpoint reports it unavailable. Experiment execution remains in the command-line scripts.
 
 ## Mixed predictor development
 

@@ -5,11 +5,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from app.api.results import router as results_router
+from app.api.predictions import router as predictions_router
 
 ROOT = Path(__file__).resolve().parents[3]
 app = FastAPI(title='CERA API', version='0.1.0', description='Dataset catalog and audited research results.')
 app.include_router(results_router)
-app.add_middleware(CORSMiddleware, allow_origins=['http://localhost:3000', 'http://127.0.0.1:3000'], allow_methods=['GET'], allow_headers=['*'])
+app.include_router(predictions_router)
+app.add_middleware(CORSMiddleware, allow_origins=['http://localhost:3000', 'http://127.0.0.1:3000'], allow_methods=['GET', 'POST'], allow_headers=['*'])
 
 class Dataset(BaseModel):
     id: str
