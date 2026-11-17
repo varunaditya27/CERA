@@ -515,6 +515,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Simulated and independently audited 1,000 near-reference batches, 1,000 far batches with 10% per-score misses and 1,000 far batches with 50% misses. The warning fired 0, 74 and 943 times respectively. [Findings](support_warning_simulation_findings.md) explain that the near reference cannot trigger by construction, the warning explicitly requires both distance and misses, and the artificial-mixture metrics are not biological detection rates.
 
+### 2026-11-17: controlled ranking-disagreement implementation
+
+- Defined [planted ranking cases](disagreement_warning_simulation_protocol.md) with identical orders, all 45 single rank-pair swaps and reversed orders. Added a reproducible simulator and independent audit that reconstructs the cases and computes rank correlations without the warning function. Tests cover planted cases, undefined precision, tied-rank arithmetic and altered member predictions; all 133 backend tests passed. The cases test response to constructed ranking differences, not prediction accuracy or biological failures; no separate simulation output was saved during implementation.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
