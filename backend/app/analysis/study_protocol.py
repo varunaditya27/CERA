@@ -23,6 +23,22 @@ def validate_ired_low_change(manifests):
         raise ValueError('IRED low-change settings do not match the approved protocol')
 
 
+def validate_hydro_low_fitness(manifests):
+    datasets = {'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'}
+    if len(manifests) != 3 or {m['dataset'] for m in manifests} != datasets:
+        raise ValueError('Hydro low-fitness study requires all three protein groups')
+    for manifest in manifests:
+        if (manifest['initial_pool'] != 'train' or manifest['seeds'] != list(range(141, 151))
+                or manifest['methods'] != list(METHODS) or manifest['targeted_disagreement'] is not True
+                or manifest['direct_diversity'] is not True or not manifest['gemini_model']
+                or manifest['specification_sha256'] != SPECIFICATION_SHA256):
+            raise ValueError('Hydro low-fitness settings do not match the study protocol')
+    keys = ('seeds', 'methods', 'targeted_disagreement', 'direct_diversity', 'specification_sha256',
+            'code_sha256', 'python', 'versions', 'gemini_model')
+    if any(any(m[key] != manifests[0][key] for key in keys) for m in manifests[1:]):
+        raise ValueError('Hydro comparison settings differ')
+
+
 def validate_manifests(manifests, partial_development=False):
     datasets = {manifest['dataset'] for manifest in manifests}
     if not manifests or len(datasets) != len(manifests):

@@ -14,7 +14,7 @@ from scipy.spatial.distance import cdist
 from scipy.stats import norm
 
 from app.analysis.multiprotein_evaluation import terminal_statuses, verified_record
-from app.analysis.study_protocol import validate_ired_low_change, validate_low_change_pool, validate_manifests
+from app.analysis.study_protocol import validate_hydro_low_fitness, validate_ired_low_change, validate_low_change_pool, validate_manifests
 from app.datasets.registry import dataset_source
 from app.features import amylase_representations, hydro_representations, ired_representations
 from app.provenance.sources import validate_recorded_sources
@@ -269,8 +269,9 @@ def main():
     parser.add_argument('roots', type=Path, nargs='+')
     parser.add_argument('--allow-partial-development', action='store_true', help='Allow a partial development audit')
     parser.add_argument('--ired-low-change', action='store_true', help='Audit the separate IRED low-change study')
+    parser.add_argument('--hydro-low-fitness', action='store_true', help='Use the Hydro low-fitness-start study scope')
     args = parser.parse_args()
-    if args.ired_low_change and args.allow_partial_development:
+    if sum((args.ired_low_change, args.hydro_low_fitness, args.allow_partial_development)) > 1:
         raise ValueError('Study and partial development scopes cannot be combined')
     groups = []
     for root in args.roots:
@@ -279,6 +280,8 @@ def main():
     manifests = [manifest for _, manifest, _ in groups]
     if args.ired_low_change:
         validate_ired_low_change(manifests)
+    elif args.hydro_low_fitness:
+        validate_hydro_low_fitness(manifests)
     else:
         validate_manifests(manifests, args.allow_partial_development)
     reports = []
@@ -292,6 +295,7 @@ def main():
         vectors = representations(manifest['dataset']) if any(m != 'random' for m in manifest['methods']) else {}
         reports.append({'dataset': manifest['dataset'], **audit_group(root, manifest, statuses, sequences, scores, reference, vectors, train)})
     print(json.dumps({'scope': 'ired_low_change' if args.ired_low_change else
+                   'hydro_low_fitness' if args.hydro_low_fitness else
                       'development' if args.allow_partial_development else 'four_protein', 'groups': reports}, sort_keys=True))
 
 

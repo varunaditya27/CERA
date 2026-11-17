@@ -11,7 +11,7 @@ from unittest.mock import patch
 from contextlib import redirect_stdout
 
 from app.analysis.multiprotein_evaluation import repair_costs, verified_record
-from app.analysis.study_protocol import (DATASETS, SPECIFICATION_SHA256, validate_ired_low_change,
+from app.analysis.study_protocol import (DATASETS, SPECIFICATION_SHA256, validate_hydro_low_fitness, validate_ired_low_change,
                                          validate_low_change_pool, validate_manifests)
 from app.experiments.repeated_runs import METHODS
 from app.llm.goal_compiler import DEFAULT_SPEC
@@ -45,6 +45,23 @@ class StudyProtocolTests(unittest.TestCase):
         sequences['1'] = 'CCCAA'
         with self.assertRaises(ValueError):
             validate_low_change_pool(sequences, list(sequences), 'AAAAA')
+
+    def test_hydro_low_fitness_scope(self):
+        groups = [m for m in manifests() if m['dataset'].startswith('hydro-')]
+        for group in groups:
+            group.update(initial_pool='train', seeds=list(range(141, 151)))
+        validate_hydro_low_fitness(groups)
+        for changed in (groups[:2], [groups[0], groups[0], groups[2]]):
+            with self.assertRaises(ValueError):
+                validate_hydro_low_fitness(changed)
+        for key, value in (('initial_pool', 'eligible'), ('seeds', [141]),
+                           ('methods', ['fixed']), ('code_sha256', {'changed': 'hash'})):
+            modified = copy.deepcopy(groups)
+            modified[0][key] = value
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                validate_hydro_low_fitness(modified)
+        with self.assertRaises(ValueError):
+            validate_manifests(groups, partial_development=True)
 
     def test_full_scope_and_group_consistency(self):
         original = manifests()

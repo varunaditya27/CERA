@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from app.analysis.multiprotein_evaluation import digest, evaluate_group, terminal_statuses
-from app.analysis.study_protocol import validate_ired_low_change, validate_low_change_pool, validate_manifests
+from app.analysis.study_protocol import validate_hydro_low_fitness, validate_ired_low_change, validate_low_change_pool, validate_manifests
 from app.datasets.registry import dataset_source
 
 
@@ -16,8 +16,9 @@ def main():
     parser.add_argument('--specification', required=True, type=Path)
     parser.add_argument('--allow-partial-development', action='store_true', help='Allow a partial, explicitly labeled development report')
     parser.add_argument('--ired-low-change', action='store_true', help='Evaluate the separate IRED low-change study')
+    parser.add_argument('--hydro-low-fitness', action='store_true', help='Use the Hydro low-fitness-start study scope')
     args = parser.parse_args()
-    if args.ired_low_change and args.allow_partial_development:
+    if sum((args.ired_low_change, args.hydro_low_fitness, args.allow_partial_development)) > 1:
         raise ValueError('Study and partial development scopes cannot be combined')
     groups = []
     for root in args.roots:
@@ -26,6 +27,8 @@ def main():
     manifests = [manifest for _, manifest, _ in groups]
     if args.ired_low_change:
         validate_ired_low_change(manifests)
+    elif args.hydro_low_fitness:
+        validate_hydro_low_fitness(manifests)
     else:
         validate_manifests(manifests, args.allow_partial_development)
     spec_bytes = args.specification.read_bytes()
@@ -45,6 +48,7 @@ def main():
         reports.append(report)
     with args.output.open('x', encoding='utf-8') as file:
         json.dump({'scope': 'ired_low_change' if args.ired_low_change else
+                   'hydro_low_fitness' if args.hydro_low_fitness else
                    'development' if args.allow_partial_development else 'four_protein',
                    'groups': reports}, file, indent=2, allow_nan=False)
         file.write('\n')

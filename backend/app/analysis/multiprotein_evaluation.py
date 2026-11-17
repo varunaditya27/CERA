@@ -52,7 +52,8 @@ def terminal_statuses(root, manifest):
             or any(not isinstance(seed, int) or isinstance(seed, bool) for seed in seeds)
             or any(method not in METHODS for method in methods)
             or manifest['initial_pool'] not in ('eligible', 'train')
-            or (manifest['initial_pool'] == 'train' and manifest['dataset'] != 'ired')):
+            or (manifest['initial_pool'] == 'train' and manifest['dataset'] not in
+                ('ired', 'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'))):
         raise ValueError('Invalid matched comparison manifest')
     statuses = {}
     for seed in seeds:
@@ -159,6 +160,10 @@ def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, 
                 selected = [identifier for event in events if event['event'] == 'selection' for identifier in event['ids']]
                 summary['selected_mutation_counts'] = dict(sorted(Counter(
                     str(sum(a != b for a, b in zip(sequences[i], reference))) for i in selected).items()))
+                if manifest['dataset'].startswith('hydro-'):
+                    training_side = set(train_ids)
+                    summary['selected_split_counts'] = {'train': sum(i in training_side for i in selected),
+                                                        'test': sum(i not in training_side for i in selected)}
             summaries.append(summary)
             curves.extend({'seed': seed, 'method': method, **row} for row in result['curve'])
     by_run = {(row['seed'], row['method']): row for row in summaries}

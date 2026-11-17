@@ -94,6 +94,44 @@ class MatchedProteinTests(unittest.TestCase):
                     with self.assertRaisesRegex(ValueError, 'Predictor configuration'):
                         audit_group(output, manifest, statuses, seqs, scores, 'AAA', vectors, train)
 
+    def test_hydro_train_start_keeps_all_candidates_and_audits(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            data, reference, spec, output = (root / name for name in ('data.csv', 'reference.fasta', 'spec.json', 'runs'))
+            reference.write_text('>synthetic\n' + 'A' * 57 + '\n')
+            sequences = ['A' * 55 + a + b for a, b in itertools.islice(
+                itertools.product('ACDEFGHIKLMNPQRSTVWY', repeat=2), 120)]
+            with data.open('w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(['sequence', 'target', 'set', 'validation'])
+                writer.writerows((sequence, index / 100, 'train' if index < 110 else 'test', 'False')
+                                 for index, sequence in enumerate(sequences))
+            spec.write_text(json.dumps(DEFAULT_SPEC))
+            vectors = {sequence_id(sequence): np.asarray([i / 120, (i % 19) / 19], dtype=np.float32)
+                       for i, sequence in enumerate(sequences)}
+            argv = ['run_matched_proteins.py', str(output), '--dataset', 'hydro-P06241', '--seeds', '7',
+                    '--methods', 'random', 'greedy', '--specification', str(spec), '--initial-pool', 'train']
+            with patch('app.datasets.hydro.DATA', data), patch.dict('app.datasets.hydro.REFERENCES', {'P06241': reference}), \
+                 patch('app.features.hydro_representations.load_verified_representations', return_value=vectors), \
+                 patch.object(sys, 'argv', argv), redirect_stdout(io.StringIO()):
+                with self.assertRaisesRegex(ValueError, 'explicit low-fitness flag'):
+                    main()
+                with patch.object(sys, 'argv', argv + ['--hydro-low-fitness']):
+                    main()
+            manifest = json.loads((output / 'manifest.json').read_text())
+            seqs, scores, train, data_hash, ref_hash = load_flip2(data, reference, 4, {57})
+            statuses = terminal_statuses(output, manifest)
+            result = evaluate_group(output, manifest, statuses, scores, data_hash, ref_hash, DEFAULT_SPEC,
+                                    train, seqs, 'A' * 57)
+            self.assertEqual([row['selected_split_counts'] for row in result['summaries']],
+                             [{'train': 10, 'test': 10}] * 2)
+            self.assertEqual(audit_group(output, manifest, statuses, seqs, scores, 'A' * 57, vectors, train)['completed'], 2)
+            for method in ('random', 'greedy'):
+                raw = gzip.decompress((output / f'seed_07/{method}/run.jsonl.gz').read_bytes())
+                events = [json.loads(line) for line in raw.splitlines()]
+                self.assertTrue(set(events[0]['initial']).issubset(train))
+                self.assertEqual(len({i for e in events if e['event'] == 'selection' for i in e['ids']}), 20)
+
     def test_synthetic_comparison_and_resume(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

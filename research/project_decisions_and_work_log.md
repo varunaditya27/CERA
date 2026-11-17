@@ -568,3 +568,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: Hydro low-fitness-start search protocol
 
 - Defined an exploratory [sequential search protocol](hydro_low_fitness_search_protocol.md) with initial observations from the benchmark's score-defined lower-fitness side and unrestricted later candidate access. This explicitly discloses privileged starting-pool information, keeps the user's unrestricted candidate choice, and requires separate verification before interpreting results. The protocol uses the existing nine methods and ten starts per Hydro protein; it is not the official static benchmark or independent confirmation.
+
+### 2026-11-17: Hydro low-fitness-start implementation
+
+- Added an explicit runner flag and separate manifest validation, audit and evaluator scope for the [Hydro study](hydro_low_fitness_search_protocol.md). A synthetic matched search verified shared train-side starting observations, unrestricted access to both split sides, post-selection split counts and independent decision replay. Scope tests reject missing groups, changed settings and use of the ordinary study scope. All 142 backend tests passed. A preflight verified eligible/train/test counts and pinned score-free representation caches for all three groups; no new Hydro search had been run at this checkpoint. The [runbook](hydro_low_fitness_runbook.md) records commands and failure handling.

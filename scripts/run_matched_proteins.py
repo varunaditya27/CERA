@@ -30,12 +30,16 @@ def main():
     parser.add_argument('--methods', required=True, nargs='+', choices=METHODS)
     parser.add_argument('--specification', required=True, type=Path)
     parser.add_argument('--initial-pool', choices=('eligible', 'train'), default='eligible')
+    parser.add_argument('--hydro-low-fitness', action='store_true',
+                        help='Explicitly allow the score-defined Hydro starting pool')
     parser.add_argument('--targeted-disagreement', action='store_true')
     parser.add_argument('--direct-diversity', action='store_true')
     parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
-    if args.initial_pool == 'train' and args.dataset != 'ired':
-        raise ValueError('Train starting pool is supported only for IRED matched studies')
+    if args.hydro_low_fitness != (args.initial_pool == 'train' and args.dataset.startswith('hydro-')):
+        raise ValueError('Hydro train starts require the explicit low-fitness flag')
+    if args.initial_pool == 'train' and args.dataset != 'ired' and not args.hydro_low_fitness:
+        raise ValueError('Unsupported train starting pool')
     if len(set(args.seeds)) != len(args.seeds) or len(set(args.methods)) != len(args.methods):
         raise ValueError('Seeds and methods must be unique')
     if (args.targeted_disagreement or args.direct_diversity) and not {'repair', 'gemini_repair'}.intersection(args.methods):
@@ -46,7 +50,7 @@ def main():
     if spec['budget'] != {'rounds': 10, 'batch_size': 10} or spec['hard_constraints']['max_mutations'] != 4:
         raise ValueError('Matched methods currently require the shared 100-measurement budget and four-mutation limit')
     data, reference, loader = dataset_source(args.dataset)
-    if args.initial_pool == 'train':
+    if args.initial_pool == 'train' and args.dataset == 'ired':
         sequences, _, train, _, _ = loader(data, reference, 4)
         reference_sequence = ''.join(reference.read_text(encoding='utf-8').splitlines()[1:])
         validate_low_change_pool(sequences, train, reference_sequence)
