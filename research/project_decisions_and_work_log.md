@@ -451,6 +451,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Checked Google's response and token documentation, then retained valid provider-supplied usage for rejected parsed responses and invalid goal weights across both Gemini call paths. Existing retry, fallback and sanitized status behavior remain. Mocked tests and all 114 backend tests passed; no live call was made. The [accounting note](gemini_usage_accounting.md) preserves the limits: previous missing counts cannot be recovered, some future errors still have no metadata, and logs are not billing records.
 
+### 2026-11-17: additional retrospective metric implementation
+
+- Documented [post-result metric definitions](additional_metrics_protocol.md) and added a separate evaluator for top-1% recall with cutoff ties, cumulative and per-measurement regret, and per-batch sequence difference and prediction-ranking correlation. The terminal-status barrier and existing study checks run before full-pool scores are used. Tests cover tied cutoffs, initial versus new discoveries, short batches, undefined correlations, altered measurements and incomplete studies; all 118 backend tests passed. No extra study outcomes were calculated during implementation.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
