@@ -584,3 +584,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: repair-stopping diagnosis implementation
 
 - Added a reproducible reader for the 60 Hydro repair records. It validates compressed and uncompressed fingerprints and study scope, checks failure-counter chronology, distinguishes same-batch from cross-batch failures and reports overlapping failed checks separately. Synthetic tests cover reset, no-op actions, empty menus, overlapping failures and altered counters; all 146 backend tests passed. This reader describes existing evidence and does not change the policy.
+
+### 2026-11-17: repair-stopping diagnosis findings
+
+- The [diagnosis](hydro_repair_stopping_diagnosis_findings.md) found that all 54 early stops across the two repair arms followed failed actions in different batches. The 357 rejected proposals each failed either complete counterexample displacement or direct diversity resolution; some also failed ranking preservation. Passing the recorded calibration check does not establish improved later coverage. A separate audit checked 60 records and 363 proposals. This is descriptive and does not show what would happen without stopping.

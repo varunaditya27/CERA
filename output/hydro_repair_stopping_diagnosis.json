@@ -1,0 +1,2456 @@
+{
+  "report_sha256": "4a093f4c5d880273d08f2012bc5a6a0ff25d72ec4b9e3ce7ade7c7d77a4be67e",
+  "groups": [
+    {
+      "dataset": "hydro-P06241",
+      "runs": [
+        {
+          "seed": 141,
+          "method": "repair",
+          "record_sha256": "1b8ff278dd3c6cab188c8dfcb4f8b62ebb3c6846157ea0ef5ecaad5a0cc5abc1",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2
+          },
+          "failed_actions": {
+            "coverage": 2
+          },
+          "attempts": {
+            "coverage": 6
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 141,
+          "method": "gemini_repair",
+          "record_sha256": "1982d540508ffedf6b1aaef8770d9539bb7416569aa4159965b4134068547941",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2
+          },
+          "failed_actions": {
+            "coverage": 2
+          },
+          "attempts": {
+            "coverage": 6
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 142,
+          "method": "repair",
+          "record_sha256": "2f17367a56ea815f364b735c6a5c70d5094e3a6e6714c6eb3db48ecd6153c810",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 142,
+          "method": "gemini_repair",
+          "record_sha256": "e5fb7adc9e414c2e7151c080dfba17c049deca6b15a47203bfebcaf5cd8f91bf",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 143,
+          "method": "repair",
+          "record_sha256": "e402cc34ebf6a784357650104157994d61b6952426d21057b86e26d60a5ce2dc",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2
+          },
+          "failed_actions": {
+            "coverage": 2
+          },
+          "attempts": {
+            "coverage": 6
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 143,
+          "method": "gemini_repair",
+          "record_sha256": "b2ca157de6575804afb4c1aeee9e8ed657600d0eb0592a9fe2d21a34a4c6adb8",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2
+          },
+          "failed_actions": {
+            "coverage": 2
+          },
+          "attempts": {
+            "coverage": 6
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 144,
+          "method": "repair",
+          "record_sha256": "f7efd187971ba96c9006c2bc7b0a807afe5f50c5294bde439ac7dc8b35d1356c",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 144,
+          "method": "gemini_repair",
+          "record_sha256": "8db0dbe1a87b5edcb52461cfdfa210a57b53dd271f42ac729fc4b5d9a9f0071e",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 145,
+          "method": "repair",
+          "record_sha256": "30eb2189364f55627ef3b3783011e2054afdf528066c13b36ab2aac90f436b7c",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 145,
+          "method": "gemini_repair",
+          "record_sha256": "72110a969ad85d4de67ffd732b25f981ecf6efcce87d2781b2c963447f3fe987",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 146,
+          "method": "repair",
+          "record_sha256": "11122c78427409c21f88dca69878754b9ffda37842a9180f101e76d5c5225a86",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6,
+              "earlier_rank_preserved:false": 1
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 146,
+          "method": "gemini_repair",
+          "record_sha256": "0cd6a9349343a45b08e28e23b72b491fd39637cecd7737285d4f872213f033ce",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6,
+              "earlier_rank_preserved:false": 1
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 147,
+          "method": "repair",
+          "record_sha256": "729b06835e827fd320d7cf99047e943fb95ab4f511ec5ed1eb7b1b9109c84d72",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6,
+              "earlier_rank_preserved:false": 1
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 147,
+          "method": "gemini_repair",
+          "record_sha256": "ad90ca8dc67be3fea517af87646e55b48ee3cb20399c3c2c582abf42f416035a",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6,
+              "earlier_rank_preserved:false": 1
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 148,
+          "method": "repair",
+          "record_sha256": "d2644cfc5c6a8111fd7e6def47c5419b7ef4fed487b55588e1b58782e6d6fbf8",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 148,
+          "method": "gemini_repair",
+          "record_sha256": "e10a593540ddd92e583e9482913fc00d901aa26afcce7128cefd499769c2c17d",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 149,
+          "method": "repair",
+          "record_sha256": "b143eac3af47417c74f059d8441ae690c61aa4e5b00392dc81de18b03cd9cb72",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 149,
+          "method": "gemini_repair",
+          "record_sha256": "c6693d509f1aeb2441c98c4b9d53ec5e1c05eb997c1517c65a450669e03351e7",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 150,
+          "method": "repair",
+          "record_sha256": "5d88728def6d59b55afe35ce30867b40c40dff1368c97c5a45752929a0812f37",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2,
+            "disagreement:retained": 1,
+            "support_shift:accepted": 1
+          },
+          "failed_actions": {
+            "coverage": 2,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 6,
+            "disagreement": 3,
+            "support_shift": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            },
+            "support_shift": {
+              "counterexamples_displaced:false": 2
+            }
+          },
+          "accepted_actions": 1,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 150,
+          "method": "gemini_repair",
+          "record_sha256": "57a08fd95a69e35800dc7483d337170fa58949ee2059bc2262788734e0f6f100",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2,
+            "disagreement:retained": 1,
+            "support_shift:accepted": 1
+          },
+          "failed_actions": {
+            "coverage": 2,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 6,
+            "disagreement": 3,
+            "support_shift": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            },
+            "support_shift": {
+              "counterexamples_displaced:false": 2
+            }
+          },
+          "accepted_actions": 1,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        }
+      ],
+      "aggregate": {
+        "repair": {
+          "runs": 10,
+          "stop_reasons": {
+            "failed_repairs": 10
+          },
+          "same_batch_stops": 0,
+          "different_batch_stops": 10,
+          "accepted_actions": 1,
+          "empty_menu_actions": 0,
+          "action_counts": {
+            "coverage:retained": 9,
+            "disagreement:retained": 12,
+            "support_shift:accepted": 1
+          },
+          "failed_actions": {
+            "coverage": 9,
+            "disagreement": 12
+          },
+          "attempts": {
+            "coverage": 27,
+            "disagreement": 36,
+            "support_shift": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 27
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 36,
+              "earlier_rank_preserved:false": 2
+            },
+            "support_shift": {
+              "counterexamples_displaced:false": 2
+            }
+          }
+        },
+        "gemini_repair": {
+          "runs": 10,
+          "stop_reasons": {
+            "failed_repairs": 10
+          },
+          "same_batch_stops": 0,
+          "different_batch_stops": 10,
+          "accepted_actions": 1,
+          "empty_menu_actions": 0,
+          "action_counts": {
+            "coverage:retained": 9,
+            "disagreement:retained": 12,
+            "support_shift:accepted": 1
+          },
+          "failed_actions": {
+            "coverage": 9,
+            "disagreement": 12
+          },
+          "attempts": {
+            "coverage": 27,
+            "disagreement": 36,
+            "support_shift": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 27
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 36,
+              "earlier_rank_preserved:false": 2
+            },
+            "support_shift": {
+              "counterexamples_displaced:false": 2
+            }
+          }
+        }
+      }
+    },
+    {
+      "dataset": "hydro-P01053",
+      "runs": [
+        {
+          "seed": 141,
+          "method": "repair",
+          "record_sha256": "fcce612f96f6ab8595594209ff4b15edb9a1af4ebacb3bd996f067dbb466348a",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2,
+            "support_shift:accepted": 1
+          },
+          "failed_actions": {
+            "coverage": 2
+          },
+          "attempts": {
+            "coverage": 6,
+            "support_shift": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            },
+            "support_shift": {
+              "counterexamples_displaced:false": 2
+            }
+          },
+          "accepted_actions": 1,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 141,
+          "method": "gemini_repair",
+          "record_sha256": "59e67be0c91673ad8753f15e5b5450e0e1fa1d627a123c3d67eaed0a7c93c064",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2,
+            "support_shift:accepted": 1
+          },
+          "failed_actions": {
+            "coverage": 2
+          },
+          "attempts": {
+            "coverage": 6,
+            "support_shift": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            },
+            "support_shift": {
+              "counterexamples_displaced:false": 2
+            }
+          },
+          "accepted_actions": 1,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 142,
+          "method": "repair",
+          "record_sha256": "ba31f83225b5799c08e5fdf2a56f4867a61461f94c50a9f15fcaf1f6d6418aad",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 3,
+            "disagreement:accepted": 1
+          },
+          "failed_actions": {
+            "coverage": 3
+          },
+          "attempts": {
+            "coverage": 9,
+            "disagreement": 2
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 9
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 1
+            }
+          },
+          "accepted_actions": 1,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 5,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 142,
+          "method": "gemini_repair",
+          "record_sha256": "b58d50ec568603b7e5d2f26df6d7506f6990ba0a3c201d208186cb6deaf06188",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 3,
+            "disagreement:accepted": 1
+          },
+          "failed_actions": {
+            "coverage": 3
+          },
+          "attempts": {
+            "coverage": 9,
+            "disagreement": 1
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 9
+            }
+          },
+          "accepted_actions": 1,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 5,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 143,
+          "method": "repair",
+          "record_sha256": "37dc930234e2e1d4e9ce355bb46381c9190cf592fbf43faa1dc8bb75e7ff6aa2",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "diversity:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "diversity": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "diversity": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "diversity": {
+              "diversity_resolved:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "diversity",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 143,
+          "method": "gemini_repair",
+          "record_sha256": "0e6d9fee5fd149f771c2bb283578b944b3ae78007ccae7dd59b50563cb2d8561",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "diversity:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "diversity": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "diversity": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "diversity": {
+              "diversity_resolved:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "diversity",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 144,
+          "method": "repair",
+          "record_sha256": "f037b68b5e29c78a95ce88f4a17f69f2d7c9526256bcf23bd1ba964837d1f723",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 144,
+          "method": "gemini_repair",
+          "record_sha256": "ba5c42615d6e28ab9eea5f4dd28cb46d2490de55142b24d2a54128bb87cb3d35",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 145,
+          "method": "repair",
+          "record_sha256": "e205dd605e482600398ff9ae4c5ea208deaf9116ec919c2aa1c7e26d6cdeddd4",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2
+          },
+          "failed_actions": {
+            "coverage": 2
+          },
+          "attempts": {
+            "coverage": 6
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 145,
+          "method": "gemini_repair",
+          "record_sha256": "67c73ec1f57d72ceafa700ab5bf83b6aedbd9840feed1416fc18ed33a91caa65",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2
+          },
+          "failed_actions": {
+            "coverage": 2
+          },
+          "attempts": {
+            "coverage": 6
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 146,
+          "method": "repair",
+          "record_sha256": "0c32db65f4f87842e2433868eb81449d7dba29e5009403719384e66bcbdb4892",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2
+          },
+          "failed_actions": {
+            "coverage": 2
+          },
+          "attempts": {
+            "coverage": 6
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 146,
+          "method": "gemini_repair",
+          "record_sha256": "dfd6156f916f905cf0485f8bd0d35b84711822ea4432dd3907a694c905b985c0",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 2
+          },
+          "failed_actions": {
+            "coverage": 2
+          },
+          "attempts": {
+            "coverage": 6
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            },
+            {
+              "round": 4,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 147,
+          "method": "repair",
+          "record_sha256": "6c7663655ca53e561b662a162ed4427e49b05c298d40c3a766d42320a86b3dd5",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 147,
+          "method": "gemini_repair",
+          "record_sha256": "76d846efdf250c1a156bb87578a530088fae32a0370bbb4fd5e8831180b64174",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 148,
+          "method": "repair",
+          "record_sha256": "119ce38a1b8f3bfe343fc234efbe25f5a0e0a9b403faa048d63409e12d327358",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "diversity:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "diversity": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "diversity": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "diversity": {
+              "diversity_resolved:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "diversity",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 148,
+          "method": "gemini_repair",
+          "record_sha256": "adc4083f93820597f07bd76625067a60687dfeba4b03abf70a7c29e777ed5f86",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "diversity:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "diversity": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "diversity": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "diversity": {
+              "diversity_resolved:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "diversity",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 149,
+          "method": "repair",
+          "record_sha256": "710396eb5e14b5bef4184770a5efe312806f75f898440be0747903fa066ae34e",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 149,
+          "method": "gemini_repair",
+          "record_sha256": "cb9034ac9555c743e6ff3c582c4ccb0b5d3789fbdefa95c754be243520ef0baa",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 150,
+          "method": "repair",
+          "record_sha256": "73c3a7279299f94a9f967f727d3726db4682fa37c39ae2e537e4e3c5ec77d2b8",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 150,
+          "method": "gemini_repair",
+          "record_sha256": "0feeb10074cbccd76bf58b937de730b12f51bcf526f7710953d88bef7b18b21a",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        }
+      ],
+      "aggregate": {
+        "repair": {
+          "runs": 10,
+          "stop_reasons": {
+            "failed_repairs": 10
+          },
+          "same_batch_stops": 0,
+          "different_batch_stops": 10,
+          "accepted_actions": 2,
+          "empty_menu_actions": 0,
+          "action_counts": {
+            "coverage:retained": 13,
+            "disagreement:accepted": 1,
+            "disagreement:retained": 6,
+            "diversity:retained": 2,
+            "support_shift:accepted": 1
+          },
+          "failed_actions": {
+            "coverage": 13,
+            "disagreement": 6,
+            "diversity": 2
+          },
+          "attempts": {
+            "coverage": 39,
+            "disagreement": 20,
+            "diversity": 6,
+            "support_shift": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 39
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 19
+            },
+            "diversity": {
+              "diversity_resolved:false": 6
+            },
+            "support_shift": {
+              "counterexamples_displaced:false": 2
+            }
+          }
+        },
+        "gemini_repair": {
+          "runs": 10,
+          "stop_reasons": {
+            "failed_repairs": 10
+          },
+          "same_batch_stops": 0,
+          "different_batch_stops": 10,
+          "accepted_actions": 2,
+          "empty_menu_actions": 0,
+          "action_counts": {
+            "coverage:retained": 13,
+            "disagreement:accepted": 1,
+            "disagreement:retained": 6,
+            "diversity:retained": 2,
+            "support_shift:accepted": 1
+          },
+          "failed_actions": {
+            "coverage": 13,
+            "disagreement": 6,
+            "diversity": 2
+          },
+          "attempts": {
+            "coverage": 39,
+            "disagreement": 19,
+            "diversity": 6,
+            "support_shift": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 39
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 18
+            },
+            "diversity": {
+              "diversity_resolved:false": 6
+            },
+            "support_shift": {
+              "counterexamples_displaced:false": 2
+            }
+          }
+        }
+      }
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "runs": [
+        {
+          "seed": 141,
+          "method": "repair",
+          "record_sha256": "d6c614324c6a9ad338fc953f5a3dc3820838e73ab29185705801359b75b8fce0",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6,
+              "earlier_rank_preserved:false": 1
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 141,
+          "method": "gemini_repair",
+          "record_sha256": "6a37705eb636a3bf521f279ff03695e28e32bd1d89c1f11121c82c530731abf6",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6,
+              "earlier_rank_preserved:false": 1
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 142,
+          "method": "repair",
+          "record_sha256": "c8ce76729f1f8d97d4553c770a8969bfbff58533a8683b9dd9d2fe7877728a2d",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 142,
+          "method": "gemini_repair",
+          "record_sha256": "de3a8aa2ed491137e9850fc86df599694be345cee675197116d5b428ecc23aea",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 143,
+          "method": "repair",
+          "record_sha256": "184b378f2409c4103e62cf453f3cc4bbc570ed78399bf79e82b27aaf86c86cda",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 143,
+          "method": "gemini_repair",
+          "record_sha256": "cf7eaf97bbe21facb8321726b16af82ef78a62e86ecf1c39200095155379b5c8",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 144,
+          "method": "repair",
+          "record_sha256": "af74594f26c9848dcb1fe40216bb87d0b9b166213401cdc2d27d51c11144123e",
+          "stop_reason": "budget_exhausted",
+          "action_counts": {
+            "coverage:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1
+          },
+          "attempts": {
+            "coverage": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [],
+          "final_failures_same_batch": null
+        },
+        {
+          "seed": 144,
+          "method": "gemini_repair",
+          "record_sha256": "4888a2ff08b66c7d973150b33cc380be9bdd225bddcbf386c4bcd74c09149ed9",
+          "stop_reason": "budget_exhausted",
+          "action_counts": {
+            "coverage:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1
+          },
+          "attempts": {
+            "coverage": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [],
+          "final_failures_same_batch": null
+        },
+        {
+          "seed": 145,
+          "method": "repair",
+          "record_sha256": "a05d9b578cf950008828d164211ab598197e241d66a211adfc76cbae2c54e84d",
+          "stop_reason": "budget_exhausted",
+          "action_counts": {
+            "coverage:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1
+          },
+          "attempts": {
+            "coverage": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [],
+          "final_failures_same_batch": null
+        },
+        {
+          "seed": 145,
+          "method": "gemini_repair",
+          "record_sha256": "b58cb8ed2a029dfbe922d9895882ca4ba9f6258f8f76aa6be35f5142ee38c4f1",
+          "stop_reason": "budget_exhausted",
+          "action_counts": {
+            "coverage:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1
+          },
+          "attempts": {
+            "coverage": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [],
+          "final_failures_same_batch": null
+        },
+        {
+          "seed": 146,
+          "method": "repair",
+          "record_sha256": "b48656ca9efbcd25464e2fd5c497ec6cc2a43908ad45b2169cae3ea1ce55a730",
+          "stop_reason": "budget_exhausted",
+          "action_counts": {
+            "coverage:no_replayed_targets": 1
+          },
+          "failed_actions": {},
+          "attempts": {},
+          "failed_checks": {},
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [],
+          "final_failures_same_batch": null
+        },
+        {
+          "seed": 146,
+          "method": "gemini_repair",
+          "record_sha256": "b71d3241b03a3d37f51e480f4b868b1cbe9c45c8645fe4794f41836278c6d6a9",
+          "stop_reason": "budget_exhausted",
+          "action_counts": {
+            "coverage:no_replayed_targets": 1
+          },
+          "failed_actions": {},
+          "attempts": {},
+          "failed_checks": {},
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [],
+          "final_failures_same_batch": null
+        },
+        {
+          "seed": 147,
+          "method": "repair",
+          "record_sha256": "317abb35ea1ae5ef96bd5330587ce7589323667ba3f7cea9a1926483826b95b6",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 147,
+          "method": "gemini_repair",
+          "record_sha256": "00053721be3e84fae08728e75e769671aa495fc9d84c2cbcabe13821b1496f52",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 148,
+          "method": "repair",
+          "record_sha256": "bcb961355b2cb3bc580d51ce143a9d82f98c19dbd88701900cba7cb0ab812e05",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 148,
+          "method": "gemini_repair",
+          "record_sha256": "8c2c4b0092edcf671a40e8f057fbd797f25f81eb0118953ee0a89060fa22ec68",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "disagreement:retained": 2
+          },
+          "failed_actions": {
+            "disagreement": 2
+          },
+          "attempts": {
+            "disagreement": 6
+          },
+          "failed_checks": {
+            "disagreement": {
+              "counterexamples_displaced:false": 6
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 1,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 149,
+          "method": "repair",
+          "record_sha256": "fc9d39631cce69c4bf375b21a3ecf8cf609d21471a39b96ae4d3fd5702c6b520",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 149,
+          "method": "gemini_repair",
+          "record_sha256": "c6e0ea56a9bf2004fe8dc0f070d581425d84ce58b85330a617bd45f74458dc0f",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 3,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 150,
+          "method": "repair",
+          "record_sha256": "9c25f8b4c3ebed23be21e728fa88459875b5478cb934614f1f2855d174dac3ee",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 5,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        },
+        {
+          "seed": 150,
+          "method": "gemini_repair",
+          "record_sha256": "087da8618ac621a2fb05f71736a51e118b66b2f50a43eac2ea0e8acffaaf57d7",
+          "stop_reason": "failed_repairs",
+          "action_counts": {
+            "coverage:retained": 1,
+            "disagreement:retained": 1
+          },
+          "failed_actions": {
+            "coverage": 1,
+            "disagreement": 1
+          },
+          "attempts": {
+            "coverage": 3,
+            "disagreement": 3
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 3
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 3
+            }
+          },
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "final_failures": [
+            {
+              "round": 2,
+              "warning": "disagreement",
+              "attempts": 3
+            },
+            {
+              "round": 5,
+              "warning": "coverage",
+              "attempts": 3
+            }
+          ],
+          "final_failures_same_batch": false
+        }
+      ],
+      "aggregate": {
+        "repair": {
+          "runs": 10,
+          "stop_reasons": {
+            "budget_exhausted": 3,
+            "failed_repairs": 7
+          },
+          "same_batch_stops": 0,
+          "different_batch_stops": 7,
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "action_counts": {
+            "coverage:no_replayed_targets": 1,
+            "coverage:retained": 7,
+            "disagreement:retained": 9
+          },
+          "failed_actions": {
+            "coverage": 7,
+            "disagreement": 9
+          },
+          "attempts": {
+            "coverage": 21,
+            "disagreement": 27
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 21
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 27,
+              "earlier_rank_preserved:false": 1
+            }
+          }
+        },
+        "gemini_repair": {
+          "runs": 10,
+          "stop_reasons": {
+            "budget_exhausted": 3,
+            "failed_repairs": 7
+          },
+          "same_batch_stops": 0,
+          "different_batch_stops": 7,
+          "accepted_actions": 0,
+          "empty_menu_actions": 0,
+          "action_counts": {
+            "coverage:no_replayed_targets": 1,
+            "coverage:retained": 7,
+            "disagreement:retained": 9
+          },
+          "failed_actions": {
+            "coverage": 7,
+            "disagreement": 9
+          },
+          "attempts": {
+            "coverage": 21,
+            "disagreement": 27
+          },
+          "failed_checks": {
+            "coverage": {
+              "counterexamples_displaced:false": 21
+            },
+            "disagreement": {
+              "counterexamples_displaced:false": 27,
+              "earlier_rank_preserved:false": 1
+            }
+          }
+        }
+      }
+    }
+  ],
+  "script_sha256": "c74b62613684ac732e119b0bbd8f1fd5a3e56557a55b453fc47f8dc124b842f2"
+}
