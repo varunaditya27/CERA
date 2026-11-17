@@ -503,6 +503,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Defined a [synthetic coverage simulation](coverage_warning_simulation_protocol.md) with known nominal, moderate and severe coverage probabilities and independent 30-observation windows. Added a reproducible simulator and separate audit that reconstructs draws without calling the warning and checks probabilities with SciPy's binomial distribution. Tests cover determinism, zero and unavailable denominators, analytical probabilities and tampered reports; all 129 backend tests passed. This controlled mathematical setting is not biological warning validation, and no protein data or threshold tuning is involved.
 
+### 2026-11-17: controlled coverage-warning simulation findings
+
+- Simulated 1,000 independent 30-observation windows at each predeclared probability and independently audited all 3,000. The warning fired in 6 nominal 90% windows, 239 moderate 80% windows and 946 severe 60% windows. [Findings](coverage_warning_simulation_findings.md) report artificial-mixture precision, recall and F1 with their denominators, exact probabilities and the limits of applying independent synthetic observations to adaptive protein searches.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
