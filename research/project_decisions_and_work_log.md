@@ -540,3 +540,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: exploratory paired analysis protocol
 
 - Defined a [post-result analysis protocol](exploratory_paired_analysis_protocol.md) for paired best-score differences and actual measurement counts, with cautious interpretation for ten tied starts per fixed dataset. It specifies paired resampling, exhaustive sign permutations, explicit zero handling and a multiple-comparison family. This does not turn exploratory results into a prespecified confirmatory study.
+
+### 2026-11-17: exploratory paired analysis implementation
+
+- Added a script for the [post-result protocol](exploratory_paired_analysis_protocol.md), preserving matched seeds, measurement counts and per-protein scales. It rejects incomplete or duplicate pairs, explicitly handles all-zero differences, uses exhaustive sign permutations and adjusts the available tests. The full 137-test backend suite passed; after adding an independent SciPy permutation comparison, all three targeted analysis tests passed. No study analysis output was created before this implementation checkpoint.
