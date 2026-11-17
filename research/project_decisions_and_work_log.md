@@ -421,6 +421,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - While the split-pool decision was pending, matched replay hashes against both saved exploratory outputs and independently recalculated 100 support, 100 coverage and 100 disagreement warning statuses. All matched their saved replay records. These one-off checks used recorded distances and member predictions, did not refit models or regenerate distances, and are not reusable audit programs. Updated the corresponding findings with these limits.
 
+### 2026-11-17: repair-policy range coverage reporting
+
+- Aggregated the existing saved coverage counts by protein for both repair policies and independently recomputed all 80 run totals from their fingerprint-checked compressed records. Updated [study findings](multiprotein_study_findings.md) with numerators and denominators. These are whole-run observations, not after-repair causal estimates; the one-off verification was not saved as a reusable audit.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

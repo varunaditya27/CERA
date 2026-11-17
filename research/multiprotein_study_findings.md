@@ -39,6 +39,17 @@ The medians conceal substantial ties, different starting scores, and unequal sto
 
 Coverage is the proportion of measured scores inside prediction ranges recorded before measurement. Fixed-reward coverage was 940/1,000 on IRED, 952/1,000 on P06241, 684/1,000 on P01053 and 969/1,000 on P0A9X9. The P01053 observation is notably below the 90% target; adaptive selection and dependent measurements mean these counts are descriptive and do not establish a formal coverage guarantee. The [summary](../output/matched_eval_51_60_method_summary.csv) includes range widths and denominators; random search has no predicted range.
 
+The corresponding observed counts for the two repair policies over their **entire runs** are:
+
+| Protein | Rule-based repair | Gemini-assisted repair |
+| --- | ---: | ---: |
+| IRED | 531/570 (93.2%) | 531/570 (93.2%) |
+| Hydro P06241 | 530/560 (94.6%) | 521/550 (94.7%) |
+| Hydro P01053 | 312/450 (69.3%) | 312/450 (69.3%) |
+| Hydro P0A9X9 | 470/480 (97.9%) | 470/480 (97.9%) |
+
+These counts aggregate ten starts per protein, but observations within and across runs are dependent and the policies often stopped at different times. They include measurements before an accepted repair, after it, and in runs without one. Thus they cannot be used as the synopsis's proposed **after-repair** coverage result or as evidence that a repair caused coverage to change. A separate one-off calculation re-read and verified both compressed and uncompressed fingerprints and recomputed coverage in all 80 repair-policy records; this check was not saved as a reusable audit.
+
 For P01053 fixed reward, all ten runs had a coverage warning: two later reached the approved 26–28 of 30 recovery band and eight did not. Nine of ten runs in each repair arm had a warning but stopped with fewer than 30 later measurements; the remaining run had no coverage warning. Recovery is an observed later window, not evidence that the repair caused it. For the other three proteins, none of the fixed or repair runs had a coverage warning, even though other warnings could trigger repairs. The warning used by fixed reward and the targeted-disagreement warning used by repair are constructed from different candidate groups, so their counts should not be interpreted as a directly matched detector comparison.
 
 ## Gemini requests and costs
