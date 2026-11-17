@@ -20,6 +20,7 @@ class ExperimentRequest(BaseModel):
     model_config = ConfigDict(extra='forbid', strict=True)
     seed: int = Field(ge=0, le=2147483647)
     repair: bool = False
+    predictor: Literal['ridge', 'mixed'] = 'ridge'
     gemini: bool = False
     goal_id: str | None = Field(default=None, pattern='^[0-9a-f]{32}$')
     goal_sha256: str | None = Field(default=None, pattern='^[0-9a-f]{64}$')
@@ -45,8 +46,10 @@ def local_only(request):
 def create_experiment(dataset: Literal['amylase', 'ired', 'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'],
                       body: ExperimentRequest, request: Request):
     local_only(request)
+    if body.predictor == 'mixed' and dataset != 'amylase':
+        raise HTTPException(status_code=422, detail='Mixed prediction is available only for Amylase development.')
     try:
-        return run_experiment(body.seed, body.repair, body.gemini, dataset, body.goal_id, body.goal_sha256)
+        return run_experiment(body.seed, body.repair, body.gemini, dataset, body.goal_id, body.goal_sha256, body.predictor)
     except GoalChanged as error:
         raise HTTPException(status_code=409, detail='Saved goal is missing or has changed.') from error
     except AdvisorConfigurationError as error:

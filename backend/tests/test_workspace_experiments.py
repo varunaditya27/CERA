@@ -50,6 +50,7 @@ class WorkspaceExperimentTest(unittest.TestCase):
             self.assertEqual(client.get('/api/experiments/amylase/not-an-id').status_code, 404)
             self.assertEqual(client.post('/api/experiments/amylase', json={'seed': -1}).status_code, 422)
             self.assertEqual(client.post('/api/experiments/unknown', json={'seed': 3}).status_code, 422)
+            self.assertEqual(client.post('/api/experiments/ired', json={'seed': 3, 'predictor': 'mixed'}).status_code, 422)
             self.assertEqual(client.post('/api/experiments/amylase', json={'seed': 3, 'repair': 'yes'}).status_code, 422)
             self.assertEqual(client.post('/api/experiments/amylase', json={'seed': 3, 'gemini': True}).status_code, 422)
             remote = TestClient(app, client=('192.0.2.1', 50000))
@@ -115,3 +116,24 @@ class WorkspaceExperimentTest(unittest.TestCase):
                     self.assertEqual(response.json()['dataset'], dataset)
                     self.assertEqual(response.json()['new_measurements'], 100)
                     self.assertEqual(response.json()['range_count'], 100)
+
+    def test_mixed_predictor_uses_recorded_cpu_fallback(self):
+        with tempfile.TemporaryDirectory() as directory, patch.object(experiments, 'RUNS', Path(directory)):
+            with patch('torch.cuda.is_available', return_value=False):
+                client = TestClient(app, client=('127.0.0.1', 50000))
+                response = client.post('/api/experiments/amylase', json={'seed': 17, 'repair': True, 'predictor': 'mixed'})
+            self.assertEqual(response.status_code, 201, response.text)
+            result = response.json()
+            self.assertEqual((result['predictor'], result['device']), ('mixed', 'cpu'))
+            record = Path(directory) / result['id'] / 'run.jsonl'
+            events = [json.loads(line) for line in record.read_text().splitlines()]
+            settings = next(event['settings'] for event in events if event['event'] == 'method')
+            self.assertEqual((settings['method'], settings['hybrid_device']), ('esm_hybrid_reward', 'cpu'))
+            review = client.get('/api/experiments/run/' + result['id'] + '/review')
+            self.assertEqual(review.status_code, 200, review.text)
+            self.assertEqual(review.json()['summary']['device'], 'cpu')
+            summary_path = Path(directory) / result['id'] / 'summary.json'
+            summary = json.loads(summary_path.read_text())
+            summary['device'] = 'cuda'
+            summary_path.write_text(json.dumps(summary))
+            self.assertEqual(client.get('/api/experiments/run/' + result['id'] + '/review').status_code, 409)

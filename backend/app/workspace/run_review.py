@@ -17,7 +17,9 @@ def review_run(run_id):
     setup = next(event['settings'] for event in events if event['event'] == 'method')
     dataset = summary.get('dataset', 'amylase')
     if (setup['dataset'] != dataset or events[0]['seed'] != summary['seed']
-            or setup['repair'] != summary['repair']):
+            or setup['repair'] != summary['repair']
+            or setup.get('hybrid_device') != summary.get('device')
+            or (setup.get('hybrid_device') is not None) != (summary.get('predictor', 'ridge') == 'mixed')):
         raise ValueError('Run settings mismatch')
     validate_spec(setup['reward_spec'])
     data, reference, loader = dataset_source(dataset)

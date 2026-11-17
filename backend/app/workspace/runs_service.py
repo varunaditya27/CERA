@@ -17,7 +17,7 @@ class RunBusy(Exception):
     pass
 
 
-def run_experiment(seed, repair, gemini=False, dataset='amylase', goal_id=None, goal_sha256=None):
+def run_experiment(seed, repair, gemini=False, dataset='amylase', goal_id=None, goal_sha256=None, predictor='ridge'):
     from app.experiments.prediction_pilot import run_pilot
 
     RUNS.mkdir(parents=True, exist_ok=True)
@@ -26,6 +26,12 @@ def run_experiment(seed, repair, gemini=False, dataset='amylase', goal_id=None, 
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError as error:
             raise RunBusy from error
+        if predictor not in ('ridge', 'mixed') or (predictor == 'mixed' and dataset != 'amylase'):
+            raise ValueError('Unsupported predictor and dataset')
+        hybrid_device = None
+        if predictor == 'mixed':
+            import torch
+            hybrid_device = 'cuda' if torch.cuda.is_available() else 'cpu'
         advisor = model = None
         if gemini:
             from app.llm.local_advisor import local_repair_advisor
@@ -43,7 +49,7 @@ def run_experiment(seed, repair, gemini=False, dataset='amylase', goal_id=None, 
             origin = {'source': 'gemini', 'input_sha256': goal['sha256'], 'model': goal['model'], 'input_goal': goal['input_goal']}
         run_pilot(directory, seed=seed, reward_spec=spec,
                   reward_origin=origin,
-                  repair=repair, repair_advisor=advisor, repair_model=model, dataset=dataset)
+                  repair=repair, repair_advisor=advisor, repair_model=model, dataset=dataset, hybrid_device=hybrid_device)
         events = [json.loads(line) for line in (directory / 'run.jsonl').read_text(encoding='utf-8').splitlines()]
         data, reference, loader = dataset_source(dataset)
         _, scores, train, data_hash, ref_hash = loader(data, reference, spec['hard_constraints']['max_mutations'])
@@ -68,7 +74,7 @@ def run_experiment(seed, repair, gemini=False, dataset='amylase', goal_id=None, 
                             if 'totalTokenCount' in usage:
                                 provider_usage_reports += 1
                                 provider_tokens += usage['totalTokenCount']
-        result = {'id': run_id, 'dataset': dataset, 'goal_id': goal_id, 'seed': seed, 'repair': repair, 'gemini': gemini,
+        result = {'id': run_id, 'dataset': dataset, 'goal_id': goal_id, 'predictor': predictor, 'device': hybrid_device, 'seed': seed, 'repair': repair, 'gemini': gemini,
                   'provider_attempts': provider_attempts, 'provider_fallbacks': provider_fallbacks,
                   'reported_total_tokens': provider_tokens if provider_usage_reports else None,
                   'provider_usage_reports': provider_usage_reports, 'new_measurements': final['new_measurements'],
