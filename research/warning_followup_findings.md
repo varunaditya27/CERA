@@ -13,4 +13,6 @@ The [machine-readable output](../output/amylase_warning_followup.json) includes 
 
 An independent one-off calculation re-read the original selections and reveals and checked all 200 later-window rows; it was not saved as a reusable audit. Four focused tests cover later-window separation, the 25/26 boundary, unavailable denominators and altered records. The complete backend suite passed 101 tests. The implementation does not modify warnings, thresholds, or the experiment runner.
 
+A subsequent read-only one-off check matched each replay file's current hash to the hashes saved in both exploratory outputs, then recalculated all 100 support-warning statuses and all 100 coverage-warning statuses from the saved snapshots, prediction ranges and measured scores. The support check reused the recorded distances and did not regenerate them; matching recorded hashes does not itself authenticate the replay. This check was not saved as a reusable audit.
+
 The remaining work includes separately defensible outcomes for disagreement and diversity, controlled invalid-proposal testing beyond the existing boundary tests, and independent evaluation on data not used to develop the definitions. These results do not authorize tuning against the test landscapes.

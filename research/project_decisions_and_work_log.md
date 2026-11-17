@@ -417,6 +417,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Inspected the evaluator and representative compressed record against the synopsis metrics. Updated the [completion review](completion_evidence_review.md) to distinguish top-1% hit from top-1% recall, identify evidence potentially available for cumulative regret and batch metrics, and distinguish retained repair proposals from rollback after later outcomes. This is a record-availability review, not a new analysis of all runs or a claim that missing scientific outcomes can be reconstructed.
 
+### 2026-11-17: independent warning replay calculations
+
+- While the split-pool decision was pending, matched replay hashes against both saved exploratory outputs and independently recalculated 100 support, 100 coverage and 100 disagreement warning statuses. All matched their saved replay records. These one-off checks used recorded distances and member predictions, did not refit models or regenerate distances, and are not reusable audit programs. Updated the corresponding findings with these limits.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
