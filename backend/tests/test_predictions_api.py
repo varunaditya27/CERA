@@ -17,7 +17,7 @@ class PredictionApiTest(unittest.TestCase):
         result = client.post('/api/predictions/amylase', json={'sequence': sequence})
         self.assertEqual(result.status_code, 200)
         body = result.json()
-        self.assertEqual(set(body), {'mean', 'lower', 'upper', 'observed_role', 'model_sha256'})
+        self.assertEqual(set(body), {'mean', 'lower', 'upper', 'observed_role', 'representation_source', 'model_sha256'})
         self.assertTrue(np.isfinite([body['mean'], body['lower'], body['upper']]).all())
         self.assertLessEqual(body['lower'], body['mean'])
         self.assertLessEqual(body['mean'], body['upper'])
@@ -26,6 +26,12 @@ class PredictionApiTest(unittest.TestCase):
         self.assertEqual(client.post('/api/predictions/amylase', json={'sequence': 'A'}).status_code, 422)
         model, _, reference = prediction_resources()
         with patch('app.api.predictions.prediction_resources', return_value=(model, {}, reference)):
-            self.assertEqual(client.post('/api/predictions/amylase', json={'sequence': reference}).status_code, 404)
+            with patch('app.features.online_amylase.represent_new', return_value=np.zeros(320)) as generate:
+                response = client.post('/api/predictions/amylase', json={'sequence': reference})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.json()['representation_source'], 'generated')
+                generate.assert_called_once_with(reference)
+            with patch('app.features.online_amylase.represent_new', side_effect=ValueError('bad model')):
+                self.assertEqual(client.post('/api/predictions/amylase', json={'sequence': reference}).status_code, 503)
         with patch('app.api.predictions.prediction_resources', side_effect=ValueError('bad source')):
             self.assertEqual(client.post('/api/predictions/amylase', json={'sequence': sequence}).status_code, 503)

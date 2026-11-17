@@ -47,11 +47,17 @@ def predict_amylase(request: PredictionRequest):
     if len(sequence) != len(reference) or sum(a != b for a, b in zip(sequence, reference)) > 4:
         raise HTTPException(status_code=422, detail='Sequence must match the Amylase reference length and have at most four changes.')
     identifier = hashlib.sha256(sequence.encode('ascii')).hexdigest()
-    if identifier not in vectors:
-        raise HTTPException(status_code=404, detail='Sequence is not in the verified Amylase representation cache.')
-    prediction = model.predict([vectors[identifier]])
+    if identifier in vectors:
+        vector, representation_source = vectors[identifier], 'cache'
+    else:
+        try:
+            from app.features.online_amylase import represent_new
+            vector, representation_source = represent_new(sequence), 'generated'
+        except (OSError, ValueError, ImportError, RuntimeError, KeyError) as error:
+            raise HTTPException(status_code=503, detail='Local sequence representation model unavailable.') from error
+    prediction = model.predict([vector])
     context = model.metadata['context']
     role = ('fitting' if identifier in context['fitting_ids'] else
             'range_setting' if identifier in context['reserved_ids'] else 'unobserved_in_episode')
     return {'mean': float(prediction['mean'][0]), 'lower': float(prediction['lower'][0]),
-            'upper': float(prediction['upper'][0]), 'observed_role': role, 'model_sha256': MODEL_SHA256}
+            'upper': float(prediction['upper'][0]), 'observed_role': role, 'representation_source': representation_source, 'model_sha256': MODEL_SHA256}
