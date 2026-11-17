@@ -552,3 +552,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: exploratory held-out shift prediction protocol
 
 - Defined a separate [static prediction protocol](heldout_shift_prediction_protocol.md) for the existing mutation-count and low-to-high fitness benchmark splits. It freezes choices after prior outcomes had been viewed, identifies the score-derived Hydro split as privileged, retains the four-substitution cap, and separates prediction from held-out-score evaluation. It cannot substitute for the proposed sequential shift-search comparison.
+
+### 2026-11-17: held-out prediction implementation
+
+- Added a separate static split-prediction runner and evaluator using the existing verified representations, predictor and interval code. The predictor function receives only selected training scores; evaluation checks split membership, assignments, source fingerprints and prediction identity before scoring. Synthetic checks independently reconstruct the calibration order statistic and reject hidden-score inclusion, missing, duplicate or non-finite predictions and altered roles. All 140 backend tests passed. No held-out prediction output had been generated at this implementation checkpoint.
