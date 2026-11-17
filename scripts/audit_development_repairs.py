@@ -72,7 +72,7 @@ def read_source():
 
 
 def audit_run(events, seed, method, sequences, scores, train, manifest, row, counts, bypass_evidence_gate=False,
-              apply_last_rejected=False):
+              apply_last_rejected=False, rollback_monitor=False):
     start = events[0]
     require(start['event'] == 'start' and (start['seed'], start['initial_count'], start['budget'],
             start['batch_size'], start['max_mutations']) == (seed, 100, 100, 10, 4), 'Invalid start')
@@ -85,6 +85,10 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
             'Reserved examples mismatch')
     targeted = method != 'fixed'
     direct = method == 'direct'
+    require(setup.get('rollback_monitor', False) is rollback_monitor, 'Rollback monitoring mode mismatch')
+    if rollback_monitor:
+        from app.analysis.rollback_audit import audit_rollback_events
+        audit_rollback_events(events)
     require(setup['targeted_disagreement'] == targeted and setup.get('direct_diversity', False) == direct
             and setup['repair'] == (method != 'fixed'),
             'Repair mode mismatch')
@@ -103,6 +107,11 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
             if 'disagreement_target_evidence' in settings:
                 require(pending is None and target is None, 'Target chronology error')
                 target = settings['disagreement_target_evidence']
+            if rollback_monitor:
+                for item in settings.get('rollback_events', []):
+                    if item['status'] == 'rolled_back':
+                        require(spec == item['current'], 'Rollback current specification mismatch')
+                        spec = item['previous']
             if 'repair_actions' in settings:
                 require(pending is None and ranges is not None, 'Repair chronology error')
                 for action in settings['repair_actions']:

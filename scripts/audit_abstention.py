@@ -8,6 +8,7 @@ from collections import Counter
 from pathlib import Path
 
 from app.datasets.amylase import DATA, REFERENCE
+from app.analysis.rollback_audit import audit_rollback_events
 from app.provenance.sources import validate_recorded_sources
 from audit_development_repairs import audit_run, digest, read_source, require
 from audit_matched_proteins import check_repair_cost, check_repair_order
@@ -38,8 +39,11 @@ def check_stopping(events, normal):
             require(action['consecutive_failures'] == failures, 'Failure count mismatch')
         require(settings['consecutive_failures'] == failures, 'Recorded failure count mismatch')
         if normal and failures >= 2:
-            require(index + 1 < len(events) and events[index + 1]['event'] == 'stop'
-                    and events[index + 1]['stop_reason'] == 'failed_repairs', 'Missing required stop')
+            following = index + 1
+            while following < len(events) and events[following]['event'] == 'method' and 'rollback_events' in events[following]['settings']:
+                following += 1
+            require(following < len(events) and events[following]['event'] == 'stop'
+                    and events[following]['stop_reason'] == 'failed_repairs', 'Missing required stop')
 
 
 def main():
@@ -58,6 +62,8 @@ def main():
         seeds, methods = list(range(101, 106)), ['normal', 'universal']
     elif comparison == 'retention':
         seeds, methods = list(range(111, 116)), ['normal', 'no_retention']
+    elif comparison == 'later-rollback':
+        seeds, methods = list(range(161, 166)), ['normal', 'rollback']
     else:
         raise ValueError('Unexpected study comparison')
     require(manifest['seeds'] == seeds and manifest['methods'] == methods
@@ -90,8 +96,13 @@ def main():
                     setup.get('disabled_repair_terms', []) == ([removed] if removed else []) and
                     setup.get('universal_penalty', False) is (method == 'universal') and
                     setup.get('apply_last_rejected', False) is (method == 'no_retention') and
+                    setup.get('rollback_monitor', False) is (method == 'rollback') and
                     setup['cache_sha256'] == manifest['cache_sha256'], 'Study mode mismatch')
             validate_recorded_sources(setup['source_sha256'], manifest['code_sha256'])
+            if method == 'rollback':
+                require(setup.get('rollback_source_sha256') == {'rollback_monitor.py': manifest['code_sha256']['backend/app/rewards/rollback_monitor.py']},
+                        'Rollback source fingerprint mismatch')
+                counts.update({f'rollback_{key}': value for key, value in audit_rollback_events(events).items()})
             check_stopping(events, method != 'continue')
             spec = setup['reward_spec']
             bypassed = disabled = applied_rejected = 0
@@ -102,6 +113,11 @@ def main():
             for event in events:
                 if event['event'] != 'method':
                     continue
+                if method == 'rollback':
+                    for item in event['settings'].get('rollback_events', []):
+                        if item['status'] == 'rolled_back':
+                            require(spec == item['current'], 'Rollback current specification mismatch')
+                            spec = item['previous']
                 actions = event['settings'].get('repair_actions')
                 if actions is None:
                     continue
@@ -147,7 +163,7 @@ def main():
                         'Rejected repair count mismatch')
             initial = audit_run(events, seed, 'direct', sequences, scores, train, manifest,
                                 summaries[(seed, method)], counts, bypass_evidence_gate=method == 'bypass',
-                                apply_last_rejected=method == 'no_retention')
+                                apply_last_rejected=method == 'no_retention', rollback_monitor=method == 'rollback')
             if seed in initials:
                 require(initials[seed] == initial, 'Paired starts differ')
             initials[seed] = initial

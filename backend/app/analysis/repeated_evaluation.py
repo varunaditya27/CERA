@@ -37,6 +37,8 @@ def evaluate_repeated(root, seeds, methods, scores, train, data_hash, reference_
                 if settings['method'] != 'random' or settings['selection_seed'] != 1000 + seed:
                     raise ValueError('Random method settings mismatch')
             else:
+                if settings.get('rollback_monitor', False) is not False:
+                    raise ValueError('Experimental rollback monitoring is not part of this study')
                 if settings['dataset'] != 'amylase' or settings['cache_sha256'] != CACHE_SHA256:
                     raise ValueError('Dataset or representation mismatch')
                 if settings['role_seed'] != 2000 + seed or settings['member_seed'] != 3000 + seed:

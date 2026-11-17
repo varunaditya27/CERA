@@ -17,6 +17,7 @@ from app.experiments.predictor_group import fit_group, predict_group, predict_me
 from app.experiments.range_report import summarize_ranges
 from app.provenance.sources import PILOT_SOURCE_NAMES, source_hashes
 from app.rewards.repair_coordinator import handle_warnings
+from app.rewards.rollback_monitor import RollbackMonitor
 from app.rewards.repair_menu import TERMS
 from app.rewards.disagreement_targets import disagreement_targets
 from app.rewards.reward_distance import known_distances, normalized_distances
@@ -31,7 +32,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
               repair=False, repair_advisor=None, repair_model=None, dataset='amylase', acquisition=None,
               local_search=None, targeted_disagreement=False, direct_diversity=False, initial_pool='train',
               stop_on_failed_repairs=True, bypass_evidence_gate=False, disabled_repair_terms=(),
-              universal_penalty=False, apply_last_rejected=False):
+              universal_penalty=False, apply_last_rejected=False, rollback_monitor=False):
     if acquisition not in (None, 'ucb', 'ei') or (acquisition is not None and (reward_spec is not None or repair)):
         raise ValueError('Invalid acquisition configuration')
     if (local_search not in (None, 'genetic', 'adalead') or
@@ -59,6 +60,10 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
             (apply_last_rejected and (not repair or dataset != 'amylase' or not stop_on_failed_repairs
                                       or bypass_evidence_gate or disabled_repair_terms or universal_penalty))):
         raise ValueError('Applying rejected repairs is restricted to isolated Amylase development repair runs')
+    if (not isinstance(rollback_monitor, bool) or (rollback_monitor and
+            (not repair or dataset != 'amylase' or not stop_on_failed_repairs or bypass_evidence_gate
+             or disabled_repair_terms or universal_penalty or apply_last_rejected))):
+        raise ValueError('Rollback monitoring is restricted to isolated Amylase repair runs')
     if reward_spec is not None:
         reward_spec = copy.deepcopy(reward_spec)
         validate_spec(reward_spec)
@@ -92,6 +97,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
         history = []
         round_number = 0
         failures = 0
+        monitor = RollbackMonitor() if rollback_monitor else None
         run.record_settings({'method': ('esm_bootstrap_ridge_' + local_search if local_search else
                                        'esm_bootstrap_ridge_' + acquisition if acquisition else
                                        'esm_bootstrap_ridge_reward' if reward_spec else 'esm_bootstrap_ridge_greedy'),
@@ -105,6 +111,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                              'disabled_repair_terms': list(disabled_repair_terms),
                              'universal_penalty': universal_penalty,
                              'apply_last_rejected': apply_last_rejected,
+                             'rollback_monitor': rollback_monitor,
+                             'rollback_source_sha256': source_hashes(('rollback_monitor.py',)) if monitor else None,
                              'repair_advisor': 'gemini' if repair_advisor else 'rule_based',
                              'repair_model': repair_model,
                              'role_seed': role_seed,
@@ -211,7 +219,16 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                            for identifier, score in measurements.items())
             coverage = coverage_warning(history)
             run.record_warning(round_number, coverage)
-            if repair and run.stop_reason is None:
+            rolled_back = False
+            if monitor is not None:
+                reward_spec, monitoring_events = monitor.observe(
+                    reward_spec, round_number, [(i, ranges[i]['lower'] <= value <= ranges[i]['upper'])
+                                                for i, value in measurements.items()])
+                if monitoring_events:
+                    run.record_settings({'round': round_number, 'rollback_events': monitoring_events})
+                    rolled_back = any(event['status'] == 'rolled_back' for event in monitoring_events)
+            if repair and run.stop_reason is None and not rolled_back:
+                previous_spec = copy.deepcopy(reward_spec) if monitor is not None else None
                 warnings = {'support_shift': support, 'coverage': coverage,
                             'disagreement': disagreement, 'diversity': diversity}
                 targets = {'support_shift': (support['evidence'] or {}).get('qualifying_ids', []),
@@ -227,8 +244,18 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                     apply_last_rejected=apply_last_rejected)
                 run.record_settings({'round': round_number, 'repair_actions': actions,
                                      'consecutive_failures': failures})
+                if monitor is not None:
+                    for action in actions:
+                        if action['status'] == 'accepted':
+                            events = monitor.register(previous_spec, action['specification'], round_number)
+                            run.record_settings({'round': round_number, 'rollback_events': events})
+                            previous_spec = action['specification']
                 if abstain:
                     run.stop_early('failed_repairs')
+        if monitor is not None:
+            events = monitor.finish()
+            if events:
+                run.record_settings({'round': round_number, 'rollback_events': events})
     finally:
         run.close()
     rows = summarize_ranges(output / 'run.jsonl', output / 'coverage.csv')

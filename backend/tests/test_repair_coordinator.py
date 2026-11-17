@@ -8,6 +8,15 @@ from app.rewards.repair_coordinator import handle_warnings
 
 
 class RepairCoordinatorTests(unittest.TestCase):
+    def test_rollback_monitor_scope_guard(self):
+        with self.assertRaises(ValueError):
+            run_pilot('unused', rollback_monitor=True)
+        with self.assertRaises(ValueError):
+            run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True, dataset='ired', rollback_monitor=True)
+        with self.assertRaises(ValueError):
+            run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True, rollback_monitor=True,
+                      stop_on_failed_repairs=False)
+
     def test_applied_rejected_repair_still_counts_as_failure(self):
         spec = copy.deepcopy(DEFAULT_SPEC)
         revised = copy.deepcopy(spec)

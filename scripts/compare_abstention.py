@@ -22,6 +22,7 @@ EVIDENCE_SEEDS = tuple(range(81, 86))
 TERM_SEEDS = tuple(range(91, 96))
 UNIVERSAL_SEEDS = tuple(range(101, 106))
 RETENTION_SEEDS = tuple(range(111, 116))
+ROLLBACK_SEEDS = tuple(range(161, 166))
 METHODS = ('normal', 'continue')
 REMOVED_TERMS = {'no_distance': 'distance_penalty', 'no_uncertainty': 'uncertainty_penalty',
                  'no_diversity': 'diversity_bonus'}
@@ -31,7 +32,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output', type=Path)
     parser.add_argument('--resume', action='store_true')
-    parser.add_argument('--comparison', choices=('stopping', 'evidence', 'repair-terms', 'universal', 'retention'), default='stopping')
+    parser.add_argument('--comparison', choices=('stopping', 'evidence', 'repair-terms', 'universal', 'retention', 'later-rollback'), default='stopping')
     args = parser.parse_args()
     if args.comparison == 'stopping':
         seeds, methods = SEEDS, METHODS
@@ -41,8 +42,10 @@ def main():
         seeds, methods = TERM_SEEDS, ('normal', *REMOVED_TERMS)
     elif args.comparison == 'universal':
         seeds, methods = UNIVERSAL_SEEDS, ('normal', 'universal')
-    else:
+    elif args.comparison == 'retention':
         seeds, methods = RETENTION_SEEDS, ('normal', 'no_retention')
+    else:
+        seeds, methods = ROLLBACK_SEEDS, ('normal', 'rollback')
     if (args.output / 'summary.csv').exists():
         raise ValueError('Completed comparison summary already exists')
     spec_bytes = (ROOT / 'research/reward_spec_example.json').read_bytes()
@@ -84,7 +87,8 @@ def main():
                           targeted_disagreement=True, direct_diversity=True,
                           stop_on_failed_repairs=method != 'continue', bypass_evidence_gate=method == 'bypass',
                           disabled_repair_terms=(REMOVED_TERMS[method],) if method in REMOVED_TERMS else (),
-                          universal_penalty=method == 'universal', apply_last_rejected=method == 'no_retention')
+                          universal_penalty=method == 'universal', apply_last_rejected=method == 'no_retention',
+                          rollback_monitor=method == 'rollback')
                 raw = (path / 'run.jsonl').read_bytes()
                 blob = gzip.compress(raw, mtime=0)
                 with (path / 'run.jsonl.gz').open('xb') as file:
