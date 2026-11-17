@@ -1,0 +1,357 @@
+{
+  "predictions_sha256": "9966b18f723b256066cf3348d6da64e663fbf99bb8f1ec90fe61540ecbd4c524",
+  "groups": [
+    {
+      "dataset": "ired",
+      "runs": [
+        {
+          "seed": 121,
+          "n": 3225,
+          "spearman": 0.05732896670206944,
+          "mean_absolute_error": 1.0958174139983883,
+          "covered": 2949,
+          "mean_interval_width": 4.680663192691509
+        },
+        {
+          "seed": 122,
+          "n": 3225,
+          "spearman": 0.11796360554681569,
+          "mean_absolute_error": 0.9460502135132327,
+          "covered": 2361,
+          "mean_interval_width": 2.593445014489524
+        },
+        {
+          "seed": 123,
+          "n": 3225,
+          "spearman": 0.12037364126667606,
+          "mean_absolute_error": 0.9905862511064946,
+          "covered": 2944,
+          "mean_interval_width": 4.329109815980564
+        },
+        {
+          "seed": 124,
+          "n": 3225,
+          "spearman": 0.09110036832494882,
+          "mean_absolute_error": 1.0673566469868094,
+          "covered": 2864,
+          "mean_interval_width": 4.2057446769803875
+        },
+        {
+          "seed": 125,
+          "n": 3225,
+          "spearman": 0.05015516779190029,
+          "mean_absolute_error": 0.9660212801825595,
+          "covered": 2225,
+          "mean_interval_width": 2.408445110244645
+        },
+        {
+          "seed": 126,
+          "n": 3225,
+          "spearman": 0.12384246855743218,
+          "mean_absolute_error": 0.9228016606809302,
+          "covered": 2690,
+          "mean_interval_width": 3.2178576766713904
+        },
+        {
+          "seed": 127,
+          "n": 3225,
+          "spearman": 0.055738169842188726,
+          "mean_absolute_error": 0.9378010177970169,
+          "covered": 2282,
+          "mean_interval_width": 2.437421098307118
+        },
+        {
+          "seed": 128,
+          "n": 3225,
+          "spearman": 0.06524872586356804,
+          "mean_absolute_error": 0.9264370131400471,
+          "covered": 3078,
+          "mean_interval_width": 4.844716195335106
+        },
+        {
+          "seed": 129,
+          "n": 3225,
+          "spearman": 0.10325003075844072,
+          "mean_absolute_error": 0.9726352388480209,
+          "covered": 3103,
+          "mean_interval_width": 5.214250829439435
+        },
+        {
+          "seed": 130,
+          "n": 3225,
+          "spearman": 0.13826374746674416,
+          "mean_absolute_error": 0.9555155919366422,
+          "covered": 3194,
+          "mean_interval_width": 6.17774318240827
+        }
+      ],
+      "median_spearman": 0.09717519954169476,
+      "median_coverage": 0.9004651162790698,
+      "median_mae": 0.9607684360596008
+    },
+    {
+      "dataset": "hydro-P06241",
+      "runs": [
+        {
+          "seed": 121,
+          "n": 747,
+          "spearman": -0.011734944250054367,
+          "mean_absolute_error": 1.8165763160530137,
+          "covered": 0,
+          "mean_interval_width": 0.7021223047615237
+        },
+        {
+          "seed": 122,
+          "n": 747,
+          "spearman": 0.0668359089610726,
+          "mean_absolute_error": 1.8280606127548624,
+          "covered": 0,
+          "mean_interval_width": 0.6968233660665959
+        },
+        {
+          "seed": 123,
+          "n": 747,
+          "spearman": 0.06006777176806609,
+          "mean_absolute_error": 1.8026928911918632,
+          "covered": 0,
+          "mean_interval_width": 0.7098501167991449
+        },
+        {
+          "seed": 124,
+          "n": 747,
+          "spearman": 0.05088009850760586,
+          "mean_absolute_error": 1.8021880395994072,
+          "covered": 0,
+          "mean_interval_width": 0.6463925986356376
+        },
+        {
+          "seed": 125,
+          "n": 747,
+          "spearman": 0.032857469648633675,
+          "mean_absolute_error": 1.8063406413399548,
+          "covered": 0,
+          "mean_interval_width": 0.6158734246302338
+        },
+        {
+          "seed": 126,
+          "n": 747,
+          "spearman": 0.09587840257245524,
+          "mean_absolute_error": 1.7766267854666309,
+          "covered": 2,
+          "mean_interval_width": 0.631589012478238
+        },
+        {
+          "seed": 127,
+          "n": 747,
+          "spearman": 0.12806843782061478,
+          "mean_absolute_error": 1.817394658479498,
+          "covered": 1,
+          "mean_interval_width": 0.6244150340013448
+        },
+        {
+          "seed": 128,
+          "n": 747,
+          "spearman": -0.05911887143706077,
+          "mean_absolute_error": 1.8001958790498522,
+          "covered": 0,
+          "mean_interval_width": 0.5662360375948241
+        },
+        {
+          "seed": 129,
+          "n": 747,
+          "spearman": 0.05117040253169061,
+          "mean_absolute_error": 1.7911651248085592,
+          "covered": 0,
+          "mean_interval_width": 0.49260366734558936
+        },
+        {
+          "seed": 130,
+          "n": 747,
+          "spearman": 0.03159984060339939,
+          "mean_absolute_error": 1.8241481399119819,
+          "covered": 0,
+          "mean_interval_width": 0.5765174577022885
+        }
+      ],
+      "median_spearman": 0.051025250519648235,
+      "median_coverage": 0.0,
+      "median_mae": 1.804516766265909
+    },
+    {
+      "dataset": "hydro-P01053",
+      "runs": [
+        {
+          "seed": 121,
+          "n": 579,
+          "spearman": 0.23709179349045745,
+          "mean_absolute_error": 1.223764625394629,
+          "covered": 58,
+          "mean_interval_width": 0.764102899803806
+        },
+        {
+          "seed": 122,
+          "n": 579,
+          "spearman": 0.3530523952216122,
+          "mean_absolute_error": 1.1863433697594512,
+          "covered": 6,
+          "mean_interval_width": 0.5183901656723187
+        },
+        {
+          "seed": 123,
+          "n": 579,
+          "spearman": 0.07335825606030914,
+          "mean_absolute_error": 1.1572670597800379,
+          "covered": 174,
+          "mean_interval_width": 0.9842509535934809
+        },
+        {
+          "seed": 124,
+          "n": 579,
+          "spearman": 0.14058829093440445,
+          "mean_absolute_error": 1.1630004685996291,
+          "covered": 78,
+          "mean_interval_width": 0.6808922286303973
+        },
+        {
+          "seed": 125,
+          "n": 579,
+          "spearman": 0.13387522851156672,
+          "mean_absolute_error": 1.2222842183069327,
+          "covered": 77,
+          "mean_interval_width": 0.7860255979491857
+        },
+        {
+          "seed": 126,
+          "n": 579,
+          "spearman": 0.03688221507691034,
+          "mean_absolute_error": 1.1746159579341615,
+          "covered": 79,
+          "mean_interval_width": 0.6664095659685403
+        },
+        {
+          "seed": 127,
+          "n": 579,
+          "spearman": 0.37249867545206194,
+          "mean_absolute_error": 1.1329781706190691,
+          "covered": 50,
+          "mean_interval_width": 0.5841821227287118
+        },
+        {
+          "seed": 128,
+          "n": 579,
+          "spearman": 0.3249766156239162,
+          "mean_absolute_error": 1.2336668088490754,
+          "covered": 1,
+          "mean_interval_width": 0.5444411464495236
+        },
+        {
+          "seed": 129,
+          "n": 579,
+          "spearman": 0.02648156173629843,
+          "mean_absolute_error": 1.1754601331719323,
+          "covered": 94,
+          "mean_interval_width": 0.7393478077484028
+        },
+        {
+          "seed": 130,
+          "n": 579,
+          "spearman": 0.3236166433698726,
+          "mean_absolute_error": 1.2439234188109176,
+          "covered": 12,
+          "mean_interval_width": 0.6619864283430639
+        }
+      ],
+      "median_spearman": 0.18884004221243095,
+      "median_coverage": 0.11658031088082901,
+      "median_mae": 1.1809017514656919
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "runs": [
+        {
+          "seed": 121,
+          "n": 2215,
+          "spearman": 0.04393844911874485,
+          "mean_absolute_error": 0.6868586533806437,
+          "covered": 84,
+          "mean_interval_width": 0.5267637009984574
+        },
+        {
+          "seed": 122,
+          "n": 2215,
+          "spearman": 0.09839855289133198,
+          "mean_absolute_error": 0.6879012995622024,
+          "covered": 143,
+          "mean_interval_width": 0.5705615668676156
+        },
+        {
+          "seed": 123,
+          "n": 2215,
+          "spearman": 0.17681618204484648,
+          "mean_absolute_error": 0.6422474853086168,
+          "covered": 188,
+          "mean_interval_width": 0.5423429150019219
+        },
+        {
+          "seed": 124,
+          "n": 2215,
+          "spearman": 0.2397200428556673,
+          "mean_absolute_error": 0.6340929646220322,
+          "covered": 264,
+          "mean_interval_width": 0.5907003747411581
+        },
+        {
+          "seed": 125,
+          "n": 2215,
+          "spearman": 0.2438206209893345,
+          "mean_absolute_error": 0.6951206932352175,
+          "covered": 205,
+          "mean_interval_width": 0.6568942949168566
+        },
+        {
+          "seed": 126,
+          "n": 2215,
+          "spearman": 0.2954359394544553,
+          "mean_absolute_error": 0.6106389342401201,
+          "covered": 633,
+          "mean_interval_width": 0.8120686799194887
+        },
+        {
+          "seed": 127,
+          "n": 2215,
+          "spearman": 0.36360703213505885,
+          "mean_absolute_error": 0.6339454402802847,
+          "covered": 175,
+          "mean_interval_width": 0.5314180861209188
+        },
+        {
+          "seed": 128,
+          "n": 2215,
+          "spearman": 0.2995824072419568,
+          "mean_absolute_error": 0.6254686188943256,
+          "covered": 285,
+          "mean_interval_width": 0.6069949800216872
+        },
+        {
+          "seed": 129,
+          "n": 2215,
+          "spearman": 0.31804073594027826,
+          "mean_absolute_error": 0.6378062421956993,
+          "covered": 274,
+          "mean_interval_width": 0.5987171850104271
+        },
+        {
+          "seed": 130,
+          "n": 2215,
+          "spearman": 0.3498113873169601,
+          "mean_absolute_error": 0.611158613107656,
+          "covered": 559,
+          "mean_interval_width": 0.7784969205667336
+        }
+      ],
+      "median_spearman": 0.2696282802218949,
+      "median_coverage": 0.10586907449209931,
+      "median_mae": 0.6359496034088657
+    }
+  ]
+}

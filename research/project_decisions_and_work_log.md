@@ -556,3 +556,11 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: held-out prediction implementation
 
 - Added a separate static split-prediction runner and evaluator using the existing verified representations, predictor and interval code. The predictor function receives only selected training scores; evaluation checks split membership, assignments, source fingerprints and prediction identity before scoring. Synthetic checks independently reconstruct the calibration order statistic and reject hidden-score inclusion, missing, duplicate or non-finite predictions and altered roles. All 140 backend tests passed. No held-out prediction output had been generated at this implementation checkpoint.
+
+### 2026-11-17: held-out shift prediction results
+
+- Froze predictions for 40 runs before evaluating held-out scores. The [findings](heldout_shift_prediction_findings.md) show median coverage of 90.0% on capped IRED and 0.0%, 11.7% and 10.6% on the three capped fitness-defined Hydro groups, with wide differences among starts. An independent calculation refitted 200 models and checked 67,660 predictions and reported metrics; a modified metric was rejected. This is an exploratory static prediction test, not an evaluation of repair or an official benchmark. The score-defined Hydro split is privileged and the interval guarantee is not established.
+
+### 2026-11-17: periodic retraining evidence
+
+- Rechecked the runner and protocol: greedy and fixed-reward policies both refit each batch without warning-driven changes. They provide retraining-without-diagnosis comparators under the matched schedule; this does not test an independent lower-frequency retraining policy.
