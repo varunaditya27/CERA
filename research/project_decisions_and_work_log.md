@@ -447,6 +447,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - All ten Amylase runs completed. The independent audit reconstructed 86 selection batches and 73 repair replays and checked both policies' stopping behavior. Normal stopping ended two of five runs early; continuation found a higher best score in one pair and the same best score in four while using 140 extra measurements in the two early-stopped pairs. [Findings](abstention_ablation_findings.md) preserve per-seed results and explain why this small exploratory comparison does not establish a general or causal benefit.
 
+### 2026-11-17: Gemini response usage accounting
+
+- Checked Google's response and token documentation, then retained valid provider-supplied usage for rejected parsed responses and invalid goal weights across both Gemini call paths. Existing retry, fallback and sanitized status behavior remain. Mocked tests and all 114 backend tests passed; no live call was made. The [accounting note](gemini_usage_accounting.md) preserves the limits: previous missing counts cannot be recovered, some future errors still have no metadata, and logs are not billing records.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

@@ -52,3 +52,23 @@ class GoalCompilerTests(unittest.TestCase):
     def test_invalid_model_cannot_alter_destination(self):
         with self.assertRaises(GeminiError):
             request_weights('key', '../unexpected')
+
+    def test_rejected_response_preserves_only_valid_usage(self):
+        class Response:
+            def __enter__(self): return self
+            def __exit__(self, *args): pass
+            def read(self, size):
+                return json.dumps({'candidates': [{'finishReason': 'MAX_TOKENS'}],
+                                   'usageMetadata': {'promptTokenCount': 12, 'candidatesTokenCount': True,
+                                                     'thoughtsTokenCount': 7, 'totalTokenCount': 19,
+                                                     'unexpected': 'secret'}}).encode()
+        with patch('app.llm.gemini_client.urlopen', return_value=Response()):
+            result = compile_goal(lambda: request_weights('key', 'example-model'))
+        self.assertEqual(result['source'], 'fallback')
+        self.assertEqual(len(result['attempts']), 2)
+        self.assertEqual(result['attempts'][0], {'status': 'invalid_response', 'usage':
+                         {'promptTokenCount': 12, 'thoughtsTokenCount': 7, 'totalTokenCount': 19}})
+
+    def test_invalid_weights_preserve_returned_usage(self):
+        result = compile_goal(lambda: ('{}', {'totalTokenCount': 8}))
+        self.assertEqual(result['attempts'], [{'status': 'invalid_weights', 'usage': {'totalTokenCount': 8}}] * 2)

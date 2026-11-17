@@ -25,6 +25,7 @@ def _unique_object(pairs):
 def compile_goal(request):
     attempts = []
     for _ in range(2):
+        usage = None
         try:
             text, usage = request()
             weights = json.loads(text, object_pairs_hook=_unique_object)
@@ -35,11 +36,17 @@ def compile_goal(request):
                 spec['terms'][name]['weight'] = value
             validate_spec(spec)
         except GeminiError as error:
-            attempts.append({'status': str(error)})
+            attempt = {'status': str(error)}
+            if error.usage is not None:
+                attempt['usage'] = error.usage
+            attempts.append(attempt)
             if str(error) != 'invalid_response':
                 break
         except (TypeError, ValueError, json.JSONDecodeError):
-            attempts.append({'status': 'invalid_weights'})
+            attempt = {'status': 'invalid_weights'}
+            if usage is not None:
+                attempt['usage'] = usage
+            attempts.append(attempt)
         else:
             attempts.append({'status': 'accepted', 'usage': usage})
             return {'source': 'gemini', 'attempts': attempts, 'specification': spec}

@@ -20,7 +20,10 @@ def advise_repair(request, warning_type, candidates):
                     or not 0 <= response['option'] < len(options)):
                 raise ValueError('Invalid repair choice')
         except GeminiError as error:
-            attempts.append({'status': str(error)})
+            attempt = {'status': str(error)}
+            if error.usage is not None:
+                attempt['usage'] = error.usage
+            attempts.append(attempt)
             if str(error) != 'invalid_response':
                 break
         except (TypeError, ValueError):

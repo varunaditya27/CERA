@@ -16,7 +16,9 @@ SCHEMA = {'type': 'object', 'properties': {
 
 
 class GeminiError(Exception):
-    pass
+    def __init__(self, status, usage=None):
+        super().__init__(status)
+        self.usage = usage
 
 
 def _request_json(api_key, model, prompt, schema):
@@ -37,18 +39,21 @@ def _request_json(api_key, model, prompt, schema):
         raise GeminiError('network_error') from None
     if len(payload) > 1_000_000:
         raise GeminiError('response_too_large')
+    counts = None
     try:
         result = json.loads(payload)
+        usage = result.get('usageMetadata')
+        if isinstance(usage, dict):
+            counts = {key: usage[key] for key in ('promptTokenCount', 'candidatesTokenCount',
+                                                   'thoughtsTokenCount', 'totalTokenCount')
+                      if isinstance(usage.get(key), int) and not isinstance(usage[key], bool) and usage[key] >= 0}
         candidate = result['candidates'][0]
         if candidate.get('finishReason') != 'STOP':
             raise ValueError('incomplete response')
         text = ''.join(part.get('text', '') for part in candidate['content']['parts'] if not part.get('thought'))
-        usage = result.get('usageMetadata', {})
-        counts = {key: usage[key] for key in ('promptTokenCount', 'candidatesTokenCount', 'totalTokenCount')
-                  if isinstance(usage.get(key), int)}
-        return text, counts
-    except (KeyError, IndexError, TypeError, ValueError, json.JSONDecodeError):
-        raise GeminiError('invalid_response') from None
+        return text, counts if counts is not None else {}
+    except (AttributeError, KeyError, IndexError, TypeError, ValueError, json.JSONDecodeError):
+        raise GeminiError('invalid_response', usage=counts) from None
 
 
 def request_weights(api_key, model):

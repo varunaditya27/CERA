@@ -38,6 +38,19 @@ class RepairAdvisorTests(unittest.TestCase):
         result = advise_repair(failed, 'disagreement', self.menu)
         self.assertEqual(result['attempts'], [{'status': 'http_429'}])
 
+    def test_rejected_response_records_usage_before_retry(self):
+        attempts = iter([GeminiError('invalid_response', usage={'totalTokenCount': 13}),
+                         ('{"option":0}', {'totalTokenCount': 4})])
+        def request(*_):
+            value = next(attempts)
+            if isinstance(value, Exception):
+                raise value
+            return value
+        result = advise_repair(request, 'disagreement', self.menu)
+        self.assertEqual(result['source'], 'gemini')
+        self.assertEqual(result['attempts'], [{'status': 'invalid_response', 'usage': {'totalTokenCount': 13}},
+                                              {'status': 'accepted', 'usage': {'totalTokenCount': 4}}])
+
     def test_model_preference_is_checked_then_remaining_options_in_cost_order(self):
         checks = [{'accepted': False}, {'accepted': True}]
         advisor = lambda kind, menu: {'option': 2, 'source': 'gemini'}
