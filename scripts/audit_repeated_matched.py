@@ -137,7 +137,7 @@ def main():
             require(start['initial'] == shared_initial, 'Methods did not share initial measurements')
             setup = next(e['settings'] for e in events if e['event'] == 'method')
             if method != 'random':
-                require(setup.get('rollback_monitor', False) is False and setup.get('reactive_calibration', False) is False, 'Experimental rollback monitoring is not part of this study')
+                require(setup.get('rollback_monitor', False) is False and setup.get('reactive_calibration', False) is False and setup.get('hybrid_device') is None, 'Experimental rollback monitoring is not part of this study')
                 require(setup['role_seed'] == 2000 + seed and setup['member_seed'] == 3000 + seed,
                         'Model seed mismatch')
                 expected_reserved = sorted(random.Random(2000 + seed).sample(sorted(start['initial']), 20))

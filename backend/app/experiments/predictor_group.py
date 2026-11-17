@@ -6,10 +6,11 @@ from sklearn.model_selection import KFold
 from app.experiments.selection import PENALTIES
 
 
-def fit_group(vectors, scores, fitting_ids, reserved_ids, cv_seed, member_seeds):
+def fit_group(vectors, scores, fitting_ids, reserved_ids, cv_seed, member_seeds, *, ridge_members=5):
     ids = sorted(fitting_ids)
     if (len(ids) < 5 or len(ids) != len(set(ids)) or set(ids) & set(reserved_ids)
-            or len(member_seeds) != 5 or len(set(member_seeds)) != 5):
+            or len(member_seeds) != 5 or len(set(member_seeds)) != 5
+            or not isinstance(ridge_members, int) or isinstance(ridge_members, bool) or not 1 <= ridge_members <= 5):
         raise ValueError('Invalid fitting, reserved or member identifiers')
     x = np.asarray([vectors[identifier] for identifier in ids], dtype=np.float64)
     y = np.asarray([scores[identifier] for identifier in ids], dtype=np.float64)
@@ -18,7 +19,7 @@ def fit_group(vectors, scores, fitting_ids, reserved_ids, cv_seed, member_seeds)
     cv = KFold(n_splits=5, shuffle=True, random_state=cv_seed)
     penalty = float(RidgeCV(alphas=PENALTIES, cv=cv, scoring='neg_mean_squared_error').fit(x, y).alpha_)
     models = []
-    for seed in member_seeds:
+    for seed in member_seeds[:ridge_members]:
         indices = np.random.default_rng(seed).integers(0, len(ids), size=len(ids))
         models.append(Ridge(alpha=penalty).fit(x[indices], y[indices]))
     return models, penalty

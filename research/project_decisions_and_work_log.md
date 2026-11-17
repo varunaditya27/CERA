@@ -629,3 +629,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: mixed predictor protocol
 
 - Identified that the synopsis specifies both ridge and neural-network members, while completed studies used five ridge members. Defined an opt-in [mixed-predictor protocol](hybrid_predictor_protocol.md) with three ridge and two GPU-capable neural members, an internal early-stopping subset separated before bootstrap, and the existing separate range-setting examples. This fills an implementation gap without changing historical comparisons or claiming improved performance.
+
+### 2026-11-17: mixed predictor implementation
+
+- Added an explicit Amylase development option with three ridge and two PyTorch neural members. Neural early-stopping identifiers are drawn from revealed fitting examples before bootstrap, and scaling uses the remaining neural training examples only; the 20 range-setting examples stay separate. The device, architecture, training settings, seeds, roles, epochs, losses and fitting times are recorded. Synthetic tests check role separation, finite outputs, restored best weights, CPU reproducibility, a complete episode and study-scope guards. All 162 backend tests passed. The prior reactive-calibration audit reproduced its saved counts, and a historical ridge round reproduced 3,175 recorded means and spreads with zero observed difference. No real mixed-predictor episode had run at this checkpoint.

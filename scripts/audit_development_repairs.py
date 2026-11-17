@@ -87,6 +87,7 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
     direct = method == 'direct'
     require(setup.get('rollback_monitor', False) is rollback_monitor, 'Rollback monitoring mode mismatch')
     require(setup.get('reactive_calibration', False) is reactive_calibration, 'Reactive calibration mode mismatch')
+    require(setup.get('hybrid_device') is None, 'Hybrid predictor is not part of this study')
     require(not reactive_calibration or method == 'fixed', 'Reactive audit requires fixed-reward comparison')
     if rollback_monitor:
         from app.analysis.rollback_audit import audit_rollback_events

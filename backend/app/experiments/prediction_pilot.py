@@ -14,6 +14,7 @@ from app.experiments.acquisition import acquisition_scores, choose_acquisition
 from app.experiments.calibration_policy import recent_calibration
 from app.experiments.local_search import propose_local
 from app.experiments.prediction_intervals import interval_radius
+from app.experiments.hybrid_predictor import fit_hybrid_group, hybrid_configuration
 from app.experiments.predictor_group import fit_group, predict_group, predict_members
 from app.experiments.range_report import summarize_ranges
 from app.provenance.sources import PILOT_SOURCE_NAMES, source_hashes
@@ -33,7 +34,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
               repair=False, repair_advisor=None, repair_model=None, dataset='amylase', acquisition=None,
               local_search=None, targeted_disagreement=False, direct_diversity=False, initial_pool='train',
               stop_on_failed_repairs=True, bypass_evidence_gate=False, disabled_repair_terms=(),
-              universal_penalty=False, apply_last_rejected=False, rollback_monitor=False, reactive_calibration=False):
+              universal_penalty=False, apply_last_rejected=False, rollback_monitor=False, reactive_calibration=False, hybrid_device=None):
     if acquisition not in (None, 'ucb', 'ei') or (acquisition is not None and (reward_spec is not None or repair)):
         raise ValueError('Invalid acquisition configuration')
     if (local_search not in (None, 'genetic', 'adalead') or
@@ -69,6 +70,12 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
             (dataset != 'amylase' or reward_spec is None or rollback_monitor or not stop_on_failed_repairs
              or bypass_evidence_gate or disabled_repair_terms or universal_penalty or apply_last_rejected))):
         raise ValueError('Reactive calibration is restricted to isolated Amylase reward runs')
+    if (hybrid_device not in (None, 'cpu', 'cuda') or (hybrid_device is not None and
+            (dataset != 'amylase' or reward_spec is None or rollback_monitor or reactive_calibration
+             or not stop_on_failed_repairs or bypass_evidence_gate or disabled_repair_terms
+             or universal_penalty or apply_last_rejected))):
+        raise ValueError('Hybrid prediction is restricted to isolated Amylase reward runs')
+    hybrid_config = hybrid_configuration(hybrid_device) if hybrid_device else None
     if reward_spec is not None:
         reward_spec = copy.deepcopy(reward_spec)
         validate_spec(reward_spec)
@@ -105,6 +112,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
         monitor = RollbackMonitor() if rollback_monitor else None
         run.record_settings({'method': ('esm_bootstrap_ridge_' + local_search if local_search else
                                        'esm_bootstrap_ridge_' + acquisition if acquisition else
+                                       'esm_hybrid_reward' if hybrid_device else
                                        'esm_bootstrap_ridge_reward' if reward_spec else 'esm_bootstrap_ridge_greedy'),
                              'acquisition': acquisition, 'local_search': local_search,
                              'dataset': dataset,
@@ -118,6 +126,9 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                              'apply_last_rejected': apply_last_rejected,
                              'rollback_monitor': rollback_monitor,
                              'reactive_calibration': reactive_calibration,
+                             'hybrid_device': hybrid_device,
+                             'hybrid_source_sha256': source_hashes(('hybrid_predictor.py',)) if hybrid_device else None,
+                             'hybrid_configuration': hybrid_config,
                              'calibration_source_sha256': source_hashes(('calibration_policy.py',)) if reactive_calibration else None,
                              'rollback_source_sha256': source_hashes(('rollback_monitor.py',)) if monitor else None,
                              'repair_advisor': 'gemini' if repair_advisor else 'rule_based',
@@ -138,7 +149,13 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
             known = run.revealed
             fitting = sorted(set(known) - set(reserved))
             member_seeds = generator.sample(range(2**32), 5)
-            models, penalty = fit_group(vectors, known, fitting, reserved, seed, member_seeds)
+            if hybrid_device:
+                hybrid_start = time.perf_counter()
+                models, penalty, hybrid_fit = fit_hybrid_group(vectors, known, fitting, reserved, seed,
+                                                                member_seeds, hybrid_device)
+                hybrid_fit_seconds = time.perf_counter() - hybrid_start
+            else:
+                models, penalty = fit_group(vectors, known, fitting, reserved, seed, member_seeds)
             calibration_predictions, _ = predict_group(models, vectors, reserved)
             radius = interval_radius(calibration_predictions, [known[identifier] for identifier in reserved])
             candidate_sequences = run.candidates
@@ -151,6 +168,9 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                               'fitting_ids': fitting, 'interval_radius': radius}
             if reactive_calibration:
                 round_settings['calibration_ids'] = reserved
+            if hybrid_device:
+                round_settings['hybrid_fit'] = hybrid_fit
+                round_settings['hybrid_fit_seconds'] = hybrid_fit_seconds
             run.record_settings(round_settings)
             count = min(budget['batch_size'], run.remaining, len(candidates))
             batch_budget = run.remaining

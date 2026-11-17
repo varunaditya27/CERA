@@ -101,6 +101,7 @@ def main():
                     setup.get('apply_last_rejected', False) is (method == 'no_retention') and
                     setup.get('rollback_monitor', False) is (method == 'rollback') and
                     setup.get('reactive_calibration', False) is (method == 'reactive') and
+                    setup.get('hybrid_device') is None and
                     setup['cache_sha256'] == manifest['cache_sha256'], 'Study mode mismatch')
             validate_recorded_sources(setup['source_sha256'], manifest['code_sha256'])
             if method == 'reactive':
