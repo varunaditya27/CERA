@@ -1,12 +1,12 @@
 # Draft multi-protein comparison protocol
 
-Status: **proposal for review**, not a frozen protocol or completed evaluation. No IRED or hydrophobic-core search outcome has been used to select these settings. Dataset provenance work and score-file matching were performed earlier, so these datasets must not be described as completely unseen to the project.
+Status: **approved for execution on 17 November 2026**, after the documented pre-study review corrections; this is not a completed evaluation. No IRED or hydrophobic-core search outcome has been used to select these settings. Dataset provenance work and score-file matching were performed earlier, so these datasets must not be described as completely unseen to the project.
 
 ## Question
 
 On the available measured variants, how do the experimental warning-and-repair search methods compare with fixed reward and simpler alternatives when each method starts with the same observations and has the same maximum measurement budget? A run is a retrospective search through a finite set of variants with already recorded measurements. It is not a laboratory experiment or an official FLIP2 benchmark evaluation.
 
-## Proposed scope
+## Approved scope
 
 - Analyze IRED, Hydro P06241, Hydro P01053 and Hydro P0A9X9 as four separate protein groups. The original Hydro score-derived split is not used to choose initial observations. IRED represents a subset of screened variants; the exact filtering is unresolved.
 - Use ten matched seeds, 51–60, for every protein and method. For each seed sample 100 initial variants from sorted identifiers of all eligible sequences, ignoring benchmark split and validation flags. Permit at most four substitutions relative to the appropriate reference and at most 100 additional measurements in batches of at most ten. Each method must receive the same initial variants and scores for that seed and protein.

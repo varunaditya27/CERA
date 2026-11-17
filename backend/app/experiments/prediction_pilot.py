@@ -15,7 +15,7 @@ from app.experiments.local_search import propose_local
 from app.experiments.prediction_intervals import interval_radius
 from app.experiments.predictor_group import fit_group, predict_group, predict_members
 from app.experiments.range_report import summarize_ranges
-from app.provenance.sources import source_hashes
+from app.provenance.sources import PILOT_SOURCE_NAMES, source_hashes
 from app.rewards.repair_coordinator import handle_warnings
 from app.rewards.disagreement_targets import disagreement_targets
 from app.rewards.reward_distance import known_distances, normalized_distances
@@ -90,18 +90,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                              'spread_ddof': 0, 'nominal_coverage': 0.9,
                              'interval': 'absolute_residual_order_statistic',
                              'cache_sha256': cache_hash,
-                             'source_sha256': source_hashes(('amylase.py', 'amylase_representations.py', 'experiment.py',
-                                                            'predictor_group.py', 'prediction_intervals.py',
-                                                            'prediction_pilot.py', 'range_report.py',
-                                                            'representation_cache.py', 'representations.py', 'selection.py',
-                                                            'warning_checks.py', 'reward_distance.py',
-                                                            'reward_selection.py', 'reward_spec.py',
-                                                            'repair_coordinator.py', 'repair_engine.py',
-                                                            'repair_menu.py', 'repair_verification.py',
-                                                            'repair_advisor.py', 'gemini_client.py', 'ired.py',
-                                                            'ired_representations.py', 'sources.py', 'acquisition.py',
-                                                            'local_search.py', 'flip2.py', 'hydro.py',
-                                                            'hydro_representations.py', 'disagreement_targets.py', 'registry.py')),
+                             'source_sha256': source_hashes(PILOT_SOURCE_NAMES),
                              'scikit_learn': importlib.metadata.version('scikit-learn'),
                              'numpy': importlib.metadata.version('numpy'),
                              'scipy': importlib.metadata.version('scipy')})

@@ -1,6 +1,6 @@
 # Multi-protein runbook for review
 
-This is a proposed execution plan, not permission to run it or a frozen study. It implements the [comparison draft](multiprotein_comparison_draft.md) with the full nine-method scope selected by Varun. No output paths below existed when checked on 17 November 2026. The IRED and three Hydro representation cache fingerprints matched their recorded pins in that check. Recheck paths, free space, model availability, account quota and pricing immediately before execution.
+Varun approved this execution plan on 17 November 2026, subject to the documented pre-study review corrections. It implements the [comparison draft](multiprotein_comparison_draft.md) with the full nine-method scope selected by Varun. No output paths below existed when checked on 17 November 2026. The IRED and three Hydro representation cache fingerprints matched their recorded pins in that check. Recheck paths, free space, model availability, account quota and pricing immediately before execution.
 
 Run the following as four separate commands from the repository root, using the same checked-out code, specification and Python environment throughout. They create new directories and do not evaluate the full pool:
 

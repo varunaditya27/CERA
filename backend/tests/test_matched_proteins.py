@@ -153,6 +153,25 @@ class MatchedProteinTests(unittest.TestCase):
                     evaluate_main()
                 greedy_path.write_bytes(original_blob)
                 (greedy_path.parent / 'status.json').write_text(original_status)
+                altered_sources = [json.loads(line) for line in gzip.decompress(original_blob).splitlines()]
+                setup = next(event['settings'] for event in altered_sources if event['event'] == 'method')
+                setup['source_sha256'] = {}
+                raw_sources = b''.join((json.dumps(event) + '\n').encode() for event in altered_sources)
+                blob_sources = gzip.compress(raw_sources, mtime=0)
+                greedy_path.write_bytes(blob_sources)
+                changed_status = json.loads(original_status)
+                changed_status.update(gzip_sha256=hashlib.sha256(blob_sources).hexdigest(),
+                                      uncompressed_sha256=hashlib.sha256(raw_sources).hexdigest())
+                (greedy_path.parent / 'status.json').write_text(json.dumps(changed_status))
+                with patch.object(sys, 'argv', ['evaluate_matched_proteins.py', str(root / 'bad_source.json'),
+                                               str(all_output), '--specification', str(spec), '--allow-partial-development']), \
+                     self.assertRaisesRegex(ValueError, 'source fingerprints'):
+                    evaluate_main()
+                with patch.object(sys, 'argv', ['audit_matched_proteins.py', str(all_output), '--allow-partial-development']), \
+                     self.assertRaisesRegex(ValueError, 'source fingerprints'):
+                    audit_main()
+                greedy_path.write_bytes(original_blob)
+                (greedy_path.parent / 'status.json').write_text(original_status)
                 altered_path = all_output / 'seed_07/greedy/run.jsonl.gz'
                 altered = [json.loads(line) for line in gzip.decompress(altered_path.read_bytes()).splitlines()]
                 selection = next(e for e in altered if e['event'] == 'selection')

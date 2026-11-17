@@ -2,6 +2,7 @@
 import gzip
 import hashlib
 import json
+import math
 import random
 from collections import Counter
 from pathlib import Path
@@ -9,10 +10,40 @@ from pathlib import Path
 from app.analysis.recovery import summarize_recovery
 from app.experiments.evaluation import evaluate
 from app.experiments.repeated_runs import METHODS
+from app.provenance.sources import validate_recorded_sources
 
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
+
+
+
+def verified_record(path, status):
+    blob = Path(path).read_bytes()
+    if digest(blob) != status['gzip_sha256']:
+        raise ValueError('Compressed run fingerprint mismatch')
+    raw = gzip.decompress(blob)
+    if digest(raw) != status['uncompressed_sha256']:
+        raise ValueError('Uncompressed run fingerprint mismatch')
+    return raw
+
+
+def repair_costs(actions):
+    costs = []
+    for action in actions:
+        attempts = action.get('attempts', [])
+        for attempt in attempts:
+            cost, accepted = attempt['cost'], attempt['verification']['accepted']
+            if (isinstance(cost, bool) or not isinstance(cost, (int, float)) or not math.isfinite(cost)
+                    or cost < 0 or not isinstance(accepted, bool)):
+                raise ValueError('Invalid recorded repair cost or acceptance')
+            costs.append({'warning': action['warning'], 'term': attempt['term'],
+                          'proposed_weight': attempt['proposed_weight'], 'cost': cost, 'accepted': accepted})
+        accepted = [attempt['verification']['accepted'] for attempt in attempts]
+        if ((action['status'] == 'accepted' and (not accepted or not accepted[-1] or any(accepted[:-1])))
+                or (action['status'] != 'accepted' and any(accepted))):
+            raise ValueError('Recorded repair acceptance mismatch')
+    return costs
 
 
 def terminal_statuses(root, manifest):
@@ -37,11 +68,6 @@ def terminal_statuses(root, manifest):
 def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, specification):
     if manifest['data_sha256'] != data_hash or manifest['reference_sha256'] != reference_hash:
         raise ValueError('Dataset fingerprints do not match manifest')
-    source_paths = [(Path(path).name, value) for path, value in manifest['code_sha256'].items()
-                    if path.startswith('backend/app/') and Path(path).name != '__init__.py']
-    source_hashes = dict(source_paths)
-    if len(source_hashes) != len(source_paths):
-        raise ValueError('Ambiguous source fingerprints')
     summaries, curves = [], []
     for seed in manifest['seeds']:
         expected_ids = random.Random(seed).sample(sorted(scores), 100)
@@ -54,10 +80,7 @@ def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, 
                 summaries.append({'seed': seed, 'method': method, 'status': status['status'],
                                   'error_type': status.get('error_type')})
                 continue
-            blob = (Path(root) / f'seed_{seed:02d}' / method / 'run.jsonl.gz').read_bytes()
-            raw = gzip.decompress(blob)
-            if digest(blob) != status['gzip_sha256'] or digest(raw) != status['uncompressed_sha256']:
-                raise ValueError('Run fingerprint mismatch')
+            raw = verified_record(Path(root) / f'seed_{seed:02d}' / method / 'run.jsonl.gz', status)
             events = [json.loads(line) for line in raw.splitlines()]
             start = events[0]
             if ((start['seed'], start['initial_count'], start['budget'], start['batch_size'], start['max_mutations'],
@@ -70,8 +93,7 @@ def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, 
                 if settings['method'] != 'random' or settings['selection_seed'] != 1000 + seed:
                     raise ValueError('Random method settings mismatch')
             else:
-                if any(source_hashes.get(name) != value for name, value in settings['source_sha256'].items()):
-                    raise ValueError('Recorded source fingerprints mismatch')
+                validate_recorded_sources(settings['source_sha256'], manifest['code_sha256'])
                 expected_method = ('esm_bootstrap_ridge_' + method if method in ('ucb', 'ei', 'genetic', 'adalead') else
                                    'esm_bootstrap_ridge_reward' if method in ('fixed', 'repair', 'gemini_repair') else
                                    'esm_bootstrap_ridge_greedy')
@@ -114,6 +136,7 @@ def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, 
                        'recovery': recovery, 'warning_counts': dict(warnings),
                        'repair_actions': len(actions), 'repair_attempts': sum(len(a.get('attempts', [])) for a in actions),
                        'repairs_accepted': sum(a['status'] == 'accepted' for a in actions),
+                       'repair_costs': repair_costs(actions),
                        'advice_gemini': sum(item['source'] == 'gemini' for item in advice),
                        'advice_fallback': sum(item['source'] == 'fallback' for item in advice),
                        'advice_request_attempts': sum(item['status'] != 'invalid_configuration' for item in attempts),

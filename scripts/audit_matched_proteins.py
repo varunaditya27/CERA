@@ -2,7 +2,6 @@
 """Reconstruct selections and repair replays for terminal matched protein runs."""
 import argparse
 import copy
-import gzip
 import itertools
 import json
 import math
@@ -14,11 +13,63 @@ import numpy as np
 from scipy.spatial.distance import cdist
 from scipy.stats import norm
 
-from app.analysis.multiprotein_evaluation import digest, terminal_statuses
+from app.analysis.multiprotein_evaluation import terminal_statuses, verified_record
+from app.analysis.study_protocol import validate_manifests
 from app.datasets.registry import dataset_source
 from app.features import amylase_representations, hydro_representations, ired_representations
+from app.provenance.sources import validate_recorded_sources
 from audit_development_repairs import check_targets
 from audit_repeated_matched import check_local, require, select_reward, signature
+
+
+
+def check_repair_cost(spec, warning, attempt):
+    terms = {'support_shift': 'distance_penalty', 'coverage': 'uncertainty_penalty',
+             'disagreement': 'uncertainty_penalty', 'diversity': 'diversity_bonus'}
+    require(warning in terms and attempt['term'] == terms[warning], 'Repair term mismatch')
+    term = spec['terms'][attempt['term']]
+    old, (low, high) = term['weight'], term['allowed_range']
+    weight, cost = attempt['proposed_weight'], attempt['cost']
+    require(isinstance(weight, (int, float)) and not isinstance(weight, bool) and math.isfinite(weight)
+            and isinstance(cost, (int, float)) and not isinstance(cost, bool) and math.isfinite(cost)
+            and any(weight == min(high, old + step) and weight > old for step in (0.25, 0.5, 1.0)),
+            'Repair proposal outside allowed menu')
+    require(math.isclose(cost, (weight - old) / (high - low) + 0.05, rel_tol=1e-12, abs_tol=1e-12),
+            'Repair cost mismatch')
+
+
+
+def check_repair_order(spec, method, action):
+    terms = {'support_shift': 'distance_penalty', 'coverage': 'uncertainty_penalty',
+             'disagreement': 'uncertainty_penalty', 'diversity': 'diversity_bonus'}
+    term = terms[action['warning']]
+    row = spec['terms'][term]
+    old, (low, high) = row['weight'], row['allowed_range']
+    values = []
+    for step in (0.25, 0.5, 1.0):
+        value = min(high, old + step)
+        if value > old and value not in values:
+            values.append(value)
+    menu = [{'option': i, 'term': term, 'weight': value, 'cost': (value - old) / (high - low) + 0.05}
+            for i, value in enumerate(values)]
+    advice = action.get('advice')
+    if method == 'gemini_repair' and menu:
+        require(isinstance(advice, dict) and advice['source'] in ('gemini', 'fallback')
+                and advice['options'] == menu and isinstance(advice['option'], int)
+                and not isinstance(advice['option'], bool) and 0 <= advice['option'] < len(menu)
+                and (advice['source'] != 'fallback' or advice['option'] == 0),
+                'Invalid recorded repair advice')
+        index = advice['option']
+        menu = [menu[index]] + menu[:index] + menu[index + 1:]
+    else:
+        require(advice is None, 'Unexpected repair advice')
+    attempts = action.get('attempts', [])
+    require(len(attempts) <= len(menu), 'Too many repair attempts')
+    for attempt, option in zip(attempts, menu):
+        require(attempt['term'] == option['term'] and attempt['proposed_weight'] == option['weight'],
+                'Repair attempt order mismatch')
+    if action['status'] == 'retained':
+        require(len(attempts) == len(menu), 'Incomplete repair menu')
 
 
 def representations(dataset):
@@ -41,10 +92,7 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors)
             if status['status'] != 'completed':
                 counts[status['status']] += 1
                 continue
-            blob = (root / f'seed_{seed:02d}' / method / 'run.jsonl.gz').read_bytes()
-            raw = gzip.decompress(blob)
-            require(digest(blob) == status['gzip_sha256'] and digest(raw) == status['uncompressed_sha256'],
-                    'Run fingerprint mismatch')
+            raw = verified_record(root / f'seed_{seed:02d}' / method / 'run.jsonl.gz', status)
             events = [json.loads(line) for line in raw.splitlines()]
             start = events[0]
             require(start['initial'] == expected_initial and start.get('initial_pool') == 'eligible'
@@ -54,6 +102,7 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors)
             setup = next(e['settings'] for e in events if e['event'] == 'method')
             require(setup['dataset'] == manifest['dataset'], 'Dataset mismatch')
             if method != 'random':
+                validate_recorded_sources(setup['source_sha256'], manifest['code_sha256'])
                 require(setup['role_seed'] == 2000 + seed and setup['member_seed'] == 3000 + seed
                         and setup['cache_sha256'] == manifest['representation_cache_sha256']
                         and setup['reserved_ids'] == sorted(random.Random(2000 + seed).sample(sorted(expected_initial), 20)),
@@ -81,7 +130,10 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors)
                     if 'repair_actions' in settings:
                         require(pending is None and ranges is not None, 'Repair chronology mismatch')
                         for action in settings['repair_actions']:
+                            if action['status'] in ('accepted', 'retained'):
+                                check_repair_order(spec, method, action)
                             for attempt in action.get('attempts', []):
+                                check_repair_cost(spec, action['warning'], attempt)
                                 revised = copy.deepcopy(spec)
                                 revised['terms'][attempt['term']]['weight'] = attempt['proposed_weight']
                                 replay = select_reward(revised, sorted(ranges), sequences, ranges, distance, len(ids))
@@ -101,8 +153,12 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors)
                                 counts['repair_replays'] += 1
                             if action['status'] == 'accepted':
                                 require(action['attempts'] and action['attempts'][-1]['verification']['accepted']
+                                        and not any(item['verification']['accepted'] for item in action['attempts'][:-1])
                                         and action['specification'] == revised, 'Accepted repair mismatch')
                                 spec = action['specification']
+                            elif action['status'] == 'retained':
+                                require(action['specification'] == spec and not any(
+                                    item['verification']['accepted'] for item in action['attempts']), 'Retained repair mismatch')
                 elif event['event'] == 'warning' and event['type'] == 'disagreement':
                     require(pending is None, 'Warning chronology mismatch')
                     warning = event
@@ -209,12 +265,7 @@ def main():
     for root in args.roots:
         manifest = json.loads((root / 'manifest.json').read_text())
         groups.append((root, manifest, terminal_statuses(root, manifest)))
-    datasets = {manifest['dataset'] for _, manifest, _ in groups}
-    require(len(datasets) == len(groups), 'Duplicate protein group')
-    expected = {'ired', 'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'}
-    require(args.allow_partial_development or datasets == expected, 'Full audit requires all four protein groups')
-    signature = lambda m: (m['seeds'], m['methods'], m['targeted_disagreement'], m['direct_diversity'], m['specification_sha256'])
-    require(all(signature(m) == signature(groups[0][1]) for _, m, _ in groups[1:]), 'Protein comparison settings differ')
+    validate_manifests([manifest for _, manifest, _ in groups], args.allow_partial_development)
     reports = []
     for root, manifest, statuses in groups:
         data, reference_path, loader = dataset_source(manifest['dataset'])
