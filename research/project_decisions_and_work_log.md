@@ -597,3 +597,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: integrated project status
 
 - Added an [integrated report](project_status_and_results.md) connecting the implemented pipeline, datasets, main results, verification and unfinished work. Checked 95 repository Markdown documents for local-link resolution with no unresolved relative links; this mechanical check is not a full scientific review of each historical note.
+
+### 2026-11-17: local GPU verification
+
+- Re-ran the pinned ESM-2 representation check on the local NVIDIA GPU with the cached model and no network access. Two finite 320-value vectors were produced; the same full-length sequence differed by at most 6.56e-7 when embedded alone versus in a padded batch. The loader reported unused language-model-head weights, as documented in the original representation check. No larger model or new protein-performance benchmark was run.
