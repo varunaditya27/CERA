@@ -499,6 +499,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - All ten Amylase runs completed; the independent audit checked 38 selections and 55 repair replays, including full menus and rejected-proposal application. Both policies stopped after failed repairs in all five pairs. The alternative applied ten rejected proposals; final best scores and measurement counts matched per pair, although three pairs had differing selection batches. [Findings](retention_ablation_findings.md) distinguish immediate retention from later rollback and avoid claiming equivalence.
 
+### 2026-11-17: controlled coverage-warning simulation implementation
+
+- Defined a [synthetic coverage simulation](coverage_warning_simulation_protocol.md) with known nominal, moderate and severe coverage probabilities and independent 30-observation windows. Added a reproducible simulator and separate audit that reconstructs draws without calling the warning and checks probabilities with SciPy's binomial distribution. Tests cover determinism, zero and unavailable denominators, analytical probabilities and tampered reports; all 129 backend tests passed. This controlled mathematical setting is not biological warning validation, and no protein data or threshold tuning is involved.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
