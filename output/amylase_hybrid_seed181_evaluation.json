@@ -1,0 +1,26 @@
+{
+  "model_sha256": "747968886935e3890fa0d4d9c95d1962a024cf35a4c55ac19672cd1e6a17e737",
+  "data_sha256": "d04c2fcb7421ffb6ac8b776ed938f7a97c81f8de57f71257d34d9d3722435297",
+  "reference_sha256": "d809b63aea6e67cc9385e19cde5324430fed57e0643a0090cf4990922879d868",
+  "cache_sha256": "d1092467446bb7cf48d6ae53d51207fb8acc89fa0d60bf59c31a831c6ecd73a3",
+  "evaluation_ids_sha256": "03ba1aaaeb07ce966abb8d6754471f8276a283ed727500a4765e691db60fdc0d",
+  "fitting_count": 100,
+  "range_setting_count": 20,
+  "ridge_penalty": 0.1,
+  "mixed": {
+    "count": 3155,
+    "mean_absolute_error": 0.049950655240499325,
+    "root_mean_squared_error": 0.05595778421031488,
+    "covered": 3018,
+    "coverage": 0.9565768621236133,
+    "range_width": 0.1929745914577963
+  },
+  "ridge": {
+    "count": 3155,
+    "mean_absolute_error": 0.050854414529034025,
+    "root_mean_squared_error": 0.05630578992529793,
+    "covered": 3032,
+    "coverage": 0.9610142630744849,
+    "range_width": 0.19393282028016834
+  }
+}
