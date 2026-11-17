@@ -613,3 +613,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: later rollback development results
 
 - Ten matched Amylase runs completed and passed the [audit](../output/amylase_later_rollback_161_165_audit.json), which checked 72 selections and 42 repair replays. Of two accepted changes in the monitored arm, one had only 20 later measurements and one had 28/30 covered and was retained. No real rollback occurred; the [findings](later_rollback_findings.md) explicitly mark its effect as unestablished. All five pairs had identical selected batches and outcomes.
+
+### 2026-11-17: reactive calibration protocol
+
+- Defined an opt-in [Amylase development policy](reactive_calibration_protocol.md) that replaces the 20 range-setting examples with the most recently revealed variants after a coverage warning and excludes them from the next model fit. Adaptive selection prevents a standard coverage guarantee. The protocol keeps the established studies unchanged and fixes a five-start comparison before running it.
