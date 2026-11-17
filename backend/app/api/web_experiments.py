@@ -2,6 +2,7 @@
 import ipaddress
 import logging
 import re
+from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -34,11 +35,12 @@ def local_only(request):
         raise HTTPException(status_code=403, detail='Experiments are available only to local clients.') from error
 
 
-@router.post('/api/experiments/amylase', status_code=201)
-def create_experiment(body: ExperimentRequest, request: Request):
+@router.post('/api/experiments/{dataset}', status_code=201)
+def create_experiment(dataset: Literal['amylase', 'ired', 'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'],
+                      body: ExperimentRequest, request: Request):
     local_only(request)
     try:
-        return run_experiment(body.seed, body.repair, body.gemini)
+        return run_experiment(body.seed, body.repair, body.gemini, dataset)
     except AdvisorConfigurationError as error:
         raise HTTPException(status_code=503, detail='Gemini configuration is unavailable.') from error
     except RunBusy as error:
@@ -48,6 +50,7 @@ def create_experiment(body: ExperimentRequest, request: Request):
         raise HTTPException(status_code=500, detail='Experiment failed; any partial record was retained.') from error
 
 
+@router.get('/api/experiments')
 @router.get('/api/experiments/amylase')
 def recent_experiments(request: Request):
     local_only(request)

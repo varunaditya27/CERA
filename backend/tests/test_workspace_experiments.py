@@ -19,6 +19,7 @@ class WorkspaceExperimentTest(unittest.TestCase):
             response = client.post('/api/experiments/amylase', json={'seed': 3, 'repair': False})
             self.assertEqual(response.status_code, 201, response.text)
             result = response.json()
+            self.assertEqual(result['dataset'], 'amylase')
             self.assertEqual(result['new_measurements'], 100)
             self.assertEqual(result['stop_reason'], 'budget_exhausted')
             self.assertNotIn('pool_optimum', result)
@@ -31,6 +32,7 @@ class WorkspaceExperimentTest(unittest.TestCase):
             self.assertTrue((Path(directory) / result['id'] / 'run.jsonl').is_file())
             self.assertEqual(client.get('/api/experiments/amylase/not-an-id').status_code, 404)
             self.assertEqual(client.post('/api/experiments/amylase', json={'seed': -1}).status_code, 422)
+            self.assertEqual(client.post('/api/experiments/unknown', json={'seed': 3}).status_code, 422)
             self.assertEqual(client.post('/api/experiments/amylase', json={'seed': 3, 'repair': 'yes'}).status_code, 422)
             self.assertEqual(client.post('/api/experiments/amylase', json={'seed': 3, 'gemini': True}).status_code, 422)
             remote = TestClient(app, client=('192.0.2.1', 50000))
@@ -79,3 +81,14 @@ class WorkspaceExperimentTest(unittest.TestCase):
             self.assertEqual(result['provider_usage_reports'], result['provider_attempts'])
             self.assertEqual(result['reported_total_tokens'], 10 * result['provider_usage_reports'])
             self.assertEqual(result['provider_fallbacks'], 0)
+
+    def test_other_proteins_use_their_own_sources(self):
+        with tempfile.TemporaryDirectory() as directory, patch.object(experiments, 'RUNS', Path(directory)):
+            client = TestClient(app, client=('127.0.0.1', 50000))
+            for dataset in ('ired', 'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'):
+                with self.subTest(dataset=dataset):
+                    response = client.post('/api/experiments/' + dataset, json={'seed': 3, 'repair': False})
+                    self.assertEqual(response.status_code, 201, response.text)
+                    self.assertEqual(response.json()['dataset'], dataset)
+                    self.assertEqual(response.json()['new_measurements'], 100)
+                    self.assertEqual(response.json()['range_count'], 100)

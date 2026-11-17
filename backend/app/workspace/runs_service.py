@@ -1,11 +1,12 @@
-"""Run one bounded local Amylase search and summarize revealed evidence."""
+"""Run a bounded local search and summarize revealed evidence."""
 import fcntl
 import hashlib
 import json
 import uuid
 from pathlib import Path
 
-from app.datasets.amylase import DATA, REFERENCE, ROOT, load_amylase
+from app.datasets.amylase import ROOT
+from app.datasets.registry import dataset_source
 from app.experiments.evaluation import evaluate
 
 RUNS = ROOT / 'output/web_runs'
@@ -16,7 +17,7 @@ class RunBusy(Exception):
     pass
 
 
-def run_experiment(seed, repair, gemini=False):
+def run_experiment(seed, repair, gemini=False, dataset='amylase'):
     from app.experiments.prediction_pilot import run_pilot
 
     RUNS.mkdir(parents=True, exist_ok=True)
@@ -35,9 +36,10 @@ def run_experiment(seed, repair, gemini=False):
         spec = json.loads(spec_bytes)
         run_pilot(directory, seed=seed, reward_spec=spec,
                   reward_origin={'source': 'specification_file', 'input_sha256': hashlib.sha256(spec_bytes).hexdigest()},
-                  repair=repair, repair_advisor=advisor, repair_model=model)
+                  repair=repair, repair_advisor=advisor, repair_model=model, dataset=dataset)
         events = [json.loads(line) for line in (directory / 'run.jsonl').read_text(encoding='utf-8').splitlines()]
-        _, scores, train, data_hash, ref_hash = load_amylase(DATA, REFERENCE, 4)
+        data, reference, loader = dataset_source(dataset)
+        _, scores, train, data_hash, ref_hash = loader(data, reference, spec['hard_constraints']['max_mutations'])
         evaluation = evaluate(events, scores, set(train), data_hash, ref_hash)
         final = evaluation['curve'][-1]
         warnings = {}
@@ -59,7 +61,7 @@ def run_experiment(seed, repair, gemini=False):
                             if 'totalTokenCount' in usage:
                                 provider_usage_reports += 1
                                 provider_tokens += usage['totalTokenCount']
-        result = {'id': run_id, 'seed': seed, 'repair': repair, 'gemini': gemini,
+        result = {'id': run_id, 'dataset': dataset, 'seed': seed, 'repair': repair, 'gemini': gemini,
                   'provider_attempts': provider_attempts, 'provider_fallbacks': provider_fallbacks,
                   'reported_total_tokens': provider_tokens if provider_usage_reports else None,
                   'provider_usage_reports': provider_usage_reports, 'new_measurements': final['new_measurements'],
