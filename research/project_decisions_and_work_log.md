@@ -625,3 +625,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: reactive calibration development results
 
 - Ten matched fixed-reward Amylase runs completed and passed an independent audit of 100 selections and six calibration updates. Whole-run range coverage was 424/500 for fixed calibration and 442/500 for reactive calibration; mean width rose from 0.1633 to 0.1736, and one reactive run ended with a lower best score while four tied. The [findings](reactive_calibration_findings.md) retain the trade-off and note that the policies selected different variants. A synthetic repair-enabled check also confirmed update timing and no update after an early stop. All 158 backend tests passed.
+
+### 2026-11-17: mixed predictor protocol
+
+- Identified that the synopsis specifies both ridge and neural-network members, while completed studies used five ridge members. Defined an opt-in [mixed-predictor protocol](hybrid_predictor_protocol.md) with three ridge and two GPU-capable neural members, an internal early-stopping subset separated before bootstrap, and the existing separate range-setting examples. This fills an implementation gap without changing historical comparisons or claiming improved performance.
