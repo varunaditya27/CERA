@@ -507,6 +507,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Simulated 1,000 independent 30-observation windows at each predeclared probability and independently audited all 3,000. The warning fired in 6 nominal 90% windows, 239 moderate 80% windows and 946 severe 60% windows. [Findings](coverage_warning_simulation_findings.md) report artificial-mixture precision, recall and F1 with their denominators, exact probabilities and the limits of applying independent synthetic observations to adaptive protein searches.
 
+### 2026-11-17: controlled unfamiliar-candidate simulation implementation
+
+- Defined a [synthetic support-warning protocol](support_warning_simulation_protocol.md) that separates a constructed near/far candidate condition from independently simulated prediction misses. Added a reproducible simulator and an audit that reconstructs distances and outcomes without calling the warning, checks exact binomial probabilities and rejects altered distances. The full 131-test backend suite passed. These one-dimensional synthetic cases are not biological distribution-shift validation; no new simulation output had been recorded at this point.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
