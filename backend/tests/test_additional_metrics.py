@@ -69,6 +69,25 @@ class AdditionalMetricsTests(unittest.TestCase):
         self.assertEqual(result['top_recall'], 4 / 101)
         self.assertIsNone(result['batches'][0]['prediction_score_spearman'])
 
+    def test_first_accepted_repair_and_later_window(self):
+        events, sequences, scores = fixture()
+        self.assertEqual(evaluate(events, sequences, scores)['post_first_repair']['status'], 'no_accepted_repair')
+        accepted = {'event': 'method', 'settings': {'repair_actions': [{'status': 'accepted'}]}}
+        events.insert(3, accepted)
+        events[4]['prediction_ranges'] = {'4': {'mean': 0., 'lower': 0., 'upper': 0.}}
+        self.assertEqual(evaluate(events, sequences, scores)['post_first_repair']['status'], 'insufficient_followup')
+        ids = [str(i) for i in range(4, 34)]
+        ranges = {identifier: {'mean': 0., 'lower': 0., 'upper': 0.} for identifier in ids}
+        for identifier in ids[:3]:
+            ranges[identifier] = {'mean': 1., 'lower': 1., 'upper': 1.}
+        events[4:] = [{'event': 'selection', 'ids': ids, 'prediction_ranges': ranges},
+                      {'event': 'reveal', 'measurements': {identifier: scores[identifier] for identifier in ids}}]
+        post = evaluate(events, sequences, scores)['post_first_repair']
+        self.assertEqual((post['status'], post['accepted_after_measurements'], post['later_measurements']),
+                         ('observed', 2, 30))
+        self.assertEqual(post['first_30_covered'], 27)
+        self.assertTrue(post['first_30_in_target_band'])
+
 
 if __name__ == '__main__':
     unittest.main()

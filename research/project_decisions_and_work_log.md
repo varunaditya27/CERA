@@ -459,6 +459,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Evaluated the saved four-protein and separate IRED low-change studies under the post-result definitions. A one-off independent calculation checked top-group counts and recall, cumulative regret and all selected-batch correlations and sequence differences for 450 runs and 3,646 batches. [Findings](additional_metrics_findings.md) show median recall alongside actual top-group sizes and retain unequal-budget, starting-observation and non-independence limitations. No new search or provider request was made.
 
+### 2026-11-17: after-acceptance coverage implementation
+
+- Extended the additional metric protocol and evaluator to identify the first accepted repair and inspect the first 30 later measurements when available. The analysis distinguishes no accepted repair, insufficient follow-up and an observed 30-measurement window; it does not treat the result as causal. Synthetic checks and all 119 backend tests passed. No new after-acceptance outcome had been calculated at this point.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

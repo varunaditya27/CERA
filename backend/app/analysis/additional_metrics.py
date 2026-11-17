@@ -20,6 +20,7 @@ def evaluate(events, sequences, scores):
     seen = set(initial)
     initial_top = len(seen & top)
     new_scores, batches, pending = [], [], None
+    accepted_after, later_coverage = None, []
     for event in events[1:]:
         if event['event'] == 'selection':
             if pending is not None:
@@ -50,18 +51,38 @@ def evaluate(events, sequences, scores):
                     correlation = float(spearmanr(predicted, observed).statistic)
                     if not math.isfinite(correlation):
                         raise ValueError('Unexpected undefined correlation')
+            if accepted_after is not None:
+                if ranges is None:
+                    raise ValueError('Missing post-repair prediction ranges')
+                for identifier in ids:
+                    lower, upper = ranges[identifier]['lower'], ranges[identifier]['upper']
+                    if not math.isfinite(lower) or not math.isfinite(upper) or lower > upper:
+                        raise ValueError('Invalid post-repair range')
+                    later_coverage.append(lower <= measurements[identifier] <= upper)
             batches.append({'batch': len(batches) + 1, 'count': len(ids),
                             'mean_pairwise_differences': sum(distances) / len(distances) if distances else None,
                             'prediction_score_spearman': correlation})
             new_scores.extend(measurements[i] for i in ids)
             seen.update(ids)
             pending = None
+        elif event['event'] == 'method' and 'repair_actions' in event['settings']:
+            if pending is not None:
+                raise ValueError('Repair recorded before reveal')
+            if accepted_after is None and any(action['status'] == 'accepted'
+                                              for action in event['settings']['repair_actions']):
+                accepted_after = len(new_scores)
     if pending is not None:
         raise ValueError('Incomplete selection')
     cumulative = math.fsum(optimum - value for value in new_scores)
     total_top = len(seen & top)
+    covered = sum(later_coverage[:30]) if len(later_coverage) >= 30 else None
+    post_repair = {'status': ('no_accepted_repair' if accepted_after is None else
+                              'observed' if covered is not None else 'insufficient_followup'),
+                   'accepted_after_measurements': accepted_after, 'later_measurements': len(later_coverage),
+                   'first_30_covered': covered, 'first_30_in_target_band': 26 <= covered <= 28 if covered is not None else None}
     return {'eligible_count': len(scores), 'top_cutoff': cutoff, 'top_count': len(top),
             'initial_top_found': initial_top, 'new_top_found': total_top - initial_top,
             'total_top_found': total_top, 'top_recall': total_top / len(top),
             'new_measurements': len(new_scores), 'cumulative_regret': cumulative,
-            'mean_new_regret': cumulative / len(new_scores) if new_scores else None, 'batches': batches}
+            'mean_new_regret': cumulative / len(new_scores) if new_scores else None,
+            'post_first_repair': post_repair, 'batches': batches}
