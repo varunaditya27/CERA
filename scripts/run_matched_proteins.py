@@ -12,6 +12,7 @@ from pathlib import Path
 from dotenv import dotenv_values
 
 from app.datasets import hydro
+from app.analysis.study_protocol import validate_low_change_pool
 from app.datasets.registry import dataset_source
 from app.experiments.repeated_runs import METHODS, run_one
 from app.features import amylase_representations, ired_representations
@@ -28,10 +29,13 @@ def main():
     parser.add_argument('--seeds', required=True, nargs='+', type=int)
     parser.add_argument('--methods', required=True, nargs='+', choices=METHODS)
     parser.add_argument('--specification', required=True, type=Path)
+    parser.add_argument('--initial-pool', choices=('eligible', 'train'), default='eligible')
     parser.add_argument('--targeted-disagreement', action='store_true')
     parser.add_argument('--direct-diversity', action='store_true')
     parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
+    if args.initial_pool == 'train' and args.dataset != 'ired':
+        raise ValueError('Train starting pool is supported only for IRED matched studies')
     if len(set(args.seeds)) != len(args.seeds) or len(set(args.methods)) != len(args.methods):
         raise ValueError('Seeds and methods must be unique')
     if (args.targeted_disagreement or args.direct_diversity) and not {'repair', 'gemini_repair'}.intersection(args.methods):
@@ -41,7 +45,11 @@ def main():
     validate_spec(spec)
     if spec['budget'] != {'rounds': 10, 'batch_size': 10} or spec['hard_constraints']['max_mutations'] != 4:
         raise ValueError('Matched methods currently require the shared 100-measurement budget and four-mutation limit')
-    data, reference, _ = dataset_source(args.dataset)
+    data, reference, loader = dataset_source(args.dataset)
+    if args.initial_pool == 'train':
+        sequences, _, train, _, _ = loader(data, reference, 4)
+        reference_sequence = ''.join(reference.read_text(encoding='utf-8').splitlines()[1:])
+        validate_low_change_pool(sequences, train, reference_sequence)
     settings = dotenv_values(ROOT / 'backend/.env') if 'gemini_repair' in args.methods else {}
     key = os.environ.get('GEMINI_API_KEY') or settings.get('GEMINI_API_KEY')
     model = os.environ.get('GEMINI_MODEL') or settings.get('GEMINI_MODEL')
@@ -57,7 +65,7 @@ def main():
             cache = hydro.ROOT / 'output/representations' / f"hydro_{args.dataset[6:]}_esm2_c731040.npz"
         cache_hash = digest(cache.read_bytes())
     paths = sorted((ROOT / 'backend/app').rglob('*.py')) + [Path(__file__).resolve(), ROOT / 'scripts/repeated_matched.py']
-    manifest = {'dataset': args.dataset, 'initial_pool': 'eligible', 'seeds': args.seeds, 'methods': args.methods,
+    manifest = {'dataset': args.dataset, 'initial_pool': args.initial_pool, 'seeds': args.seeds, 'methods': args.methods,
                 'targeted_disagreement': args.targeted_disagreement, 'direct_diversity': args.direct_diversity,
                 'specification_sha256': digest(spec_bytes), 'data_sha256': digest(data.read_bytes()),
                 'reference_sha256': digest(reference.read_bytes()), 'representation_cache_sha256': cache_hash,
@@ -97,7 +105,7 @@ def main():
             started = time.perf_counter()
             try:
                 run_one(path, seed, method, spec, advisor=advisor, model=model, dataset=args.dataset,
-                        initial_pool='eligible', targeted_disagreement=args.targeted_disagreement,
+                        initial_pool=args.initial_pool, targeted_disagreement=args.targeted_disagreement,
                         direct_diversity=args.direct_diversity)
                 raw = (path / 'run.jsonl').read_bytes()
                 with (path / 'run.jsonl.gz').open('xb') as file:

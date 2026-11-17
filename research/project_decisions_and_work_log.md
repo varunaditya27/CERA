@@ -431,6 +431,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Independently reconstructed all 4,408 ordered initial-pool identifiers using sequences and split metadata, then checked score-independent sampling for proposed seeds 61–70. Each proposed sample included 13–20 benchmark-validation-flagged variants, consistent with the draft inclusion policy. This was a read-only preflight; the loader read the source table but scores did not determine the samples.
 - Checked the pinned IRED cache with its existing verified loader, confirmed the previous reward specification fingerprint and recorded available storage as a point-in-time observation. Did not call Gemini or run the proposed study.
 
+### 2026-11-17: IRED low-change implementation
+
+- Following Varun's full authorization to proceed, added an IRED-only train-start mode to the matched runner and a separately validated study scope to the evaluator and audit. Both reconstruct the exact ordered starting pool; the evaluator reports selected mutation counts. The original four-protein scope still requires all-eligible starts. A synthetic nine-method run with a mocked provider passed evaluation and audit; changed starting-pool order was rejected. All 107 backend tests passed, and re-evaluating the previous 360-run study reproduced its report byte for byte. The [runbook](ired_low_change_runbook.md) records the planned commands and limitations. No new IRED study run was made during implementation.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

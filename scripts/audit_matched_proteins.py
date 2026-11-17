@@ -14,7 +14,7 @@ from scipy.spatial.distance import cdist
 from scipy.stats import norm
 
 from app.analysis.multiprotein_evaluation import terminal_statuses, verified_record
-from app.analysis.study_protocol import validate_manifests
+from app.analysis.study_protocol import validate_ired_low_change, validate_low_change_pool, validate_manifests
 from app.datasets.registry import dataset_source
 from app.features import amylase_representations, hydro_representations, ired_representations
 from app.provenance.sources import validate_recorded_sources
@@ -80,13 +80,16 @@ def representations(dataset):
     return hydro_representations.load_verified_representations(dataset.removeprefix('hydro-'))
 
 
-def audit_group(root, manifest, statuses, sequences, scores, reference, vectors):
+def audit_group(root, manifest, statuses, sequences, scores, reference, vectors, train_ids=None):
     counts = Counter()
     signatures = {i: signature(sequence, reference) for i, sequence in sequences.items()}
     local_checked = set()
     distance_checked = False
     for seed in manifest['seeds']:
-        expected_initial = {i: scores[i] for i in random.Random(seed).sample(sorted(sequences), 100)}
+        pool = sorted(sequences) if manifest['initial_pool'] == 'eligible' else train_ids
+        require(pool is not None and len(pool) >= 100 and len(pool) == len(set(pool))
+                and set(pool).issubset(sequences), 'Invalid initial pool')
+        expected_initial = {i: scores[i] for i in random.Random(seed).sample(pool, 100)}
         for method in manifest['methods']:
             status = statuses[(seed, method)]
             if status['status'] != 'completed':
@@ -95,7 +98,7 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors)
             raw = verified_record(root / f'seed_{seed:02d}' / method / 'run.jsonl.gz', status)
             events = [json.loads(line) for line in raw.splitlines()]
             start = events[0]
-            require(start['initial'] == expected_initial and start.get('initial_pool') == 'eligible'
+            require(start['initial'] == expected_initial and start.get('initial_pool') == manifest['initial_pool']
                     and (start['seed'], start['budget'], start['batch_size'], start['max_mutations']) == (seed, 100, 10, 4)
                     and (start['data_sha256'], start['reference_sha256']) == (manifest['data_sha256'], manifest['reference_sha256']),
                     'Initial observations or settings mismatch')
@@ -260,21 +263,31 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('roots', type=Path, nargs='+')
     parser.add_argument('--allow-partial-development', action='store_true', help='Allow a partial development audit')
+    parser.add_argument('--ired-low-change', action='store_true', help='Audit the separate IRED low-change study')
     args = parser.parse_args()
+    if args.ired_low_change and args.allow_partial_development:
+        raise ValueError('Study and partial development scopes cannot be combined')
     groups = []
     for root in args.roots:
         manifest = json.loads((root / 'manifest.json').read_text())
         groups.append((root, manifest, terminal_statuses(root, manifest)))
-    validate_manifests([manifest for _, manifest, _ in groups], args.allow_partial_development)
+    manifests = [manifest for _, manifest, _ in groups]
+    if args.ired_low_change:
+        validate_ired_low_change(manifests)
+    else:
+        validate_manifests(manifests, args.allow_partial_development)
     reports = []
     for root, manifest, statuses in groups:
         data, reference_path, loader = dataset_source(manifest['dataset'])
-        sequences, scores, _, data_hash, reference_hash = loader(data, reference_path, 4)
+        sequences, scores, train, data_hash, reference_hash = loader(data, reference_path, 4)
         require((data_hash, reference_hash) == (manifest['data_sha256'], manifest['reference_sha256']), 'Source fingerprint mismatch')
         reference = ''.join(reference_path.read_text().splitlines()[1:])
+        if args.ired_low_change:
+            validate_low_change_pool(sequences, train, reference)
         vectors = representations(manifest['dataset']) if any(m != 'random' for m in manifest['methods']) else {}
-        reports.append({'dataset': manifest['dataset'], **audit_group(root, manifest, statuses, sequences, scores, reference, vectors)})
-    print(json.dumps({'scope': 'development' if args.allow_partial_development else 'four_protein', 'groups': reports}, sort_keys=True))
+        reports.append({'dataset': manifest['dataset'], **audit_group(root, manifest, statuses, sequences, scores, reference, vectors, train)})
+    print(json.dumps({'scope': 'ired_low_change' if args.ired_low_change else
+                      'development' if args.allow_partial_development else 'four_protein', 'groups': reports}, sort_keys=True))
 
 
 if __name__ == '__main__':

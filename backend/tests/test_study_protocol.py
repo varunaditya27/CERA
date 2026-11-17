@@ -11,7 +11,8 @@ from unittest.mock import patch
 from contextlib import redirect_stdout
 
 from app.analysis.multiprotein_evaluation import repair_costs, verified_record
-from app.analysis.study_protocol import DATASETS, SPECIFICATION_SHA256, validate_manifests
+from app.analysis.study_protocol import (DATASETS, SPECIFICATION_SHA256, validate_ired_low_change,
+                                         validate_low_change_pool, validate_manifests)
 from app.experiments.repeated_runs import METHODS
 from app.llm.goal_compiler import DEFAULT_SPEC
 
@@ -29,6 +30,22 @@ def manifests():
 
 
 class StudyProtocolTests(unittest.TestCase):
+    def test_low_change_scope_and_pool(self):
+        manifest = copy.deepcopy(manifests()[0])
+        manifest.update(dataset='ired', initial_pool='train', seeds=list(range(61, 71)))
+        validate_ired_low_change([manifest])
+        with self.assertRaisesRegex(ValueError, 'eligible starting pools'):
+            validate_manifests([manifest], partial_development=True)
+        for key, value in (('dataset', 'hydro-P06241'), ('initial_pool', 'eligible'), ('seeds', [61])):
+            modified = dict(manifest, **{key: value})
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                validate_ired_low_change([modified])
+        sequences = {str(i): 'CAAAA' for i in range(100)}
+        validate_low_change_pool(sequences, list(sequences), 'AAAAA')
+        sequences['1'] = 'CCCAA'
+        with self.assertRaises(ValueError):
+            validate_low_change_pool(sequences, list(sequences), 'AAAAA')
+
     def test_full_scope_and_group_consistency(self):
         original = manifests()
         validate_manifests(original)

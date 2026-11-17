@@ -50,7 +50,9 @@ def terminal_statuses(root, manifest):
     seeds, methods = manifest['seeds'], manifest['methods']
     if (not seeds or not methods or len(set(seeds)) != len(seeds) or len(set(methods)) != len(methods)
             or any(not isinstance(seed, int) or isinstance(seed, bool) for seed in seeds)
-            or any(method not in METHODS for method in methods) or manifest['initial_pool'] != 'eligible'):
+            or any(method not in METHODS for method in methods)
+            or manifest['initial_pool'] not in ('eligible', 'train')
+            or (manifest['initial_pool'] == 'train' and manifest['dataset'] != 'ired')):
         raise ValueError('Invalid matched comparison manifest')
     statuses = {}
     for seed in seeds:
@@ -65,12 +67,16 @@ def terminal_statuses(root, manifest):
     return statuses
 
 
-def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, specification):
+def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, specification, train_ids=None,
+                   sequences=None, reference=None):
     if manifest['data_sha256'] != data_hash or manifest['reference_sha256'] != reference_hash:
         raise ValueError('Dataset fingerprints do not match manifest')
     summaries, curves = [], []
     for seed in manifest['seeds']:
-        expected_ids = random.Random(seed).sample(sorted(scores), 100)
+        pool = sorted(scores) if manifest['initial_pool'] == 'eligible' else train_ids
+        if pool is None or len(pool) < 100 or len(pool) != len(set(pool)) or not set(pool).issubset(scores):
+            raise ValueError('Invalid starting pool')
+        expected_ids = random.Random(seed).sample(pool, 100)
         expected_initial = {i: scores[i] for i in expected_ids}
         reserved = sorted(random.Random(2000 + seed).sample(sorted(expected_ids), 20))
         shared_settings = None
@@ -84,7 +90,7 @@ def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, 
             events = [json.loads(line) for line in raw.splitlines()]
             start = events[0]
             if ((start['seed'], start['initial_count'], start['budget'], start['batch_size'], start['max_mutations'],
-                 start.get('initial_pool')) != (seed, 100, 100, 10, 4, 'eligible') or start['initial'] != expected_initial):
+                 start.get('initial_pool')) != (seed, 100, 100, 10, 4, manifest['initial_pool']) or start['initial'] != expected_initial):
                 raise ValueError('Starting observations or settings mismatch')
             settings = next(event['settings'] for event in events if event['event'] == 'method')
             if settings['dataset'] != manifest['dataset']:
@@ -142,6 +148,12 @@ def evaluate_group(root, manifest, statuses, scores, data_hash, reference_hash, 
                        'advice_request_attempts': sum(item['status'] != 'invalid_configuration' for item in attempts),
                        'advice_reported_tokens': sum(item.get('usage', {}).get('totalTokenCount', 0) for item in attempts),
                        'elapsed_seconds': status.get('elapsed_seconds')}
+            if manifest['initial_pool'] == 'train':
+                if sequences is None or reference is None:
+                    raise ValueError('Missing sequences or reference for mutation counts')
+                selected = [identifier for event in events if event['event'] == 'selection' for identifier in event['ids']]
+                summary['selected_mutation_counts'] = dict(sorted(Counter(
+                    str(sum(a != b for a, b in zip(sequences[i], reference))) for i in selected).items()))
             summaries.append(summary)
             curves.extend({'seed': seed, 'method': method, **row} for row in result['curve'])
     by_run = {(row['seed'], row['method']): row for row in summaries}

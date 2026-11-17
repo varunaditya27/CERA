@@ -17,14 +17,62 @@ import numpy as np
 
 from app.features.representations import sequence_id
 from app.llm.goal_compiler import DEFAULT_SPEC
+from app.analysis.multiprotein_evaluation import evaluate_group, terminal_statuses
+from app.datasets.flip2 import load_flip2
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'scripts'))
 from run_matched_proteins import main
 from evaluate_matched_proteins import main as evaluate_main
-from audit_matched_proteins import main as audit_main
+from audit_matched_proteins import audit_group, main as audit_main
 
 
 class MatchedProteinTests(unittest.TestCase):
+    def test_low_change_start_and_independent_audit(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            data, reference, spec, output = (root / name for name in ('data.csv', 'reference.fasta', 'spec.json', 'runs'))
+            reference.write_text('>synthetic\nAAA\n')
+            sequences = ['A' + a + b for a, b in itertools.islice(itertools.product('ACDEFGHIKLMNPQRSTVWY', repeat=2), 120)]
+            with data.open('w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(['sequence', 'target', 'set', 'validation'])
+                writer.writerows((sequence, index / 100, 'train' if index < 110 else 'test',
+                                  'True' if index % 3 == 0 else 'False')
+                                 for index, sequence in enumerate(sequences))
+            spec.write_text(json.dumps(DEFAULT_SPEC))
+            vectors = {sequence_id(sequence): np.asarray([i / 120, (i % 19) / 19], dtype=np.float32)
+                       for i, sequence in enumerate(sequences)}
+            methods = ['random', 'greedy', 'fixed', 'repair', 'gemini_repair', 'ucb', 'ei', 'genetic', 'adalead']
+            argv = ['run_matched_proteins.py', str(output), '--dataset', 'ired', '--seeds', '7',
+                    '--methods', *methods, '--specification', str(spec), '--initial-pool', 'train',
+                    '--targeted-disagreement', '--direct-diversity']
+            with patch('app.datasets.ired.DATA', data), patch('app.datasets.ired.REFERENCE', reference), \
+                 patch('app.features.ired_representations.load_verified_representations', return_value=vectors), \
+                 patch.dict(os.environ, {'GEMINI_API_KEY': 'synthetic-key', 'GEMINI_MODEL': 'synthetic-model'}), \
+                 patch('run_matched_proteins.request_repair', return_value=('{}', {})), \
+                 patch.object(sys, 'argv', argv), redirect_stdout(io.StringIO()):
+                main()
+            manifest = json.loads((output / 'manifest.json').read_text())
+            self.assertEqual(manifest['initial_pool'], 'train')
+            seqs, scores, train, data_hash, ref_hash = load_flip2(data, reference, 4)
+            random_events = [json.loads(line) for line in gzip.decompress(
+                (output / 'seed_07/random/run.jsonl.gz').read_bytes()).splitlines()]
+            flagged = {sequence_id(sequence) for index, sequence in enumerate(sequences[:110]) if index % 3 == 0}
+            self.assertTrue(set(random_events[0]['initial']) & flagged)
+            statuses = terminal_statuses(output, manifest)
+            result = evaluate_group(output, manifest, statuses, scores, data_hash, ref_hash, DEFAULT_SPEC,
+                                    train, seqs, 'AAA')
+            self.assertEqual(len(result['summaries']), 9)
+            self.assertTrue(all(row['status'] == 'completed' for row in result['summaries']))
+            self.assertEqual(sum(result['summaries'][0]['selected_mutation_counts'].values()), 20)
+            self.assertEqual(audit_group(output, manifest, statuses, seqs, scores, 'AAA', vectors, train)['completed'], 9)
+            changed = list(reversed(train))
+            with self.assertRaisesRegex(ValueError, 'Starting observations'):
+                evaluate_group(output, manifest, statuses, scores, data_hash, ref_hash, DEFAULT_SPEC,
+                               changed, seqs, 'AAA')
+            with self.assertRaisesRegex(ValueError, 'Initial observations'):
+                audit_group(output, manifest, statuses, seqs, scores, 'AAA', vectors, changed)
+
     def test_synthetic_comparison_and_resume(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
