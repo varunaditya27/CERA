@@ -519,6 +519,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Defined [planted ranking cases](disagreement_warning_simulation_protocol.md) with identical orders, all 45 single rank-pair swaps and reversed orders. Added a reproducible simulator and independent audit that reconstructs the cases and computes rank correlations without the warning function. Tests cover planted cases, undefined precision, tied-rank arithmetic and altered member predictions; all 133 backend tests passed. The cases test response to constructed ranking differences, not prediction accuracy or biological failures; no separate simulation output was saved during implementation.
 
+### 2026-11-17: controlled ranking-disagreement findings
+
+- Simulated and independently audited 135 matched planted cases. None of the 45 single-model pair swaps triggered the group warning, while all 45 complete reversals did; none of the 45 identical-ranking cases triggered. [Findings](disagreement_warning_simulation_findings.md) report the artificial-mixture metrics and explain that ranking disagreement is not an independent truth about protein fitness or real-world detection accuracy.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
