@@ -580,3 +580,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: repair-stopping diagnosis protocol
 
 - Defined a [post-result diagnosis](hydro_repair_stopping_diagnosis_protocol.md) of the saved Hydro repair attempts, failed verification checks and whether the last failed actions occurred within a single batch. It is descriptive and cannot establish what would have happened after stopping or use Hydro outcomes to tune the policy.
+
+### 2026-11-17: repair-stopping diagnosis implementation
+
+- Added a reproducible reader for the 60 Hydro repair records. It validates compressed and uncompressed fingerprints and study scope, checks failure-counter chronology, distinguishes same-batch from cross-batch failures and reports overlapping failed checks separately. Synthetic tests cover reset, no-op actions, empty menus, overlapping failures and altered counters; all 146 backend tests passed. This reader describes existing evidence and does not change the policy.
