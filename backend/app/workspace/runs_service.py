@@ -3,6 +3,7 @@ import fcntl
 import hashlib
 import json
 import uuid
+from contextlib import ExitStack
 from pathlib import Path
 
 from app.datasets.amylase import ROOT
@@ -21,7 +22,7 @@ def run_experiment(seed, repair, gemini=False, dataset='amylase', goal_id=None, 
     from app.experiments.prediction_pilot import run_pilot
 
     RUNS.mkdir(parents=True, exist_ok=True)
-    with (RUNS / '.run.lock').open('a') as lock:
+    with (RUNS / '.run.lock').open('a') as lock, ExitStack() as active:
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError as error:
@@ -38,6 +39,10 @@ def run_experiment(seed, repair, gemini=False, dataset='amylase', goal_id=None, 
             advisor, model = local_repair_advisor()
         run_id = uuid.uuid4().hex
         directory = RUNS / run_id
+        markers = RUNS / '.active'
+        markers.mkdir(exist_ok=True)
+        marker = active.enter_context((markers / run_id).open('x'))
+        fcntl.flock(marker, fcntl.LOCK_EX | fcntl.LOCK_NB)
         if goal_id is None:
             spec_bytes = SPECIFICATION.read_bytes()
             spec = json.loads(spec_bytes)
@@ -92,19 +97,40 @@ def read_experiment(run_id):
     return json.loads(path.read_text(encoding='utf-8'))
 
 
+def unfinished_status(run_id):
+    marker = RUNS / '.active' / run_id
+    try:
+        with marker.open('r+') as file:
+            try:
+                fcntl.flock(file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                return 'running'
+            return 'incomplete'
+    except OSError:
+        return 'incomplete_or_running'
+
+
 def list_experiments():
     if not RUNS.is_dir():
         return []
     directories = sorted((path for path in RUNS.iterdir() if path.is_dir() and len(path.name) == 32
                           and all(c in '0123456789abcdef' for c in path.name)),
                          key=lambda path: path.stat().st_mtime_ns, reverse=True)
+    directory_names = {directory.name for directory in directories}
+    markers = RUNS / '.active'
     results = []
-    for directory in directories[:20]:
+    if markers.is_dir():
+        for marker in markers.iterdir():
+            name = marker.name
+            if (marker.is_file() and len(name) == 32 and all(c in '0123456789abcdef' for c in name)
+                    and name not in directory_names and unfinished_status(name) == 'running'):
+                results.append({'status': 'running', 'id': name})
+    for directory in directories[:max(0, 20 - len(results))]:
         try:
             result = read_experiment(directory.name)
             if result['id'] != directory.name:
                 raise ValueError('Run identity mismatch')
             results.append({'status': 'completed', **result})
         except (OSError, ValueError, KeyError, TypeError):
-            results.append({'status': 'incomplete_or_running', 'id': directory.name})
+            results.append({'status': unfinished_status(directory.name), 'id': directory.name})
     return results
