@@ -125,6 +125,8 @@ Replay requires the pinned representation cache and Git history containing commi
 
 The development reward validator and constrained batch selector are described in [reward foundation](research/reward_foundation.md). A separate [reward pilot](research/reward_pilot_findings.md) connects them to the amylase experiment. An experimental rule-based [repair pilot](research/repair_pilot_findings.md) records warning handling and can stop early after repeated failed changes.
 
+For Amylase development, `scripts/run_reward_pilot.py --repair --rollback-monitor` can monitor 30 later measurements after an accepted rule change and restore its immediate predecessor after poor observed coverage. This is an experimental rule, not a coverage guarantee; the [development findings](research/later_rollback_findings.md) explain its limits.
+
 Two experimental repair checks are opt-in on `scripts/run_reward_pilot.py`: `--targeted-disagreement` identifies selected candidates with large model-rank disagreement, and `--direct-diversity` checks whether a proposed replay resolves the batch diversity warning. Both require `--repair` or `--gemini-repair`; omitting them preserves the original checks. The [targeted disagreement protocol](research/targeted_disagreement_protocol.md), [direct diversity protocol](research/direct_diversity_protocol.md), and [work log](research/project_decisions_and_work_log.md) describe their development results and limitations.
 
 Recheck the two newer saved amylase comparisons from the repository root with:

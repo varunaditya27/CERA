@@ -609,3 +609,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: later rollback implementation
 
 - Added opt-in Amylase rollback monitoring after an accepted repair. It logs version lineage, observes 30 subsequent ranges, records superseded or incomplete windows, and restores the immediately previous specification when the existing coverage-warning threshold is missed. A separate reconstruction checks monitoring records, and normal matched-study evaluators reject the experimental setting. Synthetic tests cover the threshold, supersession, immutable versions, invalid evidence and an end-to-end rollback. All 155 backend tests passed; the earlier retention audit again checked ten runs, 38 selections and 55 repair replays. No real later-rollback comparison was run at this checkpoint.
+
+### 2026-11-17: later rollback development results
+
+- Ten matched Amylase runs completed and passed the [audit](../output/amylase_later_rollback_161_165_audit.json), which checked 72 selections and 42 repair replays. Of two accepted changes in the monitored arm, one had only 20 later measurements and one had 28/30 covered and was retained. No real rollback occurred; the [findings](later_rollback_findings.md) explicitly mark its effect as unestablished. All five pairs had identical selected batches and outcomes.

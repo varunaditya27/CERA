@@ -43,7 +43,7 @@ Verification in this checkout includes 150 passing backend tests, a production f
 ## Evidence that remains missing
 
 1. A test-only sequential shift study and independent biological validation of the warning types. The existing static split check and unrestricted searches answer different questions.
-2. A meaningful later-outcome test of reverting an already accepted reward; the existing retention comparison concerns rejected proposals. Some repair-removal and universal-penalty comparisons did not exercise their interventions.
+2. Stronger evidence about reverting an accepted reward: the [later-rollback development check](later_rollback_findings.md) implemented and tested the mechanism, but no real run triggered it. Some repair-removal and universal-penalty comparisons also did not exercise their interventions.
 3. An independent causal estimate of repair benefit or proof that the proposed after-repair coverage and regret targets were met. Some runs stop before enough later observations are available.
 4. A final presentation and, if warranted by the results, a paper draft. The web catalog is not a complete experiment-management interface.
 
