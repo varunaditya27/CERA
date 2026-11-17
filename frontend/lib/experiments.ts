@@ -1,6 +1,6 @@
 import 'server-only';
 
-export type Experiment = { id: string; seed: number; repair: boolean; new_measurements: number; best_observed: number; stop_reason: string; covered: number | null; range_count: number; mean_range_width: number | null; warnings: Record<string, number>; accepted_repairs: number };
+export type Experiment = { id: string; seed: number; repair: boolean; gemini?: boolean; provider_attempts?: number; provider_fallbacks?: number; reported_total_tokens?: number | null; provider_usage_reports?: number; new_measurements: number; best_observed: number; stop_reason: string; covered: number | null; range_count: number; mean_range_width: number | null; warnings: Record<string, number>; accepted_repairs: number };
 export type RecentExperiment = ({ status: 'completed' } & Experiment) | { status: 'incomplete_or_running'; id: string };
 export async function getRecentExperiments(): Promise<RecentExperiment[] | null> {
   try {

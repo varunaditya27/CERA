@@ -16,7 +16,7 @@ class RunBusy(Exception):
     pass
 
 
-def run_experiment(seed, repair):
+def run_experiment(seed, repair, gemini=False):
     from app.experiments.prediction_pilot import run_pilot
 
     RUNS.mkdir(parents=True, exist_ok=True)
@@ -25,26 +25,44 @@ def run_experiment(seed, repair):
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError as error:
             raise RunBusy from error
+        advisor = model = None
+        if gemini:
+            from app.llm.local_advisor import local_repair_advisor
+            advisor, model = local_repair_advisor()
         run_id = uuid.uuid4().hex
         directory = RUNS / run_id
         spec_bytes = SPECIFICATION.read_bytes()
         spec = json.loads(spec_bytes)
         run_pilot(directory, seed=seed, reward_spec=spec,
                   reward_origin={'source': 'specification_file', 'input_sha256': hashlib.sha256(spec_bytes).hexdigest()},
-                  repair=repair)
+                  repair=repair, repair_advisor=advisor, repair_model=model)
         events = [json.loads(line) for line in (directory / 'run.jsonl').read_text(encoding='utf-8').splitlines()]
         _, scores, train, data_hash, ref_hash = load_amylase(DATA, REFERENCE, 4)
         evaluation = evaluate(events, scores, set(train), data_hash, ref_hash)
         final = evaluation['curve'][-1]
         warnings = {}
-        accepted = 0
+        accepted = provider_attempts = provider_fallbacks = 0
+        provider_tokens = provider_usage_reports = 0
         for event in events:
             if event.get('event') == 'warning' and event.get('status') == 'triggered':
                 kind = event['type']
                 warnings[kind] = warnings.get(kind, 0) + 1
             if event.get('event') == 'method':
-                accepted += sum(action.get('status') == 'accepted' for action in event.get('settings', {}).get('repair_actions', []))
-        result = {'id': run_id, 'seed': seed, 'repair': repair, 'new_measurements': final['new_measurements'],
+                for action in event.get('settings', {}).get('repair_actions', []):
+                    accepted += action.get('status') == 'accepted'
+                    advice = action.get('advice')
+                    if advice is not None:
+                        provider_fallbacks += advice.get('source') == 'fallback'
+                        for attempt in advice.get('attempts', []):
+                            provider_attempts += 1
+                            usage = attempt.get('usage') or {}
+                            if 'totalTokenCount' in usage:
+                                provider_usage_reports += 1
+                                provider_tokens += usage['totalTokenCount']
+        result = {'id': run_id, 'seed': seed, 'repair': repair, 'gemini': gemini,
+                  'provider_attempts': provider_attempts, 'provider_fallbacks': provider_fallbacks,
+                  'reported_total_tokens': provider_tokens if provider_usage_reports else None,
+                  'provider_usage_reports': provider_usage_reports, 'new_measurements': final['new_measurements'],
                   'best_observed': final['best_observed'], 'stop_reason': evaluation['stop_reason'],
                   'covered': evaluation['covered'], 'range_count': evaluation['range_count'],
                   'mean_range_width': evaluation['mean_range_width'], 'warnings': warnings, 'accepted_repairs': accepted}

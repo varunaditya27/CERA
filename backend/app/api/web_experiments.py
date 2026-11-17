@@ -4,8 +4,9 @@ import logging
 import re
 
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from app.llm.local_advisor import AdvisorConfigurationError
 from app.workspace.runs_service import RunBusy, list_experiments, read_experiment, run_experiment
 
 router = APIRouter()
@@ -16,6 +17,13 @@ class ExperimentRequest(BaseModel):
     model_config = ConfigDict(extra='forbid', strict=True)
     seed: int = Field(ge=0, le=2147483647)
     repair: bool = False
+    gemini: bool = False
+
+    @model_validator(mode='after')
+    def check_mode(self):
+        if self.gemini and not self.repair:
+            raise ValueError('Gemini requires repair mode')
+        return self
 
 
 def local_only(request):
@@ -30,7 +38,9 @@ def local_only(request):
 def create_experiment(body: ExperimentRequest, request: Request):
     local_only(request)
     try:
-        return run_experiment(body.seed, body.repair)
+        return run_experiment(body.seed, body.repair, body.gemini)
+    except AdvisorConfigurationError as error:
+        raise HTTPException(status_code=503, detail='Gemini configuration is unavailable.') from error
     except RunBusy as error:
         raise HTTPException(status_code=409, detail='Another local experiment is running.') from error
     except Exception as error:

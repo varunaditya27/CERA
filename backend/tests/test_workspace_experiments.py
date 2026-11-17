@@ -32,5 +32,50 @@ class WorkspaceExperimentTest(unittest.TestCase):
             self.assertEqual(client.get('/api/experiments/amylase/not-an-id').status_code, 404)
             self.assertEqual(client.post('/api/experiments/amylase', json={'seed': -1}).status_code, 422)
             self.assertEqual(client.post('/api/experiments/amylase', json={'seed': 3, 'repair': 'yes'}).status_code, 422)
+            self.assertEqual(client.post('/api/experiments/amylase', json={'seed': 3, 'gemini': True}).status_code, 422)
             remote = TestClient(app, client=('192.0.2.1', 50000))
             self.assertEqual(remote.post('/api/experiments/amylase', json={'seed': 3}).status_code, 403)
+
+    def test_gemini_fallback_is_reported(self):
+        from app.llm.gemini_client import GeminiError
+        from app.llm.repair_advisor import advise_repair
+
+        def failed_request(*args):
+            raise GeminiError('network_error')
+
+        advisor = lambda kind, menu: advise_repair(failed_request, kind, menu)
+        with tempfile.TemporaryDirectory() as directory, patch.object(experiments, 'RUNS', Path(directory)):
+            with patch('app.llm.local_advisor.local_repair_advisor', return_value=(advisor, 'test-model')):
+                client = TestClient(app, client=('127.0.0.1', 50000))
+                response = client.post('/api/experiments/amylase', json={'seed': 17, 'repair': True, 'gemini': True})
+            self.assertEqual(response.status_code, 201, response.text)
+            result = response.json()
+            self.assertTrue(result['gemini'])
+            self.assertGreater(result['provider_attempts'], 0)
+            self.assertEqual(result['provider_attempts'], result['provider_fallbacks'])
+            self.assertIsNone(result['reported_total_tokens'])
+            self.assertEqual(result['provider_usage_reports'], 0)
+
+    def test_missing_gemini_configuration_does_not_start_run(self):
+        from app.llm.local_advisor import AdvisorConfigurationError
+        with tempfile.TemporaryDirectory() as directory, patch.object(experiments, 'RUNS', Path(directory)):
+            with patch('app.llm.local_advisor.local_repair_advisor', side_effect=AdvisorConfigurationError):
+                response = TestClient(app, client=('127.0.0.1', 50000)).post(
+                    '/api/experiments/amylase', json={'seed': 1, 'repair': True, 'gemini': True})
+            self.assertEqual(response.status_code, 503)
+            self.assertEqual(list(Path(directory).glob('*/run.jsonl')), [])
+
+    def test_reported_tokens_are_counted_only_when_present(self):
+        from app.llm.repair_advisor import advise_repair
+
+        advisor = lambda kind, menu: advise_repair(lambda warning, options: ('{"option":0}', {'totalTokenCount': 10}), kind, menu)
+        with tempfile.TemporaryDirectory() as directory, patch.object(experiments, 'RUNS', Path(directory)):
+            with patch('app.llm.local_advisor.local_repair_advisor', return_value=(advisor, 'test-model')):
+                response = TestClient(app, client=('127.0.0.1', 50000)).post(
+                    '/api/experiments/amylase', json={'seed': 17, 'repair': True, 'gemini': True})
+            self.assertEqual(response.status_code, 201, response.text)
+            result = response.json()
+            self.assertGreater(result['provider_attempts'], 0)
+            self.assertEqual(result['provider_usage_reports'], result['provider_attempts'])
+            self.assertEqual(result['reported_total_tokens'], 10 * result['provider_usage_reports'])
+            self.assertEqual(result['provider_fallbacks'], 0)
