@@ -576,3 +576,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: Hydro low-fitness-start study results
 
 - All 270 runs completed. The [findings](hydro_low_fitness_search_findings.md) report that each repair policy finished lower than fixed reward in 25 of 30 pairs and tied in five, while stopping after failed repairs in 27 of 30 runs and using 1,130 versus 3,000 measurements. A post-result comparison at the same measurement count tied in all 30 starts; it does not establish equivalence. The decision audit checked 2,191 selections and 363 repair replays; a separate outcome audit checked 21,747 measurements and score curves, and rejected an altered outcome. All 143 backend tests passed after the matched-budget summary was added. This exploratory study has score-derived starting-pool privilege and does not establish biological warning validity or a causal repair benefit.
+
+### 2026-11-17: repair-stopping diagnosis protocol
+
+- Defined a [post-result diagnosis](hydro_repair_stopping_diagnosis_protocol.md) of the saved Hydro repair attempts, failed verification checks and whether the last failed actions occurred within a single batch. It is descriptive and cannot establish what would have happened after stopping or use Hydro outcomes to tune the policy.
