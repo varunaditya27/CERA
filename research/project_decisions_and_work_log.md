@@ -471,6 +471,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Prepared the Amylase-only [evidence-gate protocol](verifier_ablation_protocol.md). The experimental mode applies an allowed menu proposal without requiring its evidence verdict, while still calculating that verdict for audit and preserving input, menu, sequence and budget guards. Normal matched-study analysis rejects records with the bypass enabled. Synthetic paired runs, rejected-guard cases and the full 121-test backend suite passed. The earlier stopping-comparison audit was rerun and reproduced its recorded output. No real evidence-gate comparison had run at this point.
 
+### 2026-11-17: development evidence-gate comparison results
+
+- All ten Amylase runs completed; the independent audit checked 69 selections and 60 repair replays. The bypass accepted 30 changes, 29 rejected by ordinary evidence checks, and used 490 new measurements versus 200 for the normal policy. It found a higher best score in one pair and the same best score in four. [Findings](verifier_ablation_findings.md) record individual stops, costs in measurements, and the limits of attributing differences to the gate.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
