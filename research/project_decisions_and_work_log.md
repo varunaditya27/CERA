@@ -375,6 +375,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - All 90 approved P01053 combinations reached a completed runner status. Records and statuses are preserved under `output/matched_eval_51_60_hydro-P01053/`. No search outcomes were evaluated at this stage; the four-protein audit and evaluation remain pending.
 
+### 2026-11-17: Hydro P0A9X9 matched runs completed
+
+- All 90 approved P0A9X9 combinations reached a completed runner status. Records and statuses are preserved under `output/matched_eval_51_60_hydro-P0A9X9/`. At this point all 360 runs have terminal completed statuses; the four-protein audit and evaluation were not yet complete.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
