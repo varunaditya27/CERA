@@ -23,6 +23,21 @@ def fixture():
 
 
 class RepairTests(unittest.TestCase):
+    def test_universal_penalty_changes_menu_but_keeps_warning_checks(self):
+        spec, candidates, calibration, earlier = fixture()
+        normal = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier)
+        universal = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier,
+                                  universal_penalty=True)
+        self.assertEqual(normal['attempts'][0]['term'], 'distance_penalty')
+        self.assertEqual(universal['attempts'][0]['term'], 'uncertainty_penalty')
+        self.assertTrue(universal['attempts'][0]['verification']['checks']['allowed_change_and_constraints'])
+        proposed = repair_candidates(spec, 'coverage')[0]['specification']
+        result = verify_repair(spec, proposed, 'diversity', candidates, 'AAAA', 1, ['a'], calibration, earlier,
+                               direct_diversity=True, universal_penalty=True)
+        self.assertTrue(result['checks']['allowed_change_and_constraints'])
+        self.assertIsNone(result['checks']['diversity_resolved'])
+        self.assertFalse(result['accepted'])
+
     def test_bypassing_evidence_gate_keeps_menu_guard(self):
         spec, candidates, calibration, earlier = fixture()
         normal = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration[:19], earlier)

@@ -30,7 +30,8 @@ from app.rewards.warning_checks import (constraint_warning, coverage_warning, di
 def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, reward_origin=None,
               repair=False, repair_advisor=None, repair_model=None, dataset='amylase', acquisition=None,
               local_search=None, targeted_disagreement=False, direct_diversity=False, initial_pool='train',
-              stop_on_failed_repairs=True, bypass_evidence_gate=False, disabled_repair_terms=()):
+              stop_on_failed_repairs=True, bypass_evidence_gate=False, disabled_repair_terms=(),
+              universal_penalty=False):
     if acquisition not in (None, 'ucb', 'ei') or (acquisition is not None and (reward_spec is not None or repair)):
         raise ValueError('Invalid acquisition configuration')
     if (local_search not in (None, 'genetic', 'adalead') or
@@ -50,6 +51,10 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
             or any(term not in TERMS.values() for term in disabled_repair_terms)
             or (disabled_repair_terms and (not repair or dataset != 'amylase'))):
         raise ValueError('Removing a repair term is restricted to Amylase development repair runs')
+    if (not isinstance(universal_penalty, bool) or
+            (universal_penalty and (not repair or dataset != 'amylase' or not stop_on_failed_repairs
+                                    or bypass_evidence_gate or disabled_repair_terms))):
+        raise ValueError('Universal penalty is restricted to isolated Amylase development repair runs')
     if reward_spec is not None:
         reward_spec = copy.deepcopy(reward_spec)
         validate_spec(reward_spec)
@@ -94,6 +99,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                              'stop_on_failed_repairs': stop_on_failed_repairs,
                              'bypass_evidence_gate': bypass_evidence_gate,
                              'disabled_repair_terms': list(disabled_repair_terms),
+                             'universal_penalty': universal_penalty,
                              'repair_advisor': 'gemini' if repair_advisor else 'rule_based',
                              'repair_model': repair_model,
                              'role_seed': role_seed,
@@ -212,7 +218,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                     reward_spec, warnings, targets, features, reference, batch_budget, calibration, earlier, failures,
                     advisor=repair_advisor, direct_diversity=direct_diversity,
                     stop_on_failed_repairs=stop_on_failed_repairs, bypass_evidence_gate=bypass_evidence_gate,
-                    disabled_repair_terms=disabled_repair_terms)
+                    disabled_repair_terms=disabled_repair_terms, universal_penalty=universal_penalty)
                 run.record_settings({'round': round_number, 'repair_actions': actions,
                                      'consecutive_failures': failures})
                 if abstain:

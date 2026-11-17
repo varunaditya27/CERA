@@ -483,6 +483,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - All 20 Amylase runs completed; the independent audit checked 161 selections and 63 repair replays. The no-uncertainty-repair policy skipped eight route events and used 130 more measurements than normal across five starts, with the same final best score in every pair. No disabled-route event occurred for distance or diversity, so those interventions were not exercised. [Findings](repair_terms_ablation_findings.md) preserve individual outcomes, limitations and audit details.
 
+### 2026-11-17: universal-penalty comparison implementation
+
+- Implemented an isolated Amylase development mode that proposes changes to the uncertainty penalty for every warning while retaining the original warning-specific verification checks and hard guards. Normal matched-study evaluation and audit reject this setting. Synthetic policy, guard and paired-run tests passed; all 124 backend tests passed. The previous repair-term audit reproduced its saved result before the final boolean validation was added. The [protocol](universal_penalty_protocol.md) fixes seeds 101–105 and records that this is a post-result-motivated comparison. No real universal-penalty run was made at this point.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

@@ -54,6 +54,8 @@ def main():
         seeds, methods = list(range(81, 86)), ['normal', 'bypass']
     elif comparison == 'repair-terms':
         seeds, methods = list(range(91, 96)), ['normal', 'no_distance', 'no_uncertainty', 'no_diversity']
+    elif comparison == 'universal':
+        seeds, methods = list(range(101, 106)), ['normal', 'universal']
     else:
         raise ValueError('Unexpected study comparison')
     require(manifest['seeds'] == seeds and manifest['methods'] == methods
@@ -84,6 +86,7 @@ def main():
             require(setup['stop_on_failed_repairs'] is (method != 'continue') and
                     setup.get('bypass_evidence_gate', False) is (method == 'bypass') and
                     setup.get('disabled_repair_terms', []) == ([removed] if removed else []) and
+                    setup.get('universal_penalty', False) is (method == 'universal') and
                     setup['cache_sha256'] == manifest['cache_sha256'], 'Study mode mismatch')
             validate_recorded_sources(setup['source_sha256'], manifest['code_sha256'])
             check_stopping(events, method != 'continue')
@@ -114,9 +117,10 @@ def main():
                     require(removed is None or terms[kind] != removed, 'Disabled repair was attempted')
                     if action['status'] not in ('accepted', 'retained'):
                         continue
-                    check_repair_order(spec, 'repair', action)
+                    menu_action = {**action, 'warning': 'coverage'} if method == 'universal' else action
+                    check_repair_order(spec, 'repair', menu_action)
                     for attempt in action['attempts']:
-                        check_repair_cost(spec, action['warning'], attempt)
+                        check_repair_cost(spec, menu_action['warning'], attempt)
                         require(attempt['verification']['checks']['allowed_change_and_constraints'] is True,
                                 'Repair menu guard mismatch')
                     if action['status'] == 'accepted':

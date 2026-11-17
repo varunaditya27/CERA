@@ -52,6 +52,11 @@ class RepairCoordinatorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'restricted'):
             run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True,
                       disabled_repair_terms=('not_a_term',))
+        with self.assertRaisesRegex(ValueError, 'restricted'):
+            run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True, dataset='ired', universal_penalty=True)
+        with self.assertRaisesRegex(ValueError, 'restricted'):
+            run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True, universal_penalty=True,
+                      stop_on_failed_repairs=False)
 
     def test_priority_and_two_failed_repairs_stop(self):
         spec = copy.deepcopy(DEFAULT_SPEC)

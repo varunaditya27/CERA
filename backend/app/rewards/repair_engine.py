@@ -6,9 +6,11 @@ from app.rewards.repair_verification import verify_repair
 
 
 def choose_repair(spec, warning_type, candidates, reference, remaining, counterexamples, calibration, earlier,
-                  advisor=None, direct_diversity=False, bypass_evidence_gate=False):
+                  advisor=None, direct_diversity=False, bypass_evidence_gate=False, universal_penalty=False):
+    if not isinstance(universal_penalty, bool) or not isinstance(bypass_evidence_gate, bool):
+        raise ValueError('Invalid experimental repair setting')
     attempts = []
-    menu = repair_candidates(spec, warning_type)
+    menu = repair_candidates(spec, 'coverage' if universal_penalty else warning_type)
     advice = advisor(warning_type, menu) if advisor is not None and menu else None
     if advice is not None:
         index = advice['option']
@@ -18,7 +20,7 @@ def choose_repair(spec, warning_type, candidates, reference, remaining, countere
     for candidate in menu:
         verification = verify_repair(spec, candidate['specification'], warning_type, candidates,
                                      reference, remaining, counterexamples, calibration, earlier,
-                                     direct_diversity=direct_diversity)
+                                     direct_diversity=direct_diversity, universal_penalty=universal_penalty)
         attempts.append({'term': candidate['term'], 'cost': candidate['cost'],
                          'proposed_weight': candidate['specification']['terms'][candidate['term']]['weight'],
                          'verification': verification})

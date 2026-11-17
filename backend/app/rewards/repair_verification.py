@@ -17,12 +17,15 @@ def _score(spec, row):
 
 
 def verify_repair(old, proposed, warning_type, candidates, reference, remaining,
-                  counterexamples, calibration, earlier, direct_diversity=False):
+                  counterexamples, calibration, earlier, direct_diversity=False, universal_penalty=False):
     validate_spec(old)
     validate_spec(proposed)
+    if not isinstance(universal_penalty, bool):
+        raise ValueError('Invalid universal penalty setting')
     if warning_type not in TERMS:
         raise ValueError('Unsupported warning type')
-    unchanged = any(candidate['specification'] == proposed for candidate in repair_candidates(old, warning_type))
+    menu_type = 'coverage' if universal_penalty else warning_type
+    unchanged = any(candidate['specification'] == proposed for candidate in repair_candidates(old, menu_type))
     original = select_batch(old, candidates, reference, remaining)
     counterexamples = list(counterexamples)
     if (not counterexamples or len(counterexamples) != len(set(counterexamples))
