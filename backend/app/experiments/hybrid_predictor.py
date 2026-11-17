@@ -67,10 +67,11 @@ def fit_hybrid_group(vectors, scores, fitting_ids, reserved_ids, cv_seed, member
     for seed in member_seeds[3:]:
         sample = np.random.default_rng(seed).integers(0, len(training), size=len(training))
         indices = torch.as_tensor(sample, device=device)
-        with torch.random.fork_rng(devices=[torch.cuda.current_device()] if device == 'cuda' else []):
-            torch.manual_seed(seed)
-            network = nn.Sequential(nn.Linear(x_train.shape[1], 256), nn.ReLU(), nn.Linear(256, 128),
-                                    nn.ReLU(), nn.Linear(128, 1)).to(device)
+        with torch.random.fork_rng(devices=[]):
+            torch.random.default_generator.manual_seed(seed)
+            network = nn.Sequential(nn.Linear(x_train.shape[1], 256, device='cpu'), nn.ReLU(),
+                                    nn.Linear(256, 128, device='cpu'), nn.ReLU(),
+                                    nn.Linear(128, 1, device='cpu')).to(device)
             optimizer = torch.optim.Adam(network.parameters(), lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
             best_loss, best_epoch, best_state, stale = float('inf'), 0, None, 0
             for epoch in range(1, MAX_EPOCHS + 1):

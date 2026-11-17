@@ -637,3 +637,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: initial mixed-predictor GPU pilot
 
 - A seed-181 Amylase pilot used the RTX 5050 for the two neural members, ran two batches and stopped after failed repairs. Its audit checked two selections and six repair replays, and a GPU refit reproduced 3,175 first-round means and spreads exactly in this environment. A follow-up check found that the training seed operation can change CUDA random state during CPU-only fitting; this pilot and its source fingerprint are preserved while that issue is corrected. No performance comparison or generalization claim is made.
+
+### 2026-11-17: mixed-predictor random-state isolation
+
+- Corrected the neural initialization to seed only a forked CPU generator before moving the network to the requested device. The prior `torch.manual_seed` also affected CUDA random state during CPU-only fitting; a direct check exposed this behavior. Tests now verify that fitting on both CPU and the available GPU preserves the caller's CPU and GPU random states. All 163 backend tests passed, and the earlier reactive-calibration audit reproduced its counts. The initial GPU pilot remains preserved under its original source fingerprint; a fresh check is required for the corrected code.

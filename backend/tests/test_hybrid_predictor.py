@@ -2,6 +2,7 @@ import math
 import unittest
 
 import numpy as np
+import torch
 
 from app.experiments.hybrid_predictor import fit_hybrid_group
 from app.experiments.prediction_pilot import run_pilot
@@ -47,6 +48,17 @@ class HybridPredictorTest(unittest.TestCase):
         np.testing.assert_allclose(predict_members(first, self.vectors, self.reserved),
                                    predict_members(second, self.vectors, self.reserved), rtol=0, atol=1e-7)
         self.assertEqual(len(fit_group(self.vectors, self.scores, self.fitting, self.reserved, 7, self.seeds)[0]), 5)
+
+    def test_fitting_preserves_cpu_and_gpu_random_states(self):
+        devices = ('cpu', 'cuda') if torch.cuda.is_available() else ('cpu',)
+        for device in devices:
+            with self.subTest(device=device):
+                cpu_state = torch.random.get_rng_state().clone()
+                gpu_state = torch.cuda.get_rng_state().clone() if torch.cuda.is_available() else None
+                fit_hybrid_group(self.vectors, self.scores, self.fitting, self.reserved, 7, self.seeds, device)
+                self.assertTrue(torch.equal(cpu_state, torch.random.get_rng_state()))
+                if gpu_state is not None:
+                    self.assertTrue(torch.equal(gpu_state, torch.cuda.get_rng_state()))
 
     def test_rejects_overlap_invalid_device_and_study_scope(self):
         with self.assertRaises(ValueError):
