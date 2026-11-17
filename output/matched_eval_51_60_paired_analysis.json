@@ -1,0 +1,597 @@
+{
+  "scope": "post-result exploratory; fixed datasets and repeated starts",
+  "input_sha256": "33b5d1c00930942986277f0fe74b7a35c2ae3f8e44ed8079cf66a156c1e44939",
+  "script_sha256": "8ac3eabef69559553e53f7fec3ae427523f1131c83730d0258a13fa233f3439f",
+  "versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.18.1"
+  },
+  "random_seed": 20261117,
+  "bootstrap_resamples": 20000,
+  "comparisons": [
+    {
+      "dataset": "ired",
+      "method": "repair",
+      "pairs": [
+        {
+          "seed": 51,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 52,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 53,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 100
+        },
+        {
+          "seed": 54,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 55,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 20
+        },
+        {
+          "seed": 56,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 57,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 20
+        },
+        {
+          "seed": 58,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 100
+        },
+        {
+          "seed": 59,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 60,
+          "difference": -0.2803988931644401,
+          "fixed_measurements": 100,
+          "repair_measurements": 100
+        }
+      ],
+      "mean_difference": -0.028039889316444012,
+      "percentile_interval_95": [
+        -0.08411966794933204,
+        0.0
+      ],
+      "signed_rank_p": 1.0,
+      "holm_p": 1.0
+    },
+    {
+      "dataset": "ired",
+      "method": "gemini_repair",
+      "pairs": [
+        {
+          "seed": 51,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 52,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 53,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 100
+        },
+        {
+          "seed": 54,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 55,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 20
+        },
+        {
+          "seed": 56,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 57,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 20
+        },
+        {
+          "seed": 58,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 100
+        },
+        {
+          "seed": 59,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 60,
+          "difference": -0.2803988931644401,
+          "fixed_measurements": 100,
+          "repair_measurements": 100
+        }
+      ],
+      "mean_difference": -0.028039889316444012,
+      "percentile_interval_95": [
+        -0.08411966794933204,
+        0.0
+      ],
+      "signed_rank_p": 1.0,
+      "holm_p": 1.0
+    },
+    {
+      "dataset": "hydro-P06241",
+      "method": "repair",
+      "pairs": [
+        {
+          "seed": 51,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 52,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 70
+        },
+        {
+          "seed": 53,
+          "difference": -0.23998509527996448,
+          "fixed_measurements": 100,
+          "repair_measurements": 20
+        },
+        {
+          "seed": 54,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 70
+        },
+        {
+          "seed": 55,
+          "difference": -0.3271096125613005,
+          "fixed_measurements": 100,
+          "repair_measurements": 50
+        },
+        {
+          "seed": 56,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 100
+        },
+        {
+          "seed": 57,
+          "difference": -0.2318623504680085,
+          "fixed_measurements": 100,
+          "repair_measurements": 20
+        },
+        {
+          "seed": 58,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 59,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 90
+        },
+        {
+          "seed": 60,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 50
+        }
+      ],
+      "mean_difference": -0.07989570583092734,
+      "percentile_interval_95": [
+        -0.16060368614305026,
+        0.0
+      ],
+      "signed_rank_p": 0.25,
+      "holm_p": 1.0
+    },
+    {
+      "dataset": "hydro-P06241",
+      "method": "gemini_repair",
+      "pairs": [
+        {
+          "seed": 51,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 52,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 70
+        },
+        {
+          "seed": 53,
+          "difference": -0.23998509527996448,
+          "fixed_measurements": 100,
+          "repair_measurements": 20
+        },
+        {
+          "seed": 54,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 70
+        },
+        {
+          "seed": 55,
+          "difference": -0.3271096125613005,
+          "fixed_measurements": 100,
+          "repair_measurements": 50
+        },
+        {
+          "seed": 56,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 90
+        },
+        {
+          "seed": 57,
+          "difference": -0.2318623504680085,
+          "fixed_measurements": 100,
+          "repair_measurements": 20
+        },
+        {
+          "seed": 58,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 59,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 90
+        },
+        {
+          "seed": 60,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 50
+        }
+      ],
+      "mean_difference": -0.07989570583092734,
+      "percentile_interval_95": [
+        -0.16060368614305026,
+        0.0
+      ],
+      "signed_rank_p": 0.25,
+      "holm_p": 1.0
+    },
+    {
+      "dataset": "hydro-P01053",
+      "method": "repair",
+      "pairs": [
+        {
+          "seed": 51,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 52,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 53,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 54,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 55,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 50
+        },
+        {
+          "seed": 56,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 57,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 58,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 59,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 50
+        },
+        {
+          "seed": 60,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 70
+        }
+      ],
+      "mean_difference": 0.0,
+      "percentile_interval_95": [
+        0.0,
+        0.0
+      ],
+      "signed_rank_p": null,
+      "holm_p": null
+    },
+    {
+      "dataset": "hydro-P01053",
+      "method": "gemini_repair",
+      "pairs": [
+        {
+          "seed": 51,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 52,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 53,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 54,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 55,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 50
+        },
+        {
+          "seed": 56,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 57,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 58,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 59,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 50
+        },
+        {
+          "seed": 60,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 70
+        }
+      ],
+      "mean_difference": 0.0,
+      "percentile_interval_95": [
+        0.0,
+        0.0
+      ],
+      "signed_rank_p": null,
+      "holm_p": null
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "method": "repair",
+      "pairs": [
+        {
+          "seed": 51,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 52,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 53,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 54,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 55,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 56,
+          "difference": -0.15284954960255992,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 57,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 20
+        },
+        {
+          "seed": 58,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 100
+        },
+        {
+          "seed": 59,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 60,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 50
+        }
+      ],
+      "mean_difference": -0.015284954960255993,
+      "percentile_interval_95": [
+        -0.045854864880767975,
+        0.0
+      ],
+      "signed_rank_p": 1.0,
+      "holm_p": 1.0
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "method": "gemini_repair",
+      "pairs": [
+        {
+          "seed": 51,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 52,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 40
+        },
+        {
+          "seed": 53,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 54,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 60
+        },
+        {
+          "seed": 55,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 56,
+          "difference": -0.15284954960255992,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 57,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 20
+        },
+        {
+          "seed": 58,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 100
+        },
+        {
+          "seed": 59,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 30
+        },
+        {
+          "seed": 60,
+          "difference": 0.0,
+          "fixed_measurements": 100,
+          "repair_measurements": 50
+        }
+      ],
+      "mean_difference": -0.015284954960255993,
+      "percentile_interval_95": [
+        -0.045854864880767975,
+        0.0
+      ],
+      "signed_rank_p": 1.0,
+      "holm_p": 1.0
+    }
+  ]
+}

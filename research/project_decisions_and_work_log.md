@@ -544,3 +544,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: exploratory paired analysis implementation
 
 - Added a script for the [post-result protocol](exploratory_paired_analysis_protocol.md), preserving matched seeds, measurement counts and per-protein scales. It rejects incomplete or duplicate pairs, explicitly handles all-zero differences, uses exhaustive sign permutations and adjusts the available tests. The full 137-test backend suite passed; after adding an independent SciPy permutation comparison, all three targeted analysis tests passed. No study analysis output was created before this implementation checkpoint.
+
+### 2026-11-17: exploratory paired analysis findings
+
+- The [post-result findings](exploratory_paired_analysis_findings.md) retain matched starts and actual stopping counts. One protein had ten tied differences for both methods; the signed-rank results there are unavailable. The other six available adjusted values are 1. A separate audit checked 80 paired observations, resampling and adjustments, and verified the six available signed-rank calculations. These results do not establish equivalence, a causal repair effect or biological replication.
