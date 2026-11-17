@@ -19,17 +19,20 @@ from repeated_matched import ROOT, digest, write_json
 
 SEEDS = tuple(range(71, 76))
 EVIDENCE_SEEDS = tuple(range(81, 86))
+TERM_SEEDS = tuple(range(91, 96))
 METHODS = ('normal', 'continue')
+REMOVED_TERMS = {'no_distance': 'distance_penalty', 'no_uncertainty': 'uncertainty_penalty',
+                 'no_diversity': 'diversity_bonus'}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output', type=Path)
     parser.add_argument('--resume', action='store_true')
-    parser.add_argument('--comparison', choices=('stopping', 'evidence'), default='stopping')
+    parser.add_argument('--comparison', choices=('stopping', 'evidence', 'repair-terms'), default='stopping')
     args = parser.parse_args()
-    seeds = SEEDS if args.comparison == 'stopping' else EVIDENCE_SEEDS
-    methods = METHODS if args.comparison == 'stopping' else ('normal', 'bypass')
+    seeds = SEEDS if args.comparison == 'stopping' else EVIDENCE_SEEDS if args.comparison == 'evidence' else TERM_SEEDS
+    methods = METHODS if args.comparison == 'stopping' else ('normal', 'bypass') if args.comparison == 'evidence' else ('normal', *REMOVED_TERMS)
     if (args.output / 'summary.csv').exists():
         raise ValueError('Completed comparison summary already exists')
     spec_bytes = (ROOT / 'research/reward_spec_example.json').read_bytes()
@@ -67,9 +70,10 @@ def main():
             started = time.perf_counter()
             try:
                 run_pilot(path, seed=seed, role_seed=2000 + seed, member_seed=3000 + seed,
-                          reward_spec=spec, reward_origin={'source': 'abstention_development'}, repair=True,
+                          reward_spec=spec, reward_origin={'source': f'{args.comparison}_development'}, repair=True,
                           targeted_disagreement=True, direct_diversity=True,
-                          stop_on_failed_repairs=method != 'continue', bypass_evidence_gate=method == 'bypass')
+                          stop_on_failed_repairs=method != 'continue', bypass_evidence_gate=method == 'bypass',
+                          disabled_repair_terms=(REMOVED_TERMS[method],) if method in REMOVED_TERMS else ())
                 raw = (path / 'run.jsonl').read_bytes()
                 blob = gzip.compress(raw, mtime=0)
                 with (path / 'run.jsonl.gz').open('xb') as file:
@@ -117,11 +121,12 @@ def main():
                          'stop_reason': result['stop_reason'], 'covered': result['covered'],
                          'range_count': result['range_count'], 'mean_range_width': result['mean_range_width'],
                          'repair_actions': len(actions), 'repairs_accepted': sum(a['status'] == 'accepted' for a in actions),
+                         'disabled_actions': sum(a['status'] == 'repair_disabled' for a in actions),
                          'accepted_without_evidence': sum(a['status'] == 'accepted' and
                              not a['attempts'][-1]['verification']['accepted'] for a in actions)})
     columns = ('seed', 'method', 'status', 'new_measurements', 'best_observed', 'pool_regret',
                'found_top_one_percent', 'stop_reason', 'covered', 'range_count', 'mean_range_width',
-               'repair_actions', 'repairs_accepted', 'accepted_without_evidence')
+               'repair_actions', 'repairs_accepted', 'disabled_actions', 'accepted_without_evidence')
     with (args.output / 'summary.csv').open('x', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=columns, lineterminator='\n')
         writer.writeheader()

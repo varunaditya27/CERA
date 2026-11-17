@@ -18,10 +18,19 @@ from app.datasets.flip2 import load_flip2
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'scripts'))
 import compare_abstention
-from audit_abstention import audit_run, check_stopping
+from audit_abstention import audit_run, check_action_order, check_stopping
 
 
 class AbstentionComparisonTests(unittest.TestCase):
+    def test_audit_rejects_missing_or_reordered_actions(self):
+        actions = [{'warning': 'support_shift'}, {'warning': 'coverage'}]
+        check_action_order(actions, ['support_shift', 'coverage'], True, 0)
+        check_action_order(actions[:1], ['support_shift', 'coverage'], True, 2)
+        with self.assertRaisesRegex(ValueError, 'Missing or reordered'):
+            check_action_order(actions[:1], ['support_shift', 'coverage'], False, 2)
+        with self.assertRaisesRegex(ValueError, 'Missing or reordered'):
+            check_action_order(list(reversed(actions)), ['support_shift', 'coverage'], True, 2)
+
     def test_synthetic_evidence_gate_comparison(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -36,28 +45,32 @@ class AbstentionComparisonTests(unittest.TestCase):
                                  for i, s in enumerate(sequences))
             vectors = {sequence_id(s): np.asarray([i / 120, (i % 19) / 19], dtype=np.float32)
                        for i, s in enumerate(sequences)}
-            with patch.object(compare_abstention, 'DATA', data), patch.object(compare_abstention, 'REFERENCE', reference), \
-                 patch.object(compare_abstention, 'EVIDENCE_SEEDS', (81,)), patch('app.datasets.amylase.DATA', data), \
-                 patch('app.datasets.amylase.REFERENCE', reference), \
-                 patch('app.experiments.prediction_pilot.load_verified_representations', return_value=vectors), \
-                 patch.object(sys, 'argv', ['compare_abstention.py', str(output), '--comparison', 'evidence']), \
-                 redirect_stdout(io.StringIO()):
-                compare_abstention.main()
-            manifest = json.loads((output / 'manifest.json').read_text())
-            with (output / 'summary.csv').open(newline='') as file:
-                rows = list(csv.DictReader(file))
-            self.assertEqual([row['status'] for row in rows], ['completed', 'completed'])
             seqs, scores, train, _, _ = load_flip2(data, reference, 4)
-            starts = []
-            for row in rows:
-                method = row['method']
-                raw = gzip.decompress((output / 'seed_81' / method / 'run.jsonl.gz').read_bytes())
-                events = [json.loads(line) for line in raw.splitlines()]
-                self.assertEqual(events[1]['settings']['bypass_evidence_gate'], method == 'bypass')
-                starts.append(audit_run(events, 81, 'direct', seqs, scores, train, manifest, row, Counter(),
-                                        bypass_evidence_gate=method == 'bypass'))
-                check_stopping(events, True)
-            self.assertEqual(starts[0], starts[1])
+            for comparison, seed, expected_count in (('evidence', 81, 2), ('repair-terms', 91, 4)):
+                output = root / comparison
+                with patch.object(compare_abstention, 'DATA', data), patch.object(compare_abstention, 'REFERENCE', reference), \
+                     patch.object(compare_abstention, 'EVIDENCE_SEEDS', (81,)), patch.object(compare_abstention, 'TERM_SEEDS', (91,)), \
+                     patch('app.datasets.amylase.DATA', data), patch('app.datasets.amylase.REFERENCE', reference), \
+                     patch('app.experiments.prediction_pilot.load_verified_representations', return_value=vectors), \
+                     patch.object(sys, 'argv', ['compare_abstention.py', str(output), '--comparison', comparison]), \
+                     redirect_stdout(io.StringIO()):
+                    compare_abstention.main()
+                manifest = json.loads((output / 'manifest.json').read_text())
+                with (output / 'summary.csv').open(newline='') as file:
+                    rows = list(csv.DictReader(file))
+                self.assertEqual([row['status'] for row in rows], ['completed'] * expected_count)
+                starts = []
+                for row in rows:
+                    method = row['method']
+                    raw = gzip.decompress((output / f'seed_{seed}' / method / 'run.jsonl.gz').read_bytes())
+                    events = [json.loads(line) for line in raw.splitlines()]
+                    self.assertEqual(events[1]['settings']['bypass_evidence_gate'], method == 'bypass')
+                    expected = [compare_abstention.REMOVED_TERMS[method]] if method in compare_abstention.REMOVED_TERMS else []
+                    self.assertEqual(events[1]['settings']['disabled_repair_terms'], expected)
+                    starts.append(audit_run(events, seed, 'direct', seqs, scores, train, manifest, row, Counter(),
+                                            bypass_evidence_gate=method == 'bypass'))
+                    check_stopping(events, True)
+                self.assertTrue(all(start == starts[0] for start in starts))
 
     def test_audit_checks_stopping_and_counts(self):
         actions = [{'status': 'retained', 'consecutive_failures': 1},

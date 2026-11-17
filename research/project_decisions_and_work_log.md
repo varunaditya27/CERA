@@ -475,6 +475,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - All ten Amylase runs completed; the independent audit checked 69 selections and 60 repair replays. The bypass accepted 30 changes, 29 rejected by ordinary evidence checks, and used 490 new measurements versus 200 for the normal policy. It found a higher best score in one pair and the same best score in four. [Findings](verifier_ablation_findings.md) record individual stops, costs in measurements, and the limits of attributing differences to the gate.
 
+### 2026-11-17: repair-term comparison implementation
+
+- Implemented the Amylase-only [repair-term protocol](repair_terms_ablation_protocol.md), removing one of the three adjustable repair routes at a time without removing its underlying reward term or hard guards. Logged disabled routes, checked warning/action priority in the audit, and restricted ordinary matched-study analysis from accepting disabled routes. Synthetic tests and all 123 backend tests passed; the earlier stopping and evidence-gate audits reproduced their saved outputs before the final audit helper extraction. Corrected the shared runner's fixed reward-origin label for future studies and documented the earlier verifier study's metadata mislabel without changing its records. No real repair-term comparison had run at this point.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

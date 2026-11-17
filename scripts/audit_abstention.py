@@ -13,6 +13,13 @@ from audit_development_repairs import audit_run, digest, read_source, require
 from audit_matched_proteins import check_repair_cost, check_repair_order
 
 
+def check_action_order(actions, expected, can_stop, failures):
+    actual = [action['warning'] for action in actions]
+    require(actual == expected[:len(actual)] and
+            (len(actual) == len(expected) or (can_stop and failures >= 2)),
+            'Missing or reordered repair actions')
+
+
 def check_stopping(events, normal):
     failures = 0
     for index, event in enumerate(events):
@@ -45,6 +52,8 @@ def main():
         seeds, methods = list(range(71, 76)), ['normal', 'continue']
     elif comparison == 'evidence':
         seeds, methods = list(range(81, 86)), ['normal', 'bypass']
+    elif comparison == 'repair-terms':
+        seeds, methods = list(range(91, 96)), ['normal', 'no_distance', 'no_uncertainty', 'no_diversity']
     else:
         raise ValueError('Unexpected study comparison')
     require(manifest['seeds'] == seeds and manifest['methods'] == methods
@@ -56,7 +65,7 @@ def main():
     with (args.root / 'summary.csv').open(newline='', encoding='utf-8') as file:
         rows = list(csv.DictReader(file))
     summaries = {(int(row['seed']), row['method']): row for row in rows}
-    require(len(rows) == len(summaries) == 10, 'Missing or duplicate summaries')
+    require(len(rows) == len(summaries) == len(seeds) * len(methods), 'Missing or duplicate summaries')
     sequences, scores, train = read_source()
     counts, initials = Counter(), {}
     for seed in seeds:
@@ -70,17 +79,39 @@ def main():
             require(digest(raw) == status['uncompressed_sha256'], 'Record fingerprint mismatch')
             events = [json.loads(line) for line in raw.splitlines()]
             setup = next(e['settings'] for e in events if e['event'] == 'method')
+            removed = {'no_distance': 'distance_penalty', 'no_uncertainty': 'uncertainty_penalty',
+                       'no_diversity': 'diversity_bonus'}.get(method)
             require(setup['stop_on_failed_repairs'] is (method != 'continue') and
                     setup.get('bypass_evidence_gate', False) is (method == 'bypass') and
+                    setup.get('disabled_repair_terms', []) == ([removed] if removed else []) and
                     setup['cache_sha256'] == manifest['cache_sha256'], 'Study mode mismatch')
             validate_recorded_sources(setup['source_sha256'], manifest['code_sha256'])
             check_stopping(events, method != 'continue')
             spec = setup['reward_spec']
-            bypassed = 0
+            bypassed = disabled = 0
+            warnings = {(event['round'], event['type']): event['status'] for event in events
+                        if event['event'] == 'warning'}
+            terms = {'support_shift': 'distance_penalty', 'coverage': 'uncertainty_penalty',
+                     'disagreement': 'uncertainty_penalty', 'diversity': 'diversity_bonus'}
             for event in events:
                 if event['event'] != 'method':
                     continue
-                for action in event['settings'].get('repair_actions', []):
+                actions = event['settings'].get('repair_actions')
+                if actions is None:
+                    continue
+                round_number = event['settings']['round']
+                priority = ('support_shift', 'coverage', 'disagreement', 'diversity')
+                expected = [kind for kind in priority if warnings.get((round_number, kind)) == 'triggered']
+                check_action_order(actions, expected, method != 'continue', event['settings']['consecutive_failures'])
+                for action in actions:
+                    kind = action['warning']
+                    require(warnings.get((event['settings']['round'], kind)) == 'triggered', 'Action lacks warning')
+                    if action['status'] == 'repair_disabled':
+                        require(removed is not None and terms[kind] == removed and action['term'] == removed,
+                                'Unexpected disabled repair')
+                        disabled += 1
+                        continue
+                    require(removed is None or terms[kind] != removed, 'Disabled repair was attempted')
                     if action['status'] not in ('accepted', 'retained'):
                         continue
                     check_repair_order(spec, 'repair', action)
@@ -96,6 +127,8 @@ def main():
             if 'accepted_without_evidence' in summaries[(seed, method)]:
                 require(int(summaries[(seed, method)]['accepted_without_evidence']) == bypassed,
                         'Bypass count mismatch')
+            if 'disabled_actions' in summaries[(seed, method)]:
+                require(int(summaries[(seed, method)]['disabled_actions']) == disabled, 'Disabled repair count mismatch')
             initial = audit_run(events, seed, 'direct', sequences, scores, train, manifest,
                                 summaries[(seed, method)], counts, bypass_evidence_gate=method == 'bypass')
             if seed in initials:

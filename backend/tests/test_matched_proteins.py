@@ -75,7 +75,8 @@ class MatchedProteinTests(unittest.TestCase):
             record = output / 'seed_07/greedy/run.jsonl.gz'
             original = [json.loads(line) for line in gzip.decompress(record.read_bytes()).splitlines()]
             status_path = record.parent / 'status.json'
-            for name, value in (('stop_on_failed_repairs', False), ('bypass_evidence_gate', True)):
+            for name, value in (('stop_on_failed_repairs', False), ('bypass_evidence_gate', True),
+                                ('disabled_repair_terms', ['distance_penalty'])):
                 with self.subTest(name=name):
                     events = copy.deepcopy(original)
                     events[1]['settings'][name] = value

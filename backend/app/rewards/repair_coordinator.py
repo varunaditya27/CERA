@@ -1,5 +1,6 @@
 """Handle triggered warnings in the documented order using saved batch evidence."""
 from app.rewards.repair_engine import choose_repair
+from app.rewards.repair_menu import TERMS
 from app.rewards.reward_selection import select_batch
 from app.rewards.warning_checks import diversity_warning
 
@@ -7,11 +8,15 @@ PRIORITY = ('support_shift', 'coverage', 'disagreement', 'diversity')
 
 
 def handle_warnings(spec, warnings, targets, features, reference, batch_budget, calibration, earlier, failures,
-                    advisor=None, direct_diversity=False, stop_on_failed_repairs=True, bypass_evidence_gate=False):
+                    advisor=None, direct_diversity=False, stop_on_failed_repairs=True, bypass_evidence_gate=False,
+                    disabled_repair_terms=()):
     events = []
     for kind in PRIORITY:
         warning = warnings[kind]
         if warning['status'] != 'triggered':
+            continue
+        if TERMS[kind] in disabled_repair_terms:
+            events.append({'warning': kind, 'status': 'repair_disabled', 'term': TERMS[kind]})
             continue
         replayed = [entry['id'] for entry in select_batch(spec, features, reference, batch_budget)]
         if kind == 'diversity':

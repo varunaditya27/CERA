@@ -8,6 +8,18 @@ from app.rewards.repair_coordinator import handle_warnings
 
 
 class RepairCoordinatorTests(unittest.TestCase):
+    def test_disabled_repair_term_skips_both_uncertainty_routes(self):
+        spec = copy.deepcopy(DEFAULT_SPEC)
+        warnings = {kind: {'status': 'triggered' if kind in ('coverage', 'disagreement') else 'not_triggered'}
+                    for kind in ('support_shift', 'coverage', 'disagreement', 'diversity')}
+        targets = {kind: ['a'] for kind in warnings}
+        with patch('app.rewards.repair_coordinator.choose_repair') as choose:
+            result, failures, events, stopped = handle_warnings(
+                spec, warnings, targets, {}, 'AAAA', 1, [], [], 1, disabled_repair_terms=('uncertainty_penalty',))
+        choose.assert_not_called()
+        self.assertEqual([event['status'] for event in events], ['repair_disabled', 'repair_disabled'])
+        self.assertEqual((result, failures, stopped), (spec, 1, False))
+
     def test_development_without_abstention_keeps_checks_and_continues(self):
         spec = copy.deepcopy(DEFAULT_SPEC)
         warnings = {kind: {'status': 'triggered' if kind in ('support_shift', 'coverage', 'disagreement')
@@ -34,6 +46,12 @@ class RepairCoordinatorTests(unittest.TestCase):
             run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True, dataset='ired', bypass_evidence_gate=True)
         with self.assertRaisesRegex(ValueError, 'restricted'):
             run_pilot('unused', bypass_evidence_gate=True)
+        with self.assertRaisesRegex(ValueError, 'restricted'):
+            run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True, dataset='ired',
+                      disabled_repair_terms=('distance_penalty',))
+        with self.assertRaisesRegex(ValueError, 'restricted'):
+            run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True,
+                      disabled_repair_terms=('not_a_term',))
 
     def test_priority_and_two_failed_repairs_stop(self):
         spec = copy.deepcopy(DEFAULT_SPEC)
