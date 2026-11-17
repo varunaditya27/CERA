@@ -392,6 +392,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Reviewed the current five warning implementations, their boundary tests and earlier replay findings. Prepared [a feasibility review](warning_evaluation_feasibility.md) separating rule-correctness checks from prediction of independently defined later outcomes. Identified follow-up censoring, selective measurement and circular labels as limitations; no outcomes, thresholds, new experiments or code were selected or changed.
 
+### 2026-11-17: exploratory later-coverage evaluation
+
+- With implementation approved, defined the [follow-up protocol](warning_followup_protocol.md), implemented a separate evaluator and tests, and analyzed the existing Amylase development replay. The [findings](warning_followup_findings.md) preserve missing follow-up, per-seed counts and the exploratory limitations. A one-off independent source-record calculation checked all 200 later-window rows; the complete backend suite passed 101 tests. No warning threshold was changed and no test-landscape outcome was used for tuning.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
