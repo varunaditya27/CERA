@@ -116,6 +116,10 @@ class WorkspaceExperimentTest(unittest.TestCase):
                     self.assertEqual(response.json()['dataset'], dataset)
                     self.assertEqual(response.json()['new_measurements'], 100)
                     self.assertEqual(response.json()['range_count'], 100)
+                    if dataset in ('ired', 'hydro-P06241'):
+                        audit = client.get('/api/experiments/run/' + response.json()['id'] + '/audit')
+                        self.assertEqual(audit.status_code, 200, audit.text)
+                        self.assertEqual(audit.json()['selections_checked'], 10)
 
     def test_mixed_predictor_uses_recorded_cpu_fallback(self):
         with tempfile.TemporaryDirectory() as directory, patch.object(experiments, 'RUNS', Path(directory)):
@@ -132,6 +136,9 @@ class WorkspaceExperimentTest(unittest.TestCase):
             review = client.get('/api/experiments/run/' + result['id'] + '/review')
             self.assertEqual(review.status_code, 200, review.text)
             self.assertEqual(review.json()['summary']['device'], 'cpu')
+            audit = client.get('/api/experiments/run/' + result['id'] + '/audit')
+            self.assertEqual(audit.status_code, 200, audit.text)
+            self.assertGreater(audit.json()['selections_checked'], 0)
             summary_path = Path(directory) / result['id'] / 'summary.json'
             summary = json.loads(summary_path.read_text())
             summary['device'] = 'cuda'

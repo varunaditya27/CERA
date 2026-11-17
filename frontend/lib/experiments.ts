@@ -21,3 +21,13 @@ export async function getRunReview(id: string): Promise<{ review?: RunReview; un
     return { review: await response.json() as RunReview, unavailable: false };
   } catch { return { unavailable: true }; }
 }
+
+export type DecisionAudit = { id: string; selections_checked: number; repair_replays_checked: number; predictors_refitted: boolean; recorded_predictions_used: boolean };
+export async function getDecisionAudit(id: string): Promise<{ audit?: DecisionAudit; unavailable: boolean }> {
+  try {
+    const response = await fetch(`${process.env.CERA_API_URL || 'http://127.0.0.1:8000'}/api/experiments/run/${encodeURIComponent(id)}/audit`, { cache: 'no-store', signal: AbortSignal.timeout(90000) });
+    if (response.status === 404) return { unavailable: false };
+    if (!response.ok) return { unavailable: true };
+    return { audit: await response.json() as DecisionAudit, unavailable: false };
+  } catch { return { unavailable: true }; }
+}
