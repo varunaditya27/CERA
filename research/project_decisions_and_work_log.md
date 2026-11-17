@@ -455,6 +455,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Documented [post-result metric definitions](additional_metrics_protocol.md) and added a separate evaluator for top-1% recall with cutoff ties, cumulative and per-measurement regret, and per-batch sequence difference and prediction-ranking correlation. The terminal-status barrier and existing study checks run before full-pool scores are used. Tests cover tied cutoffs, initial versus new discoveries, short batches, undefined correlations, altered measurements and incomplete studies; all 118 backend tests passed. No extra study outcomes were calculated during implementation.
 
+### 2026-11-17: additional retrospective metric findings
+
+- Evaluated the saved four-protein and separate IRED low-change studies under the post-result definitions. A one-off independent calculation checked top-group counts and recall, cumulative regret and all selected-batch correlations and sequence differences for 450 runs and 3,646 batches. [Findings](additional_metrics_findings.md) show median recall alongside actual top-group sizes and retain unequal-budget, starting-observation and non-independence limitations. No new search or provider request was made.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
