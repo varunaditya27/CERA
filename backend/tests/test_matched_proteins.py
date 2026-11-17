@@ -73,21 +73,24 @@ class MatchedProteinTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Initial observations'):
                 audit_group(output, manifest, statuses, seqs, scores, 'AAA', vectors, changed)
             record = output / 'seed_07/greedy/run.jsonl.gz'
-            events = [json.loads(line) for line in gzip.decompress(record.read_bytes()).splitlines()]
-            events[1]['settings']['stop_on_failed_repairs'] = False
-            raw = b''.join((json.dumps(event) + '\n').encode() for event in events)
-            blob = gzip.compress(raw, mtime=0)
-            record.write_bytes(blob)
+            original = [json.loads(line) for line in gzip.decompress(record.read_bytes()).splitlines()]
             status_path = record.parent / 'status.json'
-            altered = json.loads(status_path.read_text())
-            altered.update(gzip_sha256=hashlib.sha256(blob).hexdigest(), uncompressed_sha256=hashlib.sha256(raw).hexdigest())
-            status_path.write_text(json.dumps(altered))
-            statuses = terminal_statuses(output, manifest)
-            with self.assertRaisesRegex(ValueError, 'Method configuration'):
-                evaluate_group(output, manifest, statuses, scores, data_hash, ref_hash, DEFAULT_SPEC,
-                               train, seqs, 'AAA')
-            with self.assertRaisesRegex(ValueError, 'Predictor configuration'):
-                audit_group(output, manifest, statuses, seqs, scores, 'AAA', vectors, train)
+            for name, value in (('stop_on_failed_repairs', False), ('bypass_evidence_gate', True)):
+                with self.subTest(name=name):
+                    events = copy.deepcopy(original)
+                    events[1]['settings'][name] = value
+                    raw = b''.join((json.dumps(event) + '\n').encode() for event in events)
+                    blob = gzip.compress(raw, mtime=0)
+                    record.write_bytes(blob)
+                    altered = json.loads(status_path.read_text())
+                    altered.update(gzip_sha256=hashlib.sha256(blob).hexdigest(), uncompressed_sha256=hashlib.sha256(raw).hexdigest())
+                    status_path.write_text(json.dumps(altered))
+                    statuses = terminal_statuses(output, manifest)
+                    with self.assertRaisesRegex(ValueError, 'Method configuration'):
+                        evaluate_group(output, manifest, statuses, scores, data_hash, ref_hash, DEFAULT_SPEC,
+                                       train, seqs, 'AAA')
+                    with self.assertRaisesRegex(ValueError, 'Predictor configuration'):
+                        audit_group(output, manifest, statuses, seqs, scores, 'AAA', vectors, train)
 
     def test_synthetic_comparison_and_resume(self):
         with tempfile.TemporaryDirectory() as temp:

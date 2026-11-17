@@ -71,7 +71,7 @@ def read_source():
     return sequences, scores, train
 
 
-def audit_run(events, seed, method, sequences, scores, train, manifest, row, counts):
+def audit_run(events, seed, method, sequences, scores, train, manifest, row, counts, bypass_evidence_gate=False):
     start = events[0]
     require(start['event'] == 'start' and (start['seed'], start['initial_count'], start['budget'],
             start['batch_size'], start['max_mutations']) == (seed, 100, 100, 10, 4), 'Invalid start')
@@ -123,11 +123,16 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
                         require(verification['accepted'] == all(v is True for v in checks.values()), 'Repair acceptance mismatch')
                         counts['repair_replays'] += 1
                     if action['status'] == 'accepted':
-                        require(action['attempts'] and action['attempts'][-1]['verification']['accepted']
+                        final = action['attempts'][-1]['verification'] if action['attempts'] else {}
+                        applied = (final.get('checks', {}).get('allowed_change_and_constraints') is True
+                                   if bypass_evidence_gate else final.get('accepted') is True)
+                        require(action['attempts'] and applied
                                 and action['specification'] == proposed, 'Accepted repair lacks successful attempt')
                         spec = action['specification']
                     elif action['status'] == 'retained':
-                        require(all(not item['verification']['accepted'] for item in action['attempts'])
+                        require(all(not (item['verification']['checks']['allowed_change_and_constraints']
+                                        if bypass_evidence_gate else item['verification']['accepted'])
+                                    for item in action['attempts'])
                                 and action['specification'] == spec, 'Retained repair mismatch')
         elif event['event'] == 'warning' and event['type'] == 'disagreement':
             require(pending is None, 'Warning chronology error')

@@ -1,5 +1,6 @@
 import copy
 import unittest
+from unittest.mock import patch
 
 from app.llm.goal_compiler import DEFAULT_SPEC
 from app.rewards.repair_engine import choose_repair
@@ -22,6 +23,21 @@ def fixture():
 
 
 class RepairTests(unittest.TestCase):
+    def test_bypassing_evidence_gate_keeps_menu_guard(self):
+        spec, candidates, calibration, earlier = fixture()
+        normal = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration[:19], earlier)
+        ablated = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration[:19], earlier,
+                                bypass_evidence_gate=True)
+        self.assertEqual(normal['status'], 'retained')
+        self.assertEqual(ablated['status'], 'accepted')
+        self.assertFalse(ablated['attempts'][0]['verification']['accepted'])
+        self.assertTrue(ablated['attempts'][0]['verification']['checks']['allowed_change_and_constraints'])
+        with patch('app.rewards.repair_engine.verify_repair', return_value={
+                'accepted': False, 'checks': {'allowed_change_and_constraints': False}}):
+            guarded = choose_repair(spec, 'support_shift', candidates, 'AAAA', 1, ['a'], calibration, earlier,
+                                    bypass_evidence_gate=True)
+        self.assertEqual(guarded['status'], 'retained')
+
     def test_chooses_cheapest_checked_change_without_mutating_old_spec(self):
         spec, candidates, calibration, earlier = fixture()
         original = copy.deepcopy(spec)

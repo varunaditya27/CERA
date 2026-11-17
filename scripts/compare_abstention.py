@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the matched Amylase development comparison of repair stopping."""
+"""Run a matched Amylase development comparison of repair safeguards."""
 import argparse
 import csv
 import gzip
@@ -18,6 +18,7 @@ from app.rewards.reward_spec import validate_spec
 from repeated_matched import ROOT, digest, write_json
 
 SEEDS = tuple(range(71, 76))
+EVIDENCE_SEEDS = tuple(range(81, 86))
 METHODS = ('normal', 'continue')
 
 
@@ -25,7 +26,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output', type=Path)
     parser.add_argument('--resume', action='store_true')
+    parser.add_argument('--comparison', choices=('stopping', 'evidence'), default='stopping')
     args = parser.parse_args()
+    seeds = SEEDS if args.comparison == 'stopping' else EVIDENCE_SEEDS
+    methods = METHODS if args.comparison == 'stopping' else ('normal', 'bypass')
     if (args.output / 'summary.csv').exists():
         raise ValueError('Completed comparison summary already exists')
     spec_bytes = (ROOT / 'research/reward_spec_example.json').read_bytes()
@@ -34,7 +38,7 @@ def main():
     spec = json.loads(spec_bytes)
     validate_spec(spec)
     paths = sorted((ROOT / 'backend/app').rglob('*.py')) + [Path(__file__).resolve(), ROOT / 'scripts/repeated_matched.py']
-    manifest = {'seeds': list(SEEDS), 'methods': list(METHODS), 'dataset': 'amylase',
+    manifest = {'seeds': list(seeds), 'methods': list(methods), 'dataset': 'amylase', 'comparison': args.comparison,
                 'data_sha256': digest(DATA.read_bytes()), 'reference_sha256': digest(REFERENCE.read_bytes()),
                 'cache_sha256': digest(CACHE.read_bytes()), 'specification_sha256': digest(spec_bytes),
                 'python': platform.python_version(),
@@ -46,8 +50,8 @@ def main():
     else:
         args.output.mkdir(parents=True, exist_ok=False)
         write_json(args.output / 'manifest.json', manifest)
-    for seed in SEEDS:
-        for method in METHODS:
+    for seed in seeds:
+        for method in methods:
             path = args.output / f'seed_{seed:02d}' / method
             status_path = path / 'status.json'
             if status_path.exists():
@@ -65,7 +69,7 @@ def main():
                 run_pilot(path, seed=seed, role_seed=2000 + seed, member_seed=3000 + seed,
                           reward_spec=spec, reward_origin={'source': 'abstention_development'}, repair=True,
                           targeted_disagreement=True, direct_diversity=True,
-                          stop_on_failed_repairs=method == 'normal')
+                          stop_on_failed_repairs=method != 'continue', bypass_evidence_gate=method == 'bypass')
                 raw = (path / 'run.jsonl').read_bytes()
                 blob = gzip.compress(raw, mtime=0)
                 with (path / 'run.jsonl.gz').open('xb') as file:
@@ -82,16 +86,16 @@ def main():
                           'elapsed_seconds': time.perf_counter() - started}
                 write_json(status_path, status)
             print(json.dumps({'seed': seed, 'method': method, 'status': status['status']}), flush=True)
-    for seed in SEEDS:
-        for method in METHODS:
+    for seed in seeds:
+        for method in methods:
             path = args.output / f'seed_{seed:02d}' / method / 'status.json'
             if not path.is_file() or json.loads(path.read_text()).get('status') not in ('completed', 'failed', 'interrupted'):
                 raise ValueError('Not all runs have terminal status')
     _, scores, train, data_hash, reference_hash = load_amylase(DATA, REFERENCE, 4)
     rows = []
-    for seed in SEEDS:
+    for seed in seeds:
         initial = None
-        for method in METHODS:
+        for method in methods:
             path = args.output / f'seed_{seed:02d}' / method
             state = json.loads((path / 'status.json').read_text())
             if state['status'] != 'completed':
@@ -112,10 +116,12 @@ def main():
             rows.append({'seed': seed, 'method': method, 'status': 'completed', **result['curve'][-1],
                          'stop_reason': result['stop_reason'], 'covered': result['covered'],
                          'range_count': result['range_count'], 'mean_range_width': result['mean_range_width'],
-                         'repair_actions': len(actions), 'repairs_accepted': sum(a['status'] == 'accepted' for a in actions)})
+                         'repair_actions': len(actions), 'repairs_accepted': sum(a['status'] == 'accepted' for a in actions),
+                         'accepted_without_evidence': sum(a['status'] == 'accepted' and
+                             not a['attempts'][-1]['verification']['accepted'] for a in actions)})
     columns = ('seed', 'method', 'status', 'new_measurements', 'best_observed', 'pool_regret',
                'found_top_one_percent', 'stop_reason', 'covered', 'range_count', 'mean_range_width',
-               'repair_actions', 'repairs_accepted')
+               'repair_actions', 'repairs_accepted', 'accepted_without_evidence')
     with (args.output / 'summary.csv').open('x', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=columns, lineterminator='\n')
         writer.writeheader()

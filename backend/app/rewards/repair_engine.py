@@ -6,7 +6,7 @@ from app.rewards.repair_verification import verify_repair
 
 
 def choose_repair(spec, warning_type, candidates, reference, remaining, counterexamples, calibration, earlier,
-                  advisor=None, direct_diversity=False):
+                  advisor=None, direct_diversity=False, bypass_evidence_gate=False):
     attempts = []
     menu = repair_candidates(spec, warning_type)
     advice = advisor(warning_type, menu) if advisor is not None and menu else None
@@ -22,7 +22,8 @@ def choose_repair(spec, warning_type, candidates, reference, remaining, countere
         attempts.append({'term': candidate['term'], 'cost': candidate['cost'],
                          'proposed_weight': candidate['specification']['terms'][candidate['term']]['weight'],
                          'verification': verification})
-        if verification['accepted']:
+        if (verification['checks']['allowed_change_and_constraints'] is True if bypass_evidence_gate
+                else verification['accepted']):
             return {'status': 'accepted', 'specification': candidate['specification'], 'attempts': attempts,
                     'advice': advice}
     return {'status': 'retained', 'specification': copy.deepcopy(spec), 'attempts': attempts, 'advice': advice}

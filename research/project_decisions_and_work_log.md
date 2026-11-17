@@ -467,6 +467,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Applied the post-result first-30-later-measurement definition to both saved studies. Across 100 repair-policy runs, 56 had no accepted repair, six had insufficient later measurements and 38 had complete windows. Independently recomputed all 100 classifications and coverage counts from compressed records and checked previous metric fields were unchanged. [Findings](after_repair_coverage_findings.md) give per-protein denominators and explain why the observations do not establish a causal effect or the original shift-split target.
 
+### 2026-11-17: development evidence-gate comparison implementation
+
+- Prepared the Amylase-only [evidence-gate protocol](verifier_ablation_protocol.md). The experimental mode applies an allowed menu proposal without requiring its evidence verdict, while still calculating that verdict for audit and preserving input, menu, sequence and budget guards. Normal matched-study analysis rejects records with the bypass enabled. Synthetic paired runs, rejected-guard cases and the full 121-test backend suite passed. The earlier stopping-comparison audit was rerun and reproduced its recorded output. No real evidence-gate comparison had run at this point.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
