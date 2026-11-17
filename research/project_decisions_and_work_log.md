@@ -443,6 +443,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Prepared an isolated Amylase-only comparison of normal repair stopping and continuing after failed repairs, documented in the [protocol](abstention_ablation_protocol.md). Failed proposals remain rejected and constraints remain active; the default policy is unchanged. Added a separate runner and reconstruction audit, synthetic matched-run and stopping tests, and checks that ordinary matched-study evaluation rejects records claiming the stop was disabled. The complete backend suite passed 111 tests; no real development comparison had run at this point.
 
+### 2026-11-17: development stopping comparison results
+
+- All ten Amylase runs completed. The independent audit reconstructed 86 selection batches and 73 repair replays and checked both policies' stopping behavior. Normal stopping ended two of five runs early; continuation found a higher best score in one pair and the same best score in four while using 140 extra measurements in the two early-stopped pairs. [Findings](abstention_ablation_findings.md) preserve per-seed results and explain why this small exploratory comparison does not establish a general or causal benefit.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
