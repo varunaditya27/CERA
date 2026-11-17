@@ -479,6 +479,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Implemented the Amylase-only [repair-term protocol](repair_terms_ablation_protocol.md), removing one of the three adjustable repair routes at a time without removing its underlying reward term or hard guards. Logged disabled routes, checked warning/action priority in the audit, and restricted ordinary matched-study analysis from accepting disabled routes. Synthetic tests and all 123 backend tests passed; the earlier stopping and evidence-gate audits reproduced their saved outputs before the final audit helper extraction. Corrected the shared runner's fixed reward-origin label for future studies and documented the earlier verifier study's metadata mislabel without changing its records. No real repair-term comparison had run at this point.
 
+### 2026-11-17: repair-term comparison results
+
+- All 20 Amylase runs completed; the independent audit checked 161 selections and 63 repair replays. The no-uncertainty-repair policy skipped eight route events and used 130 more measurements than normal across five starts, with the same final best score in every pair. No disabled-route event occurred for distance or diversity, so those interventions were not exercised. [Findings](repair_terms_ablation_findings.md) preserve individual outcomes, limitations and audit details.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
