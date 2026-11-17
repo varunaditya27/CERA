@@ -1,0 +1,22 @@
+# IRED low-change start: proposed implementation and study
+
+Status: draft for review, 17 November 2026. Varun chose to start with variants that have at most two changes and then allow all eligible unmeasured variants as candidates. This choice does not by itself establish a completed study. The IRED outcomes from the earlier comparison have already been inspected; additional runs are exploratory and do not constitute independent validation.
+
+## Question and candidate settings
+
+Can the compared policies find strong measured variants when starting from lower-mutation IRED variants but free to choose any eligible variant afterward? The [FLIP2 description](https://flip.protein.properties/) defines its IRED split by mutation count, but this study permits later measurement and retraining on either side, so it is a sequential-search adaptation rather than the official static benchmark.
+
+Proposed: reuse the prior nine methods and reward specification, ten matched seeds 61–70, 100 initial measurements, at most 100 additional measurements, batches of ten, and the four-substitution limit. The benchmark's train pool contains variants with zero to two substitutions; use its eligible rows including those flagged for benchmark validation, consistent with the previously approved development protocol. The experiment makes its own score-independent assignment of 20 of the 100 initial measurements to prediction-range calibration. A calibration set adjusts ranges; it does not prove their future accuracy. Initial sampling uses the loader's recorded train-row order, as the existing `Experiment` implementation does, and the audit must reproduce that exact order.
+
+All methods receive the same starting observations for each seed and access to all eligible unmeasured sequences without their scores. Record the number of substitutions for each selection, actual measurement counts, early stops, fixed-versus-repair paired outcomes, and range coverage. A run can remain in the low-change pool throughout, so do not claim that it crossed the boundary without measuring its selections. Compute full-pool outcome references only after every planned run has a terminal status. Keep proteins and score scales separate.
+
+The prior comparison used Gemini and incurred provider calls. This proposal includes the same Gemini-assisted method, so new calls may incur charges; exact quota and billing are unknown. No provider request or new protein-search run has been made under this draft.
+
+## Implementation and checks proposed for approval
+
+1. Extend the matched runner to explicitly record and pass the selected initial-pool mode. Limit the new low-change mode to IRED so Hydro's score-derived train membership cannot silently enter this study. Keep the previous all-eligible mode and its exact verification contract.
+2. Extend the evaluator and independent audit to reconstruct the ordered IRED starting pool, verify matched starts, input fingerprints and all-eligible candidate access, and count selected variants by substitution count. Keep output directories and study identity separate from the completed four-protein study; reject changed manifests on resume.
+3. Test synthetic IRED records for the selected start and candidate rules, matched methods, validation-flag handling, fingerprint and start tampering, insufficient eligible starts, score hiding, failed or interrupted records, and preservation of the old all-eligible study checks. Run the backend test suite and independently review the changes before any real search.
+4. Freeze a runbook with exact methods, seeds, output location, audit and failure handling. Only then run the reviewed study, independently audit the saved records, evaluate all methods after terminal statuses, and document limitations and actual API calls.
+
+These are proposed steps. They do not establish a causal repair effect or recover the originally proposed test-only shift comparison. Unknowns include whether local-search methods have suitable neighbors and how often a policy actually selects a more-changed sequence. Those are outcomes to report, not settings to tune after looking at results. The [scikit-learn guidance on leakage](https://scikit-learn.org/stable/common_pitfalls.html#data-leakage) explains why information unavailable at selection time must not influence model construction; this retrospective sequential design intentionally permits measurements to be used after they have been revealed.

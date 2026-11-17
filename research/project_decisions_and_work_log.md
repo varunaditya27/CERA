@@ -425,6 +425,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Aggregated the existing saved coverage counts by protein for both repair policies and independently recomputed all 80 run totals from their fingerprint-checked compressed records. Updated [study findings](multiprotein_study_findings.md) with numerators and denominators. These are whole-run observations, not after-repair causal estimates; the one-off verification was not saved as a reusable audit.
 
+### 2026-11-17: IRED starting-pool choice
+
+- Varun chose to start from variants with at most two substitutions and allow selection from all eligible unmeasured variants afterward. Updated the [split feasibility review](split_evaluation_feasibility.md) and prepared a separate [implementation and study plan](ired_low_change_study_plan.md) for review. No implementation, provider call or new protein-search run was made in this step.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.

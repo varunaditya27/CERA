@@ -25,7 +25,7 @@ The counts are eligible rows, not measured outcomes. For IRED, [preparation chec
 
 **Allow every eligible unmeasured variant.** Start from the same low-change pool but let methods also select additional low-change variants. This better represents an unrestricted pool and uses only score-independent information, but a method may never cross the boundary. Report the mutation counts of selections and do not label the entire run a test-side-only comparison.
 
-The first option is recommended for a direct study of the proposed mutation-count shift, provided its constrained pool and sequential retraining are named. The second is a separate question and should not be mixed into the same result table as though the candidate pools were equal.
+On 17 November 2026, Varun chose the second option: begin with low-change variants and allow all eligible unmeasured variants as candidates. Report this as an unrestricted sequential search with a low-change start, not as a test-side-only or official static FLIP2 evaluation. Do not mix results with a restricted-pool study as though their candidate pools were equal.
 
 ## Hydro and study safeguards
 
