@@ -1,0 +1,11 @@
+seed,method,status,new_measurements,best_observed,pool_regret,found_top_one_percent,stop_reason,covered,range_count,mean_range_width,repair_actions,repairs_accepted,disabled_actions,rejected_repairs_applied,accepted_without_evidence
+111,normal,completed,20,0.1812,0.030433333333333312,True,failed_repairs,16,20,0.1865638414991315,2,0,0,0,0
+111,no_retention,completed,20,0.1812,0.030433333333333312,True,failed_repairs,16,20,0.1865638414991315,2,0,0,2,0
+112,normal,completed,40,0.16685,0.044783333333333314,False,failed_repairs,20,40,0.15145306827591393,2,0,0,0,0
+112,no_retention,completed,40,0.16685,0.044783333333333314,False,failed_repairs,20,40,0.15145306827591393,2,0,0,2,0
+113,normal,completed,30,0.1999333333333333,0.011700000000000016,True,failed_repairs,16,30,0.15991332346047152,2,0,0,0,0
+113,no_retention,completed,30,0.1999333333333333,0.011700000000000016,True,failed_repairs,16,30,0.15991332346047152,2,0,0,2,0
+114,normal,completed,40,0.1868999999999999,0.024733333333333413,True,failed_repairs,26,40,0.1691847683946054,2,0,0,0,0
+114,no_retention,completed,40,0.1868999999999999,0.024733333333333413,True,failed_repairs,27,40,0.1691847683946054,2,0,0,2,0
+115,normal,completed,60,0.1746833333333333,0.03695000000000001,True,failed_repairs,54,60,0.16849101460025634,2,0,0,0,0
+115,no_retention,completed,60,0.1746833333333333,0.03695000000000001,True,failed_repairs,54,60,0.16849101460025634,2,0,0,2,0

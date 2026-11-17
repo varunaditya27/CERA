@@ -495,6 +495,10 @@ This is the running record for later review. Add dated entries as work proceeds.
 
 - Defined the isolated Amylase [retention protocol](retention_ablation_protocol.md): after every ordinary proposal fails, its alternative applies the last proposal only when the menu and hard guards permit it, records it as rejected, and still counts the failure toward stopping. This is not rollback of an earlier accepted rule after later deterioration. Synthetic cases cover successful proposals, empty menus, failed evidence and hard-guard rejection; ordinary study verification rejects the experimental mode. All 126 backend tests passed, followed by 14 targeted tests after an additional experimental-setting guard. The earlier universal-penalty audit reproduced its saved output. No real retention comparison had run at this point.
 
+### 2026-11-17: rejected-repair retention comparison results
+
+- All ten Amylase runs completed; the independent audit checked 38 selections and 55 repair replays, including full menus and rejected-proposal application. Both policies stopped after failed repairs in all five pairs. The alternative applied ten rejected proposals; final best scores and measurement counts matched per pair, although three pairs had differing selection batches. [Findings](retention_ablation_findings.md) distinguish immediate retention from later rollback and avoid claiming equivalence.
+
 ## Next review gates
 
 1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
