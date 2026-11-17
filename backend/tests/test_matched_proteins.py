@@ -77,7 +77,7 @@ class MatchedProteinTests(unittest.TestCase):
             status_path = record.parent / 'status.json'
             for name, value in (('stop_on_failed_repairs', False), ('bypass_evidence_gate', True),
                                 ('disabled_repair_terms', ['distance_penalty']), ('universal_penalty', True),
-                                ('apply_last_rejected', True), ('rollback_monitor', True)):
+                                ('apply_last_rejected', True), ('rollback_monitor', True), ('reactive_calibration', True)):
                 with self.subTest(name=name):
                     events = copy.deepcopy(original)
                     events[1]['settings'][name] = value

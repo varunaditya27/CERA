@@ -72,7 +72,7 @@ def read_source():
 
 
 def audit_run(events, seed, method, sequences, scores, train, manifest, row, counts, bypass_evidence_gate=False,
-              apply_last_rejected=False, rollback_monitor=False):
+              apply_last_rejected=False, rollback_monitor=False, reactive_calibration=False):
     start = events[0]
     require(start['event'] == 'start' and (start['seed'], start['initial_count'], start['budget'],
             start['batch_size'], start['max_mutations']) == (seed, 100, 100, 10, 4), 'Invalid start')
@@ -86,6 +86,8 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
     targeted = method != 'fixed'
     direct = method == 'direct'
     require(setup.get('rollback_monitor', False) is rollback_monitor, 'Rollback monitoring mode mismatch')
+    require(setup.get('reactive_calibration', False) is reactive_calibration, 'Reactive calibration mode mismatch')
+    require(not reactive_calibration or method == 'fixed', 'Reactive audit requires fixed-reward comparison')
     if rollback_monitor:
         from app.analysis.rollback_audit import audit_rollback_events
         audit_rollback_events(events)
@@ -96,12 +98,24 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
     generator = random.Random(3000 + seed)
     pending = warning = target = distances = ranges = ids = None
     covered, widths, stop = 0, [], None
+    calibration_ids, revealed_order, update_required = list(setup['reserved_ids']), [], None
+    round_number = 0
     for event in events[1:]:
         if event['event'] == 'method':
             settings = event['settings']
             if 'member_seeds' in settings:
+                require(update_required is None, 'Missing required calibration update')
+                round_number += 1
                 require(settings['member_seeds'] == generator.sample(range(2**32), 5)
-                        and set(settings['fitting_ids']) == set(known) - set(setup['reserved_ids']), 'Fitting evidence mismatch')
+                        and set(settings['fitting_ids']) == set(known) - set(calibration_ids), 'Fitting evidence mismatch')
+                if reactive_calibration:
+                    require(settings.get('calibration_ids') == calibration_ids, 'Calibration role mismatch')
+            if 'calibration_update' in settings:
+                update = settings['calibration_update']
+                require(reactive_calibration and update_required == round_number and settings['round'] == round_number
+                        and update == {'previous_ids': calibration_ids, 'new_ids': sorted(revealed_order[-20:]),
+                                       'active_from_round': round_number + 1}, 'Calibration update mismatch')
+                calibration_ids, update_required = update['new_ids'], None
             if 'reward_distance' in settings:
                 distances = settings['reward_distance']['distances']
             if 'disagreement_target_evidence' in settings:
@@ -150,6 +164,9 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
                                 and action['attempts'][-1]['verification']['checks']['allowed_change_and_constraints'] is True
                                 and action['specification'] == proposed, 'Invalid rejected repair application')
                         spec = action['specification']
+        elif event['event'] == 'warning' and event['type'] == 'coverage':
+            if reactive_calibration and event['status'] == 'triggered' and stop is None:
+                update_required = round_number
         elif event['event'] == 'warning' and event['type'] == 'disagreement':
             require(pending is None, 'Warning chronology error')
             warning = event
@@ -180,13 +197,14 @@ def audit_run(events, seed, method, sequences, scores, train, manifest, row, cou
                 covered += bounds['lower'] <= value <= bounds['upper']
                 widths.append(bounds['upper'] - bounds['lower'])
             known.update(event['measurements'])
+            revealed_order.extend(event['measurements'])
             require(event['remaining'] == 200 - len(known), 'Budget mismatch')
             stop = event['stop_reason']
             pending = None
         elif event['event'] == 'stop':
             require(pending is None and stop is None and event['remaining'] == 200 - len(known), 'Stop chronology mismatch')
             stop = event['stop_reason']
-    require(pending is None and stop in ('failed_repairs', 'budget_exhausted', 'no_candidates'), 'Incomplete run')
+    require(pending is None and update_required is None and stop in ('failed_repairs', 'budget_exhausted', 'no_candidates'), 'Incomplete run')
     check_summary(row, known, 100, stop, covered, widths, scores)
     counts['runs'] += 1
     return start['initial']

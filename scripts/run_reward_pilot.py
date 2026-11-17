@@ -19,6 +19,7 @@ def main():
     parser.add_argument('--repair', action='store_true', help='Enable the experimental rule-based repair loop')
     parser.add_argument('--gemini-repair', action='store_true', help='Use Gemini to prioritize repair options')
     parser.add_argument('--targeted-disagreement', action='store_true', help='Use the experimental disagreement target rule')
+    parser.add_argument('--reactive-calibration', action='store_true', help='Update range-setting examples after a warning in Amylase development')
     parser.add_argument('--rollback-monitor', action='store_true', help='Enable later-coverage rollback in Amylase development')
     parser.add_argument('--direct-diversity', action='store_true', help='Check whether a replay resolves the diversity warning')
     args = parser.parse_args()
@@ -50,7 +51,8 @@ def main():
     print(json.dumps(run_pilot(args.output_dir, seed=args.seed, reward_spec=spec, reward_origin=origin,
                                repair=args.repair or args.gemini_repair, repair_advisor=advisor, repair_model=model,
                                dataset=args.dataset, targeted_disagreement=args.targeted_disagreement,
-                               direct_diversity=args.direct_diversity, rollback_monitor=args.rollback_monitor)))
+                               direct_diversity=args.direct_diversity, rollback_monitor=args.rollback_monitor,
+                               reactive_calibration=args.reactive_calibration)))
 
 
 if __name__ == '__main__':

@@ -11,6 +11,7 @@ from app.datasets.registry import dataset_source
 from app.features import hydro_representations, ired_representations
 from app.experiments.experiment import Experiment
 from app.experiments.acquisition import acquisition_scores, choose_acquisition
+from app.experiments.calibration_policy import recent_calibration
 from app.experiments.local_search import propose_local
 from app.experiments.prediction_intervals import interval_radius
 from app.experiments.predictor_group import fit_group, predict_group, predict_members
@@ -32,7 +33,7 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
               repair=False, repair_advisor=None, repair_model=None, dataset='amylase', acquisition=None,
               local_search=None, targeted_disagreement=False, direct_diversity=False, initial_pool='train',
               stop_on_failed_repairs=True, bypass_evidence_gate=False, disabled_repair_terms=(),
-              universal_penalty=False, apply_last_rejected=False, rollback_monitor=False):
+              universal_penalty=False, apply_last_rejected=False, rollback_monitor=False, reactive_calibration=False):
     if acquisition not in (None, 'ucb', 'ei') or (acquisition is not None and (reward_spec is not None or repair)):
         raise ValueError('Invalid acquisition configuration')
     if (local_search not in (None, 'genetic', 'adalead') or
@@ -64,6 +65,10 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
             (not repair or dataset != 'amylase' or not stop_on_failed_repairs or bypass_evidence_gate
              or disabled_repair_terms or universal_penalty or apply_last_rejected))):
         raise ValueError('Rollback monitoring is restricted to isolated Amylase repair runs')
+    if (not isinstance(reactive_calibration, bool) or (reactive_calibration and
+            (dataset != 'amylase' or reward_spec is None or rollback_monitor or not stop_on_failed_repairs
+             or bypass_evidence_gate or disabled_repair_terms or universal_penalty or apply_last_rejected))):
+        raise ValueError('Reactive calibration is restricted to isolated Amylase reward runs')
     if reward_spec is not None:
         reward_spec = copy.deepcopy(reward_spec)
         validate_spec(reward_spec)
@@ -112,6 +117,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                              'universal_penalty': universal_penalty,
                              'apply_last_rejected': apply_last_rejected,
                              'rollback_monitor': rollback_monitor,
+                             'reactive_calibration': reactive_calibration,
+                             'calibration_source_sha256': source_hashes(('calibration_policy.py',)) if reactive_calibration else None,
                              'rollback_source_sha256': source_hashes(('rollback_monitor.py',)) if monitor else None,
                              'repair_advisor': 'gemini' if repair_advisor else 'rule_based',
                              'repair_model': repair_model,
@@ -140,8 +147,11 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
             ranges = {identifier: {'mean': float(mean), 'spread': float(spread),
                                    'lower': float(mean - radius), 'upper': float(mean + radius)}
                       for identifier, mean, spread in zip(candidates, means, spreads)}
-            run.record_settings({'penalty': penalty, 'member_seeds': member_seeds,
-                                 'fitting_ids': fitting, 'interval_radius': radius})
+            round_settings = {'penalty': penalty, 'member_seeds': member_seeds,
+                              'fitting_ids': fitting, 'interval_radius': radius}
+            if reactive_calibration:
+                round_settings['calibration_ids'] = reserved
+            run.record_settings(round_settings)
             count = min(budget['batch_size'], run.remaining, len(candidates))
             batch_budget = run.remaining
             if local_search is not None:
@@ -252,6 +262,11 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
                             previous_spec = action['specification']
                 if abstain:
                     run.stop_early('failed_repairs')
+            if reactive_calibration and coverage['status'] == 'triggered' and run.stop_reason is None:
+                updated = recent_calibration(history, run.revealed)
+                run.record_settings({'round': round_number, 'calibration_update': {
+                    'previous_ids': reserved, 'new_ids': updated, 'active_from_round': round_number + 1}})
+                reserved = updated
         if monitor is not None:
             events = monitor.finish()
             if events:

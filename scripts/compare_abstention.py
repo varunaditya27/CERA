@@ -23,6 +23,7 @@ TERM_SEEDS = tuple(range(91, 96))
 UNIVERSAL_SEEDS = tuple(range(101, 106))
 RETENTION_SEEDS = tuple(range(111, 116))
 ROLLBACK_SEEDS = tuple(range(161, 166))
+CALIBRATION_SEEDS = tuple(range(171, 176))
 METHODS = ('normal', 'continue')
 REMOVED_TERMS = {'no_distance': 'distance_penalty', 'no_uncertainty': 'uncertainty_penalty',
                  'no_diversity': 'diversity_bonus'}
@@ -32,7 +33,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output', type=Path)
     parser.add_argument('--resume', action='store_true')
-    parser.add_argument('--comparison', choices=('stopping', 'evidence', 'repair-terms', 'universal', 'retention', 'later-rollback'), default='stopping')
+    parser.add_argument('--comparison', choices=('stopping', 'evidence', 'repair-terms', 'universal', 'retention', 'later-rollback', 'reactive-calibration'), default='stopping')
     args = parser.parse_args()
     if args.comparison == 'stopping':
         seeds, methods = SEEDS, METHODS
@@ -44,8 +45,10 @@ def main():
         seeds, methods = UNIVERSAL_SEEDS, ('normal', 'universal')
     elif args.comparison == 'retention':
         seeds, methods = RETENTION_SEEDS, ('normal', 'no_retention')
-    else:
+    elif args.comparison == 'later-rollback':
         seeds, methods = ROLLBACK_SEEDS, ('normal', 'rollback')
+    else:
+        seeds, methods = CALIBRATION_SEEDS, ('normal', 'reactive')
     if (args.output / 'summary.csv').exists():
         raise ValueError('Completed comparison summary already exists')
     spec_bytes = (ROOT / 'research/reward_spec_example.json').read_bytes()
@@ -83,12 +86,14 @@ def main():
             started = time.perf_counter()
             try:
                 run_pilot(path, seed=seed, role_seed=2000 + seed, member_seed=3000 + seed,
-                          reward_spec=spec, reward_origin={'source': f'{args.comparison}_development'}, repair=True,
-                          targeted_disagreement=True, direct_diversity=True,
+                          reward_spec=spec, reward_origin={'source': f'{args.comparison}_development'},
+                          repair=args.comparison != 'reactive-calibration',
+                          targeted_disagreement=args.comparison != 'reactive-calibration',
+                          direct_diversity=args.comparison != 'reactive-calibration',
                           stop_on_failed_repairs=method != 'continue', bypass_evidence_gate=method == 'bypass',
                           disabled_repair_terms=(REMOVED_TERMS[method],) if method in REMOVED_TERMS else (),
                           universal_penalty=method == 'universal', apply_last_rejected=method == 'no_retention',
-                          rollback_monitor=method == 'rollback')
+                          rollback_monitor=method == 'rollback', reactive_calibration=method == 'reactive')
                 raw = (path / 'run.jsonl').read_bytes()
                 blob = gzip.compress(raw, mtime=0)
                 with (path / 'run.jsonl.gz').open('xb') as file:
@@ -138,12 +143,13 @@ def main():
                          'repair_actions': len(actions), 'repairs_accepted': sum(a['status'] == 'accepted' for a in actions),
                          'disabled_actions': sum(a['status'] == 'repair_disabled' for a in actions),
                          'rejected_repairs_applied': sum(a['status'] == 'applied_rejected' for a in actions),
+                         'calibration_updates': sum('calibration_update' in e.get('settings', {}) for e in events),
                          'accepted_without_evidence': sum(a['status'] == 'accepted' and
                              not a['attempts'][-1]['verification']['accepted'] for a in actions)})
     columns = ('seed', 'method', 'status', 'new_measurements', 'best_observed', 'pool_regret',
                'found_top_one_percent', 'stop_reason', 'covered', 'range_count', 'mean_range_width',
                'repair_actions', 'repairs_accepted', 'disabled_actions', 'rejected_repairs_applied',
-               'accepted_without_evidence')
+               'accepted_without_evidence', 'calibration_updates')
     with (args.output / 'summary.csv').open('x', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=columns, lineterminator='\n')
         writer.writeheader()

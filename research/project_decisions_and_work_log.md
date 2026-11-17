@@ -617,3 +617,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: reactive calibration protocol
 
 - Defined an opt-in [Amylase development policy](reactive_calibration_protocol.md) that replaces the 20 range-setting examples with the most recently revealed variants after a coverage warning and excludes them from the next model fit. Adaptive selection prevents a standard coverage guarantee. The protocol keeps the established studies unchanged and fixes a five-start comparison before running it.
+
+### 2026-11-17: reactive calibration implementation
+
+- Added the opt-in Amylase range-setting policy and a separate matched comparison. A synthetic warning episode verified that updated calibration identifiers are already revealed, are excluded from the next fit, and take effect only in the next round; its independent replay rejected an altered update. Normal matched-study evaluators and audits reject the experimental setting. All 158 backend tests passed, and the preceding later-rollback audit reproduced its saved counts. No real reactive-calibration comparison was run at this checkpoint.

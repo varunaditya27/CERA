@@ -113,6 +113,7 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors,
                         and setup.get('universal_penalty', False) is False
                         and setup.get('apply_last_rejected', False) is False
                         and setup.get('rollback_monitor', False) is False
+                        and setup.get('reactive_calibration', False) is False
                         and setup['cache_sha256'] == manifest['representation_cache_sha256']
                         and setup['reserved_ids'] == sorted(random.Random(2000 + seed).sample(sorted(expected_initial), 20)),
                         'Predictor configuration mismatch')
