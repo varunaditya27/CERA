@@ -97,7 +97,7 @@ The three hydrophobic-core proteins are handled separately. Their source checks,
 
 ## Mixed predictor development
 
-The optional [mixed predictor](research/hybrid_predictor_findings.md) uses three ridge members and two neural networks, with GPU or CPU training. It is currently restricted to Amylase development and is not part of the completed five-ridge studies.
+The optional [mixed predictor](research/hybrid_predictor_findings.md) uses three ridge members and two neural networks, with GPU or CPU training. It is currently restricted to Amylase development and is not part of the completed five-ridge studies. A [reusable development model and inference example](research/hybrid_model_export_findings.md) are available; predictive performance of that final refit has not been evaluated.
 
 ## Exploratory prediction ranges
 

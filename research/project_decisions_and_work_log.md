@@ -653,3 +653,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: mixed-predictor export implementation
 
 - Added a numeric-only, atomic model archive and NumPy inference loader. The export command audits a completed mixed-predictor episode, reconstructs only its revealed observations, refits a final group with the range-setting examples held out, and checks CPU-loaded predictions against the fitted models before publishing the file. Tests cover prediction parity, source-role boundaries, changed archives, invalid inputs and refusal to overwrite; all 166 backend tests passed. No real model artifact had been exported at this checkpoint.
+
+### 2026-11-17: exported development model and independent refit
+
+- Exported the corrected seed-181 Amylase episode as a reusable numeric model after a final GPU refit. Of 120 observed scores, 100 were available for fitting and 20 set the prediction range; the neural members used 80 for training and 20 for early stopping within the 100 fitting examples. A separate same-environment GPU refit and CPU archive load checked all 3,706 cached representations; maximum mean and spread differences were 3.98e-9 and 7.70e-9. A fresh CPU process loaded the model without importing PyTorch. The [findings](hybrid_model_export_findings.md) give the fingerprint, usage, and limitations. This checks reproducibility, not predictive accuracy of the post-episode refit.

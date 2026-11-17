@@ -1,0 +1,13 @@
+{
+  "model_sha256": "747968886935e3890fa0d4d9c95d1962a024cf35a4c55ac19672cd1e6a17e737",
+  "record_sha256": "c8d24799f2c7e75a7dd805b2e994a6944dff0c1fd5dab7962d1514fa98ab63a5",
+  "known_measurements": 120,
+  "fitting_count": 100,
+  "range_setting_count": 20,
+  "checked_representations": 3706,
+  "device_refit": "cuda",
+  "snapshot_inference": "numpy_cpu",
+  "maximum_mean_difference": 3.978205501131704e-09,
+  "maximum_spread_difference": 7.703366961681057e-09,
+  "radius": 0.09648729572889815
+}
