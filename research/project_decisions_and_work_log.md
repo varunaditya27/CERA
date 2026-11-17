@@ -564,3 +564,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-17: periodic retraining evidence
 
 - Rechecked the runner and protocol: greedy and fixed-reward policies both refit each batch without warning-driven changes. They provide retraining-without-diagnosis comparators under the matched schedule; this does not test an independent lower-frequency retraining policy.
+
+### 2026-11-17: Hydro low-fitness-start search protocol
+
+- Defined an exploratory [sequential search protocol](hydro_low_fitness_search_protocol.md) with initial observations from the benchmark's score-defined lower-fitness side and unrestricted later candidate access. This explicitly discloses privileged starting-pool information, keeps the user's unrestricted candidate choice, and requires separate verification before interpreting results. The protocol uses the existing nine methods and ten starts per Hydro protein; it is not the official static benchmark or independent confirmation.
