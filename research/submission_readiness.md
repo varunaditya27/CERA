@@ -58,13 +58,13 @@ The published [RVCE ISE curriculum](https://rvce.edu.in/sites/default/files/14.%
 2. Open the completed entry under **Recent local runs**. Use the ten batches to show how a prediction is recorded before its measured score is revealed. This setup simulates 100 new measurements from the existing dataset and makes zero provider requests.
 3. Select **Check recorded decisions**. The check replays the ten batch selections using the saved predictions. This fixed-reward run has zero repair proposals to replay.
 
-The experiment submission API, completed-run listing, review, decision check, and three corresponding production pages passed a local HTTP walkthrough using a temporary run directory. Browser form interaction, visual layout, and assistive technology remain unchecked.
+The experiment submission API, completed-run listing, review, decision check, and three corresponding production pages passed a local HTTP walkthrough using a temporary run directory. Playwright Chromium also verified keyboard submission, opening batch details, scrolling its table with the keyboard, and reaching the passing decision check at 390 px wide. The audit checked ten batch selections for the fixed-reward run. Screen-reader behavior remains unchecked.
 
 ## Checks before submitting
 
 1. Review the report and presentation with the project guide against the institution's required format, author names and assessment criteria. The repository does not establish those final administrative requirements; do not invent signatures or approvals.
 2. The report PDF was rendered and checked for layout, and its source is included. Relative evidence links work in the repository layout; package supporting records if the report is moved elsewhere.
-3. The latest full backend run passed 189 tests. The production frontend build and live HTTP workflow also passed their checks. Visual layout, keyboard navigation, and screen-reader behavior await browser access. The earlier 360-run study has a recorded audit, and the later replay was stopped before completion. [Status report](project_status_and_results.md)
+3. The latest full backend run passed 189 tests. The production frontend build and live HTTP workflow also passed their checks. Playwright verified the demo flow and keyboard navigation through all 14 presentation slides at 390 px wide. Desktop Results and mobile review screenshots were inspected. Screen-reader behavior remains unchecked. The earlier 360-run study has a recorded audit, and the later replay was stopped before completion. [Status report](project_status_and_results.md)
 4. Decide, with the guide, whether a paper is appropriate. The synopsis makes a paper conditional; negative findings are reportable but do not establish a successful repair method.
 
 ## Research context
