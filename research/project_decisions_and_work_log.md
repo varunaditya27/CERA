@@ -753,3 +753,5 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Incorporated the warning table into the editable report and regenerated the six-page PDF. Checked all eight rows against the saved counts, visually reviewed the rebuilt pages, and updated the report's verification paragraph to reflect 189 passing tests and the local HTTP walkthrough.
 
 - Compared each primary-study repair run with fixed reward at the same measurement count. Checked all 80 pairs against the saved curves and original actual-stop differences. Each policy tied 39 times and scored lower in one IRED start. Documented the comparison as retrospective in the report and submission notes. [Paired scores](../output/matched_eval_51_60_same_measurements.json)
+
+- Added the standalone literature review listed in the synopsis. It ties the original benchmark, proxy reward, and conformal prediction references to the evaluation choices and documented limits. [Literature review](literature_review.md)

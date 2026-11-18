@@ -4,6 +4,8 @@ Reviewed 18 November 2026. The original [synopsis](../Project_Synopsis.pdf) is t
 
 For a review copy, extract the submission ZIP as one folder and open this file, the report, or the presentation from inside it. The archive includes the materials directly cited by these three files and selected machine-readable evaluation summaries. Use the full repository for the application, raw data, and complete replay records.
 
+The [standalone literature review](literature_review.md) connects the benchmark, reward, and prediction-range research to the implemented evaluation. It accompanies the report and the original proposal.
+
 ## Core evidence
 
 - The primary four-protein comparison comprises 360 terminal runs. Both repair policies achieved a higher best score than fixed reward in 0 of 40 matched starts, tied in 35 and scored lower in 5 at actual stop. Early stopping means measurement counts differ. [Results](multiprotein_study_findings.md).
