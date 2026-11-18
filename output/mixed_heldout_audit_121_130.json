@@ -1,0 +1,7 @@
+{
+  "checked_runs": 40,
+  "refitted_models": 200,
+  "checked_predictions": 67660,
+  "predictions_sha256": "a9bff07d5e6d4fec2ab0088eaac91d150f4028baa9ceb5d32ac6d481dcf9db91",
+  "evaluation_sha256": "3f56fbef89eadd8a856a4427ecde320f8b66ba870c10a502a63dba31472f5da4"
+}

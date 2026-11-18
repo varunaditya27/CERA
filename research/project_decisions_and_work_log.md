@@ -725,3 +725,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-18: mixed predictor on held-out protein variants
 
 - Froze an exploratory static comparison before scoring, then evaluated the existing mixed predictor on IRED and three Hydro groups using the same 40 starting samples as the prior ridge study. Predictions and per-start comparisons are recorded in [findings](mixed_heldout_findings.md). A separate calculation recomputed all 40 mixed-run metrics; tests cover held-out separation and changed matched assignments, and all 185 backend tests passed. The two predictors had no consistent advantage, and their Hydro prediction-range coverage remained low. This is not an official benchmark, a search or repair evaluation, or independent biological validation.
+
+### 2026-11-18: mixed held-out refit audit
+
+- Rebuilt all 40 mixed predictor groups on the same GPU from their recorded starting measurements, checked their range-setting roles, and reproduced 67,660 saved predictions and the reported metrics. The [audit](../output/mixed_heldout_audit_121_130.json) checks data and code fingerprints and rejects mismatched prediction and evaluation files. All 186 backend tests passed. It reuses the predictor implementation and does not establish independent biological validity or cross-platform reproducibility. See [mixed held-out findings](mixed_heldout_findings.md) for the command and scope.
