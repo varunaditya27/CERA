@@ -30,13 +30,13 @@ def main():
     raw = args.predictions.read_bytes()
     predictions, evaluation = json.loads(raw), json.loads(args.evaluation.read_text())
     script = Path(__file__).with_name('predict_heldout_shifts.py')
-    require_recorded_code(predictions['script_sha256'] == hashlib.sha256(script.read_bytes()).hexdigest(),
-                          predictions['source_sha256'] == source_hashes(SOURCES))
     if (evaluation['predictions_sha256'] != hashlib.sha256(raw).hexdigest()
             or predictions['versions'] != {n: importlib.metadata.version(n) for n in ('numpy', 'scipy', 'scikit-learn')}
             or [g['dataset'] for g in predictions['groups']] != list(DATASETS)
             or [g['dataset'] for g in evaluation['groups']] != list(DATASETS)):
         raise ValueError('Fingerprint or dataset mismatch')
+    require_recorded_code(predictions['script_sha256'] == hashlib.sha256(script.read_bytes()).hexdigest(),
+                          predictions['source_sha256'] == source_hashes(SOURCES))
     total_predictions = 0
     for group, reported in zip(predictions['groups'], evaluation['groups']):
         dataset = group['dataset']

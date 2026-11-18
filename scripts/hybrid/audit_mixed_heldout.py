@@ -32,14 +32,14 @@ def main():
     raw = args.predictions.read_bytes()
     predictions, evaluation = json.loads(raw), json.loads(args.evaluation.read_text())
     script = Path(__file__).with_name('predict_mixed_heldout.py')
-    require_recorded_code(predictions['script_sha256'] == hashlib.sha256(script.read_bytes()).hexdigest(),
-                          predictions['source_sha256'] == source_hashes(SOURCES))
     if (predictions['hybrid_configuration'] != hybrid_configuration('cuda')
             or evaluation['predictions_sha256'] != hashlib.sha256(raw).hexdigest()
             or predictions['versions'] != {n: importlib.metadata.version(n) for n in ('numpy', 'scipy', 'scikit-learn')}
             or [g['dataset'] for g in predictions['groups']] != list(DATASETS)
             or [g['dataset'] for g in evaluation['groups']] != list(DATASETS)):
         raise ValueError('Fingerprint or dataset mismatch')
+    require_recorded_code(predictions['script_sha256'] == hashlib.sha256(script.read_bytes()).hexdigest(),
+                          predictions['source_sha256'] == source_hashes(SOURCES))
     if args.output.exists():
         raise FileExistsError('Output already exists')
     total_predictions = 0

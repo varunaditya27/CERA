@@ -31,8 +31,6 @@ PYTHONPATH=backend:. python3 -m scripts.reporting.legacy_audit --ref 2a81f24 aud
     output/heldout/heldout_shift_predictions_121_130.json output/heldout/heldout_shift_evaluation_121_130.json
 ```
 
-Two audits that re-run whole experiments (`audit_hybrid_pilot` and `audit_exported_hybrid_model`, which need a GPU or a long CPU run) were not repeated.
-
 ## Environment
 
 Python 3.11 or newer is required; the checks in this repository were run with Python 3.14.8.
