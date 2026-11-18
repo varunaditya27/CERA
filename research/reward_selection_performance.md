@@ -1,7 +1,0 @@
-# Reward selection performance check
-
-Completed 16 November 2026 before larger repeated comparisons. The batch-selection rule and hard constraints are unchanged. The implementation maintains each candidate's minimum normalized Hamming distance to selected sequences using NumPy arrays instead of recomputing every pair in Python. [NumPy's documentation](https://numpy.org/doc/stable/user/basics.broadcasting.html) describes array operations and notes that memory use must also be considered.
-
-The optimized selector reproduced the saved selected identifiers and diversity values for all 12 fixed-reward and repair batches in the earlier matched seed-13 comparison. Saved reward values matched within `1e-14`. It also reproduced all six recorded repair-proposal replay selections. For the first batch, running the prior implementation obtained from Git and the new implementation on identical inputs produced exactly equal output. On this machine, the prior first batch took about 2.03 seconds; the new selector averaged about 0.115 seconds over the 12 saved batches. These are local observations, not a universal speed benchmark.
-
-All 75 backend tests passed, including a separate small direct-calculation comparison and existing hard-constraint, tie and invalid-input checks. This is not an exhaustive proof of identical behavior for every possible floating-point input or every hardware platform; very close scores can be sensitive to numerical differences. The next comparisons must continue to save selections and scores for audit.

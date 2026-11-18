@@ -1,0 +1,11 @@
+<div align="center">
+
+# Direct diversity repair development check
+
+Protocol
+
+</div>
+
+Predeclared before running this comparison. The change is motivated by inspecting seeds 31–35, so this remains development on the same amylase dataset, not independent biological validation. Preserve the default verifier and all other warning, constraint, calibration and stopping rules. In the opt-in mode only, a diversity repair's replay resolves its warning if the existing diversity check is available and no longer triggered. Insufficient batch size is unavailable, not success. No such substitution is made for other warning types. A change is accepted only if every other existing check also passes.
+
+Compare targeted-disagreement repair with the strict original check against the same method with the direct diversity check, for amylase seeds 41–45. Each pair shares its initial observations, reward specification, role seed `2000 + seed`, member seed `3000 + seed`, maximum budget and rule-based repair menu. Report actual measurements, stop reasons, warnings, proposed and accepted changes, whether replayed batches meet the diversity threshold, best measured scores, and coverage using actual denominators. Inspect event chronology and matching, source measurements, and replayed checks independently; do not use the retained full-pool outcomes to select or tune the rule. These are five development seeds on one dataset, not evidence of general biological performance.

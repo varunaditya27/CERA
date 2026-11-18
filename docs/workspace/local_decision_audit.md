@@ -1,0 +1,17 @@
+<div align="center">
+
+# Local experiment decision check
+
+Design note
+
+</div>
+
+The local experiment review has an optional decision check for completed web runs. It first checks the saved measurements, source fingerprints, selection/reveal chronology and summary. It then checks that the current recorded implementation fingerprints and verified representation cache match the run, reconstructs the initial sample, reserved examples and member-seed sequence, and checks fitting identifiers before each batch.
+
+Using the **recorded predictions**, the check independently recomputes every candidate's normalized distance, reconstructs each selected batch, and replays recorded repair proposals. For each replay it checks the selected identifiers, displacement of recorded targets, and consistency of the recorded acceptance flag with its recorded checks. The calculation uses Euclidean and normalized Hamming distances as defined by [SciPy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html). It returns counts, not the candidate pool or unselected scores.
+
+This is an engineering consistency check. It does **not** retrain the predictors, independently validate the recorded prediction values, reconstruct how warning targets were identified, recompute every calibration or rank-preservation check, or establish that a warning is biologically meaningful. It also does not prove that a repair improves fitness. A passing result is not a scientific performance claim. The check uses the same source dataset and local representation cache as the run, and requires the recorded source files and cache to match the current files. If they do not, the decision check is unavailable; the separate chronology review may still be available.
+
+Open a completed local experiment and choose **Check recorded decisions**, or request `/api/experiments/run/<run-id>/audit` on the local backend. The check is read-only and makes no Gemini calls. It can take longer for a larger candidate pool. The endpoint is local-only and inherits the workspace's single-user, unauthenticated deployment limit.
+
+A live Amylase repair run passed checks for two selections and six repair replays. Automated checks rejected a changed selection, distance scale and source fingerprint, and exercised missing-source behavior. Separate runs tested IRED, one hydrophobic-core protein and the Amylase mixed predictor. These checks are not a substitute for independent laboratory validation.

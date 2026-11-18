@@ -1,0 +1,783 @@
+<div align="center">
+
+# Decisions and work log
+
+Work log
+
+</div>
+
+This is the running record for later review. Add dated entries as work proceeds. Distinguish an approved decision from a recommendation, an observation, and an unresolved question. Link supporting evidence and record superseded decisions rather than silently rewriting history.
+
+## Decisions and instructions
+
+| Date | Status | Record |
+| --- | --- | --- |
+| 2026-11-16 | User instruction | Review the project end to end before implementation; avoid shortcuts and unsupported steps. Ask when clarity is required. |
+| 2026-11-16 | User instruction | Maintain a running record of work and decisions for review after project completion. |
+| 2026-11-16 | User authorization | Independently review the primary dataset evidence, beginning with amylase, and document findings. This does not approve code changes or experiment design decisions. |
+| 2026-11-16 | Approved by Varun | Use all eligible unqueried variants as the candidate pool for the primary experiment. Eligibility constraints and other experiment rules remain open; report selections by original division after the run. |
+| 2026-11-16 | Approved by Varun | Keep the amylase reference's measured score hidden until selected under the normal budget. Its sequence can be used to count substitutions. Other datasets' reference treatment remains open. |
+| 2026-11-16 | Delegated working choice | Retain the synopsis's 100 initial and up to 100 additional measurements per main run provisionally, pending dataset feasibility and an amylase development pilot before freezing the protocol. User requested the best number be analyzed and selected; optimality is not established. |
+| 2026-11-16 | User instruction | Work on a new branch and commit progress as work proceeds. Do not push or open a pull request unless separately requested. |
+| 2026-11-16 | User instruction | Use the datasets as source material and make important research-design decisions without constant supervision. Record decisions and evidence. The existing instruction to present a plan and ask before writing code remains in effect. |
+| 2026-11-16 | Open | Reference treatment, measurement budget details, split information visible to the search, per-protein Hydro handling, repair selection and recovery definitions require agreement. |
+
+## Work completed
+
+### 2026-11-16: repository and dataset review
+
+- Reviewed the original project briefs, existing research and team roadmaps, dataset documentation, backend catalog, frontend routes and dataset scripts. The research engine and experimental results are not implemented.
+- Ran the local dataset structural audit successfully for all five datasets. Verified fingerprints and local gzip/CSV agreement for the three primary datasets.
+- Compared amylase and IRED sequence/score pairs with original authors' online tables. Recorded the method, results, source links and limitations in the [primary dataset evidence ledger](../background/dataset_evidence_ledger.md).
+- Checked the local Hydro score boundary and counts by sequence length; the full original Hydro archive and experimental reference provenance remain unverified in this review.
+- No application code was changed. A complete source-by-source audit and experiment protocol are still in progress; no research outcome is claimed.
+
+### 2026-11-16: split checks and experiment walkthrough
+
+- Pinned the amylase and IRED original repositories to commits and recorded fingerprints for the original comparison tables in the evidence ledger.
+- Independently checked that all local amylase split labels agree with the original near-active-site flag and all IRED split labels agree with the two-substitution boundary relative to the uniquely marked original reference sequence. These checks do not resolve IRED filtering or prove how the amylase flag was generated.
+- Corrected an initial interpretation of the IRED `WT` field: it marks a row, while that row's `aa_seq` provides the reference sequence. The recorded final counts use the corrected interpretation.
+- Added a [two-round experiment walkthrough and decision options](../workspace/experiment_walkthrough.md). Varun subsequently approved the broad candidate pool; reference treatment and budget policy remain open.
+
+### 2026-11-16: first amylase feasibility check
+
+- Counted local candidates against the pinned original reference under an illustrative four-substitution limit, separately by original split and validation flag. The training side retains at least 1,258 non-validation candidates before any additional exclusions. The limit and validation handling are not approved experiment rules.
+- Recorded a recommendation to keep the reference score hidden until it is selected; Varun subsequently approved this for amylase.
+
+### 2026-11-16: measurement budget assessment
+
+- Compared the submitted 100 initial / up to 100 additional budget with the available amylase counts, the need to reserve data for prediction intervals, and the need for multiple opportunities to observe recovery. Documented the working choice and its limitations in the experiment walkthrough.
+- No pilot, statistical power study, hardware benchmark, or evaluation-dataset tuning was performed. Batch size, interval-setting allocation, repeat count, and exceptional request handling remain open.
+
+### 2026-11-16: initial data roles
+
+- Reviewed the distinction between fitting a predictor and setting its prediction ranges, including why a range-setting set is not independent proof of its own performance and why adaptive choices complicate coverage claims.
+- Counted original train/test and validation flags in all three local primary datasets. Documented candidate allocations and the counts in the [experiment walkthrough](../workspace/experiment_walkthrough.md).
+- Recommend evaluating the synopsis's 80/20 allocation during amylase development, but this is not an approved rule, a demonstrated optimum, or a completed pilot. Allocation and the treatment of subsequently revealed scores remain open.
+
+### 2026-11-16: delegated development protocol
+
+- Following Varun's delegation, selected a provisional amylase development protocol and documented the reasoning, explicit information boundaries, validation roles, budget edge cases and checks in [amylase development protocol](../studies/amylase/development_protocol.md). These are development decisions subject to evidence and are not experimental results or a frozen final evaluation protocol.
+- The pilot uses 80 initial examples for fitting and model selection and 20 for setting ranges, when interval methods are added. Model selection stays inside the 80; no extra permanent validation group is assumed. Reuse of the 20 and the adaptive search mean formal coverage guarantees must not be claimed without additional justification.
+- Prepared a limited implementation plan for a score-controlled runner and meaningful checks. No implementation code has been written; approval is required before starting it.
+
+### 2026-11-16: measurement runner
+
+- Varun approved the runner implementation and requested backend modules remain focused and properly divided. Added `backend/app/amylase.py` for source loading and eligibility and `backend/app/experiment.py` for measurement accounting and run records; the existing catalog remains separate.
+- Added the pinned original reference sequence and five focused tests. The tests cover hidden scores through the supported interface, atomic invalid requests, reproducible initial choices, budget and stopping behavior, log reconstruction, and the real local candidate count. The local structural dataset audit also passed; direct catalog health and dataset function checks returned healthy and five entries.
+- No predictor, prediction ranges, search method, calibration, repairs, or scientific experiment results are implemented. Python does not provide a security boundary against direct raw-file or object access. An interrupted log write may leave an incomplete record and needs inspection.
+
+### 2026-11-16: first comparison planning
+
+- Reviewed the runner and the next roadmap phase. Found that the supported interface exposes known scores but not their sequences, so a predictor needs a controlled way to obtain both. The current selection record also does not record model predictions.
+- Prepared [the first comparison plan](../studies/amylase/first_comparison.md): matched random selection versus a simple one-hot ridge predictor, with saved pre-reveal predictions and matched starting data. This is a proposed development comparison, not a CERA result.
+- Confirmed the current system has scikit-learn, NumPy and SciPy, but the project does not declare them. Version and dependency choices require verification before implementation. No comparison code has been written or run.
+
+### 2026-11-16: first exploratory comparison
+
+- With Varun's approval, exposed revealed sequences, added pre-reveal prediction records, and implemented separate selection and comparison modules. Pinned the tested research dependencies separately from the catalog's requirements. The original model-selection default produced undefined scores on tiny test folds; use negative mean squared error to compare model choices instead.
+- Seven unit tests passed with `OPENBLAS_NUM_THREADS=1 PYTHONPATH=backend python3 -m unittest discover -s backend/tests -v`.
+- Ran `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.amylase.compare_amylase output/amylase_comparison_seed1_final --seed 1`. Both methods started at best observed score 0.1568 with the same initial data; after 100 new measurements the random run reached 0.2116333333333333 and the greedy run 0.1896333333333333. These are one-run exploratory results, not evidence of a general winner.
+- Independently checked that initial data, fingerprints and budget settings match; selections precede reveals, no identifier repeats, greedy choices are highest recorded predictions, both stop at budget exhaustion, and the CSV summaries reconstruct from the logs. A repeated run produced identical summary files. Full run records and summaries are in `output/amylase_comparison_seed1_final/`.
+- No prediction intervals, CERA failure detection, repairs, language model, repeated-run uncertainty, or evaluation-dataset results are implemented. The original score information remains accessible to processes with direct raw-file access.
+
+### 2026-11-16: repeated-comparison preparation
+
+- Audited the first run after completion: the random method's 100 new choices comprised 49 original-train and 51 original-test variants, while the greedy method chose 100 original-train variants. These labels were joined after the run from the raw file and were not provided as candidate metadata. The observation does not establish the cause.
+- Recorded the seeds, pair matching rules, checks and reporting limits for ten additional exploratory pairs in the [repeated-comparison protocol](../studies/amylase/repeated_comparison.md#protocol), before starting those runs. The seed-1 run is reported separately.
+
+### 2026-11-16: repeated comparisons completed
+
+- Executed ten predeclared amylase pairs with initial seeds 2–11 and independent recorded selection and data-role seed assignments. The greedy run had the higher final best-observed score in nine pairs and random in one; this is descriptive and specific to the development dataset.
+- In all ten pairs the greedy method selected zero original-test variants. Random selection chose 49–61 original-test variants in each pair. Original split labels were joined after selection. The cause remains unestablished.
+- Independently checked every pair's starting data, settings, selections, pre-reveal rankings, source measurements, budget arithmetic, stop state and reconstructed tables. All 200 method-batches passed the recorded checks. Results and limitations are in [repeated comparison findings](../studies/amylase/repeated_comparison.md#findings); complete logs and tables are in `output/amylase_repeated/`.
+- No implementation code changed for these runs. Prediction intervals, CERA detectors and repairs remain unimplemented; these results are not a final evaluation.
+- A post-hoc first-round analysis found higher median predictions for the original-test group in all ten runs despite every top selected variant coming from the original-train group. It also measured how many candidates have substitutions absent from the initial fitting examples. This is exploratory evidence, not a causal explanation; details are in the findings document.
+
+### 2026-11-16: predictor ranking investigation
+
+- Inspected saved rankings across all 100 greedy rounds: the highest-ranked original-test candidate was never above rank 102. In the first round its rank ranged from 313 to 492.
+- Reconstructed the seed-2 first-round model from saved settings and verified 100 predictions against the record. The 7,904 position-and-letter indicators absent from the 80 fitting examples had zero fitted coefficients. The relationship between this observation and the observed selection pattern remains unproven. No model or experiment settings were changed.
+
+### 2026-11-16: implementation research review
+
+- Reviewed primary research and official documentation on protein search baselines, uncertainty under adaptive selection, model disagreement, ESM representations, and leakage; mapped the findings to the actual CERA code and remaining decisions in [implementation research notes](../background/implementation_notes.md).
+- Checked current package metadata and GPU-reported memory. These checks do not demonstrate checkpoint loading, GPU inference or full-dataset feasibility. Recorded an unavailable full-text source and remaining scientific uncertainties explicitly.
+- No application code was changed, no model was downloaded or run, and no new experimental performance was claimed.
+
+### 2026-11-16: ESM-2 feasibility check
+
+- Loaded the pinned ESM-2 8M model and tested the amylase reference and a shorter prefix without using any fitness scores. The first GPU inference failed when a native component could not find `Python.h`; an isolated run with `TORCH_DISABLE_NATIVE_JIT=1` succeeded. Avoided an uninitialized pooling layer and documented the loader's unused pretraining-head warning.
+- Checked residue-only pooling, output size and finite values, repeat and padding differences, and small warmed GPU batch timings. Exact observations, limits, environment and sources are in [ESM feasibility and plan](../background/esm_feasibility.md). These small checks do not establish full-dataset performance or predictive usefulness.
+- Prepared a focused representation-module and cache implementation plan. No project application code or dataset was changed; model files were downloaded to the user cache. The prior research-review entry remains historical and describes that earlier review only.
+
+### 2026-11-16: amylase representations
+
+- Varun approved the implementation plan. Added a separate representation module, validated non-pickle cache module, explicit model-check/cache script, separate embedding requirements and lightweight tests. The original catalog and measurement runner remain independent.
+- Eleven unit tests passed. A real pinned-model GPU check passed for unequal-length inputs with a maximum padded/unpadded difference of approximately 6.56e-07. Generated and validated a score-free cache of 3,706 x 320 vectors; independently reproduced three earlier-cache vectors and checked a second full generation against the first. Exact commands, hashes, timing, GPU workaround and limitations are in [ESM feasibility and plan](../background/esm_feasibility.md).
+- No predictor has been fitted with these vectors; their scientific usefulness, CPU behavior, intervals, detectors and repair are unverified. The user model cache was used but not cleared or modified beyond the model download.
+
+### 2026-11-16: prediction-range planning
+
+- Compared first-round nearest-fitting-sequence distances in the saved ESM-2 representation for the ten previous amylase runs. Median distance was higher for the original-test candidates in every run. The split labels were used only for this retrospective description; distance does not establish error or causation. Details and ranges are in the [findings](../studies/amylase/repeated_comparison.md#findings).
+- Researched ensemble fitting, data leakage and adaptive conformal limitations. Prepared a [predictor-group and prediction-range plan](../studies/amylase/prediction_ranges.md#plan), including a bootstrap/cross-validation ordering that avoids placing duplicate copies of one observation across validation folds. This is a proposed initial development design, not a final ensemble or claimed coverage guarantee.
+- No new application code or prediction-range experiment was run. The user instruction to ask before writing code applies to the proposed implementation.
+
+### 2026-11-16: prediction-range pilot
+
+- Varun approved the planned implementation. Added focused predictor, interval, cache verification and reporting modules; extended the measurement runner to validate and save pre-reveal candidate ranges. Existing random and one-hot behavior remains available.
+- Fifteen unit tests passed. Completed one amylase pilot with 80 initial fitting examples, 20 reserved range-setting examples and 100 later measurements. Independently reconstructed and audited the ten recorded batches and first-round model and range calculation.
+- All 100 selected scores were inside their recorded ranges, with mean width approximately 0.20337. The selector chose 34 original-test and 66 original-train variants; those labels were joined only afterward. These one-run observations are not a coverage guarantee, causal attribution, repair result or final evaluation. Details and remaining limitations are in [pilot findings](../studies/amylase/prediction_ranges.md#findings).
+
+### 2026-11-16: research for subsequent work
+
+- Reviewed primary sources on adaptive prediction ranges, uncertainty under shift, warning evaluation with rare events, and the limitations of replay-based comparisons. Mapped the findings and source limits to the current pilot in [next-stage research](../overview/next_stage.md).
+- Reconstructed descriptive pilot errors from saved pre-reveal predictions: mean absolute error 0.051264 for the 100 selected variants and mean range width 0.203374. The pilot contains no interval misses, so it cannot establish a missed-range detector's empirical performance. These are post-hoc descriptions of one adaptive run.
+- No application code changed and no new pilot was run in this research step.
+
+### 2026-11-16: repeated range-pilot preparation
+
+- Predeclared ten exploratory amylase range runs, their seed assignments, independent audit checks, score and width denominators, failure handling and lossless record retention in the [repeated-range protocol](../studies/amylase/repeated_ranges.md#protocol). The earlier seed-1 pilot remains separate.
+- The analysis does not claim independent biological replication or guaranteed 90% coverage. No model or detector settings were changed.
+
+### 2026-11-16: repeated range pilots completed
+
+- Ran all ten predeclared amylase pilots, seeds 2–11. Each exhausted its 100-new-measurement budget; coverage varied from 76/100 to 100/100 and mean widths from approximately 0.1321 to 0.1999. The pooled 899/1,000 is descriptive and does not establish a guarantee.
+- Audited all 100 batches against the source records and independently reconstructed every predictor group, selected penalty, reserved-error radius and selected predictions in the same software environment. Preserved complete records losslessly with compressed and uncompressed fingerprints. See [repeated-range findings](../studies/amylase/repeated_ranges.md#findings).
+- As a separate post-hoc check, the synopsis's below-0.75 coverage rule would have fired in 7 of 80 overlapping three-batch windows. No detector has been implemented or validated, and no causal interpretation is claimed.
+
+### 2026-11-16: warning-check design
+
+- Reviewed the synopsis, current run records and online sources, then specified the five proposed warning conditions, information available before and after reveal, strict boundaries, insufficient-data behavior and controlled test cases in [warning-check design](../studies/warnings/warning_checks.md#design).
+- Identified that current records preserve mean predictions and model spread, but not the five member predictions needed for the proposed Spearman-ranking disagreement rule. Existing models can be reconstructed from recorded inputs and seeds; future real-time checks require explicit pre-reveal evidence.
+- The design uses raw Euclidean distance and a specified nearest-other percentile as a provisional development clarification; it does not silently claim the synopsis's normalized-distance implementation is already defined. No warning code, repair or new experiment was implemented in this step.
+
+### 2026-11-16: warning checks and replay
+
+- After Varun approved the plan, implemented five focused development warning rules, pre-reveal member-ranking and distance evidence, post-reveal coverage and support evidence, and a retrospective replay. The measurement runner retains its atomic invalid-request rejection.
+- Replayed all ten historical range runs and verified the final warning evidence against an independently audited preliminary replay. Checked all 100 rounds independently, including ranking correlations, distances, Hamming diversity, coverage windows, constraints and source measurements. The below-0.75 coverage rule fired 7 times among 80 eligible overlapping windows; member-ranking disagreement fired in 98 of 100 rounds. Neither count is a validated detection rate or diagnosis.
+- Ran and independently audited one fresh warning-enabled seed-12 pilot. Post-hoc first-round inspection found a large difference between ranking agreement over the full pool and the top 100; this motivates further investigation, not a causal conclusion. Results, evidence paths and limits are in [warning-check findings](../studies/warnings/warning_checks.md#findings).
+- Repairs, warning prioritization and the language model remain unimplemented. The retrospective replay requires historical Git commit `78fce61` and the pinned representation cache.
+
+### 2026-11-16: disagreement investigation planning
+
+- Rechecked the historical warning evidence and researched how selection can affect observed associations and how Spearman ranking correlation behaves. The first-round full-pool versus top-100 result remains post-hoc and cannot establish causation or warning accuracy.
+- Prepared an [exploratory comparison plan](../studies/warnings/disagreement_context.md#plan) covering equally sized top, middle, bottom and random candidate groups, reconstruction checks, chronological score access and reporting limitations. Keep the warning and threshold unchanged until independent evaluation is designed. No new analysis or application code was run or written in this step.
+
+### 2026-11-16: disagreement comparison
+
+- Reconstructed all ten historical amylase runs and compared predictor ordering in top, middle, bottom, random and full candidate groups. Every top and random comparison used 100 candidates; all 500 group-round values were available. Average correlations were approximately 0.100, -0.221, 0.221, 0.644 and 0.649 respectively. Results are descriptive and do not establish warning accuracy or causation.
+- Checked original record and representation fingerprints, model reconstruction, all candidate predictions, all 100 top-group values against the earlier replay, and first-round values against the previous context table. The backend suite passed 27 tests. The analysis code, records, limitations and reproduction command are in [the findings](../studies/warnings/disagreement_context.md#findings).
+- The existing warning threshold remains unchanged. This analysis does not validate a warning or repair.
+
+### 2026-11-16: reward foundation
+
+- Compared the current implementation with the synopsis and added a separate closed reward-specification validator and deterministic batch selector. Hard constraints filter candidates before scoring; model spread, precomputed normalized distance and nearest-selected sequence diversity are explicit terms. The diversity normalization is a provisional decision documented in [reward foundation](../studies/amylase/reward_foundation.md#reward-specification-and-batch-selection), not a validated research setting.
+- The backend suite passed 32 tests. A real historical first-round check with zero weights reproduced all ten saved greedy selections among 3,175 candidates. The selector has not yet been connected to an experiment; distance computation, repair and its verifier remain outstanding.
+- Updated stale README statements that predated the existing model, range and warning work.
+
+### 2026-11-16: reward pilot and Gemini configuration
+
+- Added a provisional candidate-distance normalization using only known sequences, then connected the checked reward and deterministic batch selector to the amylase pilot. Logged candidate distances, scale, specification and each selection score before reveal. A zero normalization scale is an error rather than a silently substituted value.
+- Seed 13 completed ten batches, with 94/100 scores inside their saved ranges and best known score 0.18225. Independently reconstructed all candidate distances and all batch choices, source scores, chronology and budget. The 35-test backend suite passed. Findings, code limitations and losslessly compressed evidence are in [reward pilot findings](../studies/amylase/reward_pilot.md).
+- At Varun's request, checked Gemini configuration without printing the credential. The API model list accepted the key but did not list the configured model spelling; corrected the ignored local configuration to the listed `gemini-3.5-flash-lite`. No generation call or model integration was made in this step. Google's [structured-output documentation](https://ai.google.dev/gemini-api/docs/structured-output) will inform the later constrained interface; output must still pass local validation.
+- The pilot has no repair or abstention behavior. The weights, clipping and distance scale are development choices, not validated defaults or evidence of improvement.
+
+### 2026-11-16: Gemini goal compilation and pilot
+
+- Implemented a bounded Gemini request for the fixed fitness goal. It sends no sequence or fitness data, asks only for three weights, validates the resulting specification locally, retries an invalid response once, and records an explicit fallback on failure. Mutation and budget limits remain set by ordinary code. Recorded status and token counts, without storing the key or invalid raw responses.
+- The configured Gemini model returned a valid proposal on its first live request (39 input and 39 output tokens). Its saved specification drove a ten-batch seed-13 amylase pilot. An independent audit checked the compiled input fingerprint, all candidate distances and reward rankings, reveal chronology, source scores and budget. The pilot recorded 95/100 covered new scores and best known score 0.18225; these single-run descriptions are not evidence of superiority.
+- The 41-test backend suite passed. [Gemini compiler documentation](../workspace/goal_compiler.md#reward-weight-compilation) records the prompt boundary, fallback, result and remaining gaps. Arbitrary user goals, warning-driven LLM repair, verification and no-LLM evaluation remain unimplemented.
+
+### 2026-11-16: checked repair foundation
+
+- Added a finite, cost-ordered menu of allowed single-weight changes, a verifier and a chooser that retains the original rule if no proposal passes. The verifier checks that specified previously selected items are displaced in a replay, the proposal and constraints are allowed, supplied calibration coverage meets a provisional tolerance, and earlier individual reward rankings do not deteriorate beyond a provisional margin. It marks insufficient or constant-ranking evidence unavailable and does not accept it.
+- The 46-test backend suite passed, including a controlled accepted example and rejection for insufficient data, a constant ranking, changed constraints, failure to displace, low coverage, rank deterioration and an exhausted menu. See [repair foundation](../studies/repair/repair_foundation.md) for exact decisions and limitations.
+- These functions are not yet connected to the experiment. The caller must verify evidence chronology; calibration is reused and unchanged by a reward-only edit. No repair, rollback, abstention or benefit has been demonstrated in a protein run.
+
+### 2026-11-16: integrated repair pilot
+
+- Connected the finite rule-based repair menu and verifier to the amylase reward pilot behind `--repair`. Saved the verifier's interval-setting and earlier-example evidence before each reveal; ordered warnings, rechecked replayed diversity, retained historical warning records, and added a logged early stop that preserves the remaining measurement budget and prevents later reveals.
+- The seed-13 pilot stopped after two batches and two failed disagreement-driven repairs, with 80 new measurements unspent. Every proposed weight change failed to displace all flagged selections; no repair was accepted. This is an observation about the strict provisional rules and frequent warning, not evidence that the warning diagnoses error.
+- Independently reconstructed both initial selections, candidate distances, six proposed batches, calibration and ranking checks, source measurements and the early stop. The full backend suite passed 50 tests. [Repair pilot findings](../studies/repair/repair_pilot.md) documents the warning-target choices, evidence limitations and unresolved work.
+- Gemini supplied the initial saved reward weights only; it did not choose repairs. An accepted change was exercised in a controlled test, not in this pilot. Interval-setting data are reused and earlier ranking predictions include training examples, so neither check establishes generalization.
+
+### 2026-11-16: Gemini-assisted repair pilot
+
+- Added a constrained Gemini advisor that receives only the warning type and numbered repair term, weight and cost options. It chooses an option from the existing menu; the normal verifier checks it, then checks remaining options by cost. Invalid choices retry once, and failures fall back to cheapest-first ordering. This explicitly resolves the synopsis's conflicting model-choice and cheapest-first instructions for development.
+- In one matched seed-13 pilot, two Gemini calls each selected the middle-cost option; all three options failed verification in each batch. The run retained the old reward and stopped after 20 new measurements with 80 remaining, as in the rule-based pilot. An audit matched both selections and per-weight verification against the independently audited rule-based record, checked sanitized advice and confirmed the key was absent from the run record.
+- The 55-test suite passed. Details, usage, assumptions and reproduction are in [Gemini repair pilot](../studies/repair/gemini_repair_pilot.md). No repair was accepted, and this single paired development run does not establish model benefit or detector accuracy.
+
+### 2026-11-16: IRED preparation
+
+- Re-fetched the original laboratory active-data table at its recorded commit and verified its fingerprint and single 290-residue reference. Independently matched all 8,586 local sequence/target pairs within 1e-8 and checked split membership against substitution counts. Saved the source-derived reference and confirmed 4,408 train plus 3,225 test variants meet the four-change cap. The 17,143-versus-8,586 source discrepancy remains unresolved.
+- Generated and pinned 8,586 score-free, 320-number ESM representations. Regenerated three vectors independently in the same GPU environment with zero observed difference. Added cache validation, IRED dataset dispatch, a measurement-boundary check and a synthetic one-round dispatch test. The full backend suite passed 58 tests. [IRED preparation](../data/ired_preparation.md) records fingerprints, hardware observations and limitations.
+- No IRED reward or repair evaluation was run. Treat it as an evaluation dataset and freeze the development rules and matched procedure before interpreting a result.
+
+### 2026-11-16: matched reward comparison
+
+- Predeclared and ran one matched amylase comparison of random, greedy prediction, fixed reward and rule-based repair. The evaluator accessed full-pool scores only after all selectors finished and reported actual measurement counts, finite-pool regret, top-1% membership and available range metrics. All methods shared their initial examples and budget; model-based methods shared role and member seeds.
+- Random reached 0.19428 after 100 new measurements; greedy and fixed remained at the shared initial best of 0.18225 after 100; repair remained there and stopped after 20. The initial best was already in the eligible pool's top 1%. These are descriptive one-run observations, not evidence of a general winner or repair effectiveness.
+- Independently checked all records, starting data, source scores, query and stopping accounting and reported metrics. The full backend suite passed 61 tests. See [comparison findings](../studies/amylase/matched_reward_comparison.md#findings) for outputs, limitations and reproduction.
+
+### 2026-11-16: backend package organization
+
+- At Varun's request, moved the flat backend modules into focused `api`, `datasets`, `features`, `experiments`, `rewards`, `llm`, `analysis` and `provenance` packages. Updated imports, tests, scripts and current README examples. Kept `app.main:app` as a compatibility package so existing API startup instructions continue to work.
+- Source fingerprints now locate each uniquely named application module within the package tree and reject missing or ambiguous names. Historical replay still reads the original flat file paths from the pinned Git commit; existing records and caches were not rewritten.
+- The 62-test suite passed. A historical seed-2 replay matched all 50 prior warning results. Started the compatibility API and verified both endpoints over HTTP, including five available datasets. The real IRED model padding check passed on GPU with maximum observed difference approximately 3.65e-07. These are targeted checks, not a rerun of every experiment.
+
+### 2026-11-16: uncertainty-guided baseline development
+
+- Predeclared and implemented finite-pool mean-plus-spread and Gaussian expected-improvement selection using the same predictor group as the greedy baseline. The Gaussian use of ensemble spread is explicitly an approximation, not a calibrated posterior. Candidate acquisition values are recorded before selection and reveal.
+- Both seed-13 amylase runs used the same starting and reserved sets, model seeds and budget as the earlier greedy run. After 100 measurements, the mean-plus-spread run's best observed score was 0.19428 and expected improvement's was 0.18432; the earlier greedy run remained at its initial best of 0.18225. These are one-seed development observations, not a general ranking.
+- Independently reconstructed all acquisition scores and selected batches, checked source measurements and budgets, and preserved lossless records. The full backend suite passed 65 tests. [Findings](../studies/amylase/acquisition_baselines.md#findings) record assumptions, outputs and remaining baselines.
+
+### 2026-11-16: finite-pool evolutionary baselines
+
+- Predeclared and added deterministic finite-pool recombination-and-mutation and AdaLead-style two-step search, with explicit parent selection, predicted-score ordering, two-substitution proximity and a `no_neighbors` stop preserving unspent budget. These are adaptations, not exact implementations of unrestricted algorithms.
+- In one matched amylase seed-13 development run, recombination used 100 new measurements and found the eligible pool's maximum score (0.21163). AdaLead-style search used 14 and stopped with no eligible neighbors, reaching 0.18690. The shared initial best was 0.18225. These observations are not a general method ranking or repair evaluation.
+- Independently reconstructed every parent and proposal set using mutation-position dictionaries, checked selections, source scores, matching initial settings, budget and stop, and preserved the complete records. The full backend suite passed 71 tests. See [local-search findings](../studies/amylase/local_search_baselines.md#findings) for methods, outputs and limits.
+
+### 2026-11-16: hydrophobic-core preparation
+
+- Located the original authors' smaller processed GEO table. All 24,935 local sequences uniquely matched it and every local target exactly matched its `fitness_raw` value. All source mutation counts matched the three UniProt reference segments. The source marks a WT row only for P01053, so the other references remain supported by sequence and mutation-count evidence rather than a WT marker.
+- Added separate references and verified score-free ESM caches for all three proteins, a common FLIP2 row loader, per-protein measurement access and pilot dispatch. A separate GPU check reproduced one vector per protein within 1.67e-6 absolute difference. The backend suite passed 74 tests, including synthetic dispatch and real cache and budget checks.
+- No hydrophobic-core search evaluation was run. The original train/test split is score-derived, so drawing train-side initial measurements is privileged retrospective information. [Hydrophobic-core preparation](../data/hydro_preparation.md) records source links, counts, fingerprints and remaining limitations.
+
+### 2026-11-16: reward selection performance
+
+- Replaced repeated Python sequence-distance loops with an incremental array calculation while preserving the reward formula, constraints and deterministic identifier tie-break. The 75-test backend suite passed.
+- Reconstructed all 12 earlier fixed/repair selections and six repair proposal replays. Identifiers and diversity matched saved evidence; rewards matched within 1e-14. The prior and new implementations produced exactly equal output for the first checked batch. The prior batch took about 2.03 seconds versus a new mean of about 0.115 seconds across 12 batches in this environment. See [performance check](../studies/amylase/reward_foundation.md#selection-performance) for limits.
+
+### 2026-11-16: repeated matched development comparison
+
+- Predeclared and ran seeds 21–30 across random, greedy, fixed reward, rule-based repair, Gemini-assisted repair, mean-plus-spread, expected improvement, recombination and AdaLead-style search. All 90 runs completed. The resumable runner records failures and interrupted work without silently replacing them, and evaluates full-pool metrics only after all selectors finish.
+- Both repair variants stopped after 20 new measurements in all ten seeds: all 120 proposed changes failed to displace every flagged batch member, and no repair was accepted. Their final best scores matched the fixed-reward runs for every paired seed, despite the latter spending 100 measurements. Recombination reached the eligible pool maximum in 8/10 runs; AdaLead-style search stopped after 0–32 measurements. All initial sets already contained a top-1% variant. These are descriptive results on one protein, not a general ranking or repair validation.
+- Independently audited 90 records, 658 selections and 120 repair replays, plus 27 representative local-proposal rounds and six representative distance rounds. A second audit checked 20 successful Gemini advice requests, no fallback and 2,984 reported tokens. The backend suite passed 77 tests before the runs. [Findings](../studies/amylase/repeated_matched.md#findings) contain all outputs, denominators and limitations.
+
+### 2026-11-16: targeted disagreement development check
+
+- Predeclared and implemented an opt-in rule that builds the disagreement group from the first-choice reward and identifies selected variants with large differences in predictor rank. The existing default remains unchanged. The 0.5 rank-spread cutoff is provisional and does not establish that a prediction is wrong. See [protocol](../studies/repair/targeted_disagreement.md#protocol).
+- Ran five matched amylase pairs (seeds 31–35). Fixed reward spent 100 new measurements in each; targeted repair stopped after 40, 40, 40, 70 and 30, respectively. Every run's best score was already present in its starting measurements. Two disagreement warnings produced four targeted variants; ten total warning actions retained the current reward and none accepted a change. Results are descriptive and do not establish effectiveness.
+- Independently checked source fingerprints, initial measurements, seeds, recorded choices and budget accounting across ten runs and 72 selections; reconstructed 30 repair replays, warning groups, target ranks and pre-reveal recording, and verified all ten summary rows. These checks were one-off read-only commands, not a saved audit program. All 81 backend tests passed before the run. Run records and summary are in `output/amylase_targeted_disagreement_31_35/`. The findings remain exploratory on one protein, and no IRED or hydrophobic-core outcome was used.
+
+### 2026-11-16: diagnosis of targeted repair stops
+
+- Examined all ten failed actions and their 30 proposed changes in the five targeted runs. Every change failed the requirement to remove all flagged candidates; the two diversity actions flagged whole batches. The failure counter carries attempts across rounds and warning types. Documented evidence, limits, relevant research and alternative designs in [the diagnosis](../studies/repair/targeted_disagreement.md#why-the-runs-stopped-early). No repair behavior was changed.
+
+### 2026-11-16: retrospective diversity replay check
+
+- Recomputed average pairwise sequence differences for the six rejected diversity proposals from the source sequences. All six met the current warning threshold, despite retaining eight or nine original batch members. The recorded remaining verifier checks also passed. This is a retrospective check of saved replays, not evidence of later-round performance under a changed rule. See [the diagnosis](../studies/repair/targeted_disagreement.md#why-the-runs-stopped-early).
+
+### 2026-11-16: retrospective coverage replay check
+
+- Compared saved coverage-warning replays with their pre-reveal ranges and the source dataset's subsequently available scores. Among 18 proposed batches, one had one fewer range miss than the original, 14 had the same number, and three had one more. These post-hoc source scores were not available to the selector and do not establish later-round behavior. See [the diagnosis](../studies/repair/targeted_disagreement.md#why-the-runs-stopped-early).
+
+### 2026-11-16: IRED split count source check
+
+- Compared the local IRED file's training, validation and test flags against the authors' published FLIP2 split table. The counts match exactly (3,746, 662 and 4,178; total 8,586), although the same table lists 17,143 overall variants. This supports the local split count but does not establish the filtering chain; see [IRED preparation](../data/ired_preparation.md).
+
+### 2026-11-16: IRED measured-fitness source scope
+
+- The original laboratory's pinned data README describes approximately 11,000 variants with determinable fitness and about 6,000 without measured activity, in separate tables. Previously verified local pairs all match the former table. Documented the resulting selection limitation and the unresolved filtering chain in [IRED preparation](../data/ired_preparation.md).
+
+### 2026-11-16: direct diversity repair check
+
+- With Varun's approval, added an opt-in check that assesses whether the replayed batch resolves the existing diversity warning. It retains the original rule by default, leaves other warnings and verifier checks unchanged, and rejects unavailable evidence. The backend suite passed 83 tests. A separate [comparison protocol](../studies/repair/direct_diversity.md) was recorded before running seeds 41–45.
+
+### 2026-11-16: direct diversity matched development results
+
+- Ran the predeclared five matched pairs for seeds 41–45. The strict and direct runs had identical recorded outcomes and spent 40, 100, 100, 20 and 50 new measurements respectively; three pairs stopped after failed repairs and two exhausted their budgets. One diversity warning occurred in each arm (seed 43); all three proposals still failed the diversity threshold, so no direct diversity repair was accepted. This does not measure the benefit of the earlier six resolved replays or establish equivalent performance generally.
+- Independently checked input fingerprints, matching initial measurements and model seeds, 62 selections, 42 repair replays, the direct threshold where invoked, pre-reveal target evidence, scores, budgets and all ten summary rows. These were one-off read-only checks, not a saved audit program. The 83-test backend suite passed before the comparison. Full records are in `output/amylase_direct_diversity_41_45/`; these remain exploratory results for one protein.
+
+### 2026-11-16: direct diversity check on saved examples
+
+- Reconstructed the candidate features, scoring rule, remaining budget, calibration examples and earlier-ranking evidence from the original seed 34 and 35 targeted records. Re-ran both repair modes on each saved diversity warning. The strict mode retained the old rule; the direct mode accepted the first proposed diversity weight, 0.35, with all recorded safeguards passing. Its replayed identifiers exactly matched the original saved first proposal. This verifies the implementation on two retrospectively chosen examples; it does not predict later selections or performance after acceptance.
+
+### 2026-11-16: current README alignment
+
+- Corrected outdated README claims that repair was unimplemented and separate hydrophobic-core protein groups remained undecided. Documented the two opt-in repair checks and linked their development protocols. This updates current guidance without rewriting the historical research notes.
+
+### 2026-11-16: reusable development comparison audit
+
+- With Varun's approval, added `scripts/repair/audit_development_repairs.py` for the two newer comparisons. It reconstructs selections and repair replays independently using saved predictions and distances, checks disagreement group and target evidence before reveal, source and run fingerprints, starting observations, fitting seeds, measurements, budgets and summaries. Average ranks for ties follow [SciPy's documented rule](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rankdata.html).
+- The targeted-disagreement audit passed 10 runs, 72 selections and 30 repair replays; the direct-diversity audit passed 10 runs, 62 selections and 42 replays. A deliberately altered summary and an altered selection with recomputed fingerprints were rejected end to end; new tests also reject altered target and summary evidence. The backend suite passed 85 tests. The audit does not refit predictors, regenerate distances, independently validate every repair safeguard or establish detector accuracy.
+
+### 2026-11-16: evaluation readiness review
+
+- Compared the current implementation and recorded results against the research roadmap. Documented open recovery-metric, repair-evidence, frozen-comparison, multi-protein evaluation and reporting gaps in [evaluation readiness](../overview/evaluation_readiness.md). No evaluation-protein search was run and no final method was selected.
+
+### 2026-11-16: recovery measurement options
+
+- Compared one-batch, 30-subsequent-measurement and all-later-measurement summaries, including early-stop handling, dependence and the distinction between a warning and a causal repair effect. Illustrated the options using saved amylase seeds 31 and 34. The 30-measurement definition is a recommendation for review, not an implemented or frozen metric. See [recovery options](../background/recovery_measurement_options.md).
+
+### 2026-11-16: recovery follow-up feasibility
+
+- Checked coverage-warning timing in the 20 recent saved runs. Ten runs warned; three had at least 30 later measurements, seven had ten or fewer, and ten did not warn. The three with sufficient follow-up were fixed-reward runs. This is a feasibility check only, recorded in [recovery options](../background/recovery_measurement_options.md); it does not compare recovery rates.
+
+### 2026-11-16: coverage recovery measurement
+
+- Varun selected the 30-later-measurement option. Implemented a separate read-only summary that validates recorded coverage warnings and chronology, excludes the warning batch, checks 30-measurement windows after later batches and records the first with 26–28 covered scores, its width, follow-up and stop reason. No warning, insufficient follow-up and observed non-recovery remain distinct. The [options document](../background/recovery_measurement_options.md) explains the statistical limitations.
+- Applied the measurement to the 20 saved recent amylase runs: two fixed-reward runs reached the band, one fixed-reward run had sufficient follow-up without reaching it, seven runs had insufficient follow-up, and ten had no coverage warning. These development records are not a causal comparison; no later-protein result was used. The backend suite passed 89 tests, including both band boundaries, high coverage, sliding windows, missing follow-up and malformed records.
+
+### 2026-11-16: multi-protein evaluation preparation
+
+- Reviewed current multi-dataset dispatch and identified that the repeated runner and random baseline are amylase-specific. Documented score-blind versus benchmark train-side starting examples and a proposed staged implementation in [multi-protein evaluation options](../studies/multiprotein/design_and_runbook.md#evaluation-options). No final protocol or test-protein search was run.
+
+### 2026-11-16: multi-protein starting-pool feasibility
+
+- Counted eligible sequences without running searches: IRED 7,633 and Hydro groups 1,010, 1,292 and 2,916, each sufficient for 100 starting and up to 100 later measurements. Added row-order invariance to the proposed score-blind starting-pool checks in [evaluation options](../studies/multiprotein/design_and_runbook.md#evaluation-options).
+
+### 2026-11-17: score-blind multi-protein runner preparation
+
+- Varun selected starting examples sampled from all eligible variants. Added this as an explicit `eligible` starting pool while preserving the historical train-side default; sorted identifiers before seeded sampling and recorded the choice. A shared dataset registry now dispatches the random and predictor methods across amylase, IRED and each Hydro protein.
+- Added `scripts/multiprotein/run_matched_proteins.py` for explicitly configured, matched methods and seeds. Its manifest pins data, reference, representations, Python, dependencies and code; it records completed, failed and interrupted runs and verifies completed records on resume without silently retrying failures. It does not evaluate full-pool outcomes. The [Python random documentation](https://docs.python.org/3/library/random.html#notes-on-reproducibility) cautions that algorithms can change between versions.
+- Synthetic tests confirm score-blind initial identifiers are unaffected by row order, split/validation flags or target changes; random and predictor methods share starts for synthetic IRED and Hydro data. The synthetic matched runner completed and resumed, rejected changed inputs and tampered records, and retained a simulated failure. The full backend suite passed 91 tests. No real IRED or Hydro search was run; the final evaluation protocol and independent multi-protein evaluation are still outstanding.
+
+### 2026-11-17: draft multi-protein comparison
+
+- Drafted a matched four-protein comparison with score-blind starts, separate protein reporting, actual-stop outcomes, recovery follow-up and explicit Gemini/failure accounting. Identified that the current evaluator requires train-side starts and an amylase cache, so a separately tested evaluator and independent audit are needed before real runs. This is a [review draft](../studies/multiprotein/design_and_runbook.md#comparison-protocol-draft), not a frozen protocol or completed evaluation.
+
+### 2026-11-17: Gemini model pricing source check
+
+- Checked the configured model name against Google's model and pricing documentation without making an API request. Recorded the published per-token list prices and the fact that actual account tier, quota and future charges remain unknown in the [comparison draft](../studies/multiprotein/design_and_runbook.md#comparison-protocol-draft). No credential was recorded.
+
+### 2026-11-17: multi-protein evaluator and independent audit
+
+- Varun selected the full nine-method comparison. Added a score-blind evaluator that checks terminal statuses for every supplied group before loading full-pool scores, verifies starting samples, source and recorded method settings, budgets and measurements, preserves failed/interrupted runs, computes recovery summaries and per-seed differences against fixed reward. Its normal mode requires all four protein groups; a partial report is explicitly labeled development.
+- Added a separate audit that reconstructs all recorded random, greedy, acquisition, local-proposal ranking and reward selections and repair replays from saved evidence. It independently reconstructs one available local-proposal round per local method and one reward-distance round per protein, and checks disagreement target chronology. It does not independently refit predictors or validate every warning and verifier assumption. Its normal mode also requires all four groups to reach terminal statuses.
+- Synthetic end-to-end tests exercised all nine methods on IRED-format data with a mocked Gemini request, and random and greedy on Hydro-format data. They checked the terminal-status barrier, incomplete and interrupted records, paired missing values, and rejection of altered starts and selections even after fingerprints were recomputed. The full backend suite passed 92 tests. No real IRED or Hydro search or live Gemini request was made. The [comparison protocol](../studies/multiprotein/design_and_runbook.md#comparison-protocol-draft) remains a draft until reviewed before real runs.
+
+### 2026-11-17: multi-protein runbook preflight
+
+- Rechecked the four local representation cache fingerprints and proposed output paths; all cache pins matched and no proposed output path existed at that time. Prepared explicit nine-method commands, failure/resume handling and post-run audit/evaluation steps in the [draft runbook](../studies/multiprotein/design_and_runbook.md#runbook-draft). This is not a frozen protocol or authorization to execute; the full workload and provider account quota remain unverified.
+
+### 2026-11-17: Gemini response-accounting preflight
+
+- Compared the current request/response handling with Google's thinking-token documentation. The output limit covers reasoning as well as visible output, and the current client discards returned usage metadata for non-`STOP` responses. Documented that the existing token total may omit rejected requests and is not a billing total in the [comparison draft](../studies/multiprotein/design_and_runbook.md#comparison-protocol-draft). No live request or code change was made.
+
+### 2026-11-17: pre-study code review
+
+- At Varun's direction, reviewed changes since `e5a3cc4` against the comparison draft and personal coding standards in separate review axes. Identified missing cross-group code/environment/model matching, incomplete scope and fingerprint enforcement, omitted repair-cost reporting and compressed-file check ordering. Recorded [findings and proposed corrections](../studies/multiprotein/design_and_runbook.md#code-review). No real study runs were started.
+
+### 2026-11-17: repair-cost meaning check
+
+- Checked the implemented repair-menu formula and confirmed that its recorded cost is a dimensionless score for ordering proposed weight changes, not a financial or compute cost. Added the formula and an example to the [pre-study review](../studies/multiprotein/design_and_runbook.md#code-review); no repair or evaluation code was changed.
+
+### 2026-11-17: pre-study review corrections and provider preflight
+
+- With Varun's approval, corrected the review findings: enforced the agreed nine-method, ten-seed, four-group scope and exact reward specification, cross-group code/environment/model consistency, complete predictor-source records and compressed-before-decompressed fingerprint checks. The evaluator now records each dimensionless repair cost and whether it was accepted; the independent audit checks the permitted menu, attempt ordering and fallback choice, and recomputes the cost. Synthetic tests and the full 97-test backend suite passed. See [review](../studies/multiprotein/design_and_runbook.md#code-review).
+- Sent one separate synthetic, score-free Gemini repair-menu request as a provider preflight. The configured `gemini-3.5-flash-lite` returned a valid choice on its first attempt and reported 149 input, 10 candidate-output and 159 total tokens. Actual billing and future quota availability remain unknown; this call is not part of any protein-search result.
+
+### 2026-11-17: IRED matched runs completed
+
+- Ran all 90 approved IRED combinations (seeds 51–60 and nine methods) with score-blind starting sets; all reached a completed runner status. The complete compressed records and statuses are preserved under `output/matched_eval_51_60_ired/`. No search outcomes were evaluated or interpreted at this stage; the four-protein audit and evaluation remain pending.
+
+### 2026-11-17: Hydro P06241 matched runs completed
+
+- All 90 approved P06241 combinations reached a completed runner status. Records and statuses are preserved under `output/matched_eval_51_60_hydro-P06241/`. No search outcomes were evaluated at this stage; the four-protein audit and evaluation remain pending.
+
+### 2026-11-17: Hydro P01053 matched runs completed
+
+- All 90 approved P01053 combinations reached a completed runner status. Records and statuses are preserved under `output/matched_eval_51_60_hydro-P01053/`. No search outcomes were evaluated at this stage; the four-protein audit and evaluation remain pending.
+
+### 2026-11-17: Hydro P0A9X9 matched runs completed
+
+- All 90 approved P0A9X9 combinations reached a completed runner status. Records and statuses are preserved under `output/matched_eval_51_60_hydro-P0A9X9/`. At this point all 360 runs have terminal completed statuses; the four-protein audit and evaluation were not yet complete.
+
+### 2026-11-17: four-protein study audit and findings
+
+- All 360 approved runs completed at the runner level. The independent audit reconstructed 2,943 selection batches and 549 repair replays, plus representative local and distance checks. A separate one-off verification checked all 360 summaries and 320 paired differences against source scores and saved records. The audit stdout was transcribed into `output/matched_eval_51_60_audit.json`; its one-off summary verification is not a reusable program.
+- Across 40 paired starts, each repair variant had 0 higher, 35 equal and 5 lower final best scores than fixed reward at actual stop. Rule-based repair stopped after failed repairs in 35/40 runs; Gemini-assisted repair in 36/40. Twenty-three repairs were accepted in each arm, and 102 valid Gemini selections and four HTTP 503 fallbacks were recorded. These are finite-pool observations, not proof of equivalence or a causal result. [Findings](../studies/multiprotein/four_protein_findings.md) document every protein, baselines, denominators, provider-accounting limits and remaining work.
+
+### 2026-11-17: synopsis completion review
+
+- Compared the original synopsis and briefing guide with the completed study and current research records. Added a [completion evidence review](../overview/completion_review.md) that distinguishes completed evidence from missing split-based evaluation, warning accuracy, component-removal studies, statistical analysis and final deliverables. No new experiment, code change or performance claim was made. The next proposed step is to assess feasibility and design a development-only controlled warning evaluation before implementation.
+
+### 2026-11-17: warning evaluation feasibility
+
+- Reviewed the current five warning implementations, their boundary tests and earlier replay findings. Prepared [a feasibility review](../background/warning_evaluation_feasibility.md) separating rule-correctness checks from prediction of independently defined later outcomes. Identified follow-up censoring, selective measurement and circular labels as limitations; no outcomes, thresholds, new experiments or code were selected or changed.
+
+### 2026-11-17: exploratory later-coverage evaluation
+
+- With implementation approved, defined the [follow-up protocol](../studies/warnings/warning_followup.md#protocol), implemented a separate evaluator and tests, and analyzed the existing Amylase development replay. The [findings](../studies/warnings/warning_followup.md#findings) preserve missing follow-up, per-seed counts and the exploratory limitations. A one-off independent source-record calculation checked all 200 later-window rows; the complete backend suite passed 101 tests. No warning threshold was changed and no test-landscape outcome was used for tuning.
+
+### 2026-11-17: exploratory disagreement and ranking
+
+- Implemented the [ranking protocol](../studies/warnings/disagreement_ranking.md#protocol) for the already approved warning evaluation. The [findings](../studies/warnings/disagreement_ranking.md#findings) compare saved warnings with separately revealed selected-batch rank correlation without imposing a new failure cutoff. Only two of 100 batches lacked a warning, limiting comparisons. A separate one-off rank calculation checked all 100 coefficients; the backend suite passed 103 tests. No warning, search behavior or test-landscape tuning changed.
+
+### 2026-11-17: controlled warning rule examples
+
+- Added hand-labeled valid, invalid, boundary and unavailable examples for the constraint and diversity rules. All ten constraint cases and five diversity cases matched their expected outcomes. The focused warning tests passed 11 tests and the full backend suite passed 105 tests. [Documentation](../studies/warnings/controlled_simulations.md#controlled-rule-cases) separates these rule checks from biological failure detection and cites the existing atomic-rejection integration test.
+
+### 2026-11-17: split evaluation feasibility
+
+- Rechecked FLIP2's split definitions and counted local eligible rows without inspecting scores. Documented [two IRED candidate-pool alternatives](../background/split_evaluation_feasibility.md), the current runner's limitations and Hydro's score-derived split leakage risk. Requested a choice of IRED candidate pool before preparing implementation. No new run or code change was made.
+- Inspected the runner, random and local-search methods, evaluator and audit while the pool choice was pending. Documented the need to keep candidate exposure, reveal validation, exhaustion, manifests and independent reconstruction consistent if a restricted mode is selected. No implementation choice or new run was made.
+
+### 2026-11-17: matched-study statistical feasibility
+
+- While the IRED pool choice remained pending, checked the already saved paired outcomes and installed SciPy version. Documented [statistical limitations](../background/matched_statistics_feasibility.md), including ten all-zero pairs for each repair method on P01053, ties on other proteins, differing measurement counts and incomplete recovery follow-up. No p-values, confidence intervals, code changes or additional experimental outcomes were produced.
+
+### 2026-11-17: main-study metric inventory
+
+- Inspected the evaluator and representative compressed record against the synopsis metrics. Updated the [completion review](../overview/completion_review.md) to distinguish top-1% hit from top-1% recall, identify evidence potentially available for cumulative regret and batch metrics, and distinguish retained repair proposals from rollback after later outcomes. This is a record-availability review, not a new analysis of all runs or a claim that missing scientific outcomes can be reconstructed.
+
+### 2026-11-17: independent warning replay calculations
+
+- While the split-pool decision was pending, matched replay hashes against both saved exploratory outputs and independently recalculated 100 support, 100 coverage and 100 disagreement warning statuses. All matched their saved replay records. These one-off checks used recorded distances and member predictions, did not refit models or regenerate distances, and are not reusable audit programs. Updated the corresponding findings with these limits.
+
+### 2026-11-17: repair-policy range coverage reporting
+
+- Aggregated the existing saved coverage counts by protein for both repair policies and independently recomputed all 80 run totals from their fingerprint-checked compressed records. Updated [study findings](../studies/multiprotein/four_protein_findings.md) with numerators and denominators. These are whole-run observations, not after-repair causal estimates; the one-off verification was not saved as a reusable audit.
+
+### 2026-11-17: IRED starting-pool choice
+
+- Varun chose to start from variants with at most two substitutions and allow selection from all eligible unmeasured variants afterward. Updated the [split feasibility review](../background/split_evaluation_feasibility.md) and prepared a separate [implementation and study plan](../studies/multiprotein/ired_low_change.md#plan) for review. No implementation, provider call or new protein-search run was made in this step.
+- Independently reconstructed all 4,408 ordered initial-pool identifiers using sequences and split metadata, then checked score-independent sampling for proposed seeds 61–70. Each proposed sample included 13–20 benchmark-validation-flagged variants, consistent with the draft inclusion policy. This was a read-only preflight; the loader read the source table but scores did not determine the samples.
+- Checked the pinned IRED cache with its existing verified loader, confirmed the previous reward specification fingerprint and recorded available storage as a point-in-time observation. Did not call Gemini or run the proposed study.
+
+### 2026-11-17: IRED low-change implementation
+
+- Following Varun's full authorization to proceed, added an IRED-only train-start mode to the matched runner and a separately validated study scope to the evaluator and audit. Both reconstruct the exact ordered starting pool; the evaluator reports selected mutation counts. The original four-protein scope still requires all-eligible starts. A synthetic nine-method run with a mocked provider passed evaluation and audit; changed starting-pool order was rejected. All 107 backend tests passed, and re-evaluating the previous 360-run study reproduced its report byte for byte. The [runbook](../studies/multiprotein/ired_low_change.md#runbook) records the planned commands and limitations. No new IRED study run was made during implementation.
+
+### 2026-11-17: IRED low-change study completed
+
+- All 90 runs reached completed runner status. The independent audit reconstructed 703 selection batches and 135 repair replays, with one representative distance and two local-proposal checks. An additional one-off calculation verified all 90 recorded summaries and 80 paired differences against source scores and compressed records. Each repair method was higher than fixed reward once, tied seven times and lower twice at actual stop; each stopped after failed repairs in all ten runs. [Findings](../studies/multiprotein/ired_low_change.md#findings) distinguish early stops, whole-run coverage, provider accounting and the limits of the exploratory design.
+
+### 2026-11-17: development stopping comparison implementation
+
+- Prepared an isolated Amylase-only comparison of normal repair stopping and continuing after failed repairs, documented in the [protocol](../studies/repair/ablations.md#stopping-after-failed-repairs-protocol). Failed proposals remain rejected and constraints remain active; the default policy is unchanged. Added a separate runner and reconstruction audit, synthetic matched-run and stopping tests, and checks that ordinary matched-study evaluation rejects records claiming the stop was disabled. The complete backend suite passed 111 tests; no real development comparison had run at this point.
+
+### 2026-11-17: development stopping comparison results
+
+- All ten Amylase runs completed. The independent audit reconstructed 86 selection batches and 73 repair replays and checked both policies' stopping behavior. Normal stopping ended two of five runs early; continuation found a higher best score in one pair and the same best score in four while using 140 extra measurements in the two early-stopped pairs. [Findings](../studies/repair/ablations.md#stopping-after-failed-repairs-findings) preserve per-seed results and explain why this small exploratory comparison does not establish a general or causal benefit.
+
+### 2026-11-17: Gemini response usage accounting
+
+- Checked Google's response and token documentation, then retained valid provider-supplied usage for rejected parsed responses and invalid goal weights across both Gemini call paths. Existing retry, fallback and sanitized status behavior remain. Mocked tests and all 114 backend tests passed; no live call was made. The [accounting note](../workspace/gemini_usage_accounting.md) preserves the limits: previous missing counts cannot be recovered, some future errors still have no metadata, and logs are not billing records.
+
+### 2026-11-17: additional retrospective metric implementation
+
+- Documented [post-result metric definitions](../studies/multiprotein/additional_metrics.md#protocol) and added a separate evaluator for top-1% recall with cutoff ties, cumulative and per-measurement regret, and per-batch sequence difference and prediction-ranking correlation. The terminal-status barrier and existing study checks run before full-pool scores are used. Tests cover tied cutoffs, initial versus new discoveries, short batches, undefined correlations, altered measurements and incomplete studies; all 118 backend tests passed. No extra study outcomes were calculated during implementation.
+
+### 2026-11-17: additional retrospective metric findings
+
+- Evaluated the saved four-protein and separate IRED low-change studies under the post-result definitions. A one-off independent calculation checked top-group counts and recall, cumulative regret and all selected-batch correlations and sequence differences for 450 runs and 3,646 batches. [Findings](../studies/multiprotein/additional_metrics.md#findings) show median recall alongside actual top-group sizes and retain unequal-budget, starting-observation and non-independence limitations. No new search or provider request was made.
+
+### 2026-11-17: after-acceptance coverage implementation
+
+- Extended the additional metric protocol and evaluator to identify the first accepted repair and inspect the first 30 later measurements when available. The analysis distinguishes no accepted repair, insufficient follow-up and an observed 30-measurement window; it does not treat the result as causal. Synthetic checks and all 119 backend tests passed. No new after-acceptance outcome had been calculated at this point.
+
+### 2026-11-17: after-acceptance coverage findings
+
+- Applied the post-result first-30-later-measurement definition to both saved studies. Across 100 repair-policy runs, 56 had no accepted repair, six had insufficient later measurements and 38 had complete windows. Independently recomputed all 100 classifications and coverage counts from compressed records and checked previous metric fields were unchanged. [Findings](../studies/repair/after_repair_coverage.md) give per-protein denominators and explain why the observations do not establish a causal effect or the original shift-split target.
+
+### 2026-11-17: development evidence-gate comparison implementation
+
+- Prepared the Amylase-only [evidence-gate protocol](../studies/repair/ablations.md#repair-evidence-gate-protocol). The experimental mode applies an allowed menu proposal without requiring its evidence verdict, while still calculating that verdict for audit and preserving input, menu, sequence and budget guards. Normal matched-study analysis rejects records with the bypass enabled. Synthetic paired runs, rejected-guard cases and the full 121-test backend suite passed. The earlier stopping-comparison audit was rerun and reproduced its recorded output. No real evidence-gate comparison had run at this point.
+
+### 2026-11-17: development evidence-gate comparison results
+
+- All ten Amylase runs completed; the independent audit checked 69 selections and 60 repair replays. The bypass accepted 30 changes, 29 rejected by ordinary evidence checks, and used 490 new measurements versus 200 for the normal policy. It found a higher best score in one pair and the same best score in four. [Findings](../studies/repair/ablations.md#repair-evidence-gate-findings) record individual stops, costs in measurements, and the limits of attributing differences to the gate.
+
+### 2026-11-17: repair-term comparison implementation
+
+- Implemented the Amylase-only [repair-term protocol](../studies/repair/ablations.md#removing-repair-terms-protocol), removing one of the three adjustable repair routes at a time without removing its underlying reward term or hard guards. Logged disabled routes, checked warning/action priority in the audit, and restricted ordinary matched-study analysis from accepting disabled routes. Synthetic tests and all 123 backend tests passed; the earlier stopping and evidence-gate audits reproduced their saved outputs before the final audit helper extraction. Corrected the shared runner's fixed reward-origin label for future studies and documented the earlier verifier study's metadata mislabel without changing its records. No real repair-term comparison had run at this point.
+
+### 2026-11-17: repair-term comparison results
+
+- All 20 Amylase runs completed; the independent audit checked 161 selections and 63 repair replays. The no-uncertainty-repair policy skipped eight route events and used 130 more measurements than normal across five starts, with the same final best score in every pair. No disabled-route event occurred for distance or diversity, so those interventions were not exercised. [Findings](../studies/repair/ablations.md#removing-repair-terms-findings) preserve individual outcomes, limitations and audit details.
+
+### 2026-11-17: universal-penalty comparison implementation
+
+- Implemented an isolated Amylase development mode that proposes changes to the uncertainty penalty for every warning while retaining the original warning-specific verification checks and hard guards. Normal matched-study evaluation and audit reject this setting. Synthetic policy, guard and paired-run tests passed; all 124 backend tests passed. The previous repair-term audit reproduced its saved result before the final boolean validation was added. The [protocol](../studies/repair/ablations.md#one-repair-penalty-protocol) fixes seeds 101–105 and records that this is a post-result-motivated comparison. No real universal-penalty run was made at this point.
+
+### 2026-11-17: universal-penalty comparison results
+
+- All ten Amylase runs completed; the independent audit checked 76 selections and 36 repair replays. In both policies, all six actions reaching an attempt were for coverage or disagreement, which already use the uncertainty penalty in the normal policy. Every selected batch matched within each pair. The [findings](../studies/repair/ablations.md#one-repair-penalty-findings) mark the comparison inconclusive rather than claiming equivalence or an unobserved intervention effect.
+
+### 2026-11-17: rejected-repair retention comparison implementation
+
+- Defined the isolated Amylase [retention protocol](../studies/repair/ablations.md#retaining-the-prior-reward-protocol): after every ordinary proposal fails, its alternative applies the last proposal only when the menu and hard guards permit it, records it as rejected, and still counts the failure toward stopping. This is not rollback of an earlier accepted rule after later deterioration. Synthetic cases cover successful proposals, empty menus, failed evidence and hard-guard rejection; ordinary study verification rejects the experimental mode. All 126 backend tests passed, followed by 14 targeted tests after an additional experimental-setting guard. The earlier universal-penalty audit reproduced its saved output. No real retention comparison had run at this point.
+
+### 2026-11-17: rejected-repair retention comparison results
+
+- All ten Amylase runs completed; the independent audit checked 38 selections and 55 repair replays, including full menus and rejected-proposal application. Both policies stopped after failed repairs in all five pairs. The alternative applied ten rejected proposals; final best scores and measurement counts matched per pair, although three pairs had differing selection batches. [Findings](../studies/repair/ablations.md#retaining-the-prior-reward-findings) distinguish immediate retention from later rollback and avoid claiming equivalence.
+
+### 2026-11-17: controlled coverage-warning simulation implementation
+
+- Defined a [synthetic coverage simulation](../studies/warnings/controlled_simulations.md#coverage-warning-protocol) with known nominal, moderate and severe coverage probabilities and independent 30-observation windows. Added a reproducible simulator and separate audit that reconstructs draws without calling the warning and checks probabilities with SciPy's binomial distribution. Tests cover determinism, zero and unavailable denominators, analytical probabilities and tampered reports; all 129 backend tests passed. This controlled mathematical setting is not biological warning validation, and no protein data or threshold tuning is involved.
+
+### 2026-11-17: controlled coverage-warning simulation findings
+
+- Simulated 1,000 independent 30-observation windows at each predeclared probability and independently audited all 3,000. The warning fired in 6 nominal 90% windows, 239 moderate 80% windows and 946 severe 60% windows. [Findings](../studies/warnings/controlled_simulations.md#coverage-warning-findings) report artificial-mixture precision, recall and F1 with their denominators, exact probabilities and the limits of applying independent synthetic observations to adaptive protein searches.
+
+### 2026-11-17: controlled unfamiliar-candidate simulation implementation
+
+- Defined a [synthetic support-warning protocol](../studies/warnings/controlled_simulations.md#unfamiliar-candidate-warning-protocol) that separates a constructed near/far candidate condition from independently simulated prediction misses. Added a reproducible simulator and an audit that reconstructs distances and outcomes without calling the warning, checks exact binomial probabilities and rejects altered distances. The full 131-test backend suite passed. These one-dimensional synthetic cases are not biological distribution-shift validation; no new simulation output had been recorded at this point.
+
+### 2026-11-17: controlled unfamiliar-candidate simulation findings
+
+- Simulated and independently audited 1,000 near-reference batches, 1,000 far batches with 10% per-score misses and 1,000 far batches with 50% misses. The warning fired 0, 74 and 943 times respectively. [Findings](../studies/warnings/controlled_simulations.md#unfamiliar-candidate-warning-findings) explain that the near reference cannot trigger by construction, the warning explicitly requires both distance and misses, and the artificial-mixture metrics are not biological detection rates.
+
+### 2026-11-17: controlled ranking-disagreement implementation
+
+- Defined [planted ranking cases](../studies/warnings/controlled_simulations.md#model-disagreement-warning-protocol) with identical orders, all 45 single rank-pair swaps and reversed orders. Added a reproducible simulator and independent audit that reconstructs the cases and computes rank correlations without the warning function. Tests cover planted cases, undefined precision, tied-rank arithmetic and altered member predictions; all 133 backend tests passed. The cases test response to constructed ranking differences, not prediction accuracy or biological failures; no separate simulation output was saved during implementation.
+
+### 2026-11-17: controlled ranking-disagreement findings
+
+- Simulated and independently audited 135 matched planted cases. None of the 45 single-model pair swaps triggered the group warning, while all 45 complete reversals did; none of the 45 identical-ranking cases triggered. [Findings](../studies/warnings/controlled_simulations.md#model-disagreement-warning-findings) report the artificial-mixture metrics and explain that ranking disagreement is not an independent truth about protein fitness or real-world detection accuracy.
+
+## Next review gates
+
+1. Confirm the remaining dataset provenance and score details, prioritizing amylase for the first experiment.
+2. Work through a two-round example and agree on information access, candidate eligibility, measurement accounting and stopping.
+3. Define fair comparisons and the checks needed for the first implementation. Seek approval before writing code.
+
+### 2026-11-17: constraint and diversity rule controls
+
+- Added a [protocol](../studies/warnings/controlled_simulations.md#constraint-and-diversity-rules-protocol), a reproducible recorder and a separate calculation checking ten constraint cases and five diversity cases. The latter includes the exact boundary and one unavailable single-sequence case. Tests check the independent audit rejects altered records and that undefined metrics remain unavailable. All 135 backend tests passed. These hand-picked cases test rule implementation, not biological warning accuracy.
+
+### 2026-11-17: constraint and diversity rule findings
+
+- The saved [controlled cases](../studies/warnings/controlled_simulations.md#constraint-and-diversity-rules-findings) matched all ten constraint expectations and all four available diversity expectations; the fifth diversity case was unavailable. A separate audit recomputed all 15 cases. These hand-selected rule checks are not estimates of biological detection performance.
+
+### 2026-11-17: exploratory paired analysis protocol
+
+- Defined a [post-result analysis protocol](../studies/multiprotein/paired_analysis.md#protocol) for paired best-score differences and actual measurement counts, with cautious interpretation for ten tied starts per fixed dataset. It specifies paired resampling, exhaustive sign permutations, explicit zero handling and a multiple-comparison family. This does not turn exploratory results into a prespecified confirmatory study.
+
+### 2026-11-17: exploratory paired analysis implementation
+
+- Added a script for the [post-result protocol](../studies/multiprotein/paired_analysis.md#protocol), preserving matched seeds, measurement counts and per-protein scales. It rejects incomplete or duplicate pairs, explicitly handles all-zero differences, uses exhaustive sign permutations and adjusts the available tests. The full 137-test backend suite passed; after adding an independent SciPy permutation comparison, all three targeted analysis tests passed. No study analysis output was created before this implementation checkpoint.
+
+### 2026-11-17: exploratory paired analysis findings
+
+- The [post-result findings](../studies/multiprotein/paired_analysis.md#findings) retain matched starts and actual stopping counts. One protein had ten tied differences for both methods; the signed-rank results there are unavailable. The other six available adjusted values are 1. A separate audit checked 80 paired observations, resampling and adjustments, and verified the six available signed-rank calculations. These results do not establish equivalence, a causal repair effect or biological replication.
+
+### 2026-11-17: exploratory held-out shift prediction protocol
+
+- Defined a separate [static prediction protocol](../studies/hybrid/heldout_shift_prediction.md#protocol) for the existing mutation-count and low-to-high fitness benchmark splits. It freezes choices after prior outcomes had been viewed, identifies the score-derived Hydro split as privileged, retains the four-substitution cap, and separates prediction from held-out-score evaluation. It cannot substitute for the proposed sequential shift-search comparison.
+
+### 2026-11-17: held-out prediction implementation
+
+- Added a separate static split-prediction runner and evaluator using the existing verified representations, predictor and interval code. The predictor function receives only selected training scores; evaluation checks split membership, assignments, source fingerprints and prediction identity before scoring. Synthetic checks independently reconstruct the calibration order statistic and reject hidden-score inclusion, missing, duplicate or non-finite predictions and altered roles. All 140 backend tests passed. No held-out prediction output had been generated at this implementation checkpoint.
+
+### 2026-11-17: held-out shift prediction results
+
+- Froze predictions for 40 runs before evaluating held-out scores. The [findings](../studies/hybrid/heldout_shift_prediction.md#findings) show median coverage of 90.0% on capped IRED and 0.0%, 11.7% and 10.6% on the three capped fitness-defined Hydro groups, with wide differences among starts. An independent calculation refitted 200 models and checked 67,660 predictions and reported metrics; a modified metric was rejected. This is an exploratory static prediction test, not an evaluation of repair or an official benchmark. The score-defined Hydro split is privileged and the interval guarantee is not established.
+
+### 2026-11-17: periodic retraining evidence
+
+- Rechecked the runner and protocol: greedy and fixed-reward policies both refit each batch without warning-driven changes. They provide retraining-without-diagnosis comparators under the matched schedule; this does not test an independent lower-frequency retraining policy.
+
+### 2026-11-17: Hydro low-fitness-start search protocol
+
+- Defined an exploratory [sequential search protocol](../studies/multiprotein/hydro_low_fitness.md#protocol) with initial observations from the benchmark's score-defined lower-fitness side and unrestricted later candidate access. This explicitly discloses privileged starting-pool information, keeps the user's unrestricted candidate choice, and requires separate verification before interpreting results. The protocol uses the existing nine methods and ten starts per Hydro protein; it is not the official static benchmark or independent confirmation.
+
+### 2026-11-17: Hydro low-fitness-start implementation
+
+- Added an explicit runner flag and separate manifest validation, audit and evaluator scope for the [Hydro study](../studies/multiprotein/hydro_low_fitness.md#protocol). A synthetic matched search verified shared train-side starting observations, unrestricted access to both split sides, post-selection split counts and independent decision replay. Scope tests reject missing groups, changed settings and use of the ordinary study scope. All 142 backend tests passed. A preflight verified eligible/train/test counts and pinned score-free representation caches for all three groups; no new Hydro search had been run at this checkpoint. The [runbook](../studies/multiprotein/hydro_low_fitness.md#runbook) records commands and failure handling.
+
+### 2026-11-17: Hydro low-fitness-start study results
+
+- All 270 runs completed. The [findings](../studies/multiprotein/hydro_low_fitness.md#findings) report that each repair policy finished lower than fixed reward in 25 of 30 pairs and tied in five, while stopping after failed repairs in 27 of 30 runs and using 1,130 versus 3,000 measurements. A post-result comparison at the same measurement count tied in all 30 starts; it does not establish equivalence. The decision audit checked 2,191 selections and 363 repair replays; a separate outcome audit checked 21,747 measurements and score curves, and rejected an altered outcome. All 143 backend tests passed after the matched-budget summary was added. This exploratory study has score-derived starting-pool privilege and does not establish biological warning validity or a causal repair benefit.
+
+### 2026-11-17: repair-stopping diagnosis protocol
+
+- Defined a [post-result diagnosis](../studies/multiprotein/hydro_repair_stopping.md#protocol) of the saved Hydro repair attempts, failed verification checks and whether the last failed actions occurred within a single batch. It is descriptive and cannot establish what would have happened after stopping or use Hydro outcomes to tune the policy.
+
+### 2026-11-17: repair-stopping diagnosis implementation
+
+- Added a reproducible reader for the 60 Hydro repair records. It validates compressed and uncompressed fingerprints and study scope, checks failure-counter chronology, distinguishes same-batch from cross-batch failures and reports overlapping failed checks separately. Synthetic tests cover reset, no-op actions, empty menus, overlapping failures and altered counters; all 146 backend tests passed. This reader describes existing evidence and does not change the policy.
+
+### 2026-11-17: repair-stopping diagnosis findings
+
+- The [diagnosis](../studies/multiprotein/hydro_repair_stopping.md#findings) found that all 54 early stops across the two repair arms followed failed actions in different batches. The 357 rejected proposals each failed either complete counterexample displacement or direct diversity resolution; some also failed ranking preservation. Passing the recorded calibration check does not establish improved later coverage. A separate audit checked 60 records and 363 proposals. This is descriptive and does not show what would happen without stopping.
+
+### 2026-11-17: natural-language fitness goal path
+
+- Added optional user goal text to the Gemini goal compiler while keeping fixed bounds and the existing fixed-goal fallback unchanged. User-goal compilation rejects model-classified unsupported requests and fails closed on provider errors; the model can still misinterpret text, so the saved specification requires review. A live supported goal compiled successfully and ran through a 20-measurement Amylase repair episode; a live minimization request was rejected. All 150 backend tests passed. [Details](../workspace/goal_compiler.md#natural-language-goals) include provider-data handling and limits.
+- Confirmed the checkout's frontend matches `origin/research/experiment-foundations`; its production build passed and a live local backend returned the overview, datasets, IRED detail and workflow pages over HTTP. This check did not test browser interactions or deployment. The local NVIDIA GPU is visible to PyTorch; the sequence representations used in the completed studies were previously generated on the GPU. No larger model was evaluated.
+
+### 2026-11-17: integrated project status
+
+- Added an [integrated report](../overview/status_and_results.md) connecting the implemented pipeline, datasets, main results, verification and unfinished work. Checked 95 repository Markdown documents for local-link resolution with no unresolved relative links; this mechanical check is not a full scientific review of each historical note.
+
+### 2026-11-17: local GPU verification
+
+- Re-ran the pinned ESM-2 representation check on the local NVIDIA GPU with the cached model and no network access. Two finite 320-value vectors were produced; the same full-length sequence differed by at most 6.56e-7 when embedded alone versus in a padded batch. The loader reported unused language-model-head weights, as documented in the original representation check. No larger model or new protein-performance benchmark was run.
+
+### 2026-11-17: later rollback protocol
+
+- Defined an opt-in [Amylase development rule](../studies/repair/later_rollback.md#protocol) to monitor the 30 measurements after an accepted repair and restore its immediate predecessor if fewer than 75% of ranges cover those measurements. Supersession and insufficient follow-up are explicit. This is an operational safeguard, not evidence of causation or a coverage guarantee; previously recorded studies remain unchanged.
+
+### 2026-11-17: later rollback implementation
+
+- Added opt-in Amylase rollback monitoring after an accepted repair. It logs version lineage, observes 30 subsequent ranges, records superseded or incomplete windows, and restores the immediately previous specification when the existing coverage-warning threshold is missed. A separate reconstruction checks monitoring records, and normal matched-study evaluators reject the experimental setting. Synthetic tests cover the threshold, supersession, immutable versions, invalid evidence and an end-to-end rollback. All 155 backend tests passed; the earlier retention audit again checked ten runs, 38 selections and 55 repair replays. No real later-rollback comparison was run at this checkpoint.
+
+### 2026-11-17: later rollback development results
+
+- Ten matched Amylase runs completed and passed the [audit](../../output/amylase_later_rollback_161_165_audit.json), which checked 72 selections and 42 repair replays. Of two accepted changes in the monitored arm, one had only 20 later measurements and one had 28/30 covered and was retained. No real rollback occurred; the [findings](../studies/repair/later_rollback.md#findings) explicitly mark its effect as unestablished. All five pairs had identical selected batches and outcomes.
+
+### 2026-11-17: reactive calibration protocol
+
+- Defined an opt-in [Amylase development policy](../studies/repair/reactive_calibration.md#protocol) that replaces the 20 range-setting examples with the most recently revealed variants after a coverage warning and excludes them from the next model fit. Adaptive selection prevents a standard coverage guarantee. The protocol keeps the established studies unchanged and fixes a five-start comparison before running it.
+
+### 2026-11-17: reactive calibration implementation
+
+- Added the opt-in Amylase range-setting policy and a separate matched comparison. A synthetic warning episode verified that updated calibration identifiers are already revealed, are excluded from the next fit, and take effect only in the next round; its independent replay rejected an altered update. Normal matched-study evaluators and audits reject the experimental setting. All 158 backend tests passed, and the preceding later-rollback audit reproduced its saved counts. No real reactive-calibration comparison was run at this checkpoint.
+
+### 2026-11-17: reactive calibration development results
+
+- Ten matched fixed-reward Amylase runs completed and passed an independent audit of 100 selections and six calibration updates. Whole-run range coverage was 424/500 for fixed calibration and 442/500 for reactive calibration; mean width rose from 0.1633 to 0.1736, and one reactive run ended with a lower best score while four tied. The [findings](../studies/repair/reactive_calibration.md#findings) retain the trade-off and note that the policies selected different variants. A synthetic repair-enabled check also confirmed update timing and no update after an early stop. All 158 backend tests passed.
+
+### 2026-11-17: mixed predictor protocol
+
+- Identified that the synopsis specifies both ridge and neural-network members, while completed studies used five ridge members. Defined an opt-in [mixed-predictor protocol](../studies/hybrid/hybrid_predictor.md#protocol) with three ridge and two GPU-capable neural members, an internal early-stopping subset separated before bootstrap, and the existing separate range-setting examples. This fills an implementation gap without changing historical comparisons or claiming improved performance.
+
+### 2026-11-17: mixed predictor implementation
+
+- Added an explicit Amylase development option with three ridge and two PyTorch neural members. Neural early-stopping identifiers are drawn from revealed fitting examples before bootstrap, and scaling uses the remaining neural training examples only; the 20 range-setting examples stay separate. The device, architecture, training settings, seeds, roles, epochs, losses and fitting times are recorded. Synthetic tests check role separation, finite outputs, restored best weights, CPU reproducibility, a complete episode and study-scope guards. All 162 backend tests passed. The prior reactive-calibration audit reproduced its saved counts, and a historical ridge round reproduced 3,175 recorded means and spreads with zero observed difference. No real mixed-predictor episode had run at this checkpoint.
+
+### 2026-11-17: initial mixed-predictor GPU pilot
+
+- A seed-181 Amylase pilot used the RTX 5050 for the two neural members, ran two batches and stopped after failed repairs. Its audit checked two selections and six repair replays, and a GPU refit reproduced 3,175 first-round means and spreads exactly in this environment. A follow-up check found that the training seed operation can change CUDA random state during CPU-only fitting; this pilot and its source fingerprint are preserved while that issue is corrected. No performance comparison or generalization claim is made.
+
+### 2026-11-17: mixed-predictor random-state isolation
+
+- Corrected the neural initialization to seed only a forked CPU generator before moving the network to the requested device. The prior `torch.manual_seed` also affected CUDA random state during CPU-only fitting; a direct check exposed this behavior. Tests now verify that fitting on both CPU and the available GPU preserves the caller's CPU and GPU random states. All 163 backend tests passed, and the earlier reactive-calibration audit reproduced its counts. The initial GPU pilot remains preserved under its original source fingerprint; a fresh check is required for the corrected code.
+
+### 2026-11-17: corrected GPU mixed-predictor pilot
+
+- Repeated seed 181 after isolating random state. The RTX 5050 run used two batches and stopped after failed repairs; 18/20 recorded ranges covered their scores. The [audit](../../output/amylase_hybrid_gpu_seed181_v2_audit.json) checked two selections and six repair replays, and a same-device refit reproduced 3,175 first-round predictions with zero observed difference. All 163 backend tests passed. [Findings](../studies/hybrid/hybrid_predictor.md#findings) preserve the prior pilot and explain that this single episode is not a model comparison or a reusable final trained model.
+
+### 2026-11-17: mixed-predictor export protocol
+
+- Defined a [reusable model export](../studies/hybrid/model_export.md#protocol) that refits only on observations revealed in a completed, audited episode and stores numeric weights without executable object serialization. The final refit includes the last batch and is not evaluated by the original episode. No model artifact had been produced at this checkpoint.
+
+### 2026-11-17: mixed-predictor export implementation
+
+- Added a numeric-only, atomic model archive and NumPy inference loader. The export command audits a completed mixed-predictor episode, reconstructs only its revealed observations, refits a final group with the range-setting examples held out, and checks CPU-loaded predictions against the fitted models before publishing the file. Tests cover prediction parity, source-role boundaries, changed archives, invalid inputs and refusal to overwrite; all 166 backend tests passed. No real model artifact had been exported at this checkpoint.
+
+### 2026-11-17: exported development model and independent refit
+
+- Exported the corrected seed-181 Amylase episode as a reusable numeric model after a final GPU refit. Of 120 observed scores, 100 were available for fitting and 20 set the prediction range; the neural members used 80 for training and 20 for early stopping within the 100 fitting examples. A separate same-environment GPU refit and CPU archive load checked all 3,706 cached representations; maximum mean and spread differences were 3.98e-9 and 7.70e-9. A fresh CPU process loaded the model without importing PyTorch. The [findings](../studies/hybrid/model_export.md#findings) give the fingerprint, usage, and limitations. This checks reproducibility, not predictive accuracy of the post-episode refit.
+
+### 2026-11-17: exploratory exported-model comparison
+
+- Compared the exported mixed model with five ridge members fitted on the same observations and using the same range-setting examples. On 3,155 remaining eligible Amylase variants, mean absolute errors were 0.04995 and 0.05085, and range coverage was 3,018/3,155 and 3,032/3,155, respectively. The [protocol](../studies/hybrid/exported_model_evaluation.md#protocol) and [findings](../studies/hybrid/exported_model_evaluation.md#findings) explain why this one retrospective development comparison does not establish general superiority or prospective search performance.
+
+### 2026-11-17: matched mixed-predictor searches
+
+- Completed ten fixed-reward Amylase search pairs with identical starts and 100 new measurements per run. The [replay audit](../../output/mixed_search_comparison_191_200_audit.json) checked 20 runs and 200 selections and refitted the first mixed group for each pair on the GPU. Both approaches ended with the same best score in every pair; mixed and ridge selected-range coverage was 878/1,000 and 842/1,000. [Findings](../studies/hybrid/mixed_search_comparison.md#findings) record that selections can differ, later groups were not independently refitted, and the reused development dataset cannot establish equivalence or generalization. All 167 backend tests passed.
+
+### 2026-11-17: read-only results in the web workspace
+
+- Added a dedicated backend endpoint that reads the fingerprint-pinned mixed-search audit and returns unavailable when the file is missing or changed. The existing frontend design now includes a results page showing the measured comparison and its limitations; it does not launch experiments. The production build, 168 backend tests, and live HTTP checks for both available and unavailable states passed. The browser inspection host was unavailable, so visual, responsive, and keyboard checks were not performed. Starlette emitted a deprecation warning for its httpx-based test client.
+
+### 2026-11-17: development-model prediction interface
+
+- Added a fingerprint-checked API and web form for the exported Amylase model. Inputs are limited to standard amino-acid sequences at the reference length, at most four substitutions, and a verified cached representation. Responses contain predicted mean and range plus whether the sequence was used for fitting or setting the range, never the measured score. The model and cache are loaded and verified on first request and cached in process; restart the backend after changing files. New uncached sequences are not represented by this interface. A live production-stack form submission and invalid-input response passed, along with all 169 backend tests and the production frontend build. Browser visual, keyboard, and screen-reader testing remained unavailable; Starlette emitted its existing test-client deprecation warning.
+
+### 2026-11-17: local representations for new sequences
+
+- Extended the development-model interface to generate representations for uncached Amylase sequences with at most four substitutions. Local checkpoint files, model revision, representation code and library versions are checked against the verified cache; three cached vectors must match at tolerance 1e-5 before the encoder is used. The pinned model loads locally without network access, uses CUDA if available, and otherwise uses CPU. On this machine the maximum difference from three cached vectors was 9.54e-7 on CPU and 7.15e-7 on GPU. A live production-stack form submission predicted an uncached sequence on GPU. All 170 backend tests and the frontend production build passed. GPU setup required the existing process-local `TORCH_DISABLE_NATIVE_JIT=1` workaround; visual, keyboard and screen-reader checks remain unperformed. Predictions are not laboratory validated.
+
+### 2026-11-17: bounded local web experiments
+
+- Connected the existing Amylase runner to a local-only API and workspace page. A run uses the fixed checked-in reward and either no repair or rule-based repair, with one cross-process lock, a unique output directory and a saved summary of revealed observations. No Gemini calls are made. Recent runs include an explicit incomplete-or-running state; a failed or interrupted run is not silently overwritten. The frontend and backend are intended to bind to loopback only; the server action is not authenticated and must not be exposed publicly or via a remote proxy. A live form completed a repair run and displayed it after reload, the offline state was checked, the production build passed, and all 171 backend tests passed. Four study tests initially failed because two new files shared a basename; the files were renamed and the unchanged provenance checks passed. Browser visual, keyboard and screen-reader checks remain unperformed.
+
+### 2026-11-17: optional Gemini-assisted web repair
+
+- Connected the existing bounded Gemini repair advisor to the local web runner as an explicit option. It reads the configured key and model without exposing the key, sends warning types and bounded repair options, and still verifies changes locally. The result records attempted provider calls, fallback choices and available token counts; missing token counts are reported as unavailable and are not billing totals. A live form test made two recorded attempts with no fallback and 292 reported tokens, then stopped after failed repairs at 20 new measurements. Tests separately exercised missing configuration, simulated provider failure and reported token accounting; all 174 backend tests and the production build passed. A second live form test used a simulated provider without network calls. Provider [rate limits](https://ai.google.dev/gemini-api/docs/rate-limits) and [billing](https://ai.google.dev/gemini-api/docs/billing/) depend on account settings. The local-only and incomplete-record limitations remain; no claim is made that Gemini improved outcomes.
+
+### 2026-11-17: multi-protein local web experiments
+
+- Extended the local web runner to IRED and each of the three hydrophobic-core proteins, reusing their verified source loaders, representations and the existing all-eligible candidate policy. The interface identifies the dataset and explains that hydrophobic-core training membership is score-derived. Real fixed-reward backend runs completed for all four added protein groups; production-form submissions completed for IRED and P06241. All 175 backend tests and the production build passed. No Gemini calls were made for these checks. The browser inspection host remained unavailable, so visual, keyboard and screen-reader checks were not performed. These are local exploratory simulations, not new test-set evidence or independent biological validation.
+
+### 2026-11-17: review completed local experiments
+
+- Added a local run-review endpoint and page with each selected measurement, its recorded pre-reveal prediction range, warnings, and repair attempts and checks. The service checks dataset fingerprints, source measurements, selection/reveal chronology and summary totals, and returns only selected candidate predictions. A deliberately changed measurement was rejected. A live repair run produced a linked review page; all 175 backend tests and the frontend production build passed. The review does not independently refit predictors or establish warning validity. Browser visual, keyboard and screen-reader checks remain unavailable.
+
+### 2026-11-17: reviewed goals in the local workspace
+
+- Connected the existing natural-language goal compiler to a local Goals page. The page warns that the entered text is sent to Gemini and stored locally, and that calls may incur charges. It displays the bounded weights and fixed limits for review; a saved goal can then be selected in the experiment form. The backend checks the saved file fingerprint at execution, validates its fixed constraints and records the goal and specification in the run. Tests rejected an altered file and an unsupported goal. A live web flow compiled a sample goal in one accepted provider request with 138 reported tokens, used it in a fixed-reward Amylase run, and displayed it in the run review. All 177 backend tests and the production build passed. This is not proof of semantic correctness or repair effectiveness; browser visual and accessibility checks remain unavailable.
+
+### 2026-11-17: mixed predictor in the local web runner
+
+- Added an explicit Amylase-only mixed-predictor option to the local experiment page while retaining five ridge members as the default. The backend chooses CUDA when available and CPU otherwise, records the actual device and validates it when reviewing the record; an execution failure does not silently switch devices. A production web submission ran the mixed group on the RTX 5050, displayed the GPU in the result and review, and stopped after failed repairs at 20 measurements. A separate CPU test checked the fallback and rejection of a changed device record. The option remains experimental and does not extend the mixed group to the test proteins. The production build and full backend suite passed; browser visual and accessibility checks remain unavailable.
+
+### 2026-11-17: local run liveness
+
+- Added a per-run operating-system lock so recent runs can distinguish a currently running job from a stopped job without a completed summary. A running job can be listed before its record directory exists. Older unfinished records without a per-run lock remain explicitly uncertain. The page requires a reload to refresh, and an interrupted run is not resumed automatically. A controlled test terminated a worker process and observed its status change to incomplete; a live GPU run appeared as running and then completed under the same ID. All 180 backend tests and the production frontend build passed. This relies on local [flock semantics](https://man7.org/linux/man-pages/man2/flock.2.html), not the mere presence of a lock file. Browser visual and accessibility checks remain unavailable.
+
+### 2026-11-17: local selection and repair decision check
+
+- Added a read-only [decision check](../workspace/local_decision_audit.md) that validates current source and cache fingerprints, starting observations, fitting roles and member seeds; recomputes every batch distance and selection; and replays repair proposals using recorded predictions. It verifies target displacement and consistency with recorded acceptance checks, not the independent correctness of every check. A live Amylase repair run passed two selections and six replays. Tests rejected changed selection order, distance scale and source fingerprint, and exercised missing-source behavior; IRED, one hydrophobic-core protein and the mixed predictor were also checked. The full 181-test suite passed, followed by a targeted test after adding dependency-error handling; the frontend production build passed. The check does not refit predictors or establish warning validity or repair benefit. Browser visual and accessibility checks remain unavailable.
+
+### 2026-11-18: project review presentation
+
+- Added a standalone [project review](../../presentation/project_review.html) covering the implemented workflow, saved comparisons, negative repair results and outstanding scientific work. Checked all 14 slide labels and local links, and exercised navigation logic with a simulated document. The browser access host was unavailable, so the rendered slides, print layout and real keyboard and screen-reader behavior remain unverified. The presentation is a review of current evidence, not a claim that the research is complete.
+
+### 2026-11-18: IRED source recheck
+
+- Downloaded the current official IRED split and verified that its decompressed bytes match the local file exactly. Recorded both hashes and the benchmark's current guidance to exclude validation-marked rows from official model fitting in [IRED preparation](../data/ired_preparation.md). The prior low-change-start search deliberately included eligible validation-marked train rows, so it remains a separate exploratory sequential search, not an official split comparison. The cause of the difference between the full dataset and split row counts remains unresolved.
+
+### 2026-11-18: mixed predictor all-round refit
+
+- Added a reproducible audit that reconstructs all ten prediction rounds for each of the ten saved mixed-predictor searches from the measurements revealed before that round. All 100 GPU refits reproduced the saved candidate means and spreads exactly in this environment. Focused tests reject altered predictions, non-finite values and fitting identifiers not yet revealed; the full 183-test backend suite passed. The audit uses the original fitting implementation and does not establish scientific validity or reproduce the separate ridge-only runs; see [findings and command](../studies/hybrid/mixed_search_comparison.md#findings).
+
+### 2026-11-18: mixed predictor on held-out protein variants
+
+- Froze an exploratory static comparison before scoring, then evaluated the existing mixed predictor on IRED and three Hydro groups using the same 40 starting samples as the prior ridge study. Predictions and per-start comparisons are recorded in [findings](../studies/hybrid/mixed_heldout.md#findings). A separate calculation recomputed all 40 mixed-run metrics; tests cover held-out separation and changed matched assignments, and all 185 backend tests passed. The two predictors had no consistent advantage, and their Hydro prediction-range coverage remained low. This is not an official benchmark, a search or repair evaluation, or independent biological validation.
+
+### 2026-11-18: mixed held-out refit audit
+
+- Rebuilt all 40 mixed predictor groups on the same GPU from their recorded starting measurements, checked their range-setting roles, and reproduced 67,660 saved predictions and the reported metrics. The [audit](../../output/mixed_heldout_audit_121_130.json) checks data and code fingerprints and rejects mismatched prediction and evaluation files. All 186 backend tests passed. It reuses the predictor implementation and does not establish independent biological validity or cross-platform reproducibility. See [mixed held-out findings](../studies/hybrid/mixed_heldout.md#findings) for the command and scope.
+
+### 2026-11-18: repair advice trace
+
+- Added structured request and returned-text recording for Gemini repair advice in new local-web and matched-study runs. Records include the warning, permitted options, returned text or a client error status; credentials are not passed into the trace. The fixed prompt remains in the fingerprinted client source, and the client does not expose raw bodies when it rejects a response before returning text. Older records and goal-compilation replies are not retroactively filled in. The full backend suite passed 188 tests; three focused trace tests passed after adding a local-advisor integration check. The completed four-protein audit replay was stopped before completion when priorities shifted to submission documents; historical compatibility was not re-established in this change.
+
+### 2026-11-18: submission report and reconciliation
+
+- Prepared a six-page [project report for review](../../report/CERA_final_report.pdf) with [editable LaTeX source](../../report/CERA_final_report.tex), aligning the original synopsis with the implemented methods, negative and exploratory results, and unresolved limitations. Added [submission readiness notes](../overview/submission_readiness.md) linking the report, presentation and supporting evidence. Rendered and visually inspected all report pages; XeLaTeX reported no overfull boxes or unresolved references. The institution’s final format and guide review remain unverified. The original synopsis remains unchanged as the proposal.
+
+- Cross-checked parts 5–7 of the briefing guide against the report and implementation. Added a [briefing guide crosswalk](../overview/submission_readiness.md#briefing-guide-crosswalk) for the oral evaluation, with links to the completed evidence and course questions that still need confirmation.
+
+- Updated the Results page and README to reflect the available local experiment workflow and the completed 100-round mixed-predictor refit. The production build passed. Local HTTP checks confirmed the 10 paired ties in the API and rendered results, the experiment link, and responses for the dataset, workflow, and experiment pages. The browser host was unavailable, and this check used saved study results without starting a new experiment.
+
+- Added the primary four-protein comparison above Amylase on the Results page. The production build passed. A live HTTP check verified all four displayed rows against both repair policies in the saved evaluation, and a second check confirmed that the primary result remains visible when the Amylase API is unavailable. The visual layout and browser interaction remain unchecked.
+
+- Verified the submission demo through the production app and API. A fixed-reward Amylase run at seed 13 completed with 100 simulated measurements in ten batches and zero Gemini calls. The recent-run page linked to its review, the review linked to the decision check, and the check replayed all ten selections. The temporary run was cleaned up after verification. Recorded the [experiment demonstration steps](../overview/submission_readiness.md#experiment-demonstration) and the remaining browser checks.
+
+- Prepared a portable review archive with the report, presentation, briefing guide, directly cited local evidence, and selected machine-readable summaries. Checked direct links from the report, presentation, and submission notes in the extracted folder. The full repository remains necessary for running and replaying the studies.
+
+- Consolidated the synopsis's requested precision and recall table for all five warnings, preserving denominators and distinguishing the synthetic cases from hand-picked rule checks. The full backend suite passed 189 tests. Browser access remained unavailable. [Warning checks](../overview/submission_readiness.md#warning-checks-on-known-cases)
+
+- Incorporated the warning table into the editable report and regenerated the six-page PDF. Checked all eight rows against the saved counts, visually reviewed the rebuilt pages, and updated the report's verification paragraph to reflect 189 passing tests and the local HTTP walkthrough.
+
+- Compared each primary-study repair run with fixed reward at the same measurement count. Checked all 80 pairs against the saved curves and original actual-stop differences. Each policy tied 39 times and scored lower in one IRED start. Documented the comparison as retrospective in the report and submission notes. [Paired scores](../../output/matched_eval_51_60_same_measurements.json)
+
+- Added the standalone literature review listed in the synopsis. It ties the original benchmark, proxy reward, and conformal prediction references to the evaluation choices and documented limits. [Literature review](../background/literature_review.md)
+
+- Used Playwright CLI for the submission demo. An open batch table widened the mobile page. The single-column grid now allows its content column to shrink, so the table scrolls within its own region. Production build and the Chromium demo passed at 390 px wide, including keyboard submission, opening the batch, horizontal table scrolling, and the decision check for all ten batches. Checked desktop Results and mobile review screenshots, plus keyboard navigation across all 14 presentation slides. Screen-reader behavior remains unchecked.
+
+- Checked the 10% regret target descriptively using the approved 30-measurement follow-up after the first coverage warning. Only six of 160 repair-policy runs had complete follow-up, covering three starts under both policies. All six tied fixed reward at the same measurement count. Recorded missing follow-up and linked the earlier after-repair coverage results. [Recovery targets](../overview/submission_readiness.md#recovery-targets-in-the-synopsis)
+
+- Added the observed recovery figures to the PDF report and kept the distinction between the retrospective subset and the original shift-split target.
+
+- Used axe-core 4.14.1 through Playwright Chromium to check the Results and Experiments pages and the 14 presentation slides. Darkened section labels that failed contrast and added a persistent page-level heading to the deck. The production build passed, and the follow-up scan found zero violations in the 16 states tested at 390 px wide. Manual screen-reader behavior remains unchecked.
+
+- Drafted a short workshop write-up around the difference between actual-stop and equal-measurement comparisons. Scoped the claims to the completed retrospective studies. [Workshop draft](../overview/workshop_draft.md)
+
+- Added a command to recreate the review packet from the current commit and write it to a stable path in `output/`. The command checks the file list and ZIP integrity before replacing the previous generated packet. [Packaging instructions](../overview/submission_readiness.md)
+
+- Exported the committed demo inputs into an isolated directory and installed fresh dependencies. The production app served the catalog and saved comparisons. After installing the CPU build of PyTorch, a fixed-reward Amylase demo completed 100 simulated measurements, verified ten selections and displayed the run review. Updated the README with the tested lockfile and CPU setup commands.
+
+- Re-ran the primary study decision audit to completion. Its captured output matched earlier counts for 360 completed runs, 2,943 selections, and 549 repair replays. The evaluation report regenerated byte for byte. The audit replays saved evidence within its stated scope. [Direct audit capture](../../output/matched_eval_51_60_audit_rerun.json)
+
+- Checked the Amylase close-to-far position split with the existing five-ridge static prediction protocol. Median coverage was 90.2% and median rank correlation was 0.0005 across ten starts. Reproduced the report byte for byte. This development check assesses prediction across the position split. [Findings](../studies/amylase/position_shift.md)
+
+- Reconciled the integrated status and completion review with the current results, including all three shift types in static prediction, the limited recovery follow-up, the browser walkthrough, the workshop draft and the full primary-study replay. The [submission notes](../overview/submission_readiness.md) are the index for guide review.

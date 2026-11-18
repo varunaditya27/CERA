@@ -1,0 +1,47 @@
+<div align="center">
+
+# Primary dataset evidence ledger
+
+Evidence ledger
+
+</div>
+
+Last checked: 16 November 2026. This is a working record, not approval to run an experiment. A benchmark split is a division of variants into named groups; a reference is the sequence against which changes are counted. The source files contain all measured scores, so an experiment must prevent the search from reading scores it has not been permitted to see.
+
+## Checks performed for this entry
+
+- Ran `python3 -m scripts.data.audit_data`: all five local datasets passed the script's structural checks. These checks do not establish scientific validity.
+- Recomputed SHA-256 fingerprints below. A fingerprint identifies file bytes, not the scientific correctness of their contents.
+- Decompressed each primary local gzip archive in memory and compared it byte-for-byte with its local CSV; all three matched. This check alone does not establish a match to the remote archive.
+- Read the current [FLIP2 benchmark descriptions](https://flip.protein.properties/), original sources linked below, and compared local sequence/score pairs with original online tables as described below. The earlier [research roadmap](../overview/roadmap.md) contains additional source analysis; its earlier calculations are not automatically independent checks performed for this entry.
+
+## Alpha amylase
+
+- **Local file:** `data/raw/flip2/amylase/close_to_far.csv`; 3,706 rows, 1,782 train and 1,924 test. SHA-256: `d04c2fcb7421ffb6ac8b776ed938f7a97c81f8de57f71257d34d9d3722435297`.
+- **Meaning:** stain-removal activity of variants of a bacterial enzyme. FLIP2 describes the close-to-far division in terms of mutations near or farther from the enzyme's active site, the region where its reaction occurs. [Benchmark](https://flip.protein.properties/); [original study](https://doi.org/10.1016/j.csbj.2024.09.007).
+- **Independent source check:** on 16 November, fetched the original authors' [reference sequence](https://raw.githubusercontent.com/florisvdf/mutation-predictability/main/data/AMY_BACSU/reference.fasta) and [combinatorial table](https://raw.githubusercontent.com/florisvdf/mutation-predictability/main/data/AMY_BACSU/combinatorials/data.csv). All 3,706 local sequences had a matching original sequence and `stain_activity` value within 1e-8. The 425-residue reference occurred once locally, on the test side. Original table and reference links point to a changing branch, not a pinned commit.
+- **Score direction:** the source study describes stain removal; higher `stain_activity` is interpreted as greater measured stain removal. Confirm exact normalization and units before making detailed numerical claims.
+- **Open:** decide whether the reference is initially known, selectable, or excluded; verify the exact split implementation and mutation-limit feasibility before choosing experiment rules.
+- **Additional check, 16 November:** at original repository commit [`aea601d50493892fc6a73601beb90b8d0c93cd52`](https://github.com/florisvdf/mutation-predictability/tree/aea601d50493892fc6a73601beb90b8d0c93cd52), the source combinatorial table has SHA-256 `6e98fe03eeb531624a9af7f6f0af9b9618145f5e66daa49ad233449b14b544a3`. Matching by sequence, all 1,782 local train rows have original `is_close_to_as=1`, and all 1,924 test rows have `is_close_to_as=0`. This verifies agreement with the original flag, not how that flag was calculated.
+- **Candidate feasibility example, 16 November:** against the same pinned reference, a hypothetical limit of four substitutions leaves 1,566 train and 1,709 test rows. Among the train rows, 1,258 have the original validation flag `False` and 308 have it `True`; all 1,709 test rows are flagged `False`. The reference itself is test/`False`. These counts do not adopt the four-substitution limit or decide how the validation flag will be used. They show that 100 starting examples are numerically available even if the originally flagged validation rows are excluded, before any other eligibility rules are applied.
+
+## Imine reductase (IRED)
+
+- **Local file:** `data/raw/flip2/ired/two_to_many.csv`; 8,586 rows, 4,408 train and 4,178 test. SHA-256: `55425e46a5be5b50fb79dbf8be677422355969da065241e11325a61348e19fae`.
+- **Meaning:** enzyme activity from a screening experiment. The original [dataset record](https://zenodo.org/records/11357236) describes scores as log-enrichment relative to the original enzyme and distinguishes measurable variants from those with no discernible activity. The [benchmark](https://flip.protein.properties/) describes the split as at most two changes versus more than two.
+- **Independent source check:** on 16 November, fetched the original lab's [active-data table](https://raw.githubusercontent.com/Hollfelder-Lab/lrDMS-IRED/main/data/srired_active_data.csv), containing 10,905 rows. After removing a terminal `*` from original sequence strings where present, all 8,586 local sequences had a matching original sequence and fitness value within 1e-8. This comparison did not reproduce the entire benchmark filtering procedure. The link points to a changing branch.
+- **Open:** FLIP2 lists 17,143 total variants, whereas this local split has 8,586; do not claim the reason is resolved. Confirm the reference and its provenance, exact treatment of inactive variants, score transformation and split implementation for the intended experiment. More positive log-enrichment means greater enrichment on the reported scale, not an unconditional guarantee of real-world performance.
+- **Additional check, 16 November:** at original repository commit [`6a9e87c6c788e77d67e9e7ccad1208f1f60f859c`](https://github.com/Hollfelder-Lab/lrDMS-IRED/tree/6a9e87c6c788e77d67e9e7ccad1208f1f60f859c), the active-data table has SHA-256 `81964bd5f366310627641ddaba573d77242803969570aa383d9f3912364adc0b`. Its `WT` field is a marker, not the reference sequence itself: one row is marked `True`, and its `aa_seq`, after removing the terminal `*`, has 290 residues. Relative to that sequence, all 4,408 local train variants have at most two substitutions and all 4,178 test variants have more than two. This validates the local partition against that source reference; the filtering discrepancy remains open.
+
+## Hydrophobic core (Hydro)
+
+- **Local file:** `data/raw/flip2/hydro/low_to_high.csv`; 24,935 rows, 12,467 train and 12,468 test. SHA-256: `7086f5ad7313c3e572b335d18c378c5bc38fa5ab737820ebed3144749ede4415`.
+- **Meaning:** the [benchmark](https://flip.protein.properties/) describes stability measurements for variants of three proteins and a low-to-high score division. The original [experimental data record](https://zenodo.org/records/11175470) identifies the source study and notes a newer record version exists.
+- **Independent local check:** sequence lengths 57, 63 and 65 have train/test counts of 5,390/4,582, 4,867/1,596 and 2,210/6,290 respectively. Across the whole local file, the largest train score is -3.20637801127396 and the smallest test score is -3.20608122700315; the latter is the global median. This demonstrates a score-ordered boundary in this file, not the exact procedure that produced it.
+- **Prior evidence, not independently repeated here:** the detailed roadmap reports sequence alignments suggesting a mapping from each length group to one protein reference. These alignments do not by themselves prove exact experimental construct provenance.
+- **Open:** independently confirm construct references and score transformation/direction against the original experiment; determine whether separate per-protein searches are appropriate and feasible. The source archive was not downloaded or fully audited for this entry. Because the split reflects scores, exposing split membership can reveal information about hidden scores.
+- **Further source check, 16 November:** the original authors' smaller GEO core-mutagenesis table matches all 24,935 local sequence/target pairs exactly to its `fitness_raw` field. The source mutation counts match the three UniProt reference segments on every row. The local targets are not the source's scaled field. Full evidence, cache fingerprints, remaining construct caveats and score-derived seed-set limitation are in [hydrophobic-core preparation](../data/hydro_preparation.md).
+
+## Before a formal run
+
+Pin the upstream source versions and fingerprints; establish the reference, score direction and eligible count for each intended run; agree how the split is used; and document any unresolved source limitations. Do not treat historical counts under a proposed mutation cap as an approved cap.

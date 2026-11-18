@@ -1,0 +1,41 @@
+<div align="center">
+
+# Amylase development protocol
+
+Protocol
+
+</div>
+
+Status: working decisions made under Varun's delegation on 16 November 2026. These guide a future pilot, not a completed experiment or a frozen final evaluation. The source evidence and limitations are in the [dataset evidence ledger](../../background/dataset_evidence_ledger.md). The primary candidate pool and amylase reference treatment follow Varun's explicit choices.
+
+## Goal and constraints
+
+First establish that a simulated search can use previously measured amylase data without reading scores prematurely, spend a bounded budget, and produce a reviewable record. Later stages can test whether model-based warnings and repairs help. Passing the infrastructure checks does not demonstrate a research result.
+
+The source contains 3,706 sequences and experimentally recorded stain-removal scores. The original reference is a known 425-letter protein sequence. A substitution is a position where a variant differs from that reference. The synopsis's four-substitution cap is the development starting point, not an established optimum. The independently checked eligible counts under that cap are 1,566 original train and 1,709 original test rows. The test-side reference is eligible but its score remains hidden unless selected. [FLIP2 description](https://flip.protein.properties/); [pinned original reference](https://raw.githubusercontent.com/florisvdf/mutation-predictability/aea601d50493892fc6a73601beb90b8d0c93cd52/data/AMY_BACSU/reference.fasta).
+
+## Starting data and roles
+
+- Select 100 distinct eligible sequences from the original train side using a recorded random seed; start with uniform selection independent of their scores. A random seed is a recorded number used to reproduce random choices. Initial examples count toward the 100 starting measurements.
+- For development, do not exclude an eligible train row solely because the original benchmark flags it for validation. The new experiment assigns its own data roles after drawing the 100, and the original flags remain recorded for later reporting. This uses the available train pool without treating the benchmark validation flag as a calibration set.
+- When implementing prediction ranges, assign 80 starting examples for fitting and model selection and 20 for calibration, using a recorded score-independent random assignment. Calibration sets the range using prediction errors; it is not independent evidence that the range works. Perform validation for model choices within the fitting portion using cross-validation or a training-only stopping subset as appropriate. Fit data-dependent preprocessing only within each fitting fold. [Cross-validation](https://scikit-learn.org/stable/modules/cross_validation.html); [data leakage](https://scikit-learn.org/stable/common_pitfalls.html#data-leakage).
+- Initially retain the 20 calibration examples separately and add subsequently revealed examples to the fitting pool after their pre-reveal predictions and scores are recorded. Do not treat the 20 as an independent final evaluation or claim ordinary 90% coverage in this adaptive setting. Repeated use, feedback from selected scores, and shift may undermine standard assumptions. Evaluate recorded ranges on later revealed scores, report widths and counts, and revisit the protocol if the pilot shows a problem. [Feedback shift in biomolecular design](https://pmc.ncbi.nlm.nih.gov/articles/PMC9618043/).
+- The 80/20 division is a pragmatic starting point from the synopsis, not a proven optimum; 20 calibration errors give coarse and potentially unstable range estimates. The first runner implementation does not need a prediction model or calibration.
+
+## Selection and budget rules
+
+- The candidate pool is all eligible variants except already revealed ones, irrespective of the original train/test division. The selector sees sequences and allowed metadata, never hidden scores or score-derived split labels. The original split can be used by setup to sample the initial set and by a separate evaluator after the run. This is a simulation boundary against accidental access through supported interfaces, not a security guarantee against a process with direct raw-file access.
+- Allow up to 100 new unique measurements after the starting 100, in batches of up to 10. All compared methods receive the same starting examples, candidate pool, constraints and maximum budget. Save seed, data fingerprint, settings and initial identifiers for reproducibility.
+- Validate a batch as a whole before any score is revealed: reject unknown or ineligible identifiers, duplicates within a batch, already revealed identifiers, or a request exceeding remaining budget. A rejected batch reveals nothing and spends no budget. An explicit shorter valid batch is allowed; when fewer eligible candidates or budget slots remain than the maximum batch size, a valid smaller batch can be requested. Stop if the budget is exhausted or no eligible candidates remain. These are development interface decisions, not claims about actual laboratory billing.
+- Record the selected identifiers and any predictions before reveal; record newly revealed scores, remaining budget and stop reason afterwards. The first runner has no model predictions to record. Never add unobserved scores or full-pool score summaries to selector-visible records.
+
+## First implementation plan, awaiting approval before coding
+
+1. **Inspect affected project instructions, dependencies and existing script patterns.** Check the proposed location and interfaces against actual repository code; do not install or add dependencies without verifying that they are needed.
+2. **Build a minimal amylase dataset adapter and controlled measurement runner.** Keep raw scores within the controlled component, expose eligible candidate identities/sequences and permitted revealed measurements only, apply the four-substitution limit against the pinned reference, track starting and new measurements separately, and save enough information to reconstruct a run. Avoid integrating the website or model at this stage.
+3. **Add focused checks using a tiny invented dataset.** Verify hidden scores are absent from the selector interface; reference and eligibility handling; deterministic starting choices; atomic rejection of unknown, duplicate, already revealed, ineligible and over-budget requests; valid partial batches; budget exhaustion; empty-pool stopping; and reconstruction from recorded events. Add a local-data feasibility check without interpreting it as a full experiment.
+4. **Run relevant checks and report actual outputs.** Review the diff and ensure the existing catalog remains compatible. Commit completed work on the current branch as requested.
+
+## Remaining work and limits
+
+This stage does not establish the predictor, calibration method, five detectors, repair rules, language-model integration, scientific comparisons, or final recovery metric. No pilot has run. Verify IRED filtering and Hydro score/reference provenance before those datasets are used. Record the exact sequence reference and source fingerprint with each run, and pin all newly introduced software only after checking the installed environment and official documentation.
