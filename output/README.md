@@ -20,6 +20,7 @@ Each folder or file below was written by a script under `scripts/` and is descri
 | `warnings/` | Controlled warning simulations | [Controlled simulations](../docs/studies/warnings/controlled_simulations.md) |
 | `hybrid/` | Mixed-predictor held-out and search comparisons | [Mixed predictor](../docs/studies/hybrid/) |
 | `heldout/` | Held-out shift prediction and position-shift checks | [Held-out prediction](../docs/studies/hybrid/heldout_shift_prediction.md) |
+| `data/` | Dataset provenance checks, such as how the IRED split was selected from the laboratory table | [IRED preparation](../docs/data/ired_preparation.md) |
 | `goals/` | Gemini goal compilation checks | [Goal compiler](../docs/workspace/goal_compiler.md) |
 | `representations/` | Score-free ESM-2 sequence vector caches | [ESM feasibility](../docs/background/esm_feasibility.md) |
 | `packages/` | The submission review archive built by `scripts/reporting/package_submission_review.py` | [Submission readiness](../docs/overview/submission_readiness.md) |

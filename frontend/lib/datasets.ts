@@ -35,7 +35,7 @@ export const DATASET_NOTES: Record<
     description:
       'Activity measurements for variants of an imine reductase, with a split based on mutation count.',
     preparation:
-      'The archived split contains 8,586 variants. The benchmark website lists 17,143; the difference needs investigation.',
+      'The archived split contains 8,586 variants. The benchmark website lists 17,143; the split leaves out flagged insertion, deletion and stop-codon rows, and 865 of the difference is unexplained.',
     sourceUrl: 'https://zenodo.org/records/11357236',
     sourceLabel: 'Original IRED data',
   },
