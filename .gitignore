@@ -16,3 +16,4 @@ __pycache__/
 output/web_runs/
 output/web_goals/
 .hallmark/
+.taste-skill/
