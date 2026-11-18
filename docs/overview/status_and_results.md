@@ -41,7 +41,7 @@ In the Hydro low-fitness study, both repair policies stopped after consecutive f
 ## What is implemented and how to run it
 
 - The web workspace is in `frontend/` and `backend/app/api/`. It shows dataset information and the pinned mixed-predictor development comparison, and predicts eligible Amylase sequences using the exported development model and verified local representation model; it also runs bounded local experiments across Amylase, IRED and three hydrophobic-core proteins using fixed reward, rule-based repair or optional Gemini-assisted repair. The runner offers the experimental mixed predictor for Amylase; other datasets use five ridge members. Completed local runs have a batch-by-batch review and an optional [decision check](../workspace/local_decision_audit.md) based on recorded predictions.
-- The experimental pipeline is in `backend/app/experiments/`, `features/`, `rewards/`, `llm/`, `analysis/` and `provenance/`. It runs from scripts and writes local records.
+- The experimental pipeline is in `backend/app/experiments/`, `predictors/`, `features/`, `rewards/`, `llm/`, `analysis/` and `provenance/`. It runs from scripts and writes local records.
 - `scripts/amylase/compile_reward_goal.py` can accept optional user goal text through `--goal`. The text is sent to Gemini and saved. The model can misunderstand it; review the bounded specification before use. The only supported objective is maximizing the dataset fitness score. [Goal compiler](../workspace/goal_compiler.md#natural-language-goals).
 - `scripts/amylase/run_reward_pilot.py` consumes a saved specification. `--repair` enables rule-based repair, and `--gemini-repair` lets Gemini select among permitted repairs. The [README](../../README.md) covers setup and study commands.
 

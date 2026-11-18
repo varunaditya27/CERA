@@ -1,6 +1,10 @@
+<div align="center">
+
 # CERA Team Roadmap
 
-A working guide for Varun and Ravi
+Working guide for the two team members
+
+</div>
 
 Goal: build and test a system that spots when protein fitness predictions mislead a search, then checks whether an allowed change helps the search recover. The experiments use previously measured variants; they are not new laboratory tests.
 
