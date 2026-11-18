@@ -749,3 +749,5 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Prepared a portable review archive with the report, presentation, briefing guide, directly cited local evidence, and selected machine-readable summaries. Checked direct links from the report, presentation, and submission notes in the extracted folder. The full repository remains necessary for running and replaying the studies.
 
 - Consolidated the synopsis's requested precision and recall table for all five warnings, preserving denominators and distinguishing the synthetic cases from hand-picked rule checks. The full backend suite passed 189 tests. Browser access remained unavailable. [Warning checks](submission_readiness.md#warning-checks-on-known-cases)
+
+- Incorporated the warning table into the editable report and regenerated the six-page PDF. Checked all eight rows against the saved counts, visually reviewed the rebuilt pages, and updated the report's verification paragraph to reflect 189 passing tests and the local HTTP walkthrough.
