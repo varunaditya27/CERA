@@ -1,6 +1,6 @@
 # Dataset usability audit
 
-The audit establishes structural suitability for retrospective experiments, not that the full research protocol is implemented or scientifically validated. Run `python3 scripts/download_data.py`, `python3 scripts/download_optional_data.py`, and `python3 scripts/audit_data.py` to repeat integrity and structural checks. All five datasets have standard amino-acid sequences, finite continuous scores, unique sequences and enough rows for the planned budget. The four extracted FLIP CSV files match their gzip archives byte-for-byte; their decompressed contents also match FLIP2 Zenodo archive v3. Original labels remain visible in the raw files: a query interface must hide them from optimizers.
+The audit establishes structural suitability for retrospective experiments, not that the full research protocol is implemented or scientifically validated. Run `python3 -m scripts.data.download_data`, `python3 -m scripts.data.download_optional_data`, and `python3 -m scripts.data.audit_data` to repeat integrity and structural checks. All five datasets have standard amino-acid sequences, finite continuous scores, unique sequences and enough rows for the planned budget. The four extracted FLIP CSV files match their gzip archives byte-for-byte; their decompressed contents also match FLIP2 Zenodo archive v3. Original labels remain visible in the raw files: a query interface must hide them from optimizers.
 
 | Dataset | Rows | Structural assessment and remaining work |
 | --- | ---: | --- |

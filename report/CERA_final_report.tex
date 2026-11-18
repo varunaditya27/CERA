@@ -40,7 +40,7 @@ Hydrophobic core (Hydro) & 24,935 & Evaluation; three proteins are analyzed sepa
 \bottomrule
 \end{tabular}
 \end{center}
-The local IRED split matches the current official split download byte for byte. The benchmark website describes 17,143 variants for the broader IRED dataset; the precise filtering responsible for the difference remains unresolved. Data sources, licenses, references and fingerprints are recorded in \href{../../data/SOURCES.md}{data/SOURCES.md} and \href{../../research/ired_preparation.md}{the IRED preparation notes}.
+The local IRED split matches the current official split download byte for byte. The benchmark website describes 17,143 variants for the broader IRED dataset; the precise filtering responsible for the difference remains unresolved. Data sources, licenses, references and fingerprints are recorded in \href{../data/SOURCES.md}{data/SOURCES.md} and \href{../docs/data/ired_preparation.md}{the IRED preparation notes}.
 
 The search limits eligible sequences to at most four substitutions from the relevant reference. A fixed ESM-2 model converts a sequence into 320 numbers, called a representation. Caches are checked against recorded data and model fingerprints. The measured scores are hidden from the supported search interface until selected, although the source files are accessible to a person with local file access. The implementation is not an adversarially secure data enclave.
 
@@ -64,7 +64,7 @@ Two later studies used different initial groups: IRED variants with at most two 
 \subsection{Four-protein comparison}
 At each policy's actual stop, both repair policies had a higher best measured score than fixed reward in 0 of 40 paired starts, an equal score in 35 and a lower score in 5. A tie means an absolute score difference of at most $10^{-12}$. Fixed reward used all 100 new measurements in every run. Rule-based repair stopped after failed checks in 35 of 40 runs and Gemini-assisted repair in 36 of 40. The two repair policies matched in final best score across all pairs, which does not establish equivalence.
 
-A later comparison read each fixed-reward run at the same number of new measurements as its paired repair run's stopping point. Each repair policy tied in 39 of 40 starts and had one lower score, on IRED. Four of the five actual-stop losses became ties at equal measurement counts. The analysis uses stopping points chosen by the repair policy and gives a descriptive comparison. See the \href{../../research/multiprotein_study_findings.md}{primary study findings} for the method and paired data.
+A later comparison read each fixed-reward run at the same number of new measurements as its paired repair run's stopping point. Each repair policy tied in 39 of 40 starts and had one lower score, on IRED. Four of the five actual-stop losses became ties at equal measurement counts. The analysis uses stopping points chosen by the repair policy and gives a descriptive comparison. See the \href{../docs/studies/multiprotein/four_protein_findings.md}{primary study findings} for the method and paired data.
 
 The starting set already contained a top-one-percent eligible variant in 9 of 10 IRED starts, 8 of 10 P06241 starts, 7 of 10 P01053 starts and 9 of 10 P0A9X9 starts. This limits how well a simple yes/no top-one-percent hit can distinguish methods. The later recall analysis measures the fraction of the eligible top group found and includes initial observations; it is documented separately \cite{metrics}.
 
@@ -74,7 +74,7 @@ In the IRED low-change-start study, each repair policy was higher than fixed rew
 In the Hydro low-fitness-start study, each repair policy tied fixed reward in five of 30 starts and scored lower in 25 at its actual stop. Each stopped after failed checks in 27 of 30 runs and used 1,130 new measurements versus 3,000 for fixed reward. A post-result comparison at the same measurement count found 30 tied best scores per policy. Neither comparison isolates a causal repair effect.
 
 \subsection{Held-out prediction and the mixed predictor}
-On the Amylase close-to-far position split, the five-ridge predictor had 90.2\% median coverage and median rank correlation of 0.0005 across ten starts on 1,709 eligible far-side variants. The \href{../../research/amylase_position_shift_findings.md}{position-shift check} assesses static prediction on development data.
+On the Amylase close-to-far position split, the five-ridge predictor had 90.2\% median coverage and median rank correlation of 0.0005 across ten starts on 1,709 eligible far-side variants. The \href{../docs/studies/amylase/position_shift.md}{position-shift check} assesses static prediction on development data.
 
 A static check using ten starts per protein measured median prediction-range coverage of 90.0\% for IRED and 0.0\%, 11.7\% and 10.6\% for Hydro P06241, P01053 and P0A9X9, respectively. These are medians across starts on the same measured datasets, not independent biological replications or formal coverage guarantees.
 
@@ -100,19 +100,19 @@ Diversity & Hand-picked batch below the rule threshold & 2/2 & 2/2 \\
 \bottomrule
 \end{tabular}
 \end{center}
-The first six comparisons use equal numbers of constructed positive and reference cases. The unfamiliar-candidate reference cannot trigger by construction. Precision is undefined for the rank swap because no warning fired. The constraint and diversity cases test implementation. One single-variant diversity case was excluded because it had no pair to compare. These results apply to the tested cases. Accuracy on new laboratory outcomes remains unknown. The \href{../../research/submission_readiness.md}{submission notes} link to the recorded counts.
+The first six comparisons use equal numbers of constructed positive and reference cases. The unfamiliar-candidate reference cannot trigger by construction. Precision is undefined for the rank swap because no warning fired. The constraint and diversity cases test implementation. One single-variant diversity case was excluded because it had no pair to compare. These results apply to the tested cases. Accuracy on new laboratory outcomes remains unknown. The \href{../docs/overview/submission_readiness.md}{submission notes} link to the recorded counts.
 
 \section{Interpretation and limitations}
 Repair often stopped earlier than fixed reward, leaving less opportunity to discover higher-scoring variants. The local checks verify proposed changes against recorded evidence. The effect on future measurement coverage remains unestablished.
 
 The data comprise prior experimental measurements. Independent laboratory validation of the warnings and repair benefit remains unavailable. Repeated starts reuse the same proteins. The four-substitution cap excludes some source variants. Hydro's score-defined starting split and IRED's included validation-marked rows limit comparison with an official benchmark. The additional mixed-model and post-result analyses are exploratory.
 
-\paragraph{Recovery targets.} After the first accepted repair, 11 of 38 complete windows of 30 measurements met the 85--95\% coverage band. In a separate retrospective check, simple regret was the gap between the best score found and the best score in the eligible measured pool. Only six of 160 repair-policy runs had 30 later measurements after a coverage warning. Those six represent three matched starts under two policies. Each tied fixed reward at the same measurement count, yielding a 0\% reduction against the 10\% target. This subset leaves the original shift-split target unverified. The \href{../../research/submission_readiness.md}{submission notes} provide denominators and paired records.
+\paragraph{Recovery targets.} After the first accepted repair, 11 of 38 complete windows of 30 measurements met the 85--95\% coverage band. In a separate retrospective check, simple regret was the gap between the best score found and the best score in the eligible measured pool. Only six of 160 repair-policy runs had 30 later measurements after a coverage warning. Those six represent three matched starts under two policies. Each tied fixed reward at the same measurement count, yielding a 0\% reduction against the 10\% target. This subset leaves the original shift-split target unverified. The \href{../docs/overview/submission_readiness.md}{submission notes} provide denominators and paired records.
 
 The prototype runs locally for a single user. Provider token counts are available for some calls. Earlier runs retained only the parsed responses and usage reported in their records.
 
 \section{Implementation and reproducibility}
-The repository groups the backend by datasets, representations, prediction and search, rewards, provider integration, analysis, workspace and provenance. The frontend exposes the dataset catalog, a local experiment workflow, run review and Amylase prediction. Documentation and commands are in the repository README; the \href{../../research/project_decisions_and_work_log.md}{work log} records decisions and checks, while the \href{../../research/completion_evidence_review.md}{completion evidence review} maps the synopsis to the available evidence.
+The repository groups the backend by datasets, representations, prediction and search, rewards, provider integration, analysis, workspace and provenance. The frontend exposes the dataset catalog, a local experiment workflow, run review and Amylase prediction. Documentation and commands are in the repository README; the \href{../docs/history/work_log.md}{work log} records decisions and checks, while the \href{../docs/overview/completion_review.md}{completion evidence review} maps the synopsis to the available evidence.
 
 At the latest recorded check, 189 backend tests passed. The production frontend build and local HTTP walkthrough passed, including experiment submission, review and the decision check. A Playwright Chromium walkthrough verified keyboard submission, batch review, and the decision check at mobile width. Desktop Results and mobile review screenshots were inspected. Screen-reader behavior remains unchecked. The held-out mixed-model audit refitted 200 individual models on the same GPU and reproduced 67,660 predictions within an absolute tolerance of $10^{-5}$. This verifies reproducibility using the original implementation. A fresh audit checked all 360 primary-study records, reconstructing 2,943 batch selections and 549 repair replays. The regenerated evaluation report matched the committed report byte for byte.
 
@@ -124,7 +124,7 @@ CERA delivers a working retrospective research prototype with bounded reward cha
 \bibitem{flip2} K. Didi et al., ``FLIP2: Expanding Protein Fitness Landscape Benchmarks,'' benchmark and datasets. \url{https://flip.protein.properties/}
 \bibitem{wilds} P. W. Koh et al., ``WILDS: A Benchmark of in-the-Wild Distribution Shifts,'' ICML, 2021. \url{https://proceedings.mlr.press/v139/koh21a.html}
 \bibitem{conformal} A. N. Angelopoulos and S. Bates, ``A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification,'' 2021. \url{https://arxiv.org/abs/2107.07511}
-\bibitem{metrics} CERA, ``Additional retrospective search metrics,'' project record. \href{../../research/additional_metrics_findings.md}{research/additional\_metrics\_findings.md}.
-\bibitem{mixed} CERA, ``Mixed predictor: exploratory held-out protein comparison,'' project record. \href{../../research/mixed_heldout_findings.md}{research/mixed\_heldout\_findings.md}.
+\bibitem{metrics} CERA, ``Additional retrospective search metrics,'' project record. \href{../docs/studies/multiprotein/additional_metrics.md}{docs/studies/multiprotein/additional\_metrics.md}.
+\bibitem{mixed} CERA, ``Mixed predictor: exploratory held-out protein comparison,'' project record. \href{../docs/studies/hybrid/mixed_heldout.md}{docs/studies/hybrid/mixed\_heldout.md}.
 \end{thebibliography}
 \end{document}

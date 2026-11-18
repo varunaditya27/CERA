@@ -1,4 +1,4 @@
-// Recorded results from research/multiprotein_study_findings.md and its evaluation report.
+// Recorded results from docs/studies/multiprotein/four_protein_findings.md and its evaluation report.
 const results = [
   { protein: 'IRED', higher: 0, tied: 9, lower: 1, measurements: 50 },
   { protein: 'Hydro P06241', higher: 0, tied: 7, lower: 3, measurements: 55 },
