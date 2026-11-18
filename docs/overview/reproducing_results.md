@@ -10,25 +10,28 @@ How to rebuild the environment, run the checks and verify saved records
 
 The repository was reorganised after the studies ran. Scripts moved from a flat `scripts/` directory into topic packages, tests moved into area folders, predictor modules moved from `backend/app/experiments/` to `backend/app/predictors/`, and saved results moved from a flat `output/` into topic folders (see the [results index](../../output/README.md)). Saved run records store fingerprints of the code that produced them, so the original layout is kept under the git tag `pre-restructure`.
 
-Checked after the reorganisation, against the moved records:
+All audit scripts were re-run on the moved records on 19 November 2026. From the current layout:
 
-| Audit | From the current layout |
+| Audit | Result |
 | --- | --- |
-| Targeted-disagreement repair comparison (10 runs, 72 selections, 30 replays) | Passes |
-| IRED low-change study (90 runs, 703 selections, 135 repair replays) | Passes |
-| Mixed-search comparison (20 runs, 200 selections) | Fails with `Method or source mismatch`: it compares recorded source-file fingerprints, which changed when the code moved |
-| Mixed-search comparison, original script from the tag | Passes (20 runs, 200 selections, 10 ties) |
+| Repair comparisons: targeted disagreement, direct diversity, abstention, repair terms, retention, universal penalty, verifier, reactive calibration, later rollback | Pass |
+| Rule warning controls, coverage, disagreement and support warning simulations | Pass |
+| Four-protein study (360 runs), paired study analysis (80 pairs), Hydro repair diagnosis (363 proposals), Hydro low-fitness summary (270 runs), Hydro and IRED low-change protein audits | Pass |
+| Repeated matched Amylase study, advice counts | Verification completes; the script then refuses to overwrite the audit file it wrote earlier, so it reports an error at the end |
+| Held-out shift predictions, mixed held-out predictions, mixed-search comparison | Need the original code (see below) |
 
-Audits of the second kind need the original code. Check it out without the large result files and point it at the current records:
+The last three compare recorded source-file fingerprints. They pass when run with the code they were recorded with: the mixed-search comparison from the `pre-restructure` tag (20 runs, 200 selections), the held-out shift audit from commit `2a81f24` (200 models refitted, 67,660 predictions) and the mixed held-out audit from commit `b86eed9` (67,660 predictions). The held-out audit already failed from the tag, before the reorganisation: `predictor_group.py` changed later on the day its predictions were frozen.
+
+`scripts/reporting/legacy_audit.py` runs an old script from an earlier commit against the current records and cleans up after itself:
 
 ```sh
-git worktree add --no-checkout ../CERA-pre pre-restructure
-cd ../CERA-pre && git sparse-checkout set --no-cone backend scripts research data && git checkout
-mkdir output && ln -s ../CERA/output/representations output/representations
-PYTHONPATH=backend python3 scripts/audit_mixed_search_comparison.py ../CERA/output/hybrid/mixed_search_comparison_191_200 research/reward_spec_example.json /tmp/mixed-audit.json
+PYTHONPATH=backend:. python3 -m scripts.reporting.legacy_audit audit_mixed_search_comparison \
+    output/hybrid/mixed_search_comparison_191_200 configs/reward_spec_example.json /tmp/mixed-audit.json
+PYTHONPATH=backend:. python3 -m scripts.reporting.legacy_audit --ref 2a81f24 audit_heldout_shifts \
+    output/heldout/heldout_shift_predictions_121_130.json output/heldout/heldout_shift_evaluation_121_130.json
 ```
 
-Other audits were not all re-run after the move. If one reports a source or fingerprint mismatch, run it from the tag in the same way.
+Two audits that re-run whole experiments (`audit_hybrid_pilot` and `audit_exported_hybrid_model`, which need a GPU or a long CPU run) were not repeated.
 
 ## Environment
 

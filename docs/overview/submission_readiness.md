@@ -92,3 +92,8 @@ The Results and Experiments pages and all 14 presentation slides had zero report
 ## Interface checks after the redesign
 
 On 18 November 2026, after the interface was restyled, `npm run check:a11y` (axe-core with Playwright) reported no violations on all eight routes at 1440 px and 375 px wide, and every interactive element in the `/experiments` Tab order showed a focus indicator. A keyboard-only Chromium run entered a seed, submitted with Enter and read the completed result of a real local experiment (100 new measurements, budget exhausted). The page accessibility tree showed named controls, grouped radio buttons and headings. A real screen reader was not run, so screen-reader behavior remains unchecked.
+
+## Continuous integration check
+
+The GitHub Actions workflow in `.github/workflows/ci.yml` has not run on GitHub. Its steps were reproduced locally on 19 November 2026 from a fresh clone of the committed repository: a new Python 3.14 environment, the CPU build of `torch==2.14.0`, the three requirements files, then the full test discovery. All 191 tests passed. The frontend steps (`npm ci`, typecheck, build) also passed locally.
+
