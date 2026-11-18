@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import importlib.metadata
 import json
+import sys
 import math
 import random
 from pathlib import Path
@@ -14,7 +15,8 @@ from scipy.stats import rankdata
 from app.datasets.registry import dataset_source
 from app.predictors.predictor_group import fit_group, predict_group
 from app.features import hydro_representations, ired_representations
-from app.provenance.sources import require_recorded_code, source_hashes
+from app.provenance.sources import CodeChanged, require_recorded_code, source_hashes
+from scripts.reporting.legacy_audit import rerun_with_recorded_code
 from scripts.heldout.predict_heldout_shifts import DATASETS, SOURCES
 
 
@@ -98,4 +100,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except CodeChanged:
+        sys.exit(rerun_with_recorded_code('audit_heldout_shifts', '2a81f24'))

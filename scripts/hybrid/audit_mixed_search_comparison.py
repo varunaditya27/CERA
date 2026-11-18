@@ -5,13 +5,15 @@ from collections import Counter
 import gzip
 import hashlib
 import json
+import sys
 from pathlib import Path
 import tempfile
 
 from app.datasets.amylase import DATA, REFERENCE, load_amylase
 from app.experiments.evaluation import evaluate
 from app.features.amylase_representations import CACHE_SHA256
-from app.provenance.sources import require_recorded_code, source_hashes
+from app.provenance.sources import CodeChanged, require_recorded_code, source_hashes
+from scripts.reporting.legacy_audit import rerun_with_recorded_code
 from scripts.repair.audit_development_repairs import audit_run
 from scripts.hybrid.audit_hybrid_pilot import audit_record
 
@@ -85,4 +87,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except CodeChanged:
+        sys.exit(rerun_with_recorded_code('audit_mixed_search_comparison', 'pre-restructure'))

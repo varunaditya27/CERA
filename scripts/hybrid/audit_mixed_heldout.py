@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import importlib.metadata
 import json
+import sys
 import math
 import random
 from pathlib import Path
@@ -15,7 +16,8 @@ from app.datasets.registry import dataset_source
 from app.predictors.hybrid_predictor import fit_hybrid_group, hybrid_configuration
 from app.predictors.predictor_group import predict_group
 from app.features import hydro_representations, ired_representations
-from app.provenance.sources import require_recorded_code, source_hashes
+from app.provenance.sources import CodeChanged, require_recorded_code, source_hashes
+from scripts.reporting.legacy_audit import rerun_with_recorded_code
 from scripts.hybrid.predict_mixed_heldout import DATASETS, SOURCES
 
 
@@ -109,4 +111,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except CodeChanged:
+        sys.exit(rerun_with_recorded_code('audit_mixed_heldout', 'b86eed9'))

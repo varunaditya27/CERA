@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import sys
 import math
 import random
 from pathlib import Path
@@ -14,8 +15,9 @@ from app.predictors.hybrid_snapshot import load_hybrid_snapshot
 from app.predictors.prediction_intervals import interval_radius
 from app.predictors.predictor_group import predict_group
 from app.features.amylase_representations import CACHE_SHA256, load_verified_representations
-from app.provenance.sources import source_hashes
+from app.provenance.sources import CodeChanged, require_recorded_code, source_hashes
 from scripts.hybrid.audit_hybrid_pilot import audit_record
+from scripts.reporting.legacy_audit import rerun_with_recorded_code
 
 
 def main():
@@ -55,10 +57,10 @@ def main():
     if (context['data_sha256'] != start['data_sha256'] or context['reference_sha256'] != start['reference_sha256']
             or context['cache_sha256'] != CACHE_SHA256 or context['fitting_ids'] != fitting
             or context['reserved_ids'] != setup['reserved_ids'] or context['member_seeds'] != seeds
-            or context['cv_seed'] != setup['cv_seed'] or context['configuration'] != hybrid_configuration(args.device)
-            or context['model_sources'] != expected_sources
-            or context['export_script_sha256'] != hashlib.sha256(export_script.read_bytes()).hexdigest()):
+            or context['cv_seed'] != setup['cv_seed'] or context['configuration'] != hybrid_configuration(args.device)):
         raise ValueError('Saved model provenance or role mismatch')
+    require_recorded_code(context['model_sources'] == expected_sources,
+                          context['export_script_sha256'] == hashlib.sha256(export_script.read_bytes()).hexdigest())
     vectors = load_verified_representations()
     models, penalty, fit = fit_hybrid_group(vectors, known, fitting, setup['reserved_ids'],
                                              setup['cv_seed'], seeds, args.device)
@@ -96,4 +98,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except CodeChanged:
+        sys.exit(rerun_with_recorded_code('audit_exported_hybrid_model', 'faffd69'))

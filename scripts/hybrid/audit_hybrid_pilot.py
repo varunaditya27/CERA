@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import math
+import sys
 from collections import Counter
 from pathlib import Path
 
@@ -14,7 +15,8 @@ from app.experiments.evaluation import evaluate
 from app.predictors.hybrid_predictor import fit_hybrid_group, hybrid_configuration
 from app.predictors.predictor_group import predict_group
 from app.features.amylase_representations import CACHE_SHA256, load_verified_representations
-from app.provenance.sources import source_hashes
+from app.provenance.sources import CodeChanged, require_recorded_code, source_hashes
+from scripts.reporting.legacy_audit import rerun_with_recorded_code
 from scripts.repair.audit_development_repairs import audit_run
 
 
@@ -26,13 +28,13 @@ def audit_record(record, specification, seed, device, repair):
     spec_raw = specification.read_bytes()
     if (setup['dataset'] != 'amylase' or setup['method'] != 'esm_hybrid_reward'
             or setup['hybrid_device'] != device or setup['hybrid_configuration'] != hybrid_configuration(device)
-            or setup['hybrid_source_sha256'] != source_hashes(('hybrid_predictor.py',))
-            or setup['source_sha256'] != source_hashes(tuple(setup['source_sha256']))
             or setup['cache_sha256'] != CACHE_SHA256 or setup['repair'] is not repair
             or setup['reward_spec'] != json.loads(spec_raw)
             or setup['reward_origin'] != {'input_sha256': hashlib.sha256(spec_raw).hexdigest(), 'source': 'specification_file'}
             or setup['role_seed'] != 3 or setup['member_seed'] != 4):
-        raise ValueError('Pilot settings or source fingerprint mismatch')
+        raise ValueError('Pilot settings mismatch')
+    require_recorded_code(setup['hybrid_source_sha256'] == source_hashes(('hybrid_predictor.py',)),
+                          setup['source_sha256'] == source_hashes(tuple(setup['source_sha256'])))
     sequences, scores, train, data_hash, ref_hash = load_amylase(DATA, REFERENCE, 4)
     if events[0]['seed'] != seed:
         raise ValueError('Seed mismatch')
@@ -89,4 +91,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except CodeChanged:
+        sys.exit(rerun_with_recorded_code('audit_hybrid_pilot', 'faffd69'))
