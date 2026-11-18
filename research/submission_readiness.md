@@ -4,6 +4,8 @@ Reviewed 18 November 2026. The original [synopsis](../Project_Synopsis.pdf) is t
 
 For a review copy, extract the submission ZIP as one folder and open this file, the report, or the presentation from inside it. The archive includes the materials directly cited by these three files and selected machine-readable evaluation summaries. Use the full repository for the application, raw data, and complete replay records.
 
+From the repository root, run `python3 scripts/package_submission_review.py` to produce `output/CERA-submission-review.zip`. The command archives the listed files from the current Git commit. Commit any report changes before regenerating the packet.
+
 The [standalone literature review](literature_review.md) connects the benchmark, reward, and prediction-range research to the implemented evaluation. It accompanies the report and the original proposal.
 
 A [workshop draft](workshop_draft.md) presents the early-stopping result for guide review. Its scope is the retrospective evaluation and its limitations. Venue selection and submission remain for the authors and guide to decide.

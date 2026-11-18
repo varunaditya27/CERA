@@ -765,3 +765,5 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Used axe-core 4.14.1 through Playwright Chromium to check the Results and Experiments pages and the 14 presentation slides. Darkened section labels that failed contrast and added a persistent page-level heading to the deck. The production build passed, and the follow-up scan found zero violations in the 16 states tested at 390 px wide. Manual screen-reader behavior remains unchecked.
 
 - Drafted a short workshop write-up around the difference between actual-stop and equal-measurement comparisons. Scoped the claims to the completed retrospective studies. [Workshop draft](workshop_draft.md)
+
+- Added a command to recreate the review packet from the current commit and write it to a stable path in `output/`. The command checks the file list and ZIP integrity before replacing the previous generated packet. [Packaging instructions](submission_readiness.md)
