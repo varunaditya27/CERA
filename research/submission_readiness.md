@@ -28,7 +28,15 @@ The published [RVCE ISE curriculum](https://rvce.edu.in/sites/default/files/14.%
 | --- | --- |
 | Data preparation and exploratory data analysis | Walk through the measurements and splits using the [dataset presentation](../datasets.html), then open the [dataset evidence ledger](dataset_evidence_ledger.md) to show the source checks and unresolved details. |
 | Model building and evaluation | Use the methods and results sections of the [report](../output/pdf/CERA_final_report.pdf). Explain why matched starts are useful and why early stopping changes the comparison. |
-| Prediction results and graphical demonstration | Follow the local setup in the [README](../README.md). Open `/results` for the primary four-protein and Amylase comparisons, then `/experiments` for a run and its review. Production HTTP checks verified both studies and matched the primary table against the saved evaluation. The live browser demonstration remains to be checked. |
+| Prediction results and graphical demonstration | Follow the local setup in the [README](../README.md). Open `/results` for the primary four-protein and Amylase comparisons. The walkthrough below covers `/experiments`, the saved review, and the decision check. Production HTTP checks verified both studies and matched the primary table against the saved evaluation. |
+
+## Experiment demonstration
+
+1. On `/experiments`, choose Amylase, the fixed default specification, five ridge models, and Fixed reward. Enter starting seed `13` and select **Run local experiment**. The starting seed reproduces the initial sample. This route requires the research dependencies and verified Amylase representation cache described in the [README](../README.md).
+2. Open the completed entry under **Recent local runs**. Use the ten batches to show how a prediction is recorded before its measured score is revealed. This setup simulates 100 new measurements from the existing dataset and makes zero provider requests.
+3. Select **Check recorded decisions**. The check replays the ten batch selections using the saved predictions. This fixed-reward run has zero repair proposals to replay.
+
+The experiment submission API, completed-run listing, review, decision check, and three corresponding production pages passed a local HTTP walkthrough using a temporary run directory. Browser form interaction, visual layout, and assistive technology remain unchecked.
 
 ## Checks before submitting
 
