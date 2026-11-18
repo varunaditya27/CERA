@@ -761,3 +761,5 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Checked the 10% regret target descriptively using the approved 30-measurement follow-up after the first coverage warning. Only six of 160 repair-policy runs had complete follow-up, covering three starts under both policies. All six tied fixed reward at the same measurement count. Recorded missing follow-up and linked the earlier after-repair coverage results. [Recovery targets](submission_readiness.md#recovery-targets-in-the-synopsis)
 
 - Added the observed recovery figures to the PDF report and kept the distinction between the retrospective subset and the original shift-split target.
+
+- Used axe-core 4.14.1 through Playwright Chromium to check the Results and Experiments pages and the 14 presentation slides. Darkened section labels that failed contrast and added a persistent page-level heading to the deck. The production build passed, and the follow-up scan found zero violations in the 16 states tested at 390 px wide. Manual screen-reader behavior remains unchecked.

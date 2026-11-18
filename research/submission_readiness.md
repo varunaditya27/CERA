@@ -65,6 +65,8 @@ The published [RVCE ISE curriculum](https://rvce.edu.in/sites/default/files/14.%
 
 The experiment submission API, completed-run listing, review, decision check, and three corresponding production pages passed a local HTTP walkthrough using a temporary run directory. Playwright Chromium also verified keyboard submission, opening batch details, scrolling its table with the keyboard, and reaching the passing decision check at 390 px wide. The audit checked ten batch selections for the fixed-reward run. Screen-reader behavior remains unchecked.
 
+The Results and Experiments pages and all 14 presentation slides had zero reported violations in the axe-core 4.14.1 scan at 390 px wide after contrast and heading fixes. The scan covers those tested states. Manual screen-reader testing remains open. [axe-core documentation](https://github.com/dequelabs/axe-core)
+
 ## Checks before submitting
 
 1. Review the report and presentation with the project guide against the institution's required format, author names and assessment criteria. The repository does not establish those final administrative requirements; do not invent signatures or approvals.
