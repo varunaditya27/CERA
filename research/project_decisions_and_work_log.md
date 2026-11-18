@@ -717,3 +717,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-18: IRED source recheck
 
 - Downloaded the current official IRED split and verified that its decompressed bytes match the local file exactly. Recorded both hashes and the benchmark's current guidance to exclude validation-marked rows from official model fitting in [IRED preparation](ired_preparation.md). The prior low-change-start search deliberately included eligible validation-marked train rows, so it remains a separate exploratory sequential search, not an official split comparison. The cause of the difference between the full dataset and split row counts remains unresolved.
+
+### 2026-11-18: mixed predictor all-round refit
+
+- Added a reproducible audit that reconstructs all ten prediction rounds for each of the ten saved mixed-predictor searches from the measurements revealed before that round. All 100 GPU refits reproduced the saved candidate means and spreads exactly in this environment. Focused tests reject altered predictions, non-finite values and fitting identifiers not yet revealed; the full 183-test backend suite passed. The audit uses the original fitting implementation and does not establish scientific validity or reproduce the separate ridge-only runs; see [findings and command](mixed_search_comparison_findings.md).

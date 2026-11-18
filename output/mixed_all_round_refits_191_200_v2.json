@@ -1,0 +1,95 @@
+{
+  "device": "cuda",
+  "runs": [
+    {
+      "seed": 191,
+      "record_sha256": "b39e9e410216dc1f7951c2db2155a63b9aa1daba5e20f819d1ce80e5be760cbc",
+      "rounds": 10,
+      "maximum_differences": {
+        "mean": 0.0,
+        "spread": 0.0
+      }
+    },
+    {
+      "seed": 192,
+      "record_sha256": "dbe375de8c21a90f00a148d9bfade1fc8054f0c67fd0ee33fe047cdc71b192bc",
+      "rounds": 10,
+      "maximum_differences": {
+        "mean": 0.0,
+        "spread": 0.0
+      }
+    },
+    {
+      "seed": 193,
+      "record_sha256": "5defd1251a4525d12fe505e26773670dfab6c058ae518836d5cdc11bdccfe20a",
+      "rounds": 10,
+      "maximum_differences": {
+        "mean": 0.0,
+        "spread": 0.0
+      }
+    },
+    {
+      "seed": 194,
+      "record_sha256": "66138b2671597b4757a9dc5d3e954826a6f6ea9fd17ff72d99f32f38edf50227",
+      "rounds": 10,
+      "maximum_differences": {
+        "mean": 0.0,
+        "spread": 0.0
+      }
+    },
+    {
+      "seed": 195,
+      "record_sha256": "c20150fe1cdaf6422c75d80091e72fcf29ece4e7558dd0d490fcfd7d4e8ff7dd",
+      "rounds": 10,
+      "maximum_differences": {
+        "mean": 0.0,
+        "spread": 0.0
+      }
+    },
+    {
+      "seed": 196,
+      "record_sha256": "a0220fdf095702f61ddc3d736f5aaf6de45793e9ba1116e94e5d80ed023f9c63",
+      "rounds": 10,
+      "maximum_differences": {
+        "mean": 0.0,
+        "spread": 0.0
+      }
+    },
+    {
+      "seed": 197,
+      "record_sha256": "5f7cbd745fc046c101cb1764e0c5d6575acbe31193398984e5b5e55c8dca3406",
+      "rounds": 10,
+      "maximum_differences": {
+        "mean": 0.0,
+        "spread": 0.0
+      }
+    },
+    {
+      "seed": 198,
+      "record_sha256": "5d2bb4ec802404636082dc1cb29710fab8f29975741df2eed6df2e021407c7d4",
+      "rounds": 10,
+      "maximum_differences": {
+        "mean": 0.0,
+        "spread": 0.0
+      }
+    },
+    {
+      "seed": 199,
+      "record_sha256": "d29b0c31a0d5d05c3a563abc1371dddef91a1fa3a9c4bd563d9c956022693590",
+      "rounds": 10,
+      "maximum_differences": {
+        "mean": 0.0,
+        "spread": 0.0
+      }
+    },
+    {
+      "seed": 200,
+      "record_sha256": "a85c12d40bfa8a45dac4009e31e6fcc88402aafda2882709dbd0004aff95632e",
+      "rounds": 10,
+      "maximum_differences": {
+        "mean": 0.0,
+        "spread": 0.0
+      }
+    }
+  ]
+}
