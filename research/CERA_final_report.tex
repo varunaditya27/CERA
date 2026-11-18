@@ -64,6 +64,8 @@ Two later studies used different initial groups: IRED variants with at most two 
 \subsection{Four-protein comparison}
 At each policy's actual stop, both repair policies had a higher best measured score than fixed reward in 0 of 40 paired starts, an equal score in 35 and a lower score in 5. A tie means an absolute score difference of at most $10^{-12}$. Fixed reward used all 100 new measurements in every run. Rule-based repair stopped after failed checks in 35 of 40 runs and Gemini-assisted repair in 36 of 40. The two repair policies matched in final best score across all pairs, which does not establish equivalence.
 
+A later comparison read each fixed-reward run at the same number of new measurements as its paired repair run's stopping point. Each repair policy tied in 39 of 40 starts and had one lower score, on IRED. Four of the five actual-stop losses became ties at equal measurement counts. The analysis uses stopping points chosen by the repair policy and gives a descriptive comparison. See the \href{../../research/multiprotein_study_findings.md}{primary study findings} for the method and paired data.
+
 The starting set already contained a top-one-percent eligible variant in 9 of 10 IRED starts, 8 of 10 P06241 starts, 7 of 10 P01053 starts and 9 of 10 P0A9X9 starts. This limits how well a simple yes/no top-one-percent hit can distinguish methods. The later recall analysis measures the fraction of the eligible top group found and includes initial observations; it is documented separately \cite{metrics}.
 
 \subsection{Shift-focused searches}

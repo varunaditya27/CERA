@@ -15,6 +15,8 @@ For each protein and seed, compare each repair method's best score at its actual
 
 A repair was accepted when it passed the implemented local checks; that is not proof that it improved subsequent outcomes. The reported rule-change cost is a dimensionless menu-ordering score, not money or computing time. Per-attempt costs, warnings and actual stop reasons are in the [evaluation report](../output/matched_eval_51_60_report.json).
 
+In a descriptive comparison added after viewing the results, each repair policy had 0 higher, 39 tied and 1 lower best scores at equal measurement counts. All 30 Hydro starts tied for each policy. Nine IRED starts tied and one had a lower repair score. Four of each policy's five actual-stop losses became ties when fixed reward was read at the same count. For each protein and seed, the comparison takes the repair run's final best score and subtracts the fixed-reward best score at that run's measurement count. It uses the original absolute tie tolerance of 1e-12. The comparison is conditional on where repair stops, so it cannot isolate the effect of the repair itself. The [80 paired scores](../output/matched_eval_51_60_same_measurements.json) include the source report's hash and scores at both fixed-reward comparison points.
+
 The starting sets already contained a top-1% eligible variant in 9/10 IRED seeds, 8/10 P06241, 7/10 P01053 and 9/10 P0A9X9. That leaves limited room for the top-1% measure to distinguish methods. The highest score in the eligible measured pool is an evaluator-only reference, not a biological optimum.
 
 ## Other methods

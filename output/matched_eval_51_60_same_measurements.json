@@ -1,0 +1,727 @@
+{
+  "source": "output/matched_eval_51_60_report.json",
+  "source_sha256": "33b5d1c00930942986277f0fe74b7a35c2ae3f8e44ed8079cf66a156c1e44939",
+  "tie_tolerance": 1e-12,
+  "pairs": [
+    {
+      "dataset": "ired",
+      "seed": 51,
+      "method": "repair",
+      "new_measurements": 60,
+      "repair_best": 2.743412474354045,
+      "fixed_best_at_same_count": 2.743412474354045,
+      "fixed_best_at_stop": 2.743412474354045
+    },
+    {
+      "dataset": "ired",
+      "seed": 52,
+      "method": "repair",
+      "new_measurements": 60,
+      "repair_best": 2.193128257248093,
+      "fixed_best_at_same_count": 2.193128257248093,
+      "fixed_best_at_stop": 2.193128257248093
+    },
+    {
+      "dataset": "ired",
+      "seed": 53,
+      "method": "repair",
+      "new_measurements": 100,
+      "repair_best": 2.262060214682424,
+      "fixed_best_at_same_count": 2.262060214682424,
+      "fixed_best_at_stop": 2.262060214682424
+    },
+    {
+      "dataset": "ired",
+      "seed": 54,
+      "method": "repair",
+      "new_measurements": 40,
+      "repair_best": 2.417525373436489,
+      "fixed_best_at_same_count": 2.417525373436489,
+      "fixed_best_at_stop": 2.417525373436489
+    },
+    {
+      "dataset": "ired",
+      "seed": 55,
+      "method": "repair",
+      "new_measurements": 20,
+      "repair_best": 3.875703488180007,
+      "fixed_best_at_same_count": 3.875703488180007,
+      "fixed_best_at_stop": 3.875703488180007
+    },
+    {
+      "dataset": "ired",
+      "seed": 56,
+      "method": "repair",
+      "new_measurements": 30,
+      "repair_best": 2.417525373436489,
+      "fixed_best_at_same_count": 2.417525373436489,
+      "fixed_best_at_stop": 2.417525373436489
+    },
+    {
+      "dataset": "ired",
+      "seed": 57,
+      "method": "repair",
+      "new_measurements": 20,
+      "repair_best": 1.9414674274193853,
+      "fixed_best_at_same_count": 1.9414674274193853,
+      "fixed_best_at_stop": 1.9414674274193853
+    },
+    {
+      "dataset": "ired",
+      "seed": 58,
+      "method": "repair",
+      "new_measurements": 100,
+      "repair_best": 2.39808258259621,
+      "fixed_best_at_same_count": 2.39808258259621,
+      "fixed_best_at_stop": 2.39808258259621
+    },
+    {
+      "dataset": "ired",
+      "seed": 59,
+      "method": "repair",
+      "new_measurements": 40,
+      "repair_best": 2.19324053434157,
+      "fixed_best_at_same_count": 2.19324053434157,
+      "fixed_best_at_stop": 2.19324053434157
+    },
+    {
+      "dataset": "ired",
+      "seed": 60,
+      "method": "repair",
+      "new_measurements": 100,
+      "repair_best": 1.5530663598809031,
+      "fixed_best_at_same_count": 1.8334652530453432,
+      "fixed_best_at_stop": 1.8334652530453432
+    },
+    {
+      "dataset": "ired",
+      "seed": 51,
+      "method": "gemini_repair",
+      "new_measurements": 60,
+      "repair_best": 2.743412474354045,
+      "fixed_best_at_same_count": 2.743412474354045,
+      "fixed_best_at_stop": 2.743412474354045
+    },
+    {
+      "dataset": "ired",
+      "seed": 52,
+      "method": "gemini_repair",
+      "new_measurements": 60,
+      "repair_best": 2.193128257248093,
+      "fixed_best_at_same_count": 2.193128257248093,
+      "fixed_best_at_stop": 2.193128257248093
+    },
+    {
+      "dataset": "ired",
+      "seed": 53,
+      "method": "gemini_repair",
+      "new_measurements": 100,
+      "repair_best": 2.262060214682424,
+      "fixed_best_at_same_count": 2.262060214682424,
+      "fixed_best_at_stop": 2.262060214682424
+    },
+    {
+      "dataset": "ired",
+      "seed": 54,
+      "method": "gemini_repair",
+      "new_measurements": 40,
+      "repair_best": 2.417525373436489,
+      "fixed_best_at_same_count": 2.417525373436489,
+      "fixed_best_at_stop": 2.417525373436489
+    },
+    {
+      "dataset": "ired",
+      "seed": 55,
+      "method": "gemini_repair",
+      "new_measurements": 20,
+      "repair_best": 3.875703488180007,
+      "fixed_best_at_same_count": 3.875703488180007,
+      "fixed_best_at_stop": 3.875703488180007
+    },
+    {
+      "dataset": "ired",
+      "seed": 56,
+      "method": "gemini_repair",
+      "new_measurements": 30,
+      "repair_best": 2.417525373436489,
+      "fixed_best_at_same_count": 2.417525373436489,
+      "fixed_best_at_stop": 2.417525373436489
+    },
+    {
+      "dataset": "ired",
+      "seed": 57,
+      "method": "gemini_repair",
+      "new_measurements": 20,
+      "repair_best": 1.9414674274193853,
+      "fixed_best_at_same_count": 1.9414674274193853,
+      "fixed_best_at_stop": 1.9414674274193853
+    },
+    {
+      "dataset": "ired",
+      "seed": 58,
+      "method": "gemini_repair",
+      "new_measurements": 100,
+      "repair_best": 2.39808258259621,
+      "fixed_best_at_same_count": 2.39808258259621,
+      "fixed_best_at_stop": 2.39808258259621
+    },
+    {
+      "dataset": "ired",
+      "seed": 59,
+      "method": "gemini_repair",
+      "new_measurements": 40,
+      "repair_best": 2.19324053434157,
+      "fixed_best_at_same_count": 2.19324053434157,
+      "fixed_best_at_stop": 2.19324053434157
+    },
+    {
+      "dataset": "ired",
+      "seed": 60,
+      "method": "gemini_repair",
+      "new_measurements": 100,
+      "repair_best": 1.5530663598809031,
+      "fixed_best_at_same_count": 1.8334652530453432,
+      "fixed_best_at_stop": 1.8334652530453432
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 51,
+      "method": "repair",
+      "new_measurements": 60,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 52,
+      "method": "repair",
+      "new_measurements": 70,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 53,
+      "method": "repair",
+      "new_measurements": 20,
+      "repair_best": -0.229668759036266,
+      "fixed_best_at_same_count": -0.229668759036266,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 54,
+      "method": "repair",
+      "new_measurements": 70,
+      "repair_best": -0.229668759036266,
+      "fixed_best_at_same_count": -0.229668759036266,
+      "fixed_best_at_stop": -0.229668759036266
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 55,
+      "method": "repair",
+      "new_measurements": 50,
+      "repair_best": -0.316793276317602,
+      "fixed_best_at_same_count": -0.316793276317602,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 56,
+      "method": "repair",
+      "new_measurements": 100,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 57,
+      "method": "repair",
+      "new_measurements": 20,
+      "repair_best": -0.22154601422431,
+      "fixed_best_at_same_count": -0.22154601422431,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 58,
+      "method": "repair",
+      "new_measurements": 30,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 59,
+      "method": "repair",
+      "new_measurements": 90,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 60,
+      "method": "repair",
+      "new_measurements": 50,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 51,
+      "method": "gemini_repair",
+      "new_measurements": 60,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 52,
+      "method": "gemini_repair",
+      "new_measurements": 70,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 53,
+      "method": "gemini_repair",
+      "new_measurements": 20,
+      "repair_best": -0.229668759036266,
+      "fixed_best_at_same_count": -0.229668759036266,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 54,
+      "method": "gemini_repair",
+      "new_measurements": 70,
+      "repair_best": -0.229668759036266,
+      "fixed_best_at_same_count": -0.229668759036266,
+      "fixed_best_at_stop": -0.229668759036266
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 55,
+      "method": "gemini_repair",
+      "new_measurements": 50,
+      "repair_best": -0.316793276317602,
+      "fixed_best_at_same_count": -0.316793276317602,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 56,
+      "method": "gemini_repair",
+      "new_measurements": 90,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 57,
+      "method": "gemini_repair",
+      "new_measurements": 20,
+      "repair_best": -0.22154601422431,
+      "fixed_best_at_same_count": -0.22154601422431,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 58,
+      "method": "gemini_repair",
+      "new_measurements": 30,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 59,
+      "method": "gemini_repair",
+      "new_measurements": 90,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P06241",
+      "seed": 60,
+      "method": "gemini_repair",
+      "new_measurements": 50,
+      "repair_best": 0.0103163362436985,
+      "fixed_best_at_same_count": 0.0103163362436985,
+      "fixed_best_at_stop": 0.0103163362436985
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 51,
+      "method": "repair",
+      "new_measurements": 30,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 52,
+      "method": "repair",
+      "new_measurements": 40,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 53,
+      "method": "repair",
+      "new_measurements": 40,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 54,
+      "method": "repair",
+      "new_measurements": 60,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 55,
+      "method": "repair",
+      "new_measurements": 50,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 56,
+      "method": "repair",
+      "new_measurements": 40,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 57,
+      "method": "repair",
+      "new_measurements": 40,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 58,
+      "method": "repair",
+      "new_measurements": 30,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 59,
+      "method": "repair",
+      "new_measurements": 50,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 60,
+      "method": "repair",
+      "new_measurements": 70,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 51,
+      "method": "gemini_repair",
+      "new_measurements": 30,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 52,
+      "method": "gemini_repair",
+      "new_measurements": 40,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 53,
+      "method": "gemini_repair",
+      "new_measurements": 40,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 54,
+      "method": "gemini_repair",
+      "new_measurements": 60,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 55,
+      "method": "gemini_repair",
+      "new_measurements": 50,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 56,
+      "method": "gemini_repair",
+      "new_measurements": 40,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 57,
+      "method": "gemini_repair",
+      "new_measurements": 40,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 58,
+      "method": "gemini_repair",
+      "new_measurements": 30,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 59,
+      "method": "gemini_repair",
+      "new_measurements": 50,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P01053",
+      "seed": 60,
+      "method": "gemini_repair",
+      "new_measurements": 70,
+      "repair_best": 0.0381894803421275,
+      "fixed_best_at_same_count": 0.0381894803421275,
+      "fixed_best_at_stop": 0.0381894803421275
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 51,
+      "method": "repair",
+      "new_measurements": 60,
+      "repair_best": -1.58721502473067,
+      "fixed_best_at_same_count": -1.58721502473067,
+      "fixed_best_at_stop": -1.58721502473067
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 52,
+      "method": "repair",
+      "new_measurements": 40,
+      "repair_best": -1.5021938824071,
+      "fixed_best_at_same_count": -1.5021938824071,
+      "fixed_best_at_stop": -1.5021938824071
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 53,
+      "method": "repair",
+      "new_measurements": 60,
+      "repair_best": -1.47492676111207,
+      "fixed_best_at_same_count": -1.47492676111207,
+      "fixed_best_at_stop": -1.47492676111207
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 54,
+      "method": "repair",
+      "new_measurements": 60,
+      "repair_best": -1.5021938824071,
+      "fixed_best_at_same_count": -1.5021938824071,
+      "fixed_best_at_stop": -1.5021938824071
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 55,
+      "method": "repair",
+      "new_measurements": 30,
+      "repair_best": -1.66399646529546,
+      "fixed_best_at_same_count": -1.66399646529546,
+      "fixed_best_at_stop": -1.66399646529546
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 56,
+      "method": "repair",
+      "new_measurements": 30,
+      "repair_best": -1.84015089823712,
+      "fixed_best_at_same_count": -1.84015089823712,
+      "fixed_best_at_stop": -1.68730134863456
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 57,
+      "method": "repair",
+      "new_measurements": 20,
+      "repair_best": -0.933568504627606,
+      "fixed_best_at_same_count": -0.933568504627606,
+      "fixed_best_at_stop": -0.933568504627606
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 58,
+      "method": "repair",
+      "new_measurements": 100,
+      "repair_best": -1.56132522609705,
+      "fixed_best_at_same_count": -1.56132522609705,
+      "fixed_best_at_stop": -1.56132522609705
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 59,
+      "method": "repair",
+      "new_measurements": 30,
+      "repair_best": -1.68730134863456,
+      "fixed_best_at_same_count": -1.68730134863456,
+      "fixed_best_at_stop": -1.68730134863456
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 60,
+      "method": "repair",
+      "new_measurements": 50,
+      "repair_best": -1.68730134863456,
+      "fixed_best_at_same_count": -1.68730134863456,
+      "fixed_best_at_stop": -1.68730134863456
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 51,
+      "method": "gemini_repair",
+      "new_measurements": 60,
+      "repair_best": -1.58721502473067,
+      "fixed_best_at_same_count": -1.58721502473067,
+      "fixed_best_at_stop": -1.58721502473067
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 52,
+      "method": "gemini_repair",
+      "new_measurements": 40,
+      "repair_best": -1.5021938824071,
+      "fixed_best_at_same_count": -1.5021938824071,
+      "fixed_best_at_stop": -1.5021938824071
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 53,
+      "method": "gemini_repair",
+      "new_measurements": 60,
+      "repair_best": -1.47492676111207,
+      "fixed_best_at_same_count": -1.47492676111207,
+      "fixed_best_at_stop": -1.47492676111207
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 54,
+      "method": "gemini_repair",
+      "new_measurements": 60,
+      "repair_best": -1.5021938824071,
+      "fixed_best_at_same_count": -1.5021938824071,
+      "fixed_best_at_stop": -1.5021938824071
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 55,
+      "method": "gemini_repair",
+      "new_measurements": 30,
+      "repair_best": -1.66399646529546,
+      "fixed_best_at_same_count": -1.66399646529546,
+      "fixed_best_at_stop": -1.66399646529546
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 56,
+      "method": "gemini_repair",
+      "new_measurements": 30,
+      "repair_best": -1.84015089823712,
+      "fixed_best_at_same_count": -1.84015089823712,
+      "fixed_best_at_stop": -1.68730134863456
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 57,
+      "method": "gemini_repair",
+      "new_measurements": 20,
+      "repair_best": -0.933568504627606,
+      "fixed_best_at_same_count": -0.933568504627606,
+      "fixed_best_at_stop": -0.933568504627606
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 58,
+      "method": "gemini_repair",
+      "new_measurements": 100,
+      "repair_best": -1.56132522609705,
+      "fixed_best_at_same_count": -1.56132522609705,
+      "fixed_best_at_stop": -1.56132522609705
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 59,
+      "method": "gemini_repair",
+      "new_measurements": 30,
+      "repair_best": -1.68730134863456,
+      "fixed_best_at_same_count": -1.68730134863456,
+      "fixed_best_at_stop": -1.68730134863456
+    },
+    {
+      "dataset": "hydro-P0A9X9",
+      "seed": 60,
+      "method": "gemini_repair",
+      "new_measurements": 50,
+      "repair_best": -1.68730134863456,
+      "fixed_best_at_same_count": -1.68730134863456,
+      "fixed_best_at_stop": -1.68730134863456
+    }
+  ]
+}

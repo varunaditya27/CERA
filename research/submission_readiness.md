@@ -7,6 +7,7 @@ For a review copy, extract the submission ZIP as one folder and open this file, 
 ## Core evidence
 
 - The primary four-protein comparison comprises 360 terminal runs. Both repair policies achieved a higher best score than fixed reward in 0 of 40 matched starts, tied in 35 and scored lower in 5 at actual stop. Early stopping means measurement counts differ. [Results](multiprotein_study_findings.md).
+- A later comparison at the same measurement count found 39 ties and one lower score per repair policy. It uses each repair run's stopping point as the comparison count. [Paired scores](../output/matched_eval_51_60_same_measurements.json)
 - The separate IRED and Hydro shifted-start searches permit later selection from the eligible pool; they are not official held-out benchmark searches. Hydro initial membership uses fitness. [IRED](ired_low_change_findings.md); [Hydro](hydro_low_fitness_search_findings.md).
 - Static held-out Hydro prediction ranges had low observed coverage; mixed and ridge predictors showed no consistent advantage across the reported measures. [Ridge study](heldout_shift_prediction_findings.md); [mixed study](mixed_heldout_findings.md).
 - The system uses previously measured datasets. It does not establish causal repair benefit, biological validity of its warnings, or a general coverage guarantee. Repeated starts are not independent biological replications.
