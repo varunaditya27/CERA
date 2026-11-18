@@ -3,6 +3,8 @@ A framework for auditing, diagnosing, and repairing unreliable learned rewards i
 
 For the current implementation, main results, reproducibility checks and open work, start with the [integrated project status and results](research/project_status_and_results.md). Earlier research notes are dated snapshots.
 
+The [project review presentation](project_review.html) summarizes the implementation, recorded comparisons and outstanding scientific work.
+
 ## Dataset setup
 
 The three primary FLIP2 splits described in the synopsis are stored under `data/raw/flip2/` as both compressed archives and extracted CSV files:
