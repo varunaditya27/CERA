@@ -3,7 +3,7 @@ A framework for auditing, diagnosing, and repairing unreliable learned rewards i
 
 For the current implementation, main results, reproducibility checks and open work, start with the [integrated project status and results](research/project_status_and_results.md). Earlier research notes are dated snapshots.
 
-The [project review presentation](project_review.html) summarizes the implementation, recorded comparisons and outstanding scientific work.
+The [project review presentation](project_review.html) summarizes the implementation, recorded comparisons and outstanding scientific work. The [report for review](output/pdf/CERA_final_report.pdf) and [submission readiness notes](research/submission_readiness.md) reconcile the original synopsis with the recorded evidence.
 
 ## Dataset setup
 
