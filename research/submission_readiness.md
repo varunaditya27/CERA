@@ -11,6 +11,23 @@ For a review copy, extract the submission ZIP as one folder and open this file, 
 - Static held-out Hydro prediction ranges had low observed coverage; mixed and ridge predictors showed no consistent advantage across the reported measures. [Ridge study](heldout_shift_prediction_findings.md); [mixed study](mixed_heldout_findings.md).
 - The system uses previously measured datasets. It does not establish causal repair benefit, biological validity of its warnings, or a general coverage guarantee. Repeated starts are not independent biological replications.
 
+## Warning checks on known cases
+
+The synopsis asks for precision and recall for each warning. Precision is the share of warnings that matched a labeled positive case. Recall is the share of labeled positive cases that triggered a warning. The fractions below show how many cases each percentage represents. [Precision definition](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html) · [Recall definition](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html)
+
+| Warning | Positive case | Precision | Recall |
+| --- | --- | ---: | ---: |
+| Coverage | Moderate undercoverage | 239/245 (97.6%) | 239/1,000 (23.9%) |
+| Coverage | Severe undercoverage | 946/952 (99.4%) | 946/1,000 (94.6%) |
+| Unfamiliar candidates | Distant candidates with a 10% miss probability | 74/74 (100%) | 74/1,000 (7.4%) |
+| Unfamiliar candidates | Distant candidates with a 50% miss probability | 943/943 (100%) | 943/1,000 (94.3%) |
+| Model disagreement | One model swaps two ranks | Undefined (zero warnings) | 0/45 (0%) |
+| Model disagreement | One model reverses its ranking | 45/45 (100%) | 45/45 (100%) |
+| Constraint | Hand-picked rule violation | 7/7 (100%) | 7/7 (100%) |
+| Diversity | Hand-picked batch below the rule threshold | 2/2 (100%) | 2/2 (100%) |
+
+The coverage, unfamiliar-candidate, and disagreement comparisons use equal numbers of constructed positive and reference cases. The unfamiliar-candidate reference cannot trigger by construction. The constraint and diversity cases test implementation, and one diversity case was excluded because its batch contained only one variant. These checks establish behavior on the stated cases. Accuracy on new laboratory outcomes remains unknown. [Coverage counts](../output/coverage_warning_simulation.json) · [Unfamiliar-candidate counts](../output/support_warning_simulation.json) · [Disagreement counts](../output/disagreement_warning_simulation.json) · [Rule-control counts](../output/rule_warning_controls.json)
+
 ## Briefing guide crosswalk
 
 Use this table with parts 5–7 of the [original briefing guide](../Project_Briefing_Guide.pdf) when preparing the report and oral evaluation.
@@ -44,7 +61,7 @@ The experiment submission API, completed-run listing, review, decision check, an
 
 1. Review the report and presentation with the project guide against the institution's required format, author names and assessment criteria. The repository does not establish those final administrative requirements; do not invent signatures or approvals.
 2. The report PDF was rendered and checked for layout, and its source is included. Relative evidence links work in the repository layout; package supporting records if the report is moved elsewhere.
-3. The local backend suite passed 188 tests, followed by three focused trace tests; the previously checked production frontend build and live local HTTP workflow are documented in the [status report](project_status_and_results.md). Browser visual, keyboard and screen-reader checks were not available. A new replay of the completed 360-run audit was stopped before completion; do not represent it as a passing check.
+3. The latest full backend run passed 189 tests. The production frontend build and live HTTP workflow also passed their checks. Visual layout, keyboard navigation, and screen-reader behavior await browser access. The earlier 360-run study has a recorded audit, and the later replay was stopped before completion. [Status report](project_status_and_results.md)
 4. Decide, with the guide, whether a paper is appropriate. The synopsis makes a paper conditional; negative findings are reportable but do not establish a successful repair method.
 
 ## Research context
