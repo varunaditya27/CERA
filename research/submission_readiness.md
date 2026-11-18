@@ -28,7 +28,7 @@ The published [RVCE ISE curriculum](https://rvce.edu.in/sites/default/files/14.%
 | --- | --- |
 | Data preparation and exploratory data analysis | Walk through the measurements and splits using the [dataset presentation](../datasets.html), then open the [dataset evidence ledger](dataset_evidence_ledger.md) to show the source checks and unresolved details. |
 | Model building and evaluation | Use the methods and results sections of the [report](../output/pdf/CERA_final_report.pdf). Explain why matched starts are useful and why early stopping changes the comparison. |
-| Prediction results and graphical demonstration | Follow the local setup in the [README](../README.md). Open `/results` for the saved comparison and `/experiments` for a run and its review. The live browser demonstration remains to be checked. |
+| Prediction results and graphical demonstration | Follow the local setup in the [README](../README.md). Open `/results` for the primary four-protein and Amylase comparisons, then `/experiments` for a run and its review. Production HTTP checks verified both studies and matched the primary table against the saved evaluation. The live browser demonstration remains to be checked. |
 
 ## Checks before submitting
 
