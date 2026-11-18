@@ -25,7 +25,7 @@ Run `python3 scripts/download_optional_data.py` to restore or verify GB1 and Pro
 
 ## Research workspace
 
-The application separates a Next.js interface (`frontend/`) from a read-only FastAPI dataset catalog (`backend/`). It does not run experiments or expose fitness labels. From the repository root:
+The application combines a Next.js interface (`frontend/`) with a FastAPI backend (`backend/`). The backend serves the dataset catalog, saved study results and the local experiment workflow. From the repository root:
 
 ```sh
 python3 -m venv .venv
@@ -35,7 +35,7 @@ python3 -m venv .venv
 
 In a second terminal, run `cd frontend && npm install && npm run dev`, then visit `http://localhost:3000`. The frontend reads the API server-side at `http://127.0.0.1:8000`; set `CERA_API_URL` for a different API address. API documentation is at `http://127.0.0.1:8000/docs`. Dataset counts are read from the local CSV files, and the interface displays an unavailable state if the API or files are missing.
 
-The frontend has dedicated routes for the overview (`/`), dataset catalog (`/datasets`), individual dataset profiles (`/datasets/[id]`), and the planned research method (`/workflow`). Dataset counts come from the API; the website does not run experiments or display results. Repository-local design and engineering skills are listed in `skills-lock.json`.
+The frontend has dedicated routes for the overview (`/`), dataset catalog (`/datasets`), individual dataset profiles (`/datasets/[id]`), and the research method (`/workflow`). Visit `/results` for the saved Amylase comparison and `/experiments` for local runs and their reviews. The setup above serves the catalog and saved comparison. See the research dependencies and experiment setup below before starting a run. Repository-local design and engineering skills are listed in `skills-lock.json`.
 
 Backend code is grouped under `backend/app/`: `api` serves the catalog, `datasets` identifies source files, `features` handles sequence representations, `experiments` runs and evaluates searches, `rewards` contains warning and repair rules, `llm` contains Gemini integrations, `analysis` replays earlier studies, and `provenance` fingerprints source files. `app.main` is a compatibility package for the existing API command.
 
