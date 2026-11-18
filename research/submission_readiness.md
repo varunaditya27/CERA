@@ -31,6 +31,11 @@ The synopsis asks for precision and recall for each warning. Precision is the sh
 
 The coverage, unfamiliar-candidate, and disagreement comparisons use equal numbers of constructed positive and reference cases. The unfamiliar-candidate reference cannot trigger by construction. The constraint and diversity cases test implementation, and one diversity case was excluded because its batch contained only one variant. These checks establish behavior on the stated cases. Accuracy on new laboratory outcomes remains unknown. [Coverage counts](../output/coverage_warning_simulation.json) · [Unfamiliar-candidate counts](../output/support_warning_simulation.json) · [Disagreement counts](../output/disagreement_warning_simulation.json) · [Rule-control counts](../output/rule_warning_controls.json)
 
+## Recovery targets in the synopsis
+
+- **Coverage after repair.** Eleven of 38 complete 30-measurement windows fell within the 85–95% target band. Of the 100 repair-policy runs included in this analysis, 56 had no accepted repair and six had less than 30 measurements afterward. The complete windows describe a subset of the retrospective runs. [Coverage after repair](after_repair_coverage_findings.md)
+- **Simple regret after a coverage warning.** Simple regret is the gap between the best score found and the best score in the eligible measured pool. A retrospective check used the first recorded coverage warning in each repair run and compared both policies at the same measurement count 30 observations later. Among 160 repair-policy runs, 98 had no coverage warning and 56 had shorter follow-up. The six complete comparisons came from three Hydro P0A9X9 starts under both policies. All six tied fixed reward, with zero relative reduction and no instance of the 10% target. The result applies to this coverage-warning subset. The original shift-split target remains unverified. [Follow-up rows](../output/coverage_warning_followup_regret.csv)
+
 ## Briefing guide crosswalk
 
 Use this table with parts 5–7 of the [original briefing guide](../Project_Briefing_Guide.pdf) when preparing the report and oral evaluation.
