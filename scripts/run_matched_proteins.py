@@ -17,7 +17,7 @@ from app.datasets.registry import dataset_source
 from app.experiments.repeated_runs import METHODS, run_one
 from app.features import amylase_representations, ired_representations
 from app.llm.gemini_client import request_repair
-from app.llm.repair_advisor import advise_repair
+from app.llm.repair_trace import traced_repair_advice
 from app.rewards.reward_spec import validate_spec
 from repeated_matched import ROOT, digest, write_json
 
@@ -86,7 +86,7 @@ def main():
         write_json(manifest_path, manifest)
     advisor = None
     if 'gemini_repair' in args.methods:
-        advisor = lambda kind, menu: advise_repair(lambda warning, options: request_repair(key, model, warning, options),
+        advisor = lambda kind, menu: traced_repair_advice(lambda warning, options: request_repair(key, model, warning, options),
                                                    kind, menu)
     for seed in args.seeds:
         seed_dir = args.output / f'seed_{seed:02d}'

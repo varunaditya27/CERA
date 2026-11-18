@@ -4,7 +4,7 @@ import re
 
 from app.datasets.amylase import ROOT
 from app.llm.gemini_client import request_repair
-from app.llm.repair_advisor import advise_repair
+from app.llm.repair_trace import traced_repair_advice
 
 
 class AdvisorConfigurationError(Exception):
@@ -29,6 +29,6 @@ def local_repair_advisor():
     key, model = local_gemini_configuration()
 
     def advisor(kind, menu):
-        return advise_repair(lambda warning, options: request_repair(key, model, warning, options), kind, menu)
+        return traced_repair_advice(lambda warning, options: request_repair(key, model, warning, options), kind, menu)
 
     return advisor, model

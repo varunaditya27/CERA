@@ -729,3 +729,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-18: mixed held-out refit audit
 
 - Rebuilt all 40 mixed predictor groups on the same GPU from their recorded starting measurements, checked their range-setting roles, and reproduced 67,660 saved predictions and the reported metrics. The [audit](../output/mixed_heldout_audit_121_130.json) checks data and code fingerprints and rejects mismatched prediction and evaluation files. All 186 backend tests passed. It reuses the predictor implementation and does not establish independent biological validity or cross-platform reproducibility. See [mixed held-out findings](mixed_heldout_findings.md) for the command and scope.
+
+### 2026-11-18: repair advice trace
+
+- Added structured request and returned-text recording for Gemini repair advice in new local-web and matched-study runs. Records include the warning, permitted options, returned text or a client error status; credentials are not passed into the trace. The fixed prompt remains in the fingerprinted client source, and the client does not expose raw bodies when it rejects a response before returning text. Older records and goal-compilation replies are not retroactively filled in. The full backend suite passed 188 tests; three focused trace tests passed after adding a local-advisor integration check. The completed four-protein audit replay was stopped before completion when priorities shifted to submission documents; historical compatibility was not re-established in this change.
