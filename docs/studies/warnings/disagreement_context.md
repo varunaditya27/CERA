@@ -56,12 +56,12 @@ The 100 rounds are dependent observations from ten runs on one dataset; the grou
 
 The original compressed and uncompressed records, dataset and representation fingerprints, historical source files, model fitting membership, selected penalties and interval radii were checked by the existing replay. The extension checked every reconstructed candidate mean and spread against the saved pre-reveal record and checked all 100 top-group correlations against the prior warning replay. The previously reported first-round full and top values also matched. Every seed contributed ten rounds and five groups. The analysis uses scores only after their recorded reveal; no current-round hidden score or original split label is used for group selection or correlation.
 
-The correlation implementation ranks ties and compares the resulting ranks; a test independently compares it with pairwise `scipy.stats.spearmanr`, including ties. Additional tests cover constant and invalid inputs. The full backend suite passed 27 tests. The per-round evidence, per-run descriptive summaries, replay records and input/code fingerprints are in [the output directory](../../../output/amylase_disagreement_context).
+The correlation implementation ranks ties and compares the resulting ranks; a test independently compares it with pairwise `scipy.stats.spearmanr`, including ties. Additional tests cover constant and invalid inputs. The full backend suite passed 27 tests. The per-round evidence, per-run descriptive summaries, replay records and input/code fingerprints are in [the output directory](../../../output/amylase/warnings/amylase_disagreement_context).
 
 Reproduction from the repository root, with the pinned representation cache and historical Git commit available:
 
 ```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.warnings.analyze_disagreement_context output/amylase_ranges_repeated output/amylase_warning_replay_v2 NEW_OUTPUT_DIRECTORY
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.warnings.analyze_disagreement_context output/amylase/search/amylase_ranges_repeated output/amylase/warnings/amylase_warning_replay_v2 NEW_OUTPUT_DIRECTORY
 ```
 
 The command refuses to overwrite the output directory and produces the detailed correlation table and replay evidence. The committed per-run summary is calculated from that table. Further work needs an independently specified failure target and separate evaluation before changing the warning or claiming it improves decisions.

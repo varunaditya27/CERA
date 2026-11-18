@@ -8,7 +8,7 @@ from pathlib import Path
 
 from app.datasets.amylase import DATA, REFERENCE, ROOT, load_amylase
 
-STUDY = ROOT / 'output/amylase_targeted_disagreement_31_35'
+STUDY = ROOT / 'output/amylase/repair/amylase_targeted_disagreement_31_35'
 METHODS = ('fixed', 'targeted')
 
 

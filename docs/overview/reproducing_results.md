@@ -8,18 +8,27 @@ How to rebuild the environment, run the checks and verify saved records
 
 ## Two code layouts
 
-The repository was reorganised after the studies ran. Scripts moved from a flat `scripts/` directory into topic packages, tests moved into area folders, and predictor modules moved from `backend/app/experiments/` to `backend/app/predictors/`. Saved run records store fingerprints of the code that produced them, so the original layout is kept under the git tag `pre-restructure`.
+The repository was reorganised after the studies ran. Scripts moved from a flat `scripts/` directory into topic packages, tests moved into area folders, predictor modules moved from `backend/app/experiments/` to `backend/app/predictors/`, and saved results moved from a flat `output/` into topic folders (see the [results index](../../output/README.md)). Saved run records store fingerprints of the code that produced them, so the original layout is kept under the git tag `pre-restructure`.
 
-- Run new work from the current layout.
-- To re-verify a record written before the reorganisation with its original scripts, check out the tag in a separate worktree and run the old `scripts/<name>.py` there against the same `output/` folder:
+Checked after the reorganisation, against the moved records:
+
+| Audit | From the current layout |
+| --- | --- |
+| Targeted-disagreement repair comparison (10 runs, 72 selections, 30 replays) | Passes |
+| IRED low-change study (90 runs, 703 selections, 135 repair replays) | Passes |
+| Mixed-search comparison (20 runs, 200 selections) | Fails with `Method or source mismatch`: it compares recorded source-file fingerprints, which changed when the code moved |
+| Mixed-search comparison, original script from the tag | Passes (20 runs, 200 selections, 10 ties) |
+
+Audits of the second kind need the original code. Check it out without the large result files and point it at the current records:
 
 ```sh
-git worktree add ../CERA-pre pre-restructure
-cd ../CERA-pre
-PYTHONPATH=backend python3 scripts/audit_development_repairs.py ../CERA/output/amylase_targeted_disagreement_31_35
+git worktree add --no-checkout ../CERA-pre pre-restructure
+cd ../CERA-pre && git sparse-checkout set --no-cone backend scripts research data && git checkout
+mkdir output && ln -s ../CERA/output/representations output/representations
+PYTHONPATH=backend python3 scripts/audit_mixed_search_comparison.py ../CERA/output/hybrid/mixed_search_comparison_191_200 research/reward_spec_example.json /tmp/mixed-audit.json
 ```
 
-The same audit also passes from the current layout (`PYTHONPATH=backend:. python3 -m scripts.repair.audit_development_repairs output/amylase_targeted_disagreement_31_35`); both runs reported 10 runs, 72 selections and 30 repair replays when this document was written.
+Other audits were not all re-run after the move. If one reports a source or fingerprint mismatch, run it from the tag in the same way.
 
 ## Environment
 

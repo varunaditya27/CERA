@@ -9,7 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from app.datasets.amylase import DATA, REFERENCE, ROOT
 
 router = APIRouter()
-MODEL = ROOT / 'output/amylase_hybrid_seed181_final.npz'
+MODEL = ROOT / 'output/amylase/hybrid/amylase_hybrid_seed181_final.npz'
 MODEL_SHA256 = '747968886935e3890fa0d4d9c95d1962a024cf35a4c55ac19672cd1e6a17e737'
 ALPHABET = set('ACDEFGHIKLMNPQRSTVWY')
 

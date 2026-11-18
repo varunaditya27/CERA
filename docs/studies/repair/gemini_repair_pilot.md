@@ -20,14 +20,14 @@ This policy resolves a conflict in the synopsis for development: it asks both fo
 
 Using the same initial seed, previously saved Gemini-generated starting specification and budget as the [rule-based repair pilot](repair_pilot.md), the model selected option 1, the middle-cost option, for each of two disagreement warnings. Both model requests returned valid choices; each reported 140 input tokens and 10 output tokens. For each warning the system then checked weights 1.0, 0.75 and 1.5 in that order. All failed the requirement to displace every flagged batch member. The old rule was retained twice and the run stopped after 20 new measurements, leaving 80 unspent.
 
-The same three proposals had already failed in the independently audited rule-based run. A separate audit matched the initial measurements, both selected batches and each proposal's verification results against that run, checked the model option metadata and stop, and confirmed the local key was absent from the run record. All 55 backend tests passed, including invalid choices, retries, fallback, option sanitization and verification after a model preference. The compressed record and audit are in [the pilot output](../../../output/amylase_gemini_repair_pilot_seed13).
+The same three proposals had already failed in the independently audited rule-based run. A separate audit matched the initial measurements, both selected batches and each proposal's verification results against that run, checked the model option metadata and stop, and confirmed the local key was absent from the run record. All 55 backend tests passed, including invalid choices, retries, fallback, option sanitization and verification after a model preference. The compressed record and audit are in [the pilot output](../../../output/amylase/repair/amylase_gemini_repair_pilot_seed13).
 
 The two runs use the same starting examples and candidate setup but are a single development comparison. They do not establish model reliability, scientific effectiveness, generalization, or the value of the warning. No repair was accepted in either run. The model-generated starting weights were reused from an earlier saved response; the two subsequent calls were only for repair choices.
 
 To reproduce with a new output directory and the pinned representations:
 
 ```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.amylase.run_reward_pilot output/my-gemini-repair output/gemini_goal_check/result.json --seed 13 --gemini-repair
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.amylase.run_reward_pilot output/my-gemini-repair output/goals/gemini_goal_check/result.json --seed 13 --gemini-repair
 ```
 
 This command calls Gemini when eligible warnings arise and may consume quota or incur charges. Hosted responses can vary. Without `--gemini-repair`, `--repair` uses the rule-based ordering and makes no Gemini repair calls. Saved decisions and results identify fallback separately, so fallback is not counted as successful model advice.

@@ -22,12 +22,12 @@ The menu and verification checks are documented in [repair foundation](repair_fo
 
 Seed 13 started with 100 known measurements and completed two batches of ten. The disagreement warning fired in both. In each batch all three allowed uncertainty-penalty proposals failed the requirement to displace every flagged batch member, so the original rule was retained twice. The run then stopped as `failed_repairs`, leaving **80 of 100** new measurements unused. This result highlights the interaction between the frequently triggered disagreement warning and the strict replay check; it does not demonstrate a false-alarm rate, a bad biological choice, or that another threshold would work better.
 
-An independent audit compared both original selections with the corresponding non-repair run, reconstructed every candidate distance and every proposed batch, recalculated the recorded calibration and ranking checks, verified source measurements and chronological order, and checked the final stop and remaining budget. The compressed record, hashes, coverage table and audit are in [the pilot output](../../../output/amylase_repair_pilot_seed13). The backend suite passed 50 tests, including priority, failure counting, reset after an accepted change, unchanged budget on early stop and refusal to reveal after stopping. Accepted changes were checked on controlled test data; this pilot did not accept one.
+An independent audit compared both original selections with the corresponding non-repair run, reconstructed every candidate distance and every proposed batch, recalculated the recorded calibration and ranking checks, verified source measurements and chronological order, and checked the final stop and remaining budget. The compressed record, hashes, coverage table and audit are in [the pilot output](../../../output/amylase/repair/amylase_repair_pilot_seed13). The backend suite passed 50 tests, including priority, failure counting, reset after an accepted change, unchanged budget on early stop and refusal to reveal after stopping. Accepted changes were checked on controlled test data; this pilot did not accept one.
 
 Reproduce with the pinned representations and a new output directory:
 
 ```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.amylase.run_reward_pilot output/my-repair-pilot output/gemini_goal_check/result.json --seed 13 --repair
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.amylase.run_reward_pilot output/my-repair-pilot output/goals/gemini_goal_check/result.json --seed 13 --repair
 ```
 
 The saved specification makes this replay independent of a new Gemini call. Repair behavior, priority semantics, evidence quality, thresholds and the effect of stopping require further evaluation and refinement before any final experiment.

@@ -40,7 +40,7 @@ The reports also give cumulative regret over *new* measurements and its per-meas
 
 The later [after-repair coverage analysis](../repair/after_repair_coverage.md) adds an explicitly defined first 30-measurement window following an accepted repair. Its output files supersede the files below for shared metric fields; the earlier outputs are retained for reproducibility.
 
-- [Four-protein metrics](../../../output/matched_eval_51_60_additional_metrics.json): SHA-256 `058e9da17d2334085927371b714bdac5d2a569b23adf7bf424e0423a0e29ff9d`.
-- [IRED low-change metrics](../../../output/ired_low_change_61_70_additional_metrics.json): SHA-256 `adfe9a01414cb332ba923e7f8d95adfa97d9c0114105f12667ddd95e2389fa38`.
+- [Four-protein metrics](../../../output/multiprotein/four_protein/matched_eval_51_60_additional_metrics.json): SHA-256 `058e9da17d2334085927371b714bdac5d2a569b23adf7bf424e0423a0e29ff9d`.
+- [IRED low-change metrics](../../../output/multiprotein/ired_low_change/ired_low_change_61_70_additional_metrics.json): SHA-256 `adfe9a01414cb332ba923e7f8d95adfa97d9c0114105f12667ddd95e2389fa38`.
 
 The evaluator requires terminal statuses, study scope and matching source and record fingerprints, and reuses the existing validated run summaries. A separate one-off calculation read the saved records and source datasets and independently checked top-group counts and recall, cumulative regret, and all selected-batch correlations and sequence differences for 450 runs and 3,646 batches. It calculated ranks separately rather than calling the evaluator's correlation function. This check was not saved as a reusable audit. The backend suite passed 118 tests before the calculation; no new searches or provider calls were made.

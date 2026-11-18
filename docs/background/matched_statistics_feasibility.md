@@ -6,7 +6,7 @@ Feasibility note
 
 </div>
 
-Reviewed 2026-11-17 using the already evaluated [four-protein report](../../output/matched_eval_51_60_report.json). This is a post-result feasibility review, not a prespecified significance analysis. The original synopsis asks for 95% bootstrap intervals and paired Wilcoxon signed-rank tests; these have not yet been performed as the planned formal analysis.
+Reviewed 2026-11-17 using the already evaluated [four-protein report](../../output/multiprotein/four_protein/matched_eval_51_60_report.json). This is a post-result feasibility review, not a prespecified significance analysis. The original synopsis asks for 95% bootstrap intervals and paired Wilcoxon signed-rank tests; these have not yet been performed as the planned formal analysis.
 
 For each protein, the existing report contains ten paired starting seeds per method, final best scores, actual measurement counts and recovery summaries. A fresh read-only count of exact final-score differences between each repair method and fixed reward gives:
 

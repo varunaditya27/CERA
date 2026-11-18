@@ -34,7 +34,7 @@ The design is intended to make the warning's evidence and the repair targets ref
 
 ### Scope and method
 
-This is a retrospective diagnosis of the five targeted amylase runs recorded in `output/amylase_targeted_disagreement_31_35/`. These runs were a development check, not an independent test. Counts below describe their saved records only. The earlier ten-seed experiment motivated a different disagreement-target rule; the present diagnosis must not be treated as a preregistered evaluation of a new rule.
+This is a retrospective diagnosis of the five targeted amylase runs recorded in `output/amylase/repair/amylase_targeted_disagreement_31_35/`. These runs were a development check, not an independent test. Counts below describe their saved records only. The earlier ten-seed experiment motivated a different disagreement-target rule; the present diagnosis must not be treated as a preregistered evaluation of a new rule.
 
 ### What happened
 

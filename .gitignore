@@ -10,7 +10,7 @@ __pycache__/
 .playwright-cli/
 
 *.tsbuildinfo
-/output/CERA-submission-review.zip
+/output/packages/CERA-submission-review.zip
 
 .DS_Store
 output/web_runs/

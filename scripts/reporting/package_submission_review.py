@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[2]
-DESTINATION = ROOT / 'output/CERA-submission-review.zip'
+DESTINATION = ROOT / 'output/packages/CERA-submission-review.zip'
 PREFIX = 'CERA-review/'
 FILES = (
     'README.md',
@@ -41,20 +41,20 @@ FILES = (
     'docs/studies/repair/after_repair_coverage.md',
     'docs/studies/warnings/controlled_simulations.md',
     'docs/workspace/local_decision_audit.md',
-    'output/amylase_position_shift_121_130.json',
-    'output/coverage_warning_followup_regret.csv',
-    'output/coverage_warning_simulation.json',
-    'output/disagreement_warning_simulation.json',
-    'output/heldout_shift_evaluation_121_130.json',
-    'output/matched_eval_51_60_audit_rerun.json',
-    'output/matched_eval_51_60_method_summary.csv',
-    'output/matched_eval_51_60_report.json',
-    'output/matched_eval_51_60_same_measurements.json',
-    'output/mixed_heldout_comparison_121_130.json',
-    'output/mixed_heldout_evaluation_121_130.json',
-    'output/mixed_search_comparison_191_200_audit.json',
-    'output/rule_warning_controls.json',
-    'output/support_warning_simulation.json',
+    'output/heldout/amylase_position_shift_121_130.json',
+    'output/warnings/coverage_warning_followup_regret.csv',
+    'output/warnings/coverage_warning_simulation.json',
+    'output/warnings/disagreement_warning_simulation.json',
+    'output/heldout/heldout_shift_evaluation_121_130.json',
+    'output/multiprotein/four_protein/matched_eval_51_60_audit_rerun.json',
+    'output/multiprotein/four_protein/matched_eval_51_60_method_summary.csv',
+    'output/multiprotein/four_protein/matched_eval_51_60_report.json',
+    'output/multiprotein/four_protein/matched_eval_51_60_same_measurements.json',
+    'output/hybrid/mixed_heldout_comparison_121_130.json',
+    'output/hybrid/mixed_heldout_evaluation_121_130.json',
+    'output/hybrid/mixed_search_comparison_191_200_audit.json',
+    'output/warnings/rule_warning_controls.json',
+    'output/warnings/support_warning_simulation.json',
     'presentation/project_review.html',
     'report/CERA_final_report.pdf',
     'report/CERA_final_report.tex',

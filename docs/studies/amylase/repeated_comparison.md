@@ -34,7 +34,7 @@ Ten paired comparisons used starting-set seeds 2 through 11. Within each pair, b
 
 The strongest behavioral difference is where the methods searched. In every pair the greedy predictor selected all 100 variants from the original training side and none from the original shifted test side. Random selection chose 49 to 61 test-side variants per pair. The labels used for this count were joined from the original CSV after the runs and were not provided to the selectors. These observations do not prove why the greedy method favored the training side. Since the primary pool includes both sides, the comparison does not guarantee that a method experiences the intended position shift.
 
-The complete paired scores, differences and split counts are in [summary.csv](../../../output/amylase_repeated/summary.csv); full per-run records and best-so-far tables are in the adjacent `seed_02` through `seed_11` directories. The earlier seed-1 run is not included in these ten pairs because it used different random-seed assignments.
+The complete paired scores, differences and split counts are in [summary.csv](../../../output/amylase/search/amylase_repeated/summary.csv); full per-run records and best-so-far tables are in the adjacent `seed_02` through `seed_11` directories. The earlier seed-1 run is not included in these ten pairs because it used different random-seed assignments.
 
 ### How the results were checked
 

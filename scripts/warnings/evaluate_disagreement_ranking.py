@@ -10,8 +10,8 @@ from pathlib import Path
 from app.analysis.disagreement_ranking import evaluate
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'output/amylase_ranges_repeated'
-REPLAY = ROOT / 'output/amylase_warning_replay_v2'
+SOURCE = ROOT / 'output/amylase/search/amylase_ranges_repeated'
+REPLAY = ROOT / 'output/amylase/warnings/amylase_warning_replay_v2'
 
 
 def digest(value):

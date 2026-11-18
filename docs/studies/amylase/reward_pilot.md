@@ -20,7 +20,7 @@ The run records the specification, all candidate distances, scale, predictions, 
 
 Seed 13 began with 100 measured variants and selected 100 more in ten batches. The saved prediction ranges contained 94 of the 100 subsequently revealed scores; the best score among the 200 known at the end was 0.18225. The distance cap applied to approximately 1.4%–1.5% of candidates per round. These are descriptive observations of one adaptive run, without a matched comparison or coverage guarantee.
 
-An independent audit reconstructed all ten selection steps using a separate vectorized calculation, recalculated every candidate distance from the pre-batch known set, checked reward scores and selection order, confirmed the score reveal matched the source, and checked chronological ordering and budget arithmetic. The full backend suite passed 35 tests, including known-distance examples, zero scales and invalid inputs. The losslessly compressed record, fingerprints, coverage table and audit summary are in [the output directory](../../../output/amylase_reward_pilot_seed13).
+An independent audit reconstructed all ten selection steps using a separate vectorized calculation, recalculated every candidate distance from the pre-batch known set, checked reward scores and selection order, confirmed the score reveal matched the source, and checked chronological ordering and budget arithmetic. The full backend suite passed 35 tests, including known-distance examples, zero scales and invalid inputs. The losslessly compressed record, fingerprints, coverage table and audit summary are in [the output directory](../../../output/amylase/search/amylase_reward_pilot_seed13).
 
 To reproduce with a new output directory and the pinned representation cache:
 

@@ -56,14 +56,14 @@ For each round, the mean of the five predictions determined selection. The popul
 Run command:
 
 ```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.amylase.run_prediction_pilot output/amylase_range_pilot_seed1 --seed 1
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.amylase.run_prediction_pilot output/amylase/search/amylase_range_pilot_seed1 --seed 1
 ```
 
-The script reported 10 batches in 1.6667 seconds; that duration includes run creation, fitting, prediction, logging and report generation, but excludes loading and validating the cache. It is one local timing, not a benchmark. Settings, fitting identifiers, member seeds, source hashes, pre-reveal predictions, intervals and revealed scores are in [run.jsonl](../../../output/amylase_range_pilot_seed1/run.jsonl).
+The script reported 10 batches in 1.6667 seconds; that duration includes run creation, fitting, prediction, logging and report generation, but excludes loading and validating the cache. It is one local timing, not a benchmark. Settings, fitting identifiers, member seeds, source hashes, pre-reveal predictions, intervals and revealed scores are in [run.jsonl](../../../output/amylase/search/amylase_range_pilot_seed1/run.jsonl).
 
 ### Observations
 
-All **100 of 100** selected scores fell inside their previously recorded ranges. Mean range width across those scores was approximately **0.20337** in the dataset's score units; per-batch results are in [coverage.csv](../../../output/amylase_range_pilot_seed1/coverage.csv). Broad ranges can cover many scores while providing limited precision. Ten scores per batch make each batch coverage value change in increments of ten percentage points. The observed 100% is not evidence that future coverage is guaranteed, nor that 100% is intrinsically better than a better-calibrated narrower range.
+All **100 of 100** selected scores fell inside their previously recorded ranges. Mean range width across those scores was approximately **0.20337** in the dataset's score units; per-batch results are in [coverage.csv](../../../output/amylase/search/amylase_range_pilot_seed1/coverage.csv). Broad ranges can cover many scores while providing limited precision. Ten scores per batch make each batch coverage value change in increments of ten percentage points. The observed 100% is not evidence that future coverage is guaranteed, nor that 100% is intrinsically better than a better-calibrated narrower range.
 
 The pilot selected 66 original-train and 34 original-test variants, counted by joining original split labels after the run; these labels were not supplied to the selector. The best observed score after 100 new measurements was 0.1569333333333333. This pilot changed both representation and predictor structure relative to the earlier one-hot greedy experiment, so its movement across the split cannot be attributed to either change separately.
 

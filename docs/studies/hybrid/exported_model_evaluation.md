@@ -16,7 +16,7 @@ The evaluator verifies the source, reference, representation-cache and exported-
 
 ## Findings
 
-The saved mixed model and a five-ridge group were compared under the [recorded protocol](exported_model_evaluation.md#protocol), using the same 100 fitting and 20 range-setting examples. The remaining eligible pool contained 3,155 measured variants. The [machine-readable result](../../../output/amylase_hybrid_seed181_evaluation.json) records source fingerprints, the evaluation-set fingerprint and exact metrics.
+The saved mixed model and a five-ridge group were compared under the [recorded protocol](exported_model_evaluation.md#protocol), using the same 100 fitting and 20 range-setting examples. The remaining eligible pool contained 3,155 measured variants. The [machine-readable result](../../../output/amylase/hybrid/amylase_hybrid_seed181_evaluation.json) records source fingerprints, the evaluation-set fingerprint and exact metrics.
 
 | Measure | Mixed model | Five-ridge group |
 | --- | ---: | ---: |
@@ -30,7 +30,7 @@ The mixed group had slightly lower errors in this one comparison; the ridge grou
 To reproduce the result, choose a new output path:
 
 ```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.hybrid.evaluate_exported_hybrid output/amylase_hybrid_seed181_final.npz output/my-model-evaluation.json --expected-sha256 747968886935e3890fa0d4d9c95d1962a024cf35a4c55ac19672cd1e6a17e737
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.hybrid.evaluate_exported_hybrid output/amylase/hybrid/amylase_hybrid_seed181_final.npz output/my-model-evaluation.json --expected-sha256 747968886935e3890fa0d4d9c95d1962a024cf35a4c55ac19672cd1e6a17e737
 ```
 
 The evaluator refuses to overwrite a result. This comparison is not an independent validation of the model exporter or the training implementation; the separate [model audit](model_export.md#findings) addresses reproducibility of the fitted artifact.

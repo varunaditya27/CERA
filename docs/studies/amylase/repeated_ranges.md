@@ -31,7 +31,7 @@ All ten declared runs completed ten batches and spent their maximum 100 new meas
 
 These ten runs share one underlying protein dataset; selected examples and successive rounds are dependent. The fraction is a descriptive result for these simulated searches, not a confidence interval, ten independent biological replications or a claim about unselected variants. Standard conformal guarantees cannot be assumed under adaptive selection and repeated use of the reserved range-setting examples. [Fannjiang et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC9618043/) analyze the complications of feedback-dependent biomolecular design.
 
-See [summary.csv](../../../output/amylase_ranges_repeated/summary.csv) for each seed's covered count, denominator, coverage, width, original-split counts and stop. The earlier seed-1 pilot is separate; its role and member seeds were different. All split labels in the summary were joined after selection.
+See [summary.csv](../../../output/amylase/search/amylase_ranges_repeated/summary.csv) for each seed's covered count, denominator, coverage, width, original-split counts and stop. The earlier seed-1 pilot is separate; its role and member seeds were different. All split labels in the summary were joined after selection.
 
 ### Independent checks
 
@@ -39,7 +39,7 @@ For every run, checked the starting set, 20 reserved examples, predeclared seeds
 
 As a second calculation, reconstructed all 100 five-model groups from their saved fitting identifiers, measurements and member seeds. For every batch, independently re-ran cross-validation to check the chosen penalty, recomputed the 19th of 20 reserved errors, and reproduced the selected candidates' recorded mean predictions and model spreads within `1e-12` in the current environment. This uses the same underlying scikit-learn algorithms and is a reproduction check, not independent scientific validation.
 
-Complete records are stored losslessly as `seed_02/run.jsonl.gz` through `seed_11/run.jsonl.gz`; [record_fingerprints.csv](../../../output/amylase_ranges_repeated/record_fingerprints.csv) records the compressed and original uncompressed SHA-256 fingerprints. Each seed directory retains its coverage CSV. The files can be read with standard gzip tools without altering their contents.
+Complete records are stored losslessly as `seed_02/run.jsonl.gz` through `seed_11/run.jsonl.gz`; [record_fingerprints.csv](../../../output/amylase/search/amylase_ranges_repeated/record_fingerprints.csv) records the compressed and original uncompressed SHA-256 fingerprints. Each seed directory retains its coverage CSV. The files can be read with standard gzip tools without altering their contents.
 
 ### Post-hoc warning-threshold inspection
 

@@ -45,7 +45,7 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. .venv/bin/python -
 
 The output directory must not already exist. The command writes separate run records (`.jsonl`) and best-observed-score tables (`.csv`) for random selection and a simple ridge predictor. Both use the same starting set and budget; the predictor holds 20 initial examples aside and fits on the remaining 80 plus later revealed measurements. Its model choices are checked using cross-validation within the fitting data. Each greedy selection record contains its predicted scores before the measurements are revealed. A score table starts at zero new measurements and includes the best starting score.
 
-An exploratory reference run is in `output/amylase_comparison_seed1_final/`. It is one run, not evidence of an overall winner or a test of CERA's repair system. Later repeated runs, prediction ranges, warnings and experimental repairs are documented in the [work log](../history/work_log.md). A failed or interrupted comparison may leave a partial output directory; inspect its records before using them.
+An exploratory reference run is in `output/amylase/search/amylase_comparison_seed1_final/`. It is one run, not evidence of an overall winner or a test of CERA's repair system. Later repeated runs, prediction ranges, warnings and experimental repairs are documented in the [work log](../history/work_log.md). A failed or interrupted comparison may leave a partial output directory; inspect its records before using them.
 
 ## Amylase sequence representations
 
@@ -90,7 +90,7 @@ The [repeated matched development comparison](../studies/amylase/repeated_matche
 To retrospectively replay the checks on the ten earlier range runs, use a new output directory:
 
 ```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. .venv/bin/python -m scripts.amylase.replay_warnings output/amylase_ranges_repeated output/my-warning-replay
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. .venv/bin/python -m scripts.amylase.replay_warnings output/amylase/search/amylase_ranges_repeated output/my-warning-replay
 ```
 
 Replay requires the pinned representation cache and Git history containing commit `78fce61`; it verifies historical code and record fingerprints before rebuilding the predictor groups. Replay writes new evidence and never changes the original runs. It does not implement repairs or establish detection accuracy.
@@ -108,8 +108,8 @@ Two experimental repair checks are opt-in on `scripts/amylase/run_reward_pilot.p
 Recheck the two newer saved amylase comparisons from the repository root with:
 
 ```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.repair.audit_development_repairs output/amylase_targeted_disagreement_31_35
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.repair.audit_development_repairs output/amylase_direct_diversity_41_45
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.repair.audit_development_repairs output/amylase/repair/amylase_targeted_disagreement_31_35
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.repair.audit_development_repairs output/amylase/repair/amylase_direct_diversity_41_45
 ```
 
 The audit checks source and run fingerprints, matched starting observations, recorded seeds, choices, disagreement groups and targets, repair replays, measurements, budgets and summary rows. It reconstructs decisions from saved predictions and distances; it does not independently refit predictors, regenerate distances or prove that recorded warnings, calibration and ranking safeguards are scientifically valid.
@@ -117,7 +117,7 @@ The audit checks source and run fingerprints, matched starting observations, rec
 To inspect recovery after the first coverage warning in a completed saved run:
 
 ```sh
-PYTHONPATH=backend:. python3 -m scripts.amylase.summarize_recovery output/amylase_targeted_disagreement_31_35/seed_32/fixed/run.jsonl.gz
+PYTHONPATH=backend:. python3 -m scripts.amylase.summarize_recovery output/amylase/repair/amylase_targeted_disagreement_31_35/seed_32/fixed/run.jsonl.gz
 ```
 
 The report checks later, non-overlapping-with-the-warning observations in windows of 30, records the first window with 26–28 covered scores and includes its mean range width. Later windows can overlap each other. Runs without a warning or enough follow-up are reported separately; recovery does not establish that a repair caused it. See [recovery options](../background/recovery_measurement_options.md).

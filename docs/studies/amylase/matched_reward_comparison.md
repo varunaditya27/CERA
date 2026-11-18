@@ -48,7 +48,7 @@ The best eligible measured score in this finite pool is 0.21163. The shared init
 
 The greedy and fixed runs' saved prediction ranges covered 100/100 newly revealed scores. The repair run covered 20/20 before stopping. Random selection did not generate ranges, so its coverage and width are unavailable. These observations do not guarantee coverage under adaptive selection and do not measure warning or repair accuracy.
 
-An independent audit checked the matching initial examples, data and reference fingerprints, budget, role and member seeds, unique selections, source measurements, early stop, finite-pool optimum, summary scores, range counts and widths. The complete compressed records, per-batch curves, summary and fingerprints are in [the output directory](../../../output/amylase_matched_reward_seed13). The backend suite passed 61 tests. The evaluator sees all eligible scores only after every selector has finished; the selectors do not receive the optimum or top-1% threshold.
+An independent audit checked the matching initial examples, data and reference fingerprints, budget, role and member seeds, unique selections, source measurements, early stop, finite-pool optimum, summary scores, range counts and widths. The complete compressed records, per-batch curves, summary and fingerprints are in [the output directory](../../../output/amylase/search/amylase_matched_reward_seed13). The backend suite passed 61 tests. The evaluator sees all eligible scores only after every selector has finished; the selectors do not receive the optimum or top-1% threshold.
 
 The experiment can be reproduced from the project root with a new output directory:
 

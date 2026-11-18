@@ -42,7 +42,7 @@ Varun selected an unrestricted eligible candidate pool and subsequently authoriz
 Run ten seeds and nine methods in a new output directory:
 
 ```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.multiprotein.run_matched_proteins output/ired_low_change_61_70 --dataset ired --initial-pool train --seeds 61 62 63 64 65 66 67 68 69 70 --methods random greedy fixed repair gemini_repair ucb ei genetic adalead --specification configs/reward_spec_example.json --targeted-disagreement --direct-diversity
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.multiprotein.run_matched_proteins output/multiprotein/ired_low_change/ired_low_change_61_70 --dataset ired --initial-pool train --seeds 61 62 63 64 65 66 67 68 69 70 --methods random greedy fixed repair gemini_repair ucb ei genetic adalead --specification configs/reward_spec_example.json --targeted-disagreement --direct-diversity
 ```
 
 The command records a manifest before running and writes a separate status per method and seed. If interrupted, preserve the directory. `--resume` verifies the manifest and completed-record hashes; failed or interrupted statuses are preserved and are not automatically rerun. Investigate any failure and report it without erasing evidence. Do not feed results back into configuration.
@@ -50,8 +50,8 @@ The command records a manifest before running and writes a separate status per m
 After all 90 statuses are terminal, audit before reporting, then evaluate to a new file:
 
 ```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.multiprotein.audit_matched_proteins output/ired_low_change_61_70 --ired-low-change
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.multiprotein.evaluate_matched_proteins output/ired_low_change_61_70_report.json output/ired_low_change_61_70 --specification configs/reward_spec_example.json --ired-low-change
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.multiprotein.audit_matched_proteins output/multiprotein/ired_low_change/ired_low_change_61_70 --ired-low-change
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=backend:. python3 -m scripts.multiprotein.evaluate_matched_proteins output/multiprotein/ired_low_change/ired_low_change_61_70_report.json output/multiprotein/ired_low_change/ired_low_change_61_70 --specification configs/reward_spec_example.json --ired-low-change
 ```
 
 The special audit and evaluator scopes require exactly IRED, seeds 61–70, all nine methods, both repair checks and the pinned specification. They check the starting pool's mutation limit and match the exact ordered sample; the existing full four-protein scope still requires its original eligible-start settings. The evaluator records mutation counts of selected variants. The independent audit reconstructs recorded decisions but does not refit every predictor or establish the scientific validity of the warnings.
@@ -88,6 +88,6 @@ The Gemini-assisted runs recorded 25 request attempts, 25 valid advice selection
 
 ### Verification
 
-The [audit output](../../../output/ired_low_change_61_70_audit.json) is captured directly from the successful audit command. It reports 90 completed records, 703 selection batches, 135 repair replays, one representative distance round and two representative local-proposal rounds. It reconstructs recorded decisions but does not refit every predictor or validate warnings as scientific diagnoses. The audit script SHA-256 was `d15c3b7554735791b32cab5589cfa8404226d78141bcb58e762d2f5322bc343d`; the study manifest SHA-256 was `cffee9c128b4232cea6812a094ca82a992cf4501429ccff9a4c4220f6383b37e`.
+The [audit output](../../../output/multiprotein/ired_low_change/ired_low_change_61_70_audit.json) is captured directly from the successful audit command. It reports 90 completed records, 703 selection batches, 135 repair replays, one representative distance round and two representative local-proposal rounds. It reconstructs recorded decisions but does not refit every predictor or validate warnings as scientific diagnoses. The audit script SHA-256 was `d15c3b7554735791b32cab5589cfa8404226d78141bcb58e762d2f5322bc343d`; the study manifest SHA-256 was `cffee9c128b4232cea6812a094ca82a992cf4501429ccff9a4c4220f6383b37e`.
 
-The [evaluation report](../../../output/ired_low_change_61_70_report.json) contains all per-seed curves, mutation counts, warning summaries, stops and 80 paired comparisons; its SHA-256 was `06fac77f92674e47006cbcbd5649e4f97fc5f5621281d705977890240eb5188e`. A separate one-off calculation verified compressed and uncompressed fingerprints, source scores, selected mutation counts, range counts, final best scores and all 80 paired differences against the 90 saved records. That check was not saved as a reusable audit. Full backend tests passed 107 tests before the study, and the previous four-protein report was reproduced byte for byte after the implementation change.
+The [evaluation report](../../../output/multiprotein/ired_low_change/ired_low_change_61_70_report.json) contains all per-seed curves, mutation counts, warning summaries, stops and 80 paired comparisons; its SHA-256 was `06fac77f92674e47006cbcbd5649e4f97fc5f5621281d705977890240eb5188e`. A separate one-off calculation verified compressed and uncompressed fingerprints, source scores, selected mutation counts, range counts, final best scores and all 80 paired differences against the 90 saved records. That check was not saved as a reusable audit. Full backend tests passed 107 tests before the study, and the previous four-protein report was reproduced byte for byte after the implementation change.

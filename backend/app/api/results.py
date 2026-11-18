@@ -6,7 +6,7 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException
 
 router = APIRouter()
-AUDIT = Path(__file__).resolve().parents[3] / 'output/mixed_search_comparison_191_200_audit.json'
+AUDIT = Path(__file__).resolve().parents[3] / 'output/hybrid/mixed_search_comparison_191_200_audit.json'
 AUDIT_SHA256 = '6eb00a0f5b31b7bac775398ed98b2175116651c402b71989bc3947e3fa97e975'
 
 
