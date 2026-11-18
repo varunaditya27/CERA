@@ -713,3 +713,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-18: project review presentation
 
 - Added a standalone [project review](../project_review.html) covering the implemented workflow, saved comparisons, negative repair results and outstanding scientific work. Checked all 14 slide labels and local links, and exercised navigation logic with a simulated document. The browser access host was unavailable, so the rendered slides, print layout and real keyboard and screen-reader behavior remain unverified. The presentation is a review of current evidence, not a claim that the research is complete.
+
+### 2026-11-18: IRED source recheck
+
+- Downloaded the current official IRED split and verified that its decompressed bytes match the local file exactly. Recorded both hashes and the benchmark's current guidance to exclude validation-marked rows from official model fitting in [IRED preparation](ired_preparation.md). The prior low-change-start search deliberately included eligible validation-marked train rows, so it remains a separate exploratory sequential search, not an official split comparison. The cause of the difference between the full dataset and split row counts remains unresolved.
