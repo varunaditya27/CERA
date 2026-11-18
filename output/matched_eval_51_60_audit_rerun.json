@@ -1,0 +1,41 @@
+{
+  "audit_script_sha256": "30ab8d10bf4bf5f687c5d3a8b7ff11cc06729aaeb20e87efecfde40a127d9c5a",
+  "evaluation_matches_committed_report": true,
+  "evaluation_report_sha256": "33b5d1c00930942986277f0fe74b7a35c2ae3f8e44ed8079cf66a156c1e44939",
+  "evaluation_script_sha256": "65c34e74767e1af41e94d0a3a497fd8f1b24a73f964a5c17ebc76ee5d53f800b",
+  "groups": [
+    {
+      "completed": 90,
+      "dataset": "ired",
+      "repair_replays": 118,
+      "representative_distance_rounds": 1,
+      "representative_local_rounds": 2,
+      "selections": 728
+    },
+    {
+      "completed": 90,
+      "dataset": "hydro-P06241",
+      "repair_replays": 170,
+      "representative_distance_rounds": 1,
+      "representative_local_rounds": 2,
+      "selections": 730
+    },
+    {
+      "completed": 90,
+      "dataset": "hydro-P01053",
+      "repair_replays": 125,
+      "representative_distance_rounds": 1,
+      "representative_local_rounds": 2,
+      "selections": 721
+    },
+    {
+      "completed": 90,
+      "dataset": "hydro-P0A9X9",
+      "repair_replays": 136,
+      "representative_distance_rounds": 1,
+      "representative_local_rounds": 2,
+      "selections": 764
+    }
+  ],
+  "scope": "four_protein"
+}

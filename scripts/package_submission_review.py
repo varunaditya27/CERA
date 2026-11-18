@@ -19,6 +19,7 @@ FILES = (
     'output/coverage_warning_simulation.json',
     'output/disagreement_warning_simulation.json',
     'output/heldout_shift_evaluation_121_130.json',
+    'output/matched_eval_51_60_audit_rerun.json',
     'output/matched_eval_51_60_method_summary.csv',
     'output/matched_eval_51_60_report.json',
     'output/matched_eval_51_60_same_measurements.json',

@@ -75,7 +75,7 @@ The Results and Experiments pages and all 14 presentation slides had zero report
 
 1. Review the report and presentation with the project guide against the institution's required format, author names and assessment criteria. The repository does not establish those final administrative requirements; do not invent signatures or approvals.
 2. The report PDF was rendered and checked for layout, and its source is included. Relative evidence links work in the repository layout; package supporting records if the report is moved elsewhere.
-3. The latest full backend run passed 189 tests. The production frontend build and live HTTP workflow also passed their checks. Playwright verified the demo flow and keyboard navigation through all 14 presentation slides at 390 px wide. Desktop Results and mobile review screenshots were inspected. Screen-reader behavior remains unchecked. The earlier 360-run study has a recorded audit, and the later replay was stopped before completion. [Status report](project_status_and_results.md)
+3. The latest full backend run passed 189 tests. The production frontend build and live HTTP workflow also passed their checks. Playwright verified the demo flow and keyboard navigation through all 14 presentation slides at 390 px wide. Desktop Results and mobile review screenshots were inspected. Screen-reader behavior remains unchecked. A fresh decision audit checked all 360 primary-study records. The regenerated evaluation report matched the committed report byte for byte. [Audit capture](../output/matched_eval_51_60_audit_rerun.json) [Status report](project_status_and_results.md)
 4. Use the workshop draft for guide review if a paper is appropriate. The synopsis makes the paper conditional.
 
 ## Research context
