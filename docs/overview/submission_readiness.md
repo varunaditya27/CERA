@@ -91,7 +91,9 @@ The Results and Experiments pages and all 14 presentation slides had zero report
 
 ## Interface checks after the redesign
 
-On 18 November 2026, after the interface was restyled, `npm run check:a11y` (axe-core with Playwright) reported no violations on all eight routes at 1440 px and 375 px wide, and every interactive element in the `/experiments` Tab order showed a focus indicator. A keyboard-only Chromium run entered a seed, submitted with Enter and read the completed result of a real local experiment (100 new measurements, budget exhausted). The page accessibility tree showed named controls, grouped radio buttons and headings. A real screen reader was not run, so screen-reader behavior remains unchecked.
+On 18 November 2026, after the interface was restyled, `npm run check:a11y` (axe-core with Playwright) reported no violations on all eight routes at 1440 px and 375 px wide, and every interactive element in the `/experiments` Tab order showed a focus indicator. A keyboard-only Chromium run entered a seed, submitted with Enter and read the completed result of a real local experiment (100 new measurements, budget exhausted). The page accessibility tree showed named controls, grouped radio buttons and headings.
+
+On 19 November 2026 the Orca screen reader (with silent speech output) was run against the production build in Chrome. Orca announced the title of each page it opened ("Finished loading Experiments | CERA", likewise Datasets and Results). Orca did not announce individual control focus during the scripted Tab walk, because the Chrome window was not the active window on the Wayland desktop and real key presses could not be injected, so that part is unchecked. As a substitute, `frontend/checks/accessibility_tree.py` read the accessibility tree that Chrome exposes to Orca (the AT-SPI tree) on the Experiments, Datasets, Results and Goals pages: every focusable control had a name (0 unnamed), and headings, the sidebar and navigation landmarks, and table row and column headers were present. Listening to each page being read in full by a person who uses a screen reader remains outstanding.
 
 ## Continuous integration check
 
