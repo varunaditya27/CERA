@@ -105,7 +105,7 @@ def main():
                     setup['cache_sha256'] == manifest['cache_sha256'], 'Study mode mismatch')
             validate_recorded_sources(setup['source_sha256'], manifest['code_sha256'])
             if method == 'reactive':
-                require(setup.get('calibration_source_sha256') == {'calibration_policy.py': manifest['code_sha256']['backend/app/predictors/calibration_policy.py']},
+                require(setup.get('calibration_source_sha256') == {'calibration_policy.py': (manifest['code_sha256'].get('backend/app/predictors/calibration_policy.py') or manifest['code_sha256']['backend/app/experiments/calibration_policy.py'])},
                         'Calibration source fingerprint mismatch')
                 summarize_recovery(events)
             if comparison == 'reactive-calibration':

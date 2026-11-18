@@ -17,7 +17,7 @@ The CSVs in `raw/flip2/` are extracted without modification from the FLIP2 bench
 - [Original data: Zenodo record 11357236](https://zenodo.org/records/11357236)
 - Original publication: Gantz et al., “Microdroplet screening rapidly profiles a biocatalyst to enable its AI-assisted engineering,” [bioRxiv (2024)](https://doi.org/10.1101/2024.04.08.588565).
 - License identified by FLIP2: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
-- The benchmark website lists 17,143 variants, while this split has 8,586 rows; the reason remains to be investigated.
+- The benchmark website lists 17,143 variants, while this split has 8,586 rows. The 17,143 is the whole screened set (10,905 active plus 6,238 inactive variants); the split keeps only measured-active variants without flagged insertions, deletions or stop codons. See [IRED preparation](../docs/data/ired_preparation.md).
 
 ## Hydrophobic core
 

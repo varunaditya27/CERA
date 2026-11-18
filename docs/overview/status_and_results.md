@@ -19,7 +19,7 @@ The prototype uses previously measured datasets to simulate measurements. An opt
 | Source | Use in this project | Local rows | Important limitation |
 | --- | --- | ---: | --- |
 | Alpha amylase | Development and checks | 3,706 | Results are retrospective measurements, not new laboratory experiments. |
-| IRED | Evaluation, mutation-count split | 8,586 | The local split omits laboratory rows flagged as insertions, deletions or stop codons; 865 of the website's 17,143 variants are unexplained. |
+| IRED | Evaluation, mutation-count split | 8,586 | The local split keeps measured-active variants only; the website's 17,143 also counts 6,238 inactive ones. |
 | Hydro | Evaluation, three separately analyzed proteins | 24,935 | Its low-to-high split is based on measured fitness, so using membership reveals privileged information. |
 
 Source identities, original publications, references and licenses are in the [dataset ledger](../background/dataset_evidence_ledger.md), [IRED preparation](../data/ired_preparation.md), [Hydro preparation](../data/hydro_preparation.md) and [source list](../../data/SOURCES.md). The [FLIP2 benchmark](https://flip.protein.properties/) describes the split definitions. The research compares random, greedy, fixed reward, rule-based repair, Gemini-assisted repair, mean-plus-spread, expected improvement, finite-pool genetic and AdaLead-style search. The latter methods are adapted to the available measured pool. Models are retrained before each batch for the applicable model-based methods.
