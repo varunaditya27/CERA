@@ -36,7 +36,7 @@ latexmk -xelatex -outdir=/tmp/cera-report report/CERA_final_report.tex
 - Set `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1` for reproducible research scripts. GPU runs here also need `TORCH_DISABLE_NATIVE_JIT=1`.
 - Script output directories and run-log files must not already exist; scripts refuse to overwrite. Pick a new path under `output/`.
 - Do not stop servers with `pkill -f`; use `fuser -k 8000/tcp` (see global rules).
-- `frontend/AGENTS.md` warns this Next.js version has breaking changes: read `frontend/node_modules/next/dist/docs/` before writing frontend code. The stylesheet follows Hallmark's app-screen rules (tokens only, no literal colours, 4px spacing, no tracked-caps labels); check with `node ~/.claude/skills/hallmark/scripts/sloplint.mjs frontend/app/globals.css --scope app --render --url <route>`.
+- `frontend/AGENTS.md` warns this Next.js version has breaking changes: read `frontend/node_modules/next/dist/docs/` before writing frontend code. The stylesheet follows Hallmark's app-screen rules (tokens only, no literal colours, 4px spacing, no tracked-caps labels); check with `node ~/.claude/skills/hallmark/scripts/sloplint.mjs frontend/app/globals.css --scope app --render --url <route>`, then `npm run check:a11y` (axe-core and a keyboard Tab walk; needs both servers up, `CHROME_PATH` and `CERA_WEB_URL`). Surfaces are separated by tone and space, not 1px lines; real tables and form fields are the exception.
 
 ## Architecture
 

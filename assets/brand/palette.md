@@ -18,3 +18,9 @@ Colors used by the website, README, report and slides
 | Light amber | `#F2B27A` | Amber on dark backgrounds | 9.0:1 on ink |
 
 Ratios are WCAG 2 contrast ratios; text needs at least 4.5:1.
+
+## Brand board
+
+<p align="center"><img src="brand-board.svg" alt="CERA brand board: logo, construction, web interface, tagline, palette, type, printed report cover, image direction and interface components" width="100%"></p>
+
+Files: `logo-mark.svg`, `logo-horizontal.svg`, `banner.svg`, `footer.svg` and `brand-board.svg`. The mark is a search path that climbs, meets a counterexample (the amber dot) and changes direction. Type is the system sans stack with monospace for code and figures. The web interface uses these tokens in `frontend/app/globals.css`.

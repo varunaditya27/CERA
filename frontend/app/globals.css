@@ -3,6 +3,7 @@
  * nav: left sidebar, collapses to a top strip · signature: the primary-study tally (higher, tied, lower) · states: loading, empty, unavailable, full
  * axes: warm-paper/system-sans/teal · posture: workbench · contrast: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: E, the overview has no photograph by design; led with the recorded tally instead of a diagram */
+/* Hallmark · answered F7 · the repeated surface is the app's one panel type: white tiles for list rows, a tinted mist field with a larger radius for side notes and profiles, so role and radius already differ */
 
 :root {
   --space-1: 4px;
@@ -14,7 +15,7 @@
   --space-7: 48px;
   --space-8: 64px;
 
-  --text-xs: 0.75rem;
+  --text-xs: 0.8125rem;
   --text-sm: 0.875rem;
   --text-md: 1rem;
   --text-lg: 1.125rem;
@@ -50,6 +51,7 @@
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --radius: 6px;
+  --radius-lg: 12px;
   --sidebar: 232px;
   --container: 1200px;
   --measure: 68ch;
@@ -165,7 +167,7 @@ code {
 .shell {
   display: grid;
   grid-template-columns: var(--sidebar) minmax(0, 1fr);
-  min-height: 100vh;
+  min-height: 100svh;
 }
 .main {
   min-width: 0;
@@ -176,13 +178,12 @@ code {
 .sidebar {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 100svh;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
   padding: var(--space-6) var(--space-4) var(--space-5);
   background: var(--color-surface);
-  border-right: 1px solid var(--color-rule);
 }
 .brand {
   display: flex;
@@ -260,7 +261,6 @@ code {
   gap: var(--space-3);
   margin-top: auto;
   padding: var(--space-4) var(--space-2) 0;
-  border-top: 1px solid var(--color-rule);
   font-size: var(--text-xs);
   color: var(--color-muted);
 }
@@ -276,7 +276,6 @@ code {
   gap: var(--space-4);
   min-height: 64px;
   padding: 0 var(--space-6);
-  border-bottom: 1px solid var(--color-rule);
   font-size: var(--text-sm);
   color: var(--color-muted);
 }
@@ -415,7 +414,7 @@ footer a {
 .prediction-output p {
   margin: 0 0 var(--space-4);
   color: var(--color-ink-2);
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
 }
 .prediction-form textarea,
 .experiment-form input[type='number'],
@@ -425,7 +424,7 @@ footer a {
   max-width: var(--measure);
   min-height: 44px;
   padding: var(--space-3);
-  border: 1px solid var(--color-muted);
+  border: 1px solid var(--color-muted); /* taste-skill-ignore: form field and table keep their lines */
   border-radius: var(--radius);
   background: var(--color-surface);
   color: var(--color-ink);
@@ -478,7 +477,6 @@ footer a {
   justify-content: space-between;
   gap: var(--space-4);
   padding: var(--space-3) 0;
-  border-top: 1px solid var(--color-rule);
 }
 .prediction-output dd {
   font-weight: 700;
@@ -517,6 +515,7 @@ footer a {
 }
 .method-note,
 .detail-meta {
+  border-radius: var(--radius-lg);
   padding: var(--space-5);
   border-radius: var(--radius);
   background: var(--color-paper-2);
@@ -527,7 +526,7 @@ footer a {
 }
 .method-note p {
   margin-bottom: var(--space-3);
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
   color: var(--color-ink-2);
 }
 .method-note .text-link {
@@ -535,7 +534,6 @@ footer a {
 }
 .offline {
   padding: var(--space-5);
-  border: 1px solid var(--color-rule);
   border-radius: var(--radius);
   background: var(--color-surface);
 }
@@ -569,7 +567,6 @@ footer a {
   padding: var(--space-5);
   border-radius: var(--radius);
   background: var(--color-surface);
-  border: 1px solid var(--color-rule);
 }
 .intro-aside h2 {
   font-size: var(--text-md);
@@ -599,7 +596,7 @@ footer a {
   color: var(--color-muted);
 }
 .intro-aside p {
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
   color: var(--color-ink-2);
   margin-bottom: var(--space-3);
 }
@@ -612,8 +609,8 @@ footer a {
 }
 .overview-head p {
   margin-top: var(--space-1);
-  font-size: var(--text-sm);
-  color: var(--color-muted);
+  font-size: var(--text-md);
+  color: var(--color-ink-2);
 }
 .overview-list,
 .catalog-items,
@@ -624,10 +621,8 @@ footer a {
   list-style: none;
 }
 .overview-list {
-  border-top: 1px solid var(--color-rule);
 }
 .overview-list li {
-  border-bottom: 1px solid var(--color-rule);
 }
 .overview-list a {
   display: flex;
@@ -643,8 +638,8 @@ footer a {
 .overview-list span {
   display: block;
   margin-top: var(--space-1);
-  font-size: var(--text-sm);
-  color: var(--color-muted);
+  font-size: var(--text-md);
+  color: var(--color-ink-2);
 }
 .overview-count {
   text-align: right;
@@ -654,8 +649,8 @@ footer a {
 .overview-count small {
   display: block;
   font-weight: 400;
-  font-size: var(--text-sm);
-  color: var(--color-muted);
+  font-size: var(--text-md);
+  color: var(--color-ink-2);
 }
 .project-state {
   display: flex;
@@ -663,8 +658,7 @@ footer a {
   align-items: baseline;
   margin-top: var(--space-6);
   padding: var(--space-5) 0;
-  border-top: 1px solid var(--color-rule);
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
 }
 .project-state > div {
   white-space: nowrap;
@@ -680,8 +674,8 @@ footer a {
 }
 .workspace-heading p {
   margin-top: var(--space-1);
-  font-size: var(--text-sm);
-  color: var(--color-muted);
+  font-size: var(--text-md);
+  color: var(--color-ink-2);
 }
 .catalog-status {
   display: flex;
@@ -691,7 +685,6 @@ footer a {
 }
 .dataset-list {
   overflow: hidden;
-  border: 1px solid var(--color-rule);
   border-radius: var(--radius);
   background: var(--color-surface);
 }
@@ -705,7 +698,6 @@ footer a {
 }
 .list-head {
   min-height: 44px;
-  border-bottom: 1px solid var(--color-rule);
   background: var(--color-paper);
   font-size: var(--text-sm);
   font-weight: 600;
@@ -715,7 +707,6 @@ footer a {
   text-align: right;
 }
 .catalog-items li + li {
-  border-top: 1px solid var(--color-rule);
 }
 .dataset-row {
   min-height: 80px;
@@ -738,8 +729,8 @@ footer a {
 }
 .landscape p {
   margin-top: var(--space-1);
-  font-size: var(--text-sm);
-  color: var(--color-muted);
+  font-size: var(--text-md);
+  color: var(--color-ink-2);
 }
 .dataset-icon {
   display: grid;
@@ -753,7 +744,7 @@ footer a {
 }
 .role,
 .split strong {
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
   font-weight: 400;
   color: var(--color-ink-2);
 }
@@ -779,11 +770,11 @@ footer a {
   background: var(--color-paper-2);
 }
 .catalog-footnote strong {
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
 }
 .catalog-footnote p {
   margin-top: var(--space-1);
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
   color: var(--color-ink-2);
 }
 
@@ -800,7 +791,6 @@ footer a {
 .detail-section {
   margin-top: var(--space-6);
   padding-top: var(--space-5);
-  border-top: 1px solid var(--color-rule);
 }
 .detail-section h2,
 .detail-meta h2 {
@@ -815,7 +805,6 @@ footer a {
   justify-content: space-between;
   gap: var(--space-4);
   padding: var(--space-3) 0;
-  border-top: 1px solid var(--color-rule);
   font-size: var(--text-sm);
 }
 .detail-meta dt {
@@ -830,10 +819,8 @@ footer a {
   grid-template-columns: 48px 1fr;
   gap: var(--space-4);
   padding: var(--space-5) 0;
-  border-top: 1px solid var(--color-rule);
 }
 .method-steps li:last-child {
-  border-bottom: 1px solid var(--color-rule);
 }
 .step-number {
   padding-top: var(--space-1);
@@ -853,7 +840,6 @@ footer a {
   gap: var(--space-4);
   margin: var(--space-5) 0;
   padding: var(--space-5) 0;
-  border-block: 1px solid var(--color-rule);
 }
 .results-highlight strong {
   font-size: var(--text-2xl);
@@ -879,7 +865,7 @@ footer a {
 .results-table th,
 .results-table td {
   padding: var(--space-3);
-  border-bottom: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule); /* taste-skill-ignore: form field and table keep their lines */
 }
 .results-table thead th {
   color: var(--color-ink-2);
@@ -898,7 +884,6 @@ footer a {
 .recent-runs {
   margin-top: var(--space-7);
   padding-top: var(--space-5);
-  border-top: 1px solid var(--color-rule);
 }
 .recent-runs h2 {
   margin-bottom: var(--space-3);
@@ -907,28 +892,24 @@ footer a {
   display: grid;
   gap: var(--space-1);
   padding: var(--space-4) 0;
-  border-top: 1px solid var(--color-rule);
 }
 .recent-runs li span,
 .recent-runs li small {
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
   color: var(--color-ink-2);
   overflow-wrap: anywhere;
 }
 .batch-list {
   margin-top: var(--space-6);
   padding-top: var(--space-5);
-  border-top: 1px solid var(--color-rule);
 }
 .batch-list > p {
   margin: var(--space-2) 0 var(--space-5);
   color: var(--color-ink-2);
 }
 .batch-list details {
-  border-top: 1px solid var(--color-rule);
 }
 .batch-list details:last-child {
-  border-bottom: 1px solid var(--color-rule);
 }
 .batch-list summary {
   padding: var(--space-4) var(--space-1);
@@ -941,7 +922,7 @@ footer a {
 }
 .batch-body p,
 .batch-body li {
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
   color: var(--color-ink-2);
 }
 .batch-body h3 {
@@ -1006,7 +987,6 @@ footer a {
     gap: var(--space-3);
     padding: var(--space-3) var(--space-4);
     border-right: 0;
-    border-bottom: 1px solid var(--color-rule);
   }
   .side-label,
   .sidebar-bottom {
@@ -1014,8 +994,8 @@ footer a {
   }
   .sidebar nav {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-1);
-    overflow-x: auto;
     margin-top: 0;
   }
   .sidebar nav a {
@@ -1066,4 +1046,78 @@ footer a {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Surfaces are separated by tone and space, not by lines. Tables and form fields keep their own lines. */
+.overview-list,
+.catalog-items,
+.recent-runs ul,
+.batch-list {
+  display: grid;
+  gap: var(--space-1);
+}
+.overview-list li,
+.recent-runs li,
+.batch-list details {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+}
+.overview-list a {
+  padding: var(--space-4) var(--space-5);
+}
+.recent-runs li {
+  padding: var(--space-4) var(--space-5);
+}
+.batch-list summary {
+  padding: var(--space-4) var(--space-5);
+}
+.batch-body {
+  padding: 0 var(--space-5) var(--space-5);
+}
+.dataset-list {
+  background: var(--color-paper-2);
+}
+.catalog-items {
+  gap: 2px;
+}
+.dataset-row {
+  background: var(--color-surface);
+}
+.list-head {
+  background: var(--color-paper-2);
+}
+.dataset-row:hover {
+  background: var(--color-paper);
+}
+.offline,
+.intro-aside {
+  background: var(--color-surface);
+}
+.results-highlight {
+  padding: var(--space-5);
+  border-radius: var(--radius);
+  background: var(--color-paper-2);
+}
+.detail-meta dl div,
+.prediction-output dl div {
+  padding: var(--space-3) 0 0;
+}
+.method-steps li {
+  padding: var(--space-4) 0;
+}
+.sidebar-bottom,
+.project-state {
+  padding-top: var(--space-5);
+}
+
+.method-note,
+.detail-meta,
+.offline,
+.intro-aside {
+  border-radius: var(--radius-lg);
+}
+.dataset-list,
+.catalog-footnote,
+.results-highlight {
+  border-radius: var(--radius);
 }
