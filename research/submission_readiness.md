@@ -2,6 +2,8 @@
 
 Reviewed 18 November 2026. The original [synopsis](../Project_Synopsis.pdf) is the proposal and remains unchanged. The [project report for review](../output/pdf/CERA_final_report.pdf), its [editable source](CERA_final_report.tex), and the [project review presentation](../project_review.html) report what was actually built and measured. If a proposed claim conflicts with a measured result, use the result and its qualification from the report. Keep this repository with the report when following local evidence links.
 
+For a review copy, extract the submission ZIP as one folder and open this file, the report, or the presentation from inside it. The archive includes the materials directly cited by these three files and selected machine-readable evaluation summaries. Use the full repository for the application, raw data, and complete replay records.
+
 ## Core evidence
 
 - The primary four-protein comparison comprises 360 terminal runs. Both repair policies achieved a higher best score than fixed reward in 0 of 40 matched starts, tied in 35 and scored lower in 5 at actual stop. Early stopping means measurement counts differ. [Results](multiprotein_study_findings.md).
