@@ -737,3 +737,5 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-18: submission report and reconciliation
 
 - Prepared a six-page [project report for review](../output/pdf/CERA_final_report.pdf) with [editable LaTeX source](CERA_final_report.tex), aligning the original synopsis with the implemented methods, negative and exploratory results, and unresolved limitations. Added [submission readiness notes](submission_readiness.md) linking the report, presentation and supporting evidence. Rendered and visually inspected all report pages; XeLaTeX reported no overfull boxes or unresolved references. The institution’s final format and guide review remain unverified. The original synopsis remains unchanged as the proposal.
+
+- Cross-checked parts 5–7 of the briefing guide against the report and implementation. Added a [briefing guide crosswalk](submission_readiness.md#briefing-guide-crosswalk) for the oral evaluation, with links to the completed evidence and course questions that still need confirmation.

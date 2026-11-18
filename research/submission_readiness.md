@@ -9,6 +9,27 @@ Reviewed 18 November 2026. The original [synopsis](../Project_Synopsis.pdf) is t
 - Static held-out Hydro prediction ranges had low observed coverage; mixed and ridge predictors showed no consistent advantage across the reported measures. [Ridge study](heldout_shift_prediction_findings.md); [mixed study](mixed_heldout_findings.md).
 - The system uses previously measured datasets. It does not establish causal repair benefit, biological validity of its warnings, or a general coverage guarantee. Repeated starts are not independent biological replications.
 
+## Briefing guide crosswalk
+
+Use this table with parts 5–7 of the [original briefing guide](../Project_Briefing_Guide.pdf) when preparing the report and oral evaluation.
+
+| Planning question | What to report now |
+| --- | --- |
+| Which datasets were used? | Amylase was used for development. IRED and three separate Hydro protein groups were used for evaluation. GB1 and ProteinGym were catalogued as optional datasets. [Integrated results](project_status_and_results.md) · [Dataset sources](../data/SOURCES.md) |
+| Which predictor and settings were used? | The main studies used five ridge models. Twenty of the 100 initial measurements set prediction ranges. The sequence representations average residue values and exclude boundary tokens and padding. The three-ridge, two-neural-network model was evaluated separately. [Representation checks](esm_feasibility_and_plan.md) · [Mixed predictor findings](mixed_heldout_findings.md) |
+| What did Gemini and the repair checks contribute? | Gemini prioritized a finite menu of proposed changes. Local code checked each proposal. The repair cost used a normalized change in a weight plus 0.05 for changing a term. Later local-web and matched-study runs capture returned response text when the client makes it available. [Repair cost code](../backend/app/rewards/repair_menu.py) · [Completion evidence](completion_evidence_review.md) |
+| How were warnings tested? | Controlled cases tested the software response to planted disagreements and checks for constraints and diversity. Accuracy against independently established biological failures remains unknown. [Disagreement findings](disagreement_warning_simulation_findings.md) · [Constraint and diversity findings](rule_warning_controls_findings.md) |
+| How should the statistics be presented? | Report matched starts and actual numbers of measurements per policy. Paired intervals and signed-rank calculations were added after viewing the results. The same measured protein pool was reused across starts. [Primary results](multiprotein_study_findings.md) · [Paired analysis](exploratory_paired_analysis_findings.md) |
+| Which course requirements still need confirmation? | The local documents leave guide approval, the institution’s final formatting requirements, and the briefing guide’s question about a reinforcement-learning requirement unresolved. The synopsis makes a paper conditional on the results. [Synopsis](../Project_Synopsis.pdf) |
+
+The published [RVCE ISE curriculum](https://rvce.edu.in/sites/default/files/14.%20IS%202022%20Scheme%20III%20Year%20B.E.%20Programs_compressed_0.pdf) identifies data preparation, exploratory data analysis, prediction results, and a graphical demonstration in the IS353IA Part B section. It gives general course guidance. The batch-specific brief and required submission format still need confirmation.
+
+| Course item | Evidence for the demonstration |
+| --- | --- |
+| Data preparation and exploratory data analysis | Walk through the measurements and splits using the [dataset presentation](../datasets.html), then open the [dataset evidence ledger](dataset_evidence_ledger.md) to show the source checks and unresolved details. |
+| Model building and evaluation | Use the methods and results sections of the [report](../output/pdf/CERA_final_report.pdf). Explain why matched starts are useful and why early stopping changes the comparison. |
+| Prediction results and graphical demonstration | Follow the local setup in the [README](../README.md). Open `/results` for the saved comparison and `/experiments` for a run and its review. The live browser demonstration remains to be checked. |
+
 ## Checks before submitting
 
 1. Review the report and presentation with the project guide against the institution's required format, author names and assessment criteria. The repository does not establish those final administrative requirements; do not invent signatures or approvals.
