@@ -721,3 +721,7 @@ This is the running record for later review. Add dated entries as work proceeds.
 ### 2026-11-18: mixed predictor all-round refit
 
 - Added a reproducible audit that reconstructs all ten prediction rounds for each of the ten saved mixed-predictor searches from the measurements revealed before that round. All 100 GPU refits reproduced the saved candidate means and spreads exactly in this environment. Focused tests reject altered predictions, non-finite values and fitting identifiers not yet revealed; the full 183-test backend suite passed. The audit uses the original fitting implementation and does not establish scientific validity or reproduce the separate ridge-only runs; see [findings and command](mixed_search_comparison_findings.md).
+
+### 2026-11-18: mixed predictor on held-out protein variants
+
+- Froze an exploratory static comparison before scoring, then evaluated the existing mixed predictor on IRED and three Hydro groups using the same 40 starting samples as the prior ridge study. Predictions and per-start comparisons are recorded in [findings](mixed_heldout_findings.md). A separate calculation recomputed all 40 mixed-run metrics; tests cover held-out separation and changed matched assignments, and all 185 backend tests passed. The two predictors had no consistent advantage, and their Hydro prediction-range coverage remained low. This is not an official benchmark, a search or repair evaluation, or independent biological validation.
