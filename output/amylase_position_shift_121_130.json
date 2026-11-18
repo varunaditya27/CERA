@@ -1,0 +1,111 @@
+{
+  "scope": "exploratory Amylase close-to-far static prediction",
+  "max_substitutions": 4,
+  "eligible_train": 1566,
+  "eligible_test": 1709,
+  "data_sha256": "d04c2fcb7421ffb6ac8b776ed938f7a97c81f8de57f71257d34d9d3722435297",
+  "reference_sha256": "d809b63aea6e67cc9385e19cde5324430fed57e0643a0090cf4990922879d868",
+  "cache_sha256": "d1092467446bb7cf48d6ae53d51207fb8acc89fa0d60bf59c31a831c6ecd73a3",
+  "script_sha256": {
+    "evaluate_amylase_position_shift.py": "ac9e8ab9f1e7d5c9c687cc0b2f7db16685d8b2b30df7a0a70b4ab3e9d4e17086",
+    "evaluate_heldout_shifts.py": "49aedbd8862110840557f1aa1ca15cc4f695c687e1c945d6e7eee61e7826adeb"
+  },
+  "app_sha256": {
+    "heldout_prediction.py": "3f64e42c09aac42e877398bbbd352856f67726561ef505654b350bb0e8200824",
+    "predictor_group.py": "dc6c2445c5fbb0116a33d9555f1a45ab6d2e28eb657bea48b0784582485b607a",
+    "prediction_intervals.py": "b0dc868df5bfd78111352d70ab7e72b41285baabfcda5b2cfbfde6408f6c1d7f",
+    "amylase_representations.py": "c52515d46df754a5b624b8d21d9aa872a6cff41fa98ca7419ef2045f9a198fc5",
+    "flip2.py": "4eca2e98b05bc7a53033f05f05bdafb8d94a38a47e14263de069685940d00dd0"
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.0"
+  },
+  "prediction_sha256": "fe3cb3c004ee34e2829ea5e13886db8096a9ee9d0ea690f32b9fde831b35faf9",
+  "median_coverage": 0.9022820362785254,
+  "median_rank_correlation": 0.0005111269571433409,
+  "median_mae": 0.051184269177845076,
+  "runs": [
+    {
+      "seed": 121,
+      "n": 1709,
+      "spearman": -0.009563792287087649,
+      "mean_absolute_error": 0.05283811841252041,
+      "covered": 1674,
+      "mean_interval_width": 0.2047988262357231
+    },
+    {
+      "seed": 122,
+      "n": 1709,
+      "spearman": 0.10432482487999924,
+      "mean_absolute_error": 0.0502584176251419,
+      "covered": 1533,
+      "mean_interval_width": 0.1930331242990394
+    },
+    {
+      "seed": 123,
+      "n": 1709,
+      "spearman": -0.05600253784192921,
+      "mean_absolute_error": 0.05190539591246275,
+      "covered": 1409,
+      "mean_interval_width": 0.16564100158704836
+    },
+    {
+      "seed": 124,
+      "n": 1709,
+      "spearman": 0.020806323071638582,
+      "mean_absolute_error": 0.052042854396303066,
+      "covered": 1551,
+      "mean_interval_width": 0.18349704225845967
+    },
+    {
+      "seed": 125,
+      "n": 1709,
+      "spearman": -0.05136294970401867,
+      "mean_absolute_error": 0.05038887810103339,
+      "covered": 1122,
+      "mean_interval_width": 0.1062796492346331
+    },
+    {
+      "seed": 126,
+      "n": 1709,
+      "spearman": 0.009931310612159877,
+      "mean_absolute_error": 0.05000468459423651,
+      "covered": 1661,
+      "mean_interval_width": 0.23730699566164698
+    },
+    {
+      "seed": 127,
+      "n": 1709,
+      "spearman": -0.008909056697873195,
+      "mean_absolute_error": 0.05341387714965001,
+      "covered": 1152,
+      "mean_interval_width": 0.12856266534341038
+    },
+    {
+      "seed": 128,
+      "n": 1709,
+      "spearman": -0.028086821170983017,
+      "mean_absolute_error": 0.04987574438003842,
+      "covered": 1515,
+      "mean_interval_width": 0.2079251927827347
+    },
+    {
+      "seed": 129,
+      "n": 1709,
+      "spearman": 0.052423995222533784,
+      "mean_absolute_error": 0.05231773834576869,
+      "covered": 1601,
+      "mean_interval_width": 0.18507676405647486
+    },
+    {
+      "seed": 130,
+      "n": 1709,
+      "spearman": 0.07709393370676262,
+      "mean_absolute_error": 0.0504631424432274,
+      "covered": 1651,
+      "mean_interval_width": 0.21988955624882528
+    }
+  ]
+}

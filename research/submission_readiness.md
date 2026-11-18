@@ -16,6 +16,7 @@ A [workshop draft](workshop_draft.md) presents the early-stopping result for gui
 - A later comparison at the same measurement count found 39 ties and one lower score per repair policy. It uses each repair run's stopping point as the comparison count. [Paired scores](../output/matched_eval_51_60_same_measurements.json)
 - The separate IRED and Hydro shifted-start searches permit later selection from the eligible pool; they are not official held-out benchmark searches. Hydro initial membership uses fitness. [IRED](ired_low_change_findings.md); [Hydro](hydro_low_fitness_search_findings.md).
 - Static held-out Hydro prediction ranges had low observed coverage; mixed and ridge predictors showed no consistent advantage across the reported measures. [Ridge study](heldout_shift_prediction_findings.md); [mixed study](mixed_heldout_findings.md).
+- On the Amylase close-to-far position split, ten starts gave 90.2% median coverage and a median rank correlation of 0.0005 on 1,709 eligible far-side examples. The result concerns static prediction on development data. [Amylase position-shift check](amylase_position_shift_findings.md)
 - The system uses previously measured datasets. It does not establish causal repair benefit, biological validity of its warnings, or a general coverage guarantee. Repeated starts are not independent biological replications.
 
 ## Warning checks on known cases
