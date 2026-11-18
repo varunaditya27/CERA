@@ -11,3 +11,7 @@ __pycache__/
 
 *.tsbuildinfo
 /output/CERA-submission-review.zip
+
+.DS_Store
+output/web_runs/
+output/web_goals/

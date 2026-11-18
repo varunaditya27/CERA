@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" role="img" aria-labelledby="t d">
+  <title id="t">CERA</title>
+  <desc id="d">CERA, counterexample-guided reward auditing for protein fitness optimization, beside a search path that bends at a counterexample.</desc>
+  <defs><linearGradient id="fade" x1="600" x2="800" y1="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#E4EEEB" stop-opacity="0"/><stop offset="1" stop-color="#E4EEEB"/></linearGradient></defs>
+  <rect width="1280" height="320" fill="#F7F5F0"/>
+  <path d="M600 252C700 252 800 150 870 170S980 250 1050 140 1180 70 1280 90V320H600Z" fill="url(#fade)"/>
+  <path d="M760 240 860 168 930 214 1060 120 1180 74" fill="none" stroke="#0B6F6A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="930" cy="214" r="12" fill="#A84A12"/>
+  <circle cx="1180" cy="74" r="8" fill="#0B6F6A"/>
+  <rect x="96" y="86" width="104" height="104" rx="24" fill="#13202B"/>
+  <path d="M117 172 138 148 152 160 180 126" fill="none" stroke="#7FD1C7" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="152" cy="160" r="10" fill="#F2B27A"/>
+  <text x="232" y="158" font-family="'Helvetica Neue',Arial,sans-serif" font-size="84" font-weight="700" letter-spacing="4" fill="#13202B">CERA</text>
+  <text x="234" y="206" font-family="'Helvetica Neue',Arial,sans-serif" font-size="26" fill="#4A5B66">Counterexample-guided reward auditing</text>
+  <text x="234" y="240" font-family="'Helvetica Neue',Arial,sans-serif" font-size="26" fill="#4A5B66">for protein fitness optimization</text>
+</svg>
