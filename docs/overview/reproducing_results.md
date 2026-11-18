@@ -58,3 +58,14 @@ The checks use a fake model, need no GPU and download no checkpoint. 189 tests p
 ## Saved results
 
 `output/` holds the generated records. [Its index](../../output/README.md) lists which document describes each folder. Most of it is generated data. The web application reads only a few files from it, such as the mixed-search audit shown on the results page.
+
+## Report
+
+The report source is `report/CERA_final_report.tex` and needs XeLaTeX. Build it into a scratch directory, then copy the PDF back:
+
+```sh
+latexmk -xelatex -outdir=/tmp/cera-report report/CERA_final_report.tex
+cp /tmp/cera-report/CERA_final_report.pdf report/
+```
+
+The architecture figure `report/figures/architecture.pdf` is generated from `docs/diagrams/architecture.svg` with `rsvg-convert -f pdf`.
