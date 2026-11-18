@@ -33,6 +33,8 @@ def compare(active, split_sequences):
         'flag_free_rows_left_out': len([row for row in outside if clean(row)]),
         'flag_free_left_out_amino_acid_changes': changes([row for row in outside if clean(row)]),
         'most_amino_acid_changes_in_split': max(changes(inside)),
+        'flag_free_rows_with_changes_between_split_maximum_and_smallest_left_out': len([
+            row for row in active if clean(row) and max(changes(inside)) < float(row['Nham_aa']) < min(changes([r for r in outside if clean(r)]) or [float('inf')])]),
         'amino_acid_changes_in_split': dict(sorted((int(float(k)), v) for k, v in Counter(row['Nham_aa'] for row in inside).items())),
     }
 

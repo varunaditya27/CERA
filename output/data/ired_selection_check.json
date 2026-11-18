@@ -18,6 +18,7 @@
     33.0
   ],
   "most_amino_acid_changes_in_split": 15.0,
+  "flag_free_rows_with_changes_between_split_maximum_and_smallest_left_out": 0,
   "amino_acid_changes_in_split": {
     "0": 1,
     "1": 1207,

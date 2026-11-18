@@ -16,6 +16,7 @@ class IredSelectionTests(unittest.TestCase):
         self.assertEqual(result['flag_free_left_out_amino_acid_changes'], [30.0])
         self.assertEqual(result['flagged_rows_in_split'], 0)
         self.assertEqual(result['split_rows_missing_from_active'], 0)
+        self.assertEqual(result['flag_free_rows_with_changes_between_split_maximum_and_smallest_left_out'], 0)
 
     def test_split_sequence_absent_from_active_table_is_reported(self):
         self.assertEqual(compare([row('AAA', 1)], {'AAA', 'ZZZ'})['split_rows_missing_from_active'], 1)
