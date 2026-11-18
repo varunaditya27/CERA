@@ -6,6 +6,8 @@ const results = [
   { protein: 'Hydro P0A9X9', higher: 0, tied: 9, lower: 1, measurements: 45 },
 ];
 
+import { BarRows } from '../../components/bar-rows';
+
 export function PrimaryStudy() {
   return (
     <div className="workflow-layout primary-study">
@@ -17,6 +19,24 @@ export function PrimaryStudy() {
           policy produced 35 ties and five lower scores across 40 starts compared with keeping the scoring
           rule fixed.
         </p>
+        <BarRows
+          id="primary-study-chart"
+          title="Repair against fixed reward, by protein group"
+          description="For each protein group, ten matched starts are split into those where repair scored higher, tied, or scored lower than fixed reward. The table below gives the same counts."
+          rows={results.map((row) => ({
+            label: row.protein,
+            segments: [
+              { value: row.higher, tone: 'ink', label: 'Repair higher' },
+              { value: row.tied, tone: 'accent', label: 'Tied' },
+              { value: row.lower, tone: 'warn', label: 'Repair lower' },
+            ],
+          }))}
+          legend={[
+            { tone: 'ink', label: 'Repair higher' },
+            { tone: 'accent', label: 'Tied' },
+            { tone: 'warn', label: 'Repair lower' },
+          ]}
+        />
         <div className="results-table-wrap" role="region" aria-labelledby="primary-study-table" tabIndex={0}>
           <table className="results-table">
             <caption id="primary-study-table">

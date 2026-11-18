@@ -4,6 +4,7 @@
  * axes: warm-paper/system-sans/teal · posture: workbench · contrast: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: E, the overview has no photograph by design; led with the recorded tally instead of a diagram */
 /* Hallmark · answered F7 · the repeated surface is the app's one panel type: white tiles for list rows, a tinted mist field with a larger radius for side notes and profiles, so role and radius already differ */
+/* Hallmark · dismissed 23 · on the Results route the accent fills the bars of the data figure, which are the content of that screen */
 
 :root {
   --space-1: 4px;
@@ -48,7 +49,7 @@
   --font-display:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-body: var(--font-display);
-  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-mono: ui-monospace, Menlo, monospace; /* taste-skill-ignore: literal code only */
 
   --radius: 6px;
   --radius-lg: 12px;
@@ -1120,4 +1121,73 @@ footer a {
 .catalog-footnote,
 .results-highlight {
   border-radius: var(--radius);
+}
+
+/* Data figures */
+.bar-figure {
+  margin: var(--space-5) 0;
+}
+.bar-figure svg {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+}
+.bar-row-label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  fill: var(--color-ink);
+}
+.bar-value {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+}
+.bar-value-accent,
+.bar-value-warn,
+.bar-value-ink {
+  fill: var(--color-accent-ink);
+}
+.bar-value-rest {
+  fill: var(--color-ink);
+}
+rect.bar-accent,
+.bar-swatch.bar-accent {
+  fill: var(--color-accent);
+  background: var(--color-accent);
+}
+rect.bar-warn,
+.bar-swatch.bar-warn {
+  fill: var(--color-warn);
+  background: var(--color-warn);
+}
+rect.bar-ink,
+.bar-swatch.bar-ink {
+  fill: var(--color-ink);
+  background: var(--color-ink);
+}
+rect.bar-rest,
+.bar-swatch.bar-rest {
+  fill: var(--color-paper-2);
+  background: var(--color-paper-2);
+}
+.bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+.bar-legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.bar-swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
 }

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Topbar } from '../../components/topbar';
 import { getMixedSearchResults } from '../../lib/results';
+import { BarRows } from '../../components/bar-rows';
 import { PrimaryStudy } from './primary-study';
 
 export const metadata = { title: 'Results' };
@@ -43,6 +44,39 @@ export default async function Results() {
                 {result.ridge_higher}. The methods could select different variants, so a tie does not
                 establish equivalence.
               </p>
+              <BarRows
+                id="coverage-chart"
+                title="Scores inside the predicted range"
+                description={`Of the ${result.methods.mixed.measured} scores each method selected, ${result.methods.mixed.covered} fell inside the mixed group's range and ${result.methods.ridge.covered} inside the five-ridge range. The table below gives the same counts.`}
+                rows={[
+                  {
+                    label: 'Mixed group',
+                    segments: [
+                      { value: result.methods.mixed.covered, tone: 'accent', label: 'Inside range' },
+                      {
+                        value: result.methods.mixed.measured - result.methods.mixed.covered,
+                        tone: 'rest',
+                        label: 'Outside range',
+                      },
+                    ],
+                  },
+                  {
+                    label: 'Five ridge',
+                    segments: [
+                      { value: result.methods.ridge.covered, tone: 'accent', label: 'Inside range' },
+                      {
+                        value: result.methods.ridge.measured - result.methods.ridge.covered,
+                        tone: 'rest',
+                        label: 'Outside range',
+                      },
+                    ],
+                  },
+                ]}
+                legend={[
+                  { tone: 'accent', label: 'Inside range' },
+                  { tone: 'rest', label: 'Outside range' },
+                ]}
+              />
               <div
                 className="results-table-wrap"
                 role="region"
