@@ -6,6 +6,8 @@ For a review copy, extract the submission ZIP as one folder and open this file, 
 
 The [standalone literature review](literature_review.md) connects the benchmark, reward, and prediction-range research to the implemented evaluation. It accompanies the report and the original proposal.
 
+A [workshop draft](workshop_draft.md) presents the early-stopping result for guide review. Its scope is the retrospective evaluation and its limitations. Venue selection and submission remain for the authors and guide to decide.
+
 ## Core evidence
 
 - The primary four-protein comparison comprises 360 terminal runs. Both repair policies achieved a higher best score than fixed reward in 0 of 40 matched starts, tied in 35 and scored lower in 5 at actual stop. Early stopping means measurement counts differ. [Results](multiprotein_study_findings.md).
@@ -72,7 +74,7 @@ The Results and Experiments pages and all 14 presentation slides had zero report
 1. Review the report and presentation with the project guide against the institution's required format, author names and assessment criteria. The repository does not establish those final administrative requirements; do not invent signatures or approvals.
 2. The report PDF was rendered and checked for layout, and its source is included. Relative evidence links work in the repository layout; package supporting records if the report is moved elsewhere.
 3. The latest full backend run passed 189 tests. The production frontend build and live HTTP workflow also passed their checks. Playwright verified the demo flow and keyboard navigation through all 14 presentation slides at 390 px wide. Desktop Results and mobile review screenshots were inspected. Screen-reader behavior remains unchecked. The earlier 360-run study has a recorded audit, and the later replay was stopped before completion. [Status report](project_status_and_results.md)
-4. Decide, with the guide, whether a paper is appropriate. The synopsis makes a paper conditional; negative findings are reportable but do not establish a successful repair method.
+4. Use the workshop draft for guide review if a paper is appropriate. The synopsis makes the paper conditional.
 
 ## Research context
 

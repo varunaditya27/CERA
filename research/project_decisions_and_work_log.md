@@ -763,3 +763,5 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Added the observed recovery figures to the PDF report and kept the distinction between the retrospective subset and the original shift-split target.
 
 - Used axe-core 4.14.1 through Playwright Chromium to check the Results and Experiments pages and the 14 presentation slides. Darkened section labels that failed contrast and added a persistent page-level heading to the deck. The production build passed, and the follow-up scan found zero violations in the 16 states tested at 390 px wide. Manual screen-reader behavior remains unchecked.
+
+- Drafted a short workshop write-up around the difference between actual-stop and equal-measurement comparisons. Scoped the claims to the completed retrospective studies. [Workshop draft](workshop_draft.md)
