@@ -88,3 +88,7 @@ The Results and Experiments pages and all 14 presentation slides had zero report
 ## Research context
 
 [ProteinGym](https://papers.nips.cc/paper_files/paper/2023/hash/cac723e5ff29f65e3fcbb0739ae91bee-Abstract-Datasets_and_Benchmarks.html) illustrates the need to report relevant prediction and design metrics. [FLIP2](https://flip.protein.properties/) defines different sequence and fitness splits. [WILDS](https://proceedings.mlr.press/v139/koh21a.html) demonstrates why results should be interpreted under the population shift actually tested. These sources provide context; they are not evidence that CERA's repair succeeds.
+
+## Interface checks after the redesign
+
+On 18 November 2026, after the interface was restyled, `npm run check:a11y` (axe-core with Playwright) reported no violations on all eight routes at 1440 px and 375 px wide, and every interactive element in the `/experiments` Tab order showed a focus indicator. A keyboard-only Chromium run entered a seed, submitted with Enter and read the completed result of a real local experiment (100 new measurements, budget exhausted). The page accessibility tree showed named controls, grouped radio buttons and headings. A real screen reader was not run, so screen-reader behavior remains unchecked.

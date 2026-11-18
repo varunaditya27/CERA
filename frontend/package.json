@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "format": "prettier --write app components lib"
+    "format": "prettier --write app components lib",
+    "check:a11y": "node checks/accessibility.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
@@ -19,6 +20,8 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "axe-core": "^4.14.1",
+    "playwright-core": "^1.65.1",
     "prettier": "^3.10.1",
     "typescript": "^5.0.0"
   }
