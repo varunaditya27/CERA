@@ -21,7 +21,7 @@ class PredictionRequest(BaseModel):
 
 @lru_cache(maxsize=1)
 def prediction_resources():
-    from app.experiments.hybrid_snapshot import load_hybrid_snapshot
+    from app.predictors.hybrid_snapshot import load_hybrid_snapshot
     from app.features.amylase_representations import CACHE_SHA256, load_verified_representations
 
     model = load_hybrid_snapshot(MODEL, expected_sha256=MODEL_SHA256)

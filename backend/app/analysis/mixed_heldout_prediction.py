@@ -1,9 +1,9 @@
 """Predict held-out variants using the existing mixed predictor."""
 import random
 
-from app.experiments.hybrid_predictor import fit_hybrid_group
-from app.experiments.predictor_group import predict_group
-from app.experiments.prediction_intervals import interval_radius
+from app.predictors.hybrid_predictor import fit_hybrid_group
+from app.predictors.predictor_group import predict_group
+from app.predictors.prediction_intervals import interval_radius
 
 
 def predict_mixed_heldout(vectors, training_scores, test_ids, seed, device):

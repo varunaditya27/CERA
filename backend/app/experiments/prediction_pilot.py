@@ -11,12 +11,12 @@ from app.datasets.registry import dataset_source
 from app.features import hydro_representations, ired_representations
 from app.experiments.experiment import Experiment
 from app.experiments.acquisition import acquisition_scores, choose_acquisition
-from app.experiments.calibration_policy import recent_calibration
+from app.predictors.calibration_policy import recent_calibration
 from app.experiments.local_search import propose_local
-from app.experiments.prediction_intervals import interval_radius
-from app.experiments.hybrid_predictor import fit_hybrid_group, hybrid_configuration
-from app.experiments.predictor_group import fit_group, predict_group, predict_members
-from app.experiments.range_report import summarize_ranges
+from app.predictors.prediction_intervals import interval_radius
+from app.predictors.hybrid_predictor import fit_hybrid_group, hybrid_configuration
+from app.predictors.predictor_group import fit_group, predict_group, predict_members
+from app.predictors.range_report import summarize_ranges
 from app.provenance.sources import PILOT_SOURCE_NAMES, source_hashes
 from app.rewards.repair_coordinator import handle_warnings
 from app.rewards.rollback_monitor import RollbackMonitor

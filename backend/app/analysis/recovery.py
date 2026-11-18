@@ -1,7 +1,7 @@
 """Summarize later range coverage after the first recorded coverage warning."""
 from collections import deque
 
-from app.experiments.prediction_intervals import batch_coverage
+from app.predictors.prediction_intervals import batch_coverage
 
 
 def summarize_recovery(events):

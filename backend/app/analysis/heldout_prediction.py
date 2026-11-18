@@ -1,8 +1,8 @@
 """Predict held-out benchmark variants using selected training measurements only."""
 import random
 
-from app.experiments.predictor_group import fit_group, predict_group
-from app.experiments.prediction_intervals import interval_radius
+from app.predictors.predictor_group import fit_group, predict_group
+from app.predictors.prediction_intervals import interval_radius
 
 
 def predict_heldout(vectors, training_scores, test_ids, seed):

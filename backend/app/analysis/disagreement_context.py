@@ -4,7 +4,7 @@ import random
 import numpy as np
 from scipy.stats import rankdata
 
-from app.experiments.predictor_group import predict_members
+from app.predictors.predictor_group import predict_members
 
 
 def group_correlations(values):

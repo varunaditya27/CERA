@@ -11,7 +11,7 @@ from app.datasets.registry import dataset_source
 from app.experiments.evaluation import evaluate
 
 RUNS = ROOT / 'output/web_runs'
-SPECIFICATION = ROOT / 'research/reward_spec_example.json'
+SPECIFICATION = ROOT / 'configs/reward_spec_example.json'
 
 
 class RunBusy(Exception):

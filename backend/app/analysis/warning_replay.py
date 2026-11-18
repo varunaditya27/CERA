@@ -11,8 +11,8 @@ import numpy as np
 
 from app.datasets.amylase import DATA, REFERENCE, ROOT
 from app.features.amylase_representations import CACHE_SHA256
-from app.experiments.prediction_intervals import interval_radius
-from app.experiments.predictor_group import fit_group, predict_group, predict_members
+from app.predictors.prediction_intervals import interval_radius
+from app.predictors.predictor_group import fit_group, predict_group, predict_members
 from app.features.representations import sequence_id
 from app.provenance.sources import source_hashes
 from app.rewards.warning_checks import (constraint_warning, coverage_warning, disagreement_warning,
