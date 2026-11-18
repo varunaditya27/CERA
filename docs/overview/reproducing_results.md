@@ -59,7 +59,7 @@ Scripts that write results refuse to overwrite an existing directory or file. Ch
 PYTHONPATH=backend:. python3 -m unittest discover -s backend/tests -t backend
 ```
 
-The checks use a fake model, need no GPU and download no checkpoint. 191 tests passed in about 45 seconds on 19 November 2026. Run one area with `-s backend/tests/rewards`, or one test with its dotted name, for example `tests.rewards.test_reward`.
+The checks use a fake model, need no GPU and download no checkpoint. 193 tests passed in about 45 seconds on 19 November 2026. Run one area with `-s backend/tests/rewards`, or one test with its dotted name, for example `tests.rewards.test_reward`.
 
 ## Data
 
