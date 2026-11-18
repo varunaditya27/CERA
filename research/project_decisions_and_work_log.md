@@ -767,3 +767,5 @@ This is the running record for later review. Add dated entries as work proceeds.
 - Drafted a short workshop write-up around the difference between actual-stop and equal-measurement comparisons. Scoped the claims to the completed retrospective studies. [Workshop draft](workshop_draft.md)
 
 - Added a command to recreate the review packet from the current commit and write it to a stable path in `output/`. The command checks the file list and ZIP integrity before replacing the previous generated packet. [Packaging instructions](submission_readiness.md)
+
+- Exported the committed demo inputs into an isolated directory and installed fresh dependencies. The production app served the catalog and saved comparisons. After installing the CPU build of PyTorch, a fixed-reward Amylase demo completed 100 simulated measurements, verified ten selections and displayed the run review. Updated the README with the tested lockfile and CPU setup commands.

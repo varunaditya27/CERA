@@ -30,12 +30,21 @@ The application combines a Next.js interface (`frontend/`) with a FastAPI backen
 ```sh
 python3 -m venv .venv
 .venv/bin/pip install -r backend/requirements.txt
-.venv/bin/uvicorn app.main:app --app-dir backend --reload
+.venv/bin/uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000
 ```
 
-In a second terminal, run `cd frontend && npm install && npm run dev`, then visit `http://localhost:3000`. The frontend reads the API server-side at `http://127.0.0.1:8000`; set `CERA_API_URL` for a different API address. API documentation is at `http://127.0.0.1:8000/docs`. Dataset counts are read from the local CSV files, and the interface displays an unavailable state if the API or files are missing.
+In a second terminal, run `cd frontend && npm ci && npm run build && npm run start -- --hostname 127.0.0.1`, then visit `http://127.0.0.1:3000`. The frontend reads the API at `http://127.0.0.1:8000`. Set `CERA_API_URL` for a different API address. API documentation is at `http://127.0.0.1:8000/docs`. Dataset counts come from the local CSV files.
 
-The frontend has dedicated routes for the overview (`/`), dataset catalog (`/datasets`), individual dataset profiles (`/datasets/[id]`), and the research method (`/workflow`). Visit `/results` for the saved Amylase comparison and `/experiments` for local runs and their reviews. The setup above serves the catalog and saved comparison. See the research dependencies and experiment setup below before starting a run. Repository-local design and engineering skills are listed in `skills-lock.json`.
+The frontend has dedicated routes for the overview (`/`), dataset catalog (`/datasets`), individual dataset profiles (`/datasets/[id]`), and the research method (`/workflow`). Visit `/results` for the primary four-protein and Amylase comparisons and `/experiments` for local runs and their reviews. The setup above serves the catalog and saved comparisons. Install the research and embedding requirements before starting a run.
+
+For a CPU-only demo, the following commands were verified with Python 3.14.8 and `uv` in a fresh environment. Run them inside the repository root with the backend stopped, then restart it. The Amylase fixed-reward demo uses the checked-in representation cache.
+
+```sh
+uv pip install --python .venv/bin/python --index-url https://download.pytorch.org/whl/cpu 'torch==2.14.0'
+uv pip install --python .venv/bin/python -r backend/requirements-research.txt -r backend/requirements-embeddings.txt
+```
+
+For the demo input and expected result, see the [experiment walkthrough](research/submission_readiness.md#experiment-demonstration). [PyTorch installation guide](https://pytorch.org/get-started/locally/) · [npm clean install](https://docs.npmjs.com/cli/v11/commands/npm-ci/)
 
 Backend code is grouped under `backend/app/`: `api` serves the catalog, `datasets` identifies source files, `features` handles sequence representations, `experiments` runs and evaluates searches, `rewards` contains warning and repair rules, `llm` contains Gemini integrations, `analysis` replays earlier studies, and `provenance` fingerprints source files. `app.main` is a compatibility package for the existing API command.
 
