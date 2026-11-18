@@ -33,3 +33,17 @@ def validate_recorded_sources(recorded, code_hashes):
     if (len(available) != len(paths) or not isinstance(recorded, dict) or set(recorded) != set(PILOT_SOURCE_NAMES)
             or any(name not in available or recorded[name] != available[name] for name in PILOT_SOURCE_NAMES)):
         raise ValueError('Recorded source fingerprints mismatch')
+
+
+LEGACY_HINT = ('These records were produced by earlier code, so their recorded fingerprints no longer match. '
+               'Run the audit with that code: python3 -m scripts.reporting.legacy_audit [--ref <commit>] <script name> <args> '
+               '(see docs/overview/reproducing_results.md).')
+
+
+class CodeChanged(ValueError):
+    pass
+
+
+def require_recorded_code(*matches):
+    if not all(matches):
+        raise CodeChanged(LEGACY_HINT)

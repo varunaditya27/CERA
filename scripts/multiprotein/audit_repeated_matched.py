@@ -9,6 +9,7 @@ import itertools
 import json
 import math
 import random
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -18,6 +19,7 @@ from scipy.stats import norm
 
 from app.datasets.amylase import DATA, REFERENCE
 from app.features.amylase_representations import load_verified_representations
+from app.provenance.audit_output import write_new_or_confirm_saved
 
 
 def require(condition, message):
@@ -285,10 +287,9 @@ def main():
     require(counts['runs'] == len(manifest['seeds']) * len(manifest['methods']), 'Missing runs')
     counts['audit_script_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     output = args.report if args.report is not None else root / 'independent_audit.json'
-    with output.open('x', encoding='utf-8') as file:
-        json.dump(counts, file, indent=2)
-        file.write('\n')
+    status = write_new_or_confirm_saved(output, counts)
     print(json.dumps(counts), flush=True)
+    print(f'Audit {status}.', file=sys.stderr)
 
 
 if __name__ == '__main__':

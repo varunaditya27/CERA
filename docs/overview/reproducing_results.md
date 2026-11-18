@@ -17,10 +17,10 @@ All audit scripts were re-run on the moved records on 19 November 2026. From the
 | Repair comparisons: targeted disagreement, direct diversity, abstention, repair terms, retention, universal penalty, verifier, reactive calibration, later rollback | Pass |
 | Rule warning controls, coverage, disagreement and support warning simulations | Pass |
 | Four-protein study (360 runs), paired study analysis (80 pairs), Hydro repair diagnosis (363 proposals), Hydro low-fitness summary (270 runs), Hydro and IRED low-change protein audits | Pass |
-| Repeated matched Amylase study, advice counts | Verification completes; the script then refuses to overwrite the audit file it wrote earlier, so it reports an error at the end |
-| Held-out shift predictions, mixed held-out predictions, mixed-search comparison | Need the original code (see below) |
+| Repeated matched Amylase study, advice counts | Pass; the result is confirmed against the audit file saved earlier, and a different result would be an error |
+| Held-out shift predictions, mixed held-out predictions, mixed-search comparison, mixed-predictor pilot, exported mixed model | Need the original code; the current code stops with a message that gives the command (see below) |
 
-The last three compare recorded source-file fingerprints. They pass when run with the code they were recorded with: the mixed-search comparison from the `pre-restructure` tag (20 runs, 200 selections), the held-out shift audit from commit `2a81f24` (200 models refitted, 67,660 predictions) and the mixed held-out audit from commit `b86eed9` (67,660 predictions). The held-out audit already failed from the tag, before the reorganisation: `predictor_group.py` changed later on the day its predictions were frozen.
+The last five compare recorded source-file fingerprints. They pass when run with the code they were recorded with: the mixed-search comparison from the `pre-restructure` tag (20 runs, 200 selections), the held-out shift audit from commit `2a81f24` (200 models refitted, 67,660 predictions) the mixed held-out audit from commit `b86eed9` (67,660 predictions), and the two GPU audits from the same tag (the pilot audit refits 3,175 candidates with zero difference from the record; the exported model's refit matches within 4e-9). The held-out audit already failed from the tag, before the reorganisation: `predictor_group.py` changed later on the day its predictions were frozen.
 
 `scripts/reporting/legacy_audit.py` runs an old script from an earlier commit against the current records and cleans up after itself:
 

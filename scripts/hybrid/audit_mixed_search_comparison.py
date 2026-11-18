@@ -11,7 +11,7 @@ import tempfile
 from app.datasets.amylase import DATA, REFERENCE, load_amylase
 from app.experiments.evaluation import evaluate
 from app.features.amylase_representations import CACHE_SHA256
-from app.provenance.sources import source_hashes
+from app.provenance.sources import require_recorded_code, source_hashes
 from scripts.repair.audit_development_repairs import audit_run
 from scripts.hybrid.audit_hybrid_pilot import audit_record
 
@@ -40,11 +40,11 @@ def main():
             events = [json.loads(line) for line in raw.splitlines()]
             setup = next(event['settings'] for event in events if event['event'] == 'method')
             expected_method = 'esm_hybrid_reward' if method == 'mixed' else 'esm_bootstrap_ridge_reward'
+            require_recorded_code(setup['source_sha256'] == source_hashes(tuple(setup['source_sha256'])))
             if (setup['method'] != expected_method or setup['reward_spec'] != spec
                     or setup['reward_origin'] != {'source': 'specification_file', 'input_sha256': hashlib.sha256(spec_bytes).hexdigest()}
-                    or setup['dataset'] != 'amylase' or setup['cache_sha256'] != CACHE_SHA256
-                    or setup['source_sha256'] != source_hashes(tuple(setup['source_sha256']))):
-                raise ValueError('Method or source mismatch')
+                    or setup['dataset'] != 'amylase' or setup['cache_sha256'] != CACHE_SHA256):
+                raise ValueError('Method or dataset mismatch')
             evaluation = evaluate(events, scores, set(train), data_hash, ref_hash)
             row = {'status': 'completed', **evaluation['curve'][-1], 'stop_reason': evaluation['stop_reason'],
                    'covered': evaluation['covered'], 'range_count': evaluation['range_count'],

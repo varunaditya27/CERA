@@ -36,7 +36,8 @@ def main():
             raise SystemExit(f'{name}.py does not exist in {ref}')
         (work / 'output').mkdir()
         (work / 'output/representations').symlink_to(ROOT / 'output/representations')
-        resolved = [MOVED.get(a, str((ROOT / a).resolve()) if (ROOT / a).exists() or (ROOT / a).parent.exists() and not a.startswith('-') else a) for a in args]
+        is_path = lambda a: '/' in a or (ROOT / a).exists()
+        resolved = [MOVED.get(a) or (str((ROOT / a).resolve()) if is_path(a) else a) for a in args]
         env = dict(os.environ, PYTHONPATH='backend')
         sys.exit(subprocess.run([sys.executable, str(script), *resolved], cwd=work, env=env).returncode)
     finally:

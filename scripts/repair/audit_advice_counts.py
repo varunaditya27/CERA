@@ -6,7 +6,10 @@ import csv
 import gzip
 import hashlib
 import json
+import sys
 from pathlib import Path
+
+from app.provenance.audit_output import write_new_or_confirm_saved
 
 
 def main():
@@ -40,10 +43,9 @@ def main():
             token_types.update(attempt.get('usage', {}))
     result = {'runs_checked': len(rows), 'totals': dict(totals), 'reported_token_types': dict(token_types),
               'audit_script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
-    with (args.root / 'advice_audit.json').open('x', encoding='utf-8') as file:
-        json.dump(result, file, indent=2)
-        file.write('\n')
+    status = write_new_or_confirm_saved(args.root / 'advice_audit.json', result)
     print(json.dumps(result))
+    print(f'Audit {status}.', file=sys.stderr)
 
 
 if __name__ == '__main__':

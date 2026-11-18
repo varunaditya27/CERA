@@ -15,7 +15,7 @@ from app.datasets.registry import dataset_source
 from app.predictors.hybrid_predictor import fit_hybrid_group, hybrid_configuration
 from app.predictors.predictor_group import predict_group
 from app.features import hydro_representations, ired_representations
-from app.provenance.sources import source_hashes
+from app.provenance.sources import require_recorded_code, source_hashes
 from scripts.hybrid.predict_mixed_heldout import DATASETS, SOURCES
 
 
@@ -32,10 +32,10 @@ def main():
     raw = args.predictions.read_bytes()
     predictions, evaluation = json.loads(raw), json.loads(args.evaluation.read_text())
     script = Path(__file__).with_name('predict_mixed_heldout.py')
+    require_recorded_code(predictions['script_sha256'] == hashlib.sha256(script.read_bytes()).hexdigest(),
+                          predictions['source_sha256'] == source_hashes(SOURCES))
     if (predictions['hybrid_configuration'] != hybrid_configuration('cuda')
             or evaluation['predictions_sha256'] != hashlib.sha256(raw).hexdigest()
-            or predictions['script_sha256'] != hashlib.sha256(script.read_bytes()).hexdigest()
-            or predictions['source_sha256'] != source_hashes(SOURCES)
             or predictions['versions'] != {n: importlib.metadata.version(n) for n in ('numpy', 'scipy', 'scikit-learn')}
             or [g['dataset'] for g in predictions['groups']] != list(DATASETS)
             or [g['dataset'] for g in evaluation['groups']] != list(DATASETS)):
