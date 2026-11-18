@@ -1,0 +1,40 @@
+{
+  "source_manifest_sha256": "698deabe8f667986930e46ec19980e70cb4d16956e6de4227ce8cc50504b3a49",
+  "pairs": [
+    {
+      "seed": 31,
+      "repair_stop": 40,
+      "repair_far": 12,
+      "fixed_far_at_same_count": 12,
+      "fixed_far_at_100": 38
+    },
+    {
+      "seed": 32,
+      "repair_stop": 40,
+      "repair_far": 12,
+      "fixed_far_at_same_count": 12,
+      "fixed_far_at_100": 42
+    },
+    {
+      "seed": 33,
+      "repair_stop": 40,
+      "repair_far": 15,
+      "fixed_far_at_same_count": 15,
+      "fixed_far_at_100": 46
+    },
+    {
+      "seed": 34,
+      "repair_stop": 70,
+      "repair_far": 30,
+      "fixed_far_at_same_count": 30,
+      "fixed_far_at_100": 40
+    },
+    {
+      "seed": 35,
+      "repair_stop": 30,
+      "repair_far": 11,
+      "fixed_far_at_same_count": 11,
+      "fixed_far_at_100": 41
+    }
+  ]
+}
