@@ -1,6 +1,10 @@
 """Read-only API for the CERA research workspace."""
 import csv
+import os
 from pathlib import Path
+
+# This machine's Triton cannot compile its CUDA helper, so torch must not JIT; set before torch is imported anywhere.
+os.environ.setdefault('TORCH_DISABLE_NATIVE_JIT', '1')
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
