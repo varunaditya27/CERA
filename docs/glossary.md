@@ -20,7 +20,7 @@ Terms are grouped by topic. Where a definition rests on an outside source, the l
 - **Split.** A rule that divides a dataset into training and test rows. FLIP2 defines several, such as close-to-far or low-to-high. [FLIP2 benchmark](https://flip.protein.properties/)
 - **Alpha amylase (Amylase).** An enzyme that breaks down starch. The development dataset (3,706 rows locally).
 - **IRED.** Imine reductase, an enzyme dataset used for evaluation (8,586 rows locally).
-- **Hydro.** The hydrophobic-core dataset: three proteins whose fitness is stability, analysed separately.
+- **Hydro.** The hydrophobic-core dataset: three small protein domains (FYN-SH3, CI-2A, CspA) whose fitness is intracellular abundance in yeast, a proxy for stability, analysed separately.
 - **Retrospective study.** One that replays already measured data instead of running new laboratory measurements. All CERA results are retrospective.
 
 ## Prediction
