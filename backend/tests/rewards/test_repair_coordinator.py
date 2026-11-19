@@ -62,9 +62,7 @@ class RepairCoordinatorTests(unittest.TestCase):
         self.assertEqual(result, spec)
 
     def test_abstention_ablation_is_restricted(self):
-        with self.assertRaisesRegex(ValueError, 'restricted'):
-            run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True, dataset='ired', stop_on_failed_repairs=False)
-        with self.assertRaisesRegex(ValueError, 'restricted'):
+        with self.assertRaisesRegex(ValueError, 'requires a repair run'):
             run_pilot('unused', stop_on_failed_repairs=False)
         with self.assertRaisesRegex(ValueError, 'restricted'):
             run_pilot('unused', reward_spec=DEFAULT_SPEC, repair=True, dataset='ired', bypass_evidence_gate=True)

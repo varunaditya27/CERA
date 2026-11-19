@@ -46,8 +46,8 @@ def run_pilot(output_dir, seed=1, role_seed=3, member_seed=4, reward_spec=None, 
         raise ValueError('Experimental repair checks require repair mode')
     if repair_advisor is not None and not repair:
         raise ValueError('A repair advisor requires repair mode')
-    if not isinstance(stop_on_failed_repairs, bool) or (not stop_on_failed_repairs and (not repair or dataset != 'amylase')):
-        raise ValueError('Disabling repair abstention is restricted to Amylase development repair runs')
+    if not isinstance(stop_on_failed_repairs, bool) or (not stop_on_failed_repairs and not repair):
+        raise ValueError('Disabling repair abstention requires a repair run')
     if not isinstance(bypass_evidence_gate, bool) or (bypass_evidence_gate and (not repair or dataset != 'amylase')):
         raise ValueError('Bypassing repair evidence is restricted to Amylase development repair runs')
     if (not isinstance(disabled_repair_terms, (tuple, list)) or len(disabled_repair_terms) > 1

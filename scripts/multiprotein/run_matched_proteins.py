@@ -14,7 +14,7 @@ from dotenv import dotenv_values
 from app.datasets import hydro
 from app.analysis.study_protocol import validate_low_change_pool
 from app.datasets.registry import dataset_source
-from app.experiments.repeated_runs import METHODS, run_one
+from app.experiments.repeated_runs import EXTRA_METHODS, METHODS, run_one
 from app.features import amylase_representations, ired_representations
 from app.llm.gemini_client import request_repair
 from app.llm.repair_trace import traced_repair_advice
@@ -27,7 +27,7 @@ def main():
     parser.add_argument('output', type=Path)
     parser.add_argument('--dataset', required=True, choices=('amylase', 'ired', 'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'))
     parser.add_argument('--seeds', required=True, nargs='+', type=int)
-    parser.add_argument('--methods', required=True, nargs='+', choices=METHODS)
+    parser.add_argument('--methods', required=True, nargs='+', choices=METHODS + EXTRA_METHODS)
     parser.add_argument('--specification', required=True, type=Path)
     parser.add_argument('--initial-pool', choices=('eligible', 'train'), default='eligible')
     parser.add_argument('--hydro-low-fitness', action='store_true',

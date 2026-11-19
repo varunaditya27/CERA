@@ -5,22 +5,26 @@ from app.experiments.prediction_pilot import run_pilot
 from app.experiments.random_baseline import run_random
 
 METHODS = ('random', 'greedy', 'fixed', 'repair', 'gemini_repair', 'ucb', 'ei', 'genetic', 'adalead')
+# Post-hoc arm that repairs but never stops early; kept out of METHODS so the protocol checks of earlier studies still hold.
+EXTRA_METHODS = ('repair_continue',)
 
 
 def run_one(path, seed, method, specification, advisor=None, model=None, dataset='amylase',
             initial_pool='train', targeted_disagreement=False, direct_diversity=False):
-    if method not in METHODS:
+    if method not in METHODS + EXTRA_METHODS:
         raise ValueError('Unknown comparison method')
     if method == 'random':
         return run_random(path, seed, dataset=dataset, initial_pool=initial_pool)
     options = {'seed': seed, 'role_seed': 2000 + seed, 'member_seed': 3000 + seed,
                'dataset': dataset, 'initial_pool': initial_pool}
-    if method in ('fixed', 'repair', 'gemini_repair'):
+    if method in ('fixed', 'repair', 'repair_continue', 'gemini_repair'):
         options.update(reward_spec=copy.deepcopy(specification),
                        reward_origin={'source': 'repeated_matched_development'},
                        repair=method != 'fixed')
         if method != 'fixed':
             options.update(targeted_disagreement=targeted_disagreement, direct_diversity=direct_diversity)
+        if method == 'repair_continue':
+            options['stop_on_failed_repairs'] = False
         if method == 'gemini_repair':
             if advisor is None:
                 raise ValueError('Gemini repair requires an advisor with explicit fallback')
