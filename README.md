@@ -47,7 +47,7 @@ Run the tests with `PYTHONPATH=backend:. python3 -m unittest discover -s backend
 ## Documentation
 
 - [Overview](docs/overview/status_and_results.md): current status and results, the [completion review](docs/overview/completion_review.md), [submission readiness](docs/overview/submission_readiness.md), the [roadmap](docs/overview/roadmap.md) and [how to reproduce results](docs/overview/reproducing_results.md).
-- [Guides](docs/guides/setup.md): [setup](docs/guides/setup.md), a verified [demo walkthrough](docs/guides/demo.md), [running studies](docs/guides/running_studies.md) and the [web workspace](docs/guides/web_workspace.md).
+- [Guides](docs/guides/setup.md): [setup](docs/guides/setup.md), a verified [demo walkthrough](docs/guides/demo.md), a [listening-review task sheet](docs/guides/listening_review.md), [running studies](docs/guides/running_studies.md) and the [web workspace](docs/guides/web_workspace.md).
 - [Studies](docs/studies/): protocol and findings for each study, grouped into [Amylase](docs/studies/amylase/), [repair](docs/studies/repair/), [warnings](docs/studies/warnings/), [multi-protein](docs/studies/multiprotein/) and [mixed predictor](docs/studies/hybrid/).
 - [Background](docs/background/literature_review.md): literature review, dataset evidence, feasibility notes. [Data preparation](docs/data/) covers IRED and Hydro, and [data/SOURCES.md](data/SOURCES.md) lists sources and licences.
 - [Workspace](docs/workspace/): the goal compiler, Gemini usage accounting and the local decision audit.
