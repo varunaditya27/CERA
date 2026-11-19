@@ -89,3 +89,6 @@ Against normal repair, the no-early-stop arm was higher in 23 starts, tied in 17
 
 `python3 -m scripts.multiprotein.audit_matched_proteins --repair-continue <roots>` checks the new records the way the earlier studies were checked: starting observations, selections rebuilt from recorded predictions, the targeted-disagreement groups, every repair replay, reveals and budgets, and that the no-early-stop arm recorded no stop. It passed on all eight study directories: 200 runs, 1,507 selection batches and 2,043 repair replays ([report](../../../output/multiprotein/repair_continue/audit.json)). It rejects a study without the new arm. Like the earlier audits it reconstructs decisions from saved predictions; it does not refit the predictors or show that the warning thresholds are valid.
 
+### Recount with separate code
+
+`scripts/multiprotein/recount_repair_continue.py` recomputes each run's best score and measurement count straight from the raw records, using none of the project's evaluation code. It matched the comparison reports for all 160 normal-repair and no-early-stop runs (80 in each study). This guards against a fault in the shared evaluator; it is not an independent implementation of the method.
