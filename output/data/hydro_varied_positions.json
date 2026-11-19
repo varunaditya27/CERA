@@ -1,0 +1,68 @@
+{
+  "P06241": {
+    "variants": 9972,
+    "varied_positions_in_segment": [
+      2,
+      16,
+      18,
+      24,
+      26,
+      48,
+      53
+    ],
+    "uniprot_residue_numbers": [
+      87,
+      101,
+      103,
+      109,
+      111,
+      133,
+      138
+    ],
+    "amino_acids_seen": "FILMV"
+  },
+  "P01053": {
+    "variants": 6463,
+    "varied_positions_in_segment": [
+      11,
+      18,
+      27,
+      45,
+      47,
+      49,
+      55
+    ],
+    "uniprot_residue_numbers": [
+      33,
+      40,
+      49,
+      67,
+      69,
+      71,
+      77
+    ],
+    "amino_acids_seen": "FILMV"
+  },
+  "P0A9X9": {
+    "variants": 8500,
+    "varied_positions_in_segment": [
+      4,
+      16,
+      25,
+      27,
+      46,
+      48,
+      62
+    ],
+    "uniprot_residue_numbers": [
+      9,
+      21,
+      30,
+      32,
+      51,
+      53,
+      67
+    ],
+    "amino_acids_seen": "FILMV"
+  }
+}
