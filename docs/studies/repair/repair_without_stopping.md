@@ -39,7 +39,7 @@ Without early stopping, repair never scored below fixed reward in 40 starts: 38 
 
 **Reading.** In the earlier studies repair scored lower than fixed reward in 5 of 40 starts at its stopping point (IRED) and in 25 of 30 (Hydro). Those deficits disappear when repair is allowed to keep measuring, which indicates that early stopping, not the repaired reward, explains them. It does not show that repair helps: the new arm matches fixed reward in 38 of 40 starts, and the two IRED gains could come from a different selection path rather than a better reward.
 
-**Limits.** Exploratory and post hoc; the starts were reused from earlier studies, so these are not independent replications, and IRED and Hydro starts have the limitations described in their own documents. The new records were checked for fingerprints and for matching the original starting observations, but the selections and repair replays of the new arm were not independently reconstructed by an audit script. Ties are not evidence of equivalence. No significance test was run.
+**Limits.** Exploratory and post hoc; the starts were reused from earlier studies, so these are not independent replications, and IRED and Hydro starts have the limitations described in their own documents. The new records were audited independently (see below). Ties are not evidence of equivalence. No significance test was run.
 
 **Commands.**
 
@@ -84,3 +84,8 @@ Against normal repair, the no-early-stop arm was higher in 23 starts, tied in 17
 3. Held. In those 25 starts the no-early-stop arm scored higher than normal repair in 23.
 
 **Reading.** The main pattern replicated on new starts: normal repair loses to fixed reward mostly because it stops early, and the no-early-stop arm recovers nearly all of that loss. The first study's "never lower" did not hold exactly; across all 80 starts the arm was higher than fixed reward in 4, tied in 74 and lower in 2, with small gaps. Two higher results on Hydro P06241 (seeds 153 and 159) show that continuing can find better variants than fixed reward, but they are 2 of 80 and no evidence that the repaired reward is better. The limits above still apply.
+
+### Audit
+
+`python3 -m scripts.multiprotein.audit_matched_proteins --repair-continue <roots>` checks the new records the way the earlier studies were checked: starting observations, selections rebuilt from recorded predictions, the targeted-disagreement groups, every repair replay, reveals and budgets, and that the no-early-stop arm recorded no stop. It passed on all eight study directories: 200 runs, 1,507 selection batches and 2,043 repair replays ([report](../../../output/multiprotein/repair_continue/audit.json)). It rejects a study without the new arm. Like the earlier audits it reconstructs decisions from saved predictions; it does not refit the predictors or show that the warning thresholds are valid.
+

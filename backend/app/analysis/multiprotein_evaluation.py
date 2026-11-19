@@ -9,7 +9,7 @@ from pathlib import Path
 
 from app.analysis.recovery import summarize_recovery
 from app.experiments.evaluation import evaluate
-from app.experiments.repeated_runs import METHODS
+from app.experiments.repeated_runs import EXTRA_METHODS, METHODS
 from app.provenance.sources import validate_recorded_sources
 
 
@@ -50,7 +50,7 @@ def terminal_statuses(root, manifest):
     seeds, methods = manifest['seeds'], manifest['methods']
     if (not seeds or not methods or len(set(seeds)) != len(seeds) or len(set(methods)) != len(methods)
             or any(not isinstance(seed, int) or isinstance(seed, bool) for seed in seeds)
-            or any(method not in METHODS for method in methods)
+            or any(method not in METHODS + EXTRA_METHODS for method in methods)
             or manifest['initial_pool'] not in ('eligible', 'train')
             or (manifest['initial_pool'] == 'train' and manifest['dataset'] not in
                 ('ired', 'hydro-P06241', 'hydro-P01053', 'hydro-P0A9X9'))):

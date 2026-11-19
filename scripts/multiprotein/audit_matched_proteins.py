@@ -14,6 +14,7 @@ from scipy.spatial.distance import cdist
 from scipy.stats import norm
 
 from app.analysis.multiprotein_evaluation import terminal_statuses, verified_record
+from app.experiments.repeated_runs import EXTRA_METHODS, METHODS
 from app.analysis.study_protocol import validate_hydro_low_fitness, validate_ired_low_change, validate_low_change_pool, validate_manifests
 from app.datasets.registry import dataset_source
 from app.features import amylase_representations, hydro_representations, ired_representations
@@ -107,7 +108,7 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors,
             if method != 'random':
                 validate_recorded_sources(setup['source_sha256'], manifest['code_sha256'])
                 require(setup['role_seed'] == 2000 + seed and setup['member_seed'] == 3000 + seed
-                        and setup.get('stop_on_failed_repairs', True) is True
+                        and setup.get('stop_on_failed_repairs', True) is (method != 'repair_continue')
                         and setup.get('bypass_evidence_gate', False) is False
                         and setup.get('disabled_repair_terms', []) == []
                         and setup.get('universal_penalty', False) is False
@@ -226,7 +227,7 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors,
                                 counts['representative_distance_rounds'] += 1
                             expected = select_reward(spec, sorted(remaining), sequences, ranges, distance, len(ids))
                         require(ids == expected, 'Selection ranking mismatch')
-                        targeted = method in ('repair', 'gemini_repair') and manifest['targeted_disagreement']
+                        targeted = method in ('repair', 'repair_continue', 'gemini_repair') and manifest['targeted_disagreement']
                         if targeted:
                             terms = spec['terms']
                             group = sorted(remaining, key=lambda i: (-(ranges[i]['mean']
@@ -250,6 +251,7 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors,
                     stop = event['stop_reason']
                     pending = None
                 elif event['event'] == 'stop':
+                    require(method != 'repair_continue', 'The no-early-stop arm stopped early')
                     require(pending is None and stop is None and event['remaining'] == 200 - len(known),
                             'Invalid early stop')
                     stop = event['stop_reason']
@@ -267,14 +269,23 @@ def audit_group(root, manifest, statuses, sequences, scores, reference, vectors,
     return dict(counts)
 
 
+def validate_repair_continue(manifests):
+    """The post-hoc no-early-stop study keeps the matched settings but runs a subset of methods."""
+    if any(not set(m['methods']) <= set(METHODS) | set(EXTRA_METHODS) or 'repair_continue' not in m['methods']
+           or m['initial_pool'] != 'train' or m['targeted_disagreement'] is not True or m['direct_diversity'] is not True
+           for m in manifests):
+        raise ValueError('Not a repair-without-stopping study')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('roots', type=Path, nargs='+')
     parser.add_argument('--allow-partial-development', action='store_true', help='Allow a partial development audit')
     parser.add_argument('--ired-low-change', action='store_true', help='Audit the separate IRED low-change study')
     parser.add_argument('--hydro-low-fitness', action='store_true', help='Use the Hydro low-fitness-start study scope')
+    parser.add_argument('--repair-continue', action='store_true', help='Audit the post-hoc repair-without-stopping study')
     args = parser.parse_args()
-    if sum((args.ired_low_change, args.hydro_low_fitness, args.allow_partial_development)) > 1:
+    if sum((args.ired_low_change, args.hydro_low_fitness, args.allow_partial_development, args.repair_continue)) > 1:
         raise ValueError('Study and partial development scopes cannot be combined')
     groups = []
     for root in args.roots:
@@ -285,6 +296,8 @@ def main():
         validate_ired_low_change(manifests)
     elif args.hydro_low_fitness:
         validate_hydro_low_fitness(manifests)
+    elif args.repair_continue:
+        validate_repair_continue(manifests)
     else:
         validate_manifests(manifests, args.allow_partial_development)
     reports = []
@@ -293,12 +306,13 @@ def main():
         sequences, scores, train, data_hash, reference_hash = loader(data, reference_path, 4)
         require((data_hash, reference_hash) == (manifest['data_sha256'], manifest['reference_sha256']), 'Source fingerprint mismatch')
         reference = ''.join(reference_path.read_text().splitlines()[1:])
-        if args.ired_low_change:
+        if args.ired_low_change or (args.repair_continue and manifest['dataset'] == 'ired'):
             validate_low_change_pool(sequences, train, reference)
         vectors = representations(manifest['dataset']) if any(m != 'random' for m in manifest['methods']) else {}
         reports.append({'dataset': manifest['dataset'], **audit_group(root, manifest, statuses, sequences, scores, reference, vectors, train)})
     print(json.dumps({'scope': 'ired_low_change' if args.ired_low_change else
                    'hydro_low_fitness' if args.hydro_low_fitness else
+                      'repair_continue' if args.repair_continue else
                       'development' if args.allow_partial_development else 'four_protein', 'groups': reports}, sort_keys=True))
 
 
