@@ -40,7 +40,8 @@ export const DATASET_NOTES: Record<
     sourceLabel: 'Original IRED data',
   },
   hydro: {
-    description: 'Intracellular abundance, a proxy for stability, across variants of three different protein domains.',
+    description:
+      'Intracellular abundance, a proxy for stability, across variants of three different protein domains.',
     preparation:
       'Assign variants to their respective wild types before computing mutation distances or defining search pools.',
     sourceUrl: 'https://doi.org/10.5281/zenodo.11175470',
