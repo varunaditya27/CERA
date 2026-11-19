@@ -1,6 +1,6 @@
 {
  "url": "http://127.0.0.1:3100/experiments",
- "at": "2026-11-18T18:31:38.617Z",
+ "at": "2026-11-19T16:23:33.611Z",
  "allow": [],
  "viewports": [
   {
@@ -13,8 +13,8 @@
     0.33
    ],
    "motion": {
-    "elements": 1,
-    "css": 0,
+    "elements": 5,
+    "css": 4,
     "transitions": 0,
     "scripted": 1,
     "videos": 0,
@@ -28,7 +28,7 @@
     "page": {
      "height": 1575,
      "screens": 1.8,
-     "words": 287,
+     "words": 301,
      "img": 0,
      "video": 0,
      "canvas": 0,
@@ -224,7 +224,7 @@
      "dashed": 0,
      "blurred": 0,
      "roundedBoxes": 1,
-     "boxRadius": 6,
+     "boxRadius": 12,
      "squareMedia": 0,
      "roundedMedia": 0,
      "mediaRadius": 0,
@@ -253,8 +253,8 @@
     0.35
    ],
    "motion": {
-    "elements": 1,
-    "css": 0,
+    "elements": 5,
+    "css": 4,
     "transitions": 0,
     "scripted": 1,
     "videos": 0,
@@ -268,7 +268,7 @@
     "page": {
      "height": 1914,
      "screens": 1.9,
-     "words": 278,
+     "words": 292,
      "img": 0,
      "video": 0,
      "canvas": 0,
@@ -475,7 +475,7 @@
      "dashed": 0,
      "blurred": 0,
      "roundedBoxes": 1,
-     "boxRadius": 6,
+     "boxRadius": 12,
      "squareMedia": 0,
      "roundedMedia": 0,
      "mediaRadius": 0,
@@ -505,8 +505,8 @@
     0.62
    ],
    "motion": {
-    "elements": 1,
-    "css": 0,
+    "elements": 5,
+    "css": 4,
     "transitions": 0,
     "scripted": 1,
     "videos": 0,
@@ -520,7 +520,7 @@
     "page": {
      "height": 2333,
      "screens": 2.8,
-     "words": 278,
+     "words": 292,
      "img": 0,
      "video": 0,
      "canvas": 0,
@@ -779,7 +779,7 @@
      "dashed": 0,
      "blurred": 0,
      "roundedBoxes": 1,
-     "boxRadius": 6,
+     "boxRadius": 12,
      "squareMedia": 0,
      "roundedMedia": 0,
      "mediaRadius": 0,
@@ -839,7 +839,7 @@
    "level": "FAIL",
    "id": "still-page",
    "width": 1440,
-   "message": "Only 1 element(s) moved while the page loaded and scrolled.",
+   "message": "Only 5 element(s) moved while the page loaded and scrolled.",
    "fix": "Build the motion layer (SKILL.md step 9, references/motion.md): the signature move, an entrance for the parts of every section, feedback on every control, and one moving picture. Transform and opacity only, with a reduced-motion fallback."
   },
   {

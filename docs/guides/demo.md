@@ -24,10 +24,10 @@ Open `http://127.0.0.1:3000`. Setup, the research requirements and a CPU-only in
 5. **Review.** Open the run from the recent-runs list. Each of the 10 batches opens to its warnings, repair decisions and a table of revealed scores with their pre-reveal predictions.
 6. **Decision check.** From the review, choose "Check recorded decisions". It passes (10 batch selections checked, 0 repair replays for a fixed-reward run).
 7. **Mixed predictor.** Choose Alpha amylase, seed 8, rule-based repair and the three-ridge plus two-network group. It trains on the GPU and finished with 20 new measurements and 18 of 20 scores in range.
-8. **Goals.** Compiling a goal calls Gemini and needs `GEMINI_API_KEY` and `GEMINI_MODEL` in `backend/.env`; it may bill. The page lists saved goals, and an experiment can use one.
+8. **Goals.** Compiling a goal calls Gemini and needs `GEMINI_API_KEY` and `GEMINI_MODEL` in `backend/.env`; the goal text is sent to Google and the call may bill. Entering "Find the Amylase variant with the highest activity while staying close to known sequences." produced an uncertainty penalty of 0.5, a distance penalty of 1 and a diversity bonus of 0, up to 4 sequence changes, 10 batches of 10. It appears under Saved goals and as a choice on Experiments; a fixed-reward Amylase run with it (seed 9) finished with 100 new measurements and best score 0.2012. The weights depend on the model's reply and can differ between calls; review them before use.
 
 Runs are saved under `output/web_runs/` (ignored by git). The workspace is single-user and has no authentication; keep both servers on the loopback address.
 
 ## What was checked
 
-A browser run covered every route plus steps 3 to 7 with no console errors and no failed requests; `npm run check:a11y` passes on all routes at desktop and phone width. The numbers above are deterministic for the seeds shown.
+A browser run covered every route plus steps 3 to 8 with no console errors and no failed requests; `npm run check:a11y` passes on all routes at desktop and phone width. The numbers above are deterministic for the seeds shown.
