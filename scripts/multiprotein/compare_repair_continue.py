@@ -48,12 +48,37 @@ def compare_group(old_root, new_root, scores, train, data_hash, reference_hash):
             'continue_vs_repair': dict(versus['repair']), 'rows': rows}
 
 
+def compare_fresh(root, scores, train, data_hash, reference_hash):
+    """Compare the three arms inside one study directory that ran fixed, repair and repair_continue."""
+    manifest = json.loads((Path(root) / 'manifest.json').read_text())
+    if manifest['methods'] != ['fixed', 'repair', 'repair_continue']:
+        raise ValueError('A fresh study must run fixed, repair and repair_continue')
+    rows, versus = [], {'continue_vs_fixed': Counter(), 'repair_vs_fixed': Counter(), 'continue_vs_repair': Counter()}
+    for seed in manifest['seeds']:
+        get = lambda method: run_summary(root, seed, method, scores, train, data_hash, reference_hash)
+        fixed, repair, keep = get('fixed'), get('repair'), get('repair_continue')
+        versus['continue_vs_fixed'][classify(keep['best'], fixed['best'])] += 1
+        versus['repair_vs_fixed'][classify(repair['best'], fixed['best'])] += 1
+        versus['continue_vs_repair'][classify(keep['best'], repair['best'])] += 1
+        rows.append({'seed': seed, 'fixed_best': fixed['best'], 'repair_best': repair['best'], 'repair_measurements': repair['measurements'],
+                     'continue_best': keep['best'], 'continue_measurements': keep['measurements']})
+    return {'dataset': manifest['dataset'], **{key: dict(value) for key, value in versus.items()}, 'rows': rows}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output', type=Path, help='New JSON report path')
-    parser.add_argument('--pair', nargs=2, type=Path, action='append', required=True, metavar=('ORIGINAL_ROOT', 'NEW_ROOT'))
+    parser.add_argument('--pair', nargs=2, type=Path, action='append', default=[], metavar=('ORIGINAL_ROOT', 'NEW_ROOT'))
+    parser.add_argument('--fresh', type=Path, action='append', default=[], metavar='ROOT')
     args = parser.parse_args()
+    if not args.pair and not args.fresh:
+        parser.error('Give at least one --pair or --fresh')
     groups = []
+    for root in args.fresh:
+        dataset = json.loads((root / 'manifest.json').read_text())['dataset']
+        data, reference, loader = dataset_source(dataset)
+        _, scores, train, data_hash, reference_hash = loader(data, reference, 4)
+        groups.append(compare_fresh(root, scores, set(train), data_hash, reference_hash))
     for old_root, new_root in args.pair:
         dataset = json.loads((old_root / 'manifest.json').read_text())['dataset']
         data, reference, loader = dataset_source(dataset)

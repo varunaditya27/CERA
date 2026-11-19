@@ -49,3 +49,17 @@ PYTHONPATH=backend:. python3 -m scripts.multiprotein.compare_repair_continue out
 ```
 
 The Hydro runs add `--dataset hydro-<protein> --hydro-low-fitness` and seeds 141 to 150, as in [Hydro low-fitness start](../multiprotein/hydro_low_fitness.md).
+
+## Replication on new starts
+
+Declared on 19 November 2026, before any of these runs.
+
+The first study reused starts from earlier studies and was designed after seeing them. This replication uses starts that no earlier study used: IRED low-change seeds 71 to 80 and Hydro low-fitness seeds 151 to 160 for each of P06241, P01053 and P0A9X9 (40 new starts), with fixed reward, normal repair and the no-early-stop arm, all other settings as before.
+
+Hypotheses, stated in advance:
+
+1. The no-early-stop arm scores lower than fixed reward in none of the 40 starts (at the 10^-12 tie tolerance).
+2. Normal repair scores lower than fixed reward in at least some starts.
+3. The no-early-stop arm scores higher than normal repair in most of the starts where normal repair scored lower than fixed reward.
+
+Outcome and counting are as in the protocol above. A hypothesis that fails is reported as failed. This replication is still not a significance test and still uses the same specification, caches and implementation, so it tests repeatability on new starts, not a different method.
