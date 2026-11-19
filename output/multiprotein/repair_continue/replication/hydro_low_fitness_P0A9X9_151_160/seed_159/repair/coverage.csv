@@ -1,0 +1,4 @@
+batch,new_measurements,batch_covered,batch_count,batch_coverage,batch_mean_width,cumulative_covered,cumulative_count,cumulative_coverage,cumulative_mean_width
+1,10,2,10,0.2,0.5085556420214798,2,10,0.2,0.5085556420214798
+2,20,1,10,0.1,0.8086233985193054,3,20,0.15,0.6585895202703926
+3,30,7,10,0.7,1.0269182783123787,10,30,0.3333333333333333,0.7813657729510547

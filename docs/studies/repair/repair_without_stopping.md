@@ -63,3 +63,24 @@ Hypotheses, stated in advance:
 3. The no-early-stop arm scores higher than normal repair in most of the starts where normal repair scored lower than fixed reward.
 
 Outcome and counting are as in the protocol above. A hypothesis that fails is reported as failed. This replication is still not a significance test and still uses the same specification, caches and implementation, so it tests repeatability on new starts, not a different method.
+
+### Replication findings
+
+Run on 19 November 2026: 120 runs (three arms on 40 new starts), all completed. The [comparison report](../../../output/multiprotein/repair_continue/replication/comparison.json) and records are in `output/multiprotein/repair_continue/replication/`.
+
+| Protein group | No-stop arm higher than fixed | Tied | Lower | Normal repair lower than fixed | New measurements, normal repair | New measurements, no early stop |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| IRED low-change, seeds 71 to 80 | 0 | 8 | 2 | 3 | 470 | 1,000 |
+| Hydro P06241, seeds 151 to 160 | 2 | 8 | 0 | 8 | 290 | 1,000 |
+| Hydro P01053, seeds 151 to 160 | 0 | 10 | 0 | 6 | 360 | 1,000 |
+| Hydro P0A9X9, seeds 151 to 160 | 0 | 10 | 0 | 8 | 410 | 1,000 |
+
+Against normal repair, the no-early-stop arm was higher in 23 starts, tied in 17 and lower in none.
+
+**Hypotheses.**
+
+1. Failed. The no-early-stop arm scored lower than fixed reward in 2 of 40 starts (IRED seeds 72 and 80, 1.7952 against 1.8335 in both).
+2. Held. Normal repair scored lower than fixed reward in 25 of 40 starts.
+3. Held. In those 25 starts the no-early-stop arm scored higher than normal repair in 23.
+
+**Reading.** The main pattern replicated on new starts: normal repair loses to fixed reward mostly because it stops early, and the no-early-stop arm recovers nearly all of that loss. The first study's "never lower" did not hold exactly; across all 80 starts the arm was higher than fixed reward in 4, tied in 74 and lower in 2, with small gaps. Two higher results on Hydro P06241 (seeds 153 and 159) show that continuing can find better variants than fixed reward, but they are 2 of 80 and no evidence that the repaired reward is better. The limits above still apply.
