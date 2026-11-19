@@ -13,6 +13,7 @@ Each folder or file below was written by a script under `scripts/` and is descri
 | `multiprotein/four_protein/` | Four-protein comparison, 360 runs, its audits and paired analyses | [Four-protein findings](../docs/studies/multiprotein/four_protein_findings.md) |
 | `multiprotein/ired_low_change/` | IRED low-change start study | [IRED low-change start](../docs/studies/multiprotein/ired_low_change.md) |
 | `multiprotein/hydro/` | Hydro low-fitness start study and repair-stopping diagnosis | [Hydro low-fitness start](../docs/studies/multiprotein/hydro_low_fitness.md) |
+| `multiprotein/repair_continue/` | Repair without early stopping on IRED and Hydro, and its comparison report | [Repair without early stopping](../docs/studies/repair/repair_without_stopping.md) |
 | `amylase/search/` | Early Amylase comparisons, prediction ranges, reward pilot and search baselines | [Amylase studies](../docs/studies/amylase/) |
 | `amylase/repair/` | Repair pilots and ablations | [Repair studies](../docs/studies/repair/) |
 | `amylase/warnings/` | Warning replay and disagreement ranking | [Warning studies](../docs/studies/warnings/) |
